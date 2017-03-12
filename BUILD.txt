@@ -68,8 +68,11 @@ Where is the source code? MetaEngine/bullet3
 Where to build the binaries? MetaEngine/bullet3/build
 EXECUTABLE_OUTPUT_PATH:PATH=/home/dennis/MetaEngine/bullet3/exe
 LIBRARY_OUTPUT_PATH:PATH=/home/dennis/MetaEngine/bullet3/lib
-USE_DOUBLE_PRECISION:BOOL=ON
 USE_SOFT_BODY_MULTI_BODY_DYNAMICS_WORLD:BOOL=ON
 
+Important: USE_DOUBLE_PRECISION needs to be UNCHECKED (off), or else MetaEngine will get a linker error.
+
 Click Generate
+
+Then cd to the bullet3/build (not build3, build_cmake, etc) and execute "make".  I got build/linker errors during this step, but it seems to have only affected projects which are optional.
 
