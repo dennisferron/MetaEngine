@@ -32,7 +32,11 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="/home/dennis/MetaEngine/irrlicht/include" />
+			<Add option="-std=c++14" />
+			<Add directory="irrlicht/include" />
+			<Add directory="bullet3/src" />
+			<Add directory="Glue/Include" />
+			<Add directory="ThinPlateSpline/Include" />
 		</Compiler>
 		<Linker>
 			<Add library="Irrlicht" />
@@ -40,7 +44,15 @@
 			<Add library="GLU" />
 			<Add library="Xxf86vm" />
 			<Add library="X11" />
+			<Add library="BulletSoftBody" />
+			<Add library="BulletDynamics" />
+			<Add library="BulletCollision" />
+			<Add library="LinearMath" />
+			<Add library="Glue" />
 			<Add directory="irrlicht/lib/Linux" />
+			<Add directory="bullet3/lib" />
+			<Add directory="Glue/bin/DebugLinux" />
+			<Add directory="ThinPlateSpline/bin/Debug" />
 		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>

@@ -88,5 +88,15 @@ make
 (No build errors)
 
 
+=== Building ThinPlateSpline ===
+
+ThinPlateSpline depends on uBLAS from boost:
+
+sudo apt-get install libboost-dev
+
+After that, it should build fine.
 
 
+=== Building Glue ===
+
+If the dependencies all build, it should as well.
