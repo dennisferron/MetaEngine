@@ -2,5 +2,7 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="MetaEngine.workspace">
 		<Project filename="MetaEngine.cbp" />
+		<Project filename="Glue/Glue.cbp" />
+		<Project filename="ThinPlateSpline/ThinPlateSpline.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
