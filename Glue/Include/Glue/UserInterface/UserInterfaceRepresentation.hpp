@@ -1,14 +1,19 @@
-method(
+#pragma once
 
-    UserInterfaceRepresentation := Object clone lexicalDo(
+#include <string>
 
-        style ::= nil
-        isMouseDraggable ::= false
+namespace Glue {
 
-        with := method(style,
-            setStyle(style)
-            setIsMouseDraggable(style isMouseDraggable)
-        )
-    )
+class UserInterfaceStyle;
 
-)
+class UserInterfaceRepresentation
+{
+private:
+    UserInterfaceStyle style;
+    bool isMouseDraggable;
+
+public:
+    UserInterfaceRepresentation(UserInterfaceStyle const& style);
+};
+
+}

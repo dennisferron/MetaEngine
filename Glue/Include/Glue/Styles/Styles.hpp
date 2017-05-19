@@ -1,3 +1,5 @@
+#pragma once
+
 method(Constants, Structure, SColor,
     Styles := Module clone lexicalDo(
         scripts := self scripts
