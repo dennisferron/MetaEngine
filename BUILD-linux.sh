@@ -7,40 +7,30 @@
 
 #=== Install git ===
 
-sudo apt-get install git gitk git-core
+#sudo apt-get install -y git gitk git-core
 
 
 #=== Install Compilers and Code::Blocks ===
 
-sudo add-apt-repository ppa:damien-moore/codeblocks-stable
-sudo apt-get update
-sudo apt-cache search gcc
-sudo apt-cache search gcc-6
-sudo apt-cache search gcc6
-sudo apt-cache search gcc-5
-sudo apt-get update
-sudo apt-get install build-essential software-properties-common -y
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-sudo apt-get update
-sudo apt-get install gcc-snapshot -y
-sudo apt-get update
-sudo apt-get install gcc-6 g++-6 -y
-gcc -v
+sudo apt-get install -y gcc-snapshot gcc-6 g++-6
+sudo apt-get install -y build-essential software-properties-common binutils
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
-gcc -v
-sudo apt-get install codeblocks codeblocks-contrib
-sudo apt-get install binutils
-sudo apt-get install clang
-sudo apt-get install lldb
-sudo apt-get install llvm-3.8
+
+# Optional: install llvm
+#sudo apt-get install -y clang lldb llvm-3.8
+
+sudo add-apt-repository ppa:damien-moore/codeblocks-stable
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install -y codeblocks codeblocks-contrib
 
 #=== Install Irrlicht required libraries ===
 
-sudo apt-get install freeglut3 freeglut3-dev freeglut3-dbg
-sudo apt-get install build-essential xserver-xorg-dev x11proto-xf86vidmode-dev libxxf86vm-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libxext-dev libxcursor-dev
+sudo apt-get install -y freeglut3 freeglut3-dev freeglut3-dbg
+sudo apt-get install -y xserver-xorg-dev x11proto-xf86vidmode-dev libxxf86vm-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libxext-dev libxcursor-dev
 
 #--- Get repo
-git clone https://github.com/dennisferron/MetaEngine.git
+#git clone https://github.com/dennisferron/MetaEngine.git
 
 #=== Update Submodules ===
 
@@ -57,7 +47,7 @@ git submodule update
 === Building Bullet ===
 
 #install CMake
-sudo apt-get install cmake-qt-gui
+sudo apt-get install -y cmake-qt-gui
 
 #The following commands did NOT work for me:
 #cd bullet3
@@ -83,7 +73,7 @@ sudo apt-get install cmake-qt-gui
 #=== Building FLARE ===
 
 #Install SDL2 library (note: this may also satisfy a dependency for libtcod):
-sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl-ttf2.0-dev
+sudo apt-get install -y libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl-ttf2.0-dev
 
 #cd flare-engine
 #cmake .
@@ -96,7 +86,7 @@ sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf
 
 #ThinPlateSpline depends on uBLAS from boost:
 
-sudo apt-get install libboost-dev
+sudo apt-get install -y libboost-dev
 
 #After that, it should build fine.
 
