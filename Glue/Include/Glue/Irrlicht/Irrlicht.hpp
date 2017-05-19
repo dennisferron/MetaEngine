@@ -1,21 +1,16 @@
-method(namespace, SharedTypes, MainWindow, PredefinedValues, Constants, ScriptUtil, Styles,
-    IrrlichtModule := Module clone
-    IrrlichtModule lexicalDo(
-        scripts := self scripts
+#pragma once
 
-        UserInterface := scripts UserInterface requiredConfig( namespace, SharedTypes, PredefinedValues, Constants, Styles ConstraintStyles )
+#include "Irrlicht/UserInterface/UserInterface.hpp"
 
-        Camera := scripts Camera(namespace irr, Constants)
+#include "Camera.hpp"
 
-        Assets := scripts Assets(namespace irr core)
+#include "Assets.hpp"
 
-        DisplayShapes := scripts DisplayShapes(namespace irr, namespace Custom, PredefinedValues)
-        ShapeBuilder := scripts ShapeBuilder(namespace irr, namespace Custom, PredefinedValues)
-        SceneNodes := scripts SceneNodes(namespace irr, PredefinedValues)
-        SceneNodeBuilder := scripts SceneNodeBuilder(namespace irr, namespace Custom, PredefinedValues)
+#include "DisplayShapes.hpp"
+#include "ShapeBuilder.hpp"
+#include "SceneNodes.hpp"
+#include "SceneNodeBuilder.hpp"
 
-        Component := scripts Component(IrrlichtModule, namespace irr, namespace Custom, MainWindow, PredefinedValues, ScriptUtil )
+#include "Component.hpp"
 
-        NodeAttribute := scripts NodeAttribute(namespace irr, namespace Custom, Constants)
-    )
-)
+#include "NodeAttribute.hpp"
