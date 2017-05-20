@@ -1,9 +1,4 @@
-method(namespace_irr,
+#pragma once
 
-    EditorGUI := Module clone
-    EditorGUI lexicalDo(
-        scripts := self scripts
-        Component := scripts Component(EditorGUI, namespace_irr)
-        Toolbar := scripts Toolbar(namespace_irr)
-    )
-)
+#include "Component.hpp"
+#include "Toolbar.hpp"
