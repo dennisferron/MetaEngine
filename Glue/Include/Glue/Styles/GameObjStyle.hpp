@@ -1,5 +1,43 @@
-method(Constants, Structure, SColor,
+#pragma once
 
+#include "irrlicht.h"
+
+#include <optional>
+
+namespace Glue {
+
+    using SColor = irr::video::SColor;
+    constexpr float TAU = 6.283185;
+
+    enum class ObjShapes
+    {
+        none,
+        box,
+        ball
+        cyl,
+        cylX,
+        cylZ,
+        cone,
+        coneX,
+        coneZ,
+        plane,
+        mesh,
+        hills
+    };
+
+    enum class GravityType
+    {
+        none,
+        default_,
+        custom
+    };
+
+    struct ObjPos
+    {
+        float x;
+        float y;
+        float z;
+    };
 
     // Inspired by cascading style sheets used in websites, this is "CSS for 3d game objects".
 
@@ -12,65 +50,47 @@ method(Constants, Structure, SColor,
     // Example:  myStyle := GameObjStyle clone prependProto(BallStyle) setPos(10, 20, 30) setColor(200, 100, 50)
     //           engine addObj(myStyle)
     //
-    GameObjStyle := Structure clone lexicalDo(
-
-        TAU := Constants TAU
-        SColor := SColor // method arg
-
-        none := "none"
-        default := "default"
-        custom := "custom"
-
+    struct GameObjStyle
+    {
         // Location
-        x ::= 0
-        y ::= 0
-        z ::= 0
+        float x = 0;
+        float y = 0;
+        float z = 0;
 
         // Set x,y,z all at once
-        setPos := method(x, y, z,
-            if(x==nil or y==nil or z==nil, Exception raise("GameObjStyle setPos argument cannot be nil!"))
-            setX(x) setY(y) setZ(z)
-        )
+        GameObjStyle& setPos(float x, float y, float z);
 
-        getPos := method(Object clone do(x := self x; y := self y; z := self z))
+        ObjPos getPos() const;
 
         // Velocity
-        xv ::= 0
-        yv ::= 0
-        zv ::= 0
+        float xv = 0;
+        float yv = 0;
+        float zv = 0;
 
         // Set xv, yv, zv all at once
-        setVel := method(xv, yv, zv, setXv(xv) setYv(yv) setZv(zv))
+        GameObjStyle& setVel(float xv, float yv, float zv);
 
         // Physical properties
-        mass ::= 1
-        friction ::= 0.5
-        restitution ::= default
-        margin ::= default
+        double mass = 1;
+        double friction = 0.5;
+        std::optional<double> restitution;
+        std::optional<double> margin;
 
         // Set to true to make the physics body take its position
         // from the irrilicht node.  Collisions from physics objects
         // won't affect it but it will affect other objects.
-        isKinematic ::= false
+        bool isKinematic = false;
 
         // Set to true to cause the object never to deactivate.
         // This is important if the object might be moved by means
         // other than something colliding with it.  (Note: isKinematic also disables deactivation.)
-        disableDeactivation ::= false
+        bool disableDeactivation = false;
 
-        gravityType := default
-        gravityX := nil
-        gravityY := nil
-        gravityZ := nil
-        setGravity := method(x, y, z,
-            if(y == nil,
-                // setGravity(0) is a synonym for setGravity(none)
-                gravityType = if(x==0, none, x); gravityX = nil; gravityY = nil; gravityZ = nil
-            ,
-                gravityType = "custom"; gravityX = x; gravityY = y; gravityZ = z
-            )
-            return self
-        )
+        GravityType gravityType = GravityType::default_;
+        std::optional<double> gravityX;
+        std::optional<double> gravityY;
+        std::optional<double> gravityZ;
+        GameObjStyle& setGravity(double x, double y, double z);
 
         // 1 gives no damping and 0 is fully damped.
         linDamping ::= 0

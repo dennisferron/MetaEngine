@@ -1,5 +1,15 @@
-method(
-    LinkStyle := Object clone lexicalDo(
-        jointType ::= "none"
-    )
-)
+#pragma once
+
+namespace Glue {
+
+    enum class JointType
+    {
+        none
+    };
+
+    struct LinkStyle
+    {
+        JointType jointType = JointType::none;
+    };
+
+}
