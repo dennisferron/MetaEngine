@@ -22,17 +22,6 @@ class Graph;
 
 namespace MetaEngine {
 
-struct Constants
-{
-    static const float TAU := 2*3.1459
-    static const int AllFilter 65535
-    static const int CameraFilter := 64
-    static const float FrameSeconds := 1 / 64
-    static const float timeStep := FrameSeconds
-    static const int mouseDraggableBitPos  := 31
-    static const int mouseDraggableBitMask := (1 << 31)
-};
-
 class RootModule
 {
 public:

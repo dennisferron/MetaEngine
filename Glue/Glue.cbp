@@ -61,6 +61,7 @@
 		<Unit filename="Include/Glue/Bullet/Sense.hpp" />
 		<Unit filename="Include/Glue/Bullet/ShapeBuilder.hpp" />
 		<Unit filename="Include/Glue/Bullet/ShapeOffsets.hpp" />
+		<Unit filename="Include/Glue/Constants.hpp" />
 		<Unit filename="Include/Glue/Demo/Demo.hpp" />
 		<Unit filename="Include/Glue/Desteer/Desteer.hpp" />
 		<Unit filename="Include/Glue/Desteer/Steering.hpp" />

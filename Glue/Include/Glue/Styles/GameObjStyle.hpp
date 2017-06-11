@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Constants.hpp"
+
 #include "irrlicht.h"
 
 #include <optional>
@@ -7,7 +9,8 @@
 namespace Glue {
 
     using SColor = irr::video::SColor;
-    constexpr float TAU = 6.283185;
+    using ITexture = irr::video::ITexture;
+    using IMesh = irr::scene::IMesh;
 
     enum class ObjShapes
     {
@@ -32,11 +35,37 @@ namespace Glue {
         custom
     };
 
+    enum class CollisionResponseTags
+    {
+        none,
+        player,
+        elevator,
+        gearSlot
+    };
+
+    enum class TextureKeys
+    {
+        primary,
+        up,
+        down,
+        left,
+        right,
+        front,
+        back
+    };
+
+    enum class GameObjTypes
+    {
+        rigid,
+        static_,
+        soft
+    }
+
     struct ObjPos
     {
-        float x;
-        float y;
-        float z;
+        Scalar x;
+        Scalar y;
+        Scalar z;
     };
 
     // Inspired by cascading style sheets used in websites, this is "CSS for 3d game objects".
@@ -52,29 +81,35 @@ namespace Glue {
     //
     struct GameObjStyle
     {
+    protected:
+
+        GameObjStyle(ObjShapes shape);
+
+    public:
+
         // Location
-        float x = 0;
-        float y = 0;
-        float z = 0;
+        Scalar x = 0;
+        Scalar y = 0;
+        Scalar z = 0;
 
         // Set x,y,z all at once
-        GameObjStyle& setPos(float x, float y, float z);
+        GameObjStyle& setPos(Scalar x, Scalar y, Scalar z);
 
         ObjPos getPos() const;
 
         // Velocity
-        float xv = 0;
-        float yv = 0;
-        float zv = 0;
+        Scalar xv = 0;
+        Scalar yv = 0;
+        Scalar zv = 0;
 
         // Set xv, yv, zv all at once
-        GameObjStyle& setVel(float xv, float yv, float zv);
+        GameObjStyle& setVel(Scalar xv, Scalar yv, Scalar zv);
 
         // Physical properties
-        double mass = 1;
-        double friction = 0.5;
-        std::optional<double> restitution;
-        std::optional<double> margin;
+        Scalar mass = 1;
+        Scalar friction = 0.5;
+        std::optional<Scalar> restitution;
+        std::optional<Scalar> margin;
 
         // Set to true to make the physics body take its position
         // from the irrilicht node.  Collisions from physics objects
@@ -87,123 +122,112 @@ namespace Glue {
         bool disableDeactivation = false;
 
         GravityType gravityType = GravityType::default_;
-        std::optional<double> gravityX;
-        std::optional<double> gravityY;
-        std::optional<double> gravityZ;
-        GameObjStyle& setGravity(double x, double y, double z);
+        std::optional<Scalar> gravityX;
+        std::optional<Scalar> gravityY;
+        std::optional<Scalar> gravityZ;
+        GameObjStyle& setGravity(Scalar x, Scalar y, Scalar z);
 
         // 1 gives no damping and 0 is fully damped.
-        linDamping ::= 0
-        angDamping ::= 0
-        setDamping := method(lin, ang, setLinDamping(lin) setAngDamping(ang))
+        Scalar linDamping = 0.0;
+        Scalar angDamping = 0.0;
+        GameObjStyle& setDamping(Scalar lin, Scalar ang);
+
+        static constexpr ShortBitMask DefaultCollisionGroup = Bitmask(-1) ^ Constants::CameraFilter;
+        static constexpr ShortBitMask DefaultCollisionMask = Constants::AllFilter;
 
         // Collision properties
-        collisionGroup ::= -1 ^ Constants CameraFilter //DefaultFilter
-        collisionMask ::= Constants AllFilter
-        collisionResponseTag ::= nil
+        ShortBitMask collisionGroup = DefaultCollisionGroup; //DefaultFilter
+        ShortBitmask collisionMask = DefaultCollisionMask;
+        CollisionResponseTags collisionResponseTag = CollisionResponseTags::none;
 
         // Dimensions - sphere/cylinder/cone
-        radius ::= 1
-        length ::= 1
-        closeEnds ::= true  // for cylinder
+        Scalar radius = 1;
+        Scalar length = 1;
+        bool closeEnds = true;  // for cylinder
 
         // Dimensions - box
-        xSize ::= 1
-        ySize ::= 1
-        zSize ::= 1
+        Scalar xSize = 1;
+        Scalar ySize = 1;
+        Scalar zSize = 1;
 
         // Set xSize,ySize,zSize all at once
-        setSize := method(xSize, ySize, zSize,
-            if (ySize == nil,
-                setXSize(xSize) setYSize(xSize) setZSize(xSize)
-            ,
-                setXSize(xSize) setYSize(ySize) setZSize(zSize)
-            )
-            self
-        )
+        GameObjStyle& setSize(Scalar xSize, Scalar ySize, Scalar zSize);
 
         // Physical shape
-        physShape ::= "box"
+        ObjShapes physShape = ObjShapes::box;
 
         // Display shape
-        dispShape ::= "box"
+        ObjShapes dispShape ::= ObjShapes::box;
 
         // Set physical and display shape at once.
-        setShape := method(s, setPhysShape(s) setDispShape(s))
+        GameObjStyle& setShape(ObjShapes s);
 
         // Appearance properties
-        color := SColor tmpWithARGB(255, 255, 255, 255)
+        SColor color = SColor(255, 255, 255, 255);
 
         // Note:  This method puts alpha last as opposed to SColor which has it first.
-        setColor := method(r,g,b,a,
-            if(g==nil) then(color=r) elseif(a==nil) then(color = SColor tmpWithARGB(255, r, g, b)) else(color = SColor tmpWithARGB(a, r, g, b))
-            return self
-        )
+        GameObjStyle& setColor(IntColor r, IntColor g, IntColor b, IntColor a = 255);
 
         // Map of texture name keys to texture files
         // Generalizes style texture to include more than one in a style,
         // e.g. for things like skybox.
-        textureMap ::= nil
+        std::map<TextureKeys, ITexture*> textureMap;
 
         // Set to a file name to load the texture.
-        texture := nil
-        setTexture := method(value,
-            texture = value
-            textureMap atPut("primary", value)
-            self
-        )
+        ITexture* texture = nullptr;
+        GameObjStyle& setTexture(ITexture* value);
 
         // Change the way TCoords wrap for e.g. cylinder or cone
-        alternateTextureWrap ::= false
+        bool alternateTextureWrap = false;
 
         // New method of changing texture wrap:  pass a block to execute
-        onTextureWrap ::= nil
+        std::function<void(IMesh*)> onTextureWrap;
 
         // Set one or the other of the following two rotation styles but not both.
         // Yaw, Roll, Pitch are used iff axisX==axisY==axisZ==0.
 
         // Rotation by axis and angle (better for first person view? might be useful for space ship game -?)
-        axisX ::= 0
-        axisY ::= 0
-        axisZ ::= 0
-        angle ::= 0
-        setAxis := method(x, y, z, setAxisX(x) setAxisY(y) setAxisZ(z))
+        Scalar axisX = 0;
+        Scalar axisY = 0;
+        Scalar axisZ = 0;
+        Scalar angle = 0;
+        GameObjStyle& setAxis(Scalar x, Scalar y, Scalar z);
 
         // Rotation by yaw, pitch, roll (better if your frame of reference is outside the object -?)
-        yaw ::= 0
-        pitch ::= 0
-        roll ::= 0
+        Scalar yaw = 0;
+        Scalar pitch = 0;
+        Scalar roll = 0;
 
         // Linear factor lets you constrain the object to 0 in X, Y or Z to keep the object on a 2D plane
         // 1 == normal, 0 == force 0
-        linFactorX ::= 1
-        linFactorY ::= 1
-        linFactorZ ::= 1
-        setLinearFactor := method(x, y, z, setLinFactorX(x) setLinFactorY(y) setLinFactorZ(z))
+        Scalar linFactorX = 1;
+        Scalar linFactorY = 1;
+        Scalar linFactorZ = 1;
+        GameObjStyle& setLinearFactor(Scalar x, Scalar y, Scalar z);
 
         // Angular factor lets you disable certain rotations of the object (useful for 2D game)
-        angFactorX ::= 1
-        angFactorY ::= 1
-        angFactorZ ::= 1
-        setAngularFactor := method(x, y, z, setAngFactorX(x) setAngFactorY(y) setAngFactorZ(z))
+        Scalar angFactorX = 1;
+        Scalar angFactorY = 1;
+        Scalar angFactorZ = 1;
+        GameObjStyle& setAngularFactor(Scalar x, Scalar y, Scalar z);
 
         // Scale the bullet and irrlicht shapes
-        dispScaleX ::= 1
-        dispScaleY ::= 1
-        dispScaleZ ::= 1
-        physScaleX ::= 1
-        physScaleY ::= 1
-        physScaleZ ::= 1
-        setDispScale := method(x,y,z, setDispScaleX(x) setDispScaleY(y) setDispScaleZ(z))
-        setPhysScale := method(x,y,z, setPhysScaleX(x) setPhysScaleY(y) setPhysScaleZ(z))
-        setScale := method(x,y,z, setDispScale(x,y,z) setPhysScale(x,y,z))
+        Scalar dispScaleX = 1;
+        Scalar dispScaleY = 1;
+        Scalar dispScaleZ = 1;
+        Scalar physScaleX = 1;
+        Scalar physScaleY = 1;
+        Scalar physScaleZ = 1;
+        GameObjStyle& setDispScale(Scalar x, Scalar y, Scalar z);
+        GameObjStyle& setPhysScale(Scalar x, Scalar y, Scalar z);
+        GameObjStyle& setScale(Scalar x, Scalar y, Scalar z);
 
-        gameObjType ::= "rigid"
+        GameObjTypes gameObjType = GameObjTypes::rigid;
 
-        wireframe ::= false
+        bool wireframe = false;
 
         // Default is an object is draggable iff it's not static
-        isMouseDraggable ::= method(mass != 0)
+        bool isMouseDraggable() const;
 
         // If set to an Irrlicht mesh, display shape will use this mesh instead of the dispshape name.
         // (And if physShape name is "mesh", then physShape will be built from this mesh object.)
@@ -211,10 +235,6 @@ namespace Glue {
         // this field breaks the property of GameObjStyles that they describe 3D objects rather
         // than contain pieces of them (and that propery is desirable e.g. for things like
         // serialization of game objects).
-        mesh ::= nil
-
-        init := method(
-            setTextureMap(Map clone)
-        )
-    )
-)
+        IMesh mesh = nullptr;
+    };
+}
