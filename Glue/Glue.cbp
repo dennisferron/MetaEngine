@@ -128,11 +128,6 @@
 		<Unit filename="Include/Glue/Model/Referent.hpp" />
 		<Unit filename="Include/Glue/Model/Structure.hpp" />
 		<Unit filename="Include/Glue/Model/Time.hpp" />
-		<Unit filename="Include/Glue/SharedTypes/Color.hpp" />
-		<Unit filename="Include/Glue/SharedTypes/EnumMap.hpp" />
-		<Unit filename="Include/Glue/SharedTypes/FlagBits.hpp" />
-		<Unit filename="Include/Glue/SharedTypes/IdMap.hpp" />
-		<Unit filename="Include/Glue/SharedTypes/SharedTypes.hpp" />
 		<Unit filename="Include/Glue/Startup.hpp" />
 		<Unit filename="Include/Glue/Styles/ConstraintStyle.hpp" />
 		<Unit filename="Include/Glue/Styles/ConstraintStyles.hpp" />
@@ -234,11 +229,6 @@
 		<Unit filename="Source/Model/Referent.cpp" />
 		<Unit filename="Source/Model/Structure.cpp" />
 		<Unit filename="Source/Model/Time.cpp" />
-		<Unit filename="Source/SharedTypes/Color.cpp" />
-		<Unit filename="Source/SharedTypes/EnumMap.cpp" />
-		<Unit filename="Source/SharedTypes/FlagBits.cpp" />
-		<Unit filename="Source/SharedTypes/IdMap.cpp" />
-		<Unit filename="Source/SharedTypes/SharedTypes.cpp" />
 		<Unit filename="Source/Startup.cpp" />
 		<Unit filename="Source/Styles/ConstraintStyle.cpp" />
 		<Unit filename="Source/Styles/ConstraintStyles.cpp" />
