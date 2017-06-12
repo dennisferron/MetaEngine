@@ -1,121 +1,80 @@
-method(
+#pragma once
 
-Time := Object clone lexicalDo(
+#include "Constants.hpp"
 
-	events ::= nil
-	deviceTimer ::= nil
-	currentTime := 0
-	lastTime := 0
+#include "irrlicht.h"
 
-    shouldRun ::= nil
+#include <functional>
+#include <set>
 
-    beforeFrame ::= nil
-    beforePhysics ::= nil
-    onPhysics ::= nil
-    afterPhysics ::= nil
-    beforeGraphics ::= nil
-    onGraphics ::= nil
-    afterGraphics ::= nil
-    afterFrame ::= nil
+namespace Glue {
 
-	init := method(
-        setEvents(List clone)
+using ITimer = irr::ITimer;
 
-        setBeforeFrame(List clone)
-        setBeforePhysics(List clone)
-        setOnPhysics(List clone)
-        setAfterPhysics(List clone)
-        setBeforeGraphics(List clone)
-        setOnGraphics(List clone)
-        setAfterGraphics(List clone)
-        setAfterFrame(List clone)
-    )
+enum class EventWhen
+{
+    Before,
+    On,
+    After
+};
 
-    setDeviceTimer := method(value,
-        deviceTimer = value
-        currentTime = deviceTimer call
-        lastTime = currentTime
-        self
-    )
+enum class EventWhat
+{
+    Frame,
+    Physics,
+    Graphics
+};
 
-	Event := Object clone do(
-		atTime ::= nil
-		action ::= nil
-	)
+using RelTime = Scalar;
+using AbsTime = Scalar;
 
-	_processEvents := method(
-		tempList := events clone
-		tempList foreach(e,
-			if(e atTime <= currentTime,
-				nextTime := e action call
-				if(nextTime > 0, setTimeout(nextTime, e action))
-				events remove(e)
-			)
-		)
+struct TimeInfo
+{
+    RelTime delta;
+    AbsTime last;
+    AbsTime current;
+};
 
-		/*
-		while(events first != nil and events first atTime <= currentTime,
-			e := events removeFirst
-			nextTime := e action call
-			if(nextTime > 0, setTimeout(nextTime, e action))
-		)
-		*/
-	)
+struct EngineEvent
+{
+    EventWhen when;
+    EventWhat what;
+    std::function<void(TimeInfo)> action;
+};
 
-	_getEventPos := method(atTime,
-		// Linear search; change to better algorithm if adding events gets slow.
-		events foreach(i, v,
-			if(v atTime >= atTime,
-				return i
-			)
-		)
-		return 0
-	)
+struct TimeoutEvent
+{
+    AbsTime atTime;
+    std::function<RelTime(RelTime)> action;
 
-	setTimeout := method(delay, action,
-		atTime := currentTime + delay
-        events insertAt(
-            Event clone setAtTime(atTime) setAction(action),
-            _getEventPos(atTime)
-        )
-	)
+    bool operator <(TimeoutEvent const& that) const
+    {
+        return this->atTime < that.atTime;
+    }
+};
 
-	elapsed := method(currentTime - lastTime)
+class Time
+{
+private:
 
-    runLoop := method(
+    std::multiset<TimeoutEvent> timeout_events;
+    std::vector<EngineEvent> engine_events;
 
-        if( deviceTimer == nil,
-            Exception raise("No deviceTimer set up in Time component.")
-        )
+	ITimer* deviceTimer = nullptr;
+	AbsTime currentTime = 0;
+	AbsTime lastTime = 0;
 
-        //Profiler profile(
-            while(shouldRun call,
+    volatile bool shouldRun = true;
 
-                lastTime = currentTime
-                currentTime = deviceTimer call
+	void _processTimeoutEvents();
 
-                doEvent(beforeFrame)
+public:
 
-                _processEvents
+    Time& setDeviceTimer(ITimer* value);
+	void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action);
+    RelTime elapsed() const;
+    void runLoop();
+    void doEvents(EventWhen when, EventWhat what);
+};
 
-                doEvent(beforePhysics)
-                doEvent(onPhysics)
-                doEvent(afterPhysics)
-
-                doEvent(beforeGraphics)
-                doEvent(onGraphics)
-                doEvent(afterGraphics)
-
-                doEvent(afterFrame)
-            )
-        //)  // end Profiler profile
-    )
-
-    doEvent := method(handlerList,
-        handlerList foreach(handler,
-            handler call(currentTime - lastTime, currentTime, lastTime)
-        )
-    )
-)
-
-)
+}
