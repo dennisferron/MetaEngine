@@ -1,12 +1,23 @@
-method(
+#pragma once
 
-Referent := Object clone lexicalDo(
+namespace Glue {
 
-    Trigger := Object clone do(
-        findProto ::= nil
-        withSlot ::= ""
-        triggeredBy := method(r, r hasProto(findProto))
-    )
+// This seems to be the referent for an interaction; it returns true if
+// all of the conjunctand of the interaction are available and then calls
+// it with a filled-in set of member fields.  I can't do much with it until
+// or unless I make a base class for all the kinds of interaction subdomain,
+// or else I could add logic relational programming.
+
+struct Trigger
+{
+    findProto ::= nil
+    withSlot ::= ""
+    triggeredBy := method(r, r hasProto(findProto))
+};
+
+class Referent
+{
+private:
 
     triggers ::= nil
 
@@ -60,6 +71,6 @@ Referent := Object clone lexicalDo(
         )
         return target
     )
-)
+};
 
-)
+}
