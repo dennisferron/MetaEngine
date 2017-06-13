@@ -1,59 +1,43 @@
+#pragma once
 
-method(module,
+#include "Domain.hpp"
 
-    Node := Object clone lexicalDo(
+#include <vector>
 
-        module := module
+namespace Glue {
 
-        graph := nil
-        setGraph := method(value,
-            self graph = value
-            graph components foreach(c,
-                domain addObject("component", c)
-            )
-        )
+class Graph;
+class GameObjStyle;
+class Interaction;
 
-        style ::= nil
-        domain ::= nil
+class NodeAttribute
+{
+};
 
-        // This list is shared among all Node clones
-        possibleInteractions := list()
+class Node
+{
+private:
+    Graph* graph = nullptr;
+    GameObjStyle* style = nullptr;
+    Domain* domain = nullptr;
 
-        init := method(
-            setDomain(
-                module Domain clone setSite(self)
-            )
-        )
+    // This list is shared among all Node clones
+    static std::vector<Interaction*> possibleInteractions;
 
-        with := method(style,
-            setStyle(style)
-        )
+public:
 
-        registerInteraction := method(interaction,
-            possibleInteractions append(interaction)
-        )
+    Node(GameObjStyle style);
+    ~Node();
 
-        addAttribute := method(attr, expectedInteraction,
-            domain addObject("node", attr, expectedInteraction)
-            self
-        )
+    Node& setGraph(Graph* value);
+    static void registerInteraction(Interaction* interaction);
+    Node& addAttribute(NodeAttribute* attr, Interation* expectedInteraction);
 
-        findAttribute := method(attr,
-            domain findObject("node", attr)
-        )
+    template <typename T>
+    T* findAttribute() const
+    {
+        return domain->findObject<T>(DomainObjects::node);
     )
+};
 
-    Node getPos := method(
-        Exception raise("TODO: Define Model Node getPos")
-    )
-
-    Node do(
-        getX := method(getPos x)
-        getY := method(getPos y)
-        getZ := method(getPos z)
-    )
-
-    Node dispose := method(nil)
-
-    return Node
-)
+}
