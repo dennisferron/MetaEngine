@@ -1,3 +1,11 @@
+#pragma once
+
+namespace Glue {
+
+class Interaction
+{
+
+};
 
 method(ComponentInteraction, Model, Avatar,
 
@@ -25,4 +33,5 @@ method(ComponentInteraction, Model, Avatar,
     Model Graph registerInteraction(AvatarTime)
 
     return AvatarTime
-)
+
+}

@@ -1,89 +1,26 @@
+#pragma once
 
-method(
+namespace Glue {
 
-    Domain := Object clone lexicalDo(
+class Object;
+class Type;
+class Interaction;
+class Site;
 
-        activeObjects ::= nil
-        activeInteractions ::= nil
+class Domain
+{
+private:
+    std::map<Domain*, Object*> activeObjects;
+    std::vector<Interaction*> activeInteractions;
 
-        site ::= nil
+    Site* site ::= nil
 
-        init := method(
-            setActiveObjects(Map clone)
-            setActiveInteractions(list())
-        )
+public:
 
-        merge := method(targetSubdomain, sourceDomain, sourceSubdomain,
-            if( sourceDomain activeObjects hasKey(sourceSubdomain),
-                sourceDomain activeObjects at(sourceSubdomain) foreach(obj,
-                    self addObject(targetSubdomain, obj)
-                )
-            ,
-                Exception raise("Missing source subdomain merging target " .. targetSubdomain .. " with source " .. sourceSubdomain)
-            )
-            self
-        )
+    Domain& merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sourceSubdomain);
+    Domain& addObject(Domain* subdomain, Object* newObj, Interaction* expectedInteraction);
+    void checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj);
+    Object* findObject(Domain* subdomain, Type* objProto);
+};
 
-        addObject := method(subdomain, newObj, expectedInteraction,
-
-            activeObjects hasKey(
-                subdomain
-            ) ifFalse(
-                activeObjects atPut(subdomain, list())
-            )
-
-            activeObjects at(subdomain) append(newObj)
-
-            if( expectedInteraction != nil,
-                checkInteraction(expectedInteraction, subdomain, newObj)
-            )
-
-            // Activate new interactions if the interaction is triggerred.
-            activeInteractions appendSeq(
-                site possibleInteractions select(i,
-                    if(i hasOneTrigger(subdomain, newObj) and i isFullyTriggeredBy(activeObjects) ,
-                        i clone setSite(site) with(activeObjects)
-                    )
-                )
-            )
-
-            self
-        )
-
-        checkInteraction := method(expectedInteraction, subdomain, newObj,
-            //writeln("site possibleInteractions is ", site possibleInteractions)
-            if(site possibleInteractions contains(expectedInteraction),
-                writeln("expectedInteraction is in list")
-            ,
-                writeln("expectedInteraction is not in list of possible interactions!")
-            )
-            if( subdomain == nil,
-                if( expectedInteraction isFullyTriggeredBy(activeObjects),
-                    writeln("interaction should be triggered")
-                ,
-                    writeln("interaction will not be triggered because:")
-                    expectedInteraction clone with(activeObjects)
-                )
-            ,
-                if( hasOneTrigger := expectedInteraction hasOneTrigger(subdomain, newObj) ,
-                    if( expectedInteraction isFullyTriggeredBy(activeObjects),
-                        writeln("interaction should be triggered")
-                    ,
-                        writeln("interaction will not be triggered because:")
-                        expectedInteraction clone with(activeObjects)
-                    )
-                ,
-                    writeln("expectedInteraction is not triggered by ", newObj type, " with protos ", newObj protos select(p, p type))
-                    writeln("because the attribute added does not have any proto among ", expectedInteraction getTriggers)
-                )
-            )
-        )
-
-        findObject := method(subdomain, objProto,
-            activeObjects at(subdomain) foreach(obj,
-                if(obj hasProto(objProto), return obj)
-            )
-            nil
-        )
-    )
-)
+}
