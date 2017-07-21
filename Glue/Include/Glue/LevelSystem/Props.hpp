@@ -33,8 +33,8 @@ struct Snake {
     NodeStyle* noseStyle;
 
     Structure* build();
-
-    Snake& setMotors(Node* segment, int count);
+    static Node* configure(Graph* graph, Structure* snake);
+    static void setMotors(Node* segment, int count);
 };
 
 struct Robot {
@@ -65,521 +65,73 @@ struct Robot {
 
 struct Cannon {
     Cannon();
+    Structure* build();
+    static Node* configure(Graph* graph, Structure* cannon);
 
-    hub := BallStyle clone do(
-        setPos(0, -15, 0)
-        setIsKinematic(true)
-        setRadius(0.5)
-    )
-
-    barrel := CylStyle clone do(
-        setIsKinematic(true)
-        setLength(2.5)
-        setRadius(0.4)
-    )
-
-    tip := GeneratorStyle clone do(
-        setPos(0, 2.5, 0)
-        setSpawnStyle(
-            BallStyle clone do(
-                setRadius(0.5)
-                setVel(0, 20, 0)
-                setMass(20)
-            )
-        )
-    )
-
-
-    CannonStructure := Structure build(
-        hub(
-            barrel setPos(   1, 0,  0) tip,
-
-            barrel setPos( 0.5, 0,  0.866) tip,
-
-            barrel setPos(-0.5, 0,  0.866) tip,
-
-            barrel setPos(  -1, 0,  0) tip,
-
-            barrel setPos( 0.5, 0, -0.866) tip,
-
-            barrel setPos(-0.5, 0, -0.866) tip
-        )
-    )
-
-    cannon := graph addStructure(CannonStructure)
-    rot := vector3df clone do(set(0, 0.4, 0))
-    anim := graph smgr createRotationAnimator(rot)
-
-    graph time setTimeout(1500,
-        block(
-            cannon triggerAllGenerators(
-                block(obj,
-                    graph time setTimeout(2500,
-                        block(
-                            graph playSound(WayUpDir("Media/explosion.wav"))
-                            obj dispose
-                            0
-                        )
-                    )
-                )
-            )
-            1500
-        )
-    )
-)
-
+    NodeStyle* hub;
+    NodeStyle* barrel;
+    GeneratorStyle* tip;
+};
 
 struct Car {
 
-    leftWheel := CylZStyle clone do(
-        setPos(2, -5, 0)
-        setRadius(0.75)
-        setLength(0.2)
-        setFriction(5.0)
-        setMass(1)
-    )
+    NodeStyle* leftWheel;
+    LinkStyle* leftAxle;
+    NodeStyle* rightWheel;
+    LinkStyle* rightAxle;
 
-    leftAxle := Point2PointStyle clone do(
-        mountA setPos(-1, 0, 0)
-        setDisableLinkedBodyCollisions(true)
-    )
+    NodeStyle* carBody;
 
+    LinkStyle* gearAxle;
+    NodeStyle* gearSlotStyle;
 
-    rightWheel := CylZStyle clone do(
-        setPos( 4, -5, 0)
-        setRadius(0.5)
-        setLength(0.2)
-        setFriction(5.0)
-        setMass(0.2)
-    )
+    Structure* build();
+    static Node* configure(Graph* graph, Structure* car);
+};
 
-    rightAxle := Point2PointStyle clone do(
-        mountA setPos(4, 0, 0)
-        setDisableLinkedBodyCollisions(true)
-    )
+struct Elevator {
 
-    carBody := BoxStyle clone do(
-        setPos( 3, -5, 0)
-        setSize(7, 0.50, 0.25)
-        //setCollisionGroup(0)
-    )
+    Elevator(Scalar x, Scalar y);
 
-    gearAxle := Point2PointStyle clone do(
-        mountA setPos(0, 1, 0)
-        mountB setPos(0, 0, 0)
-        setDisableLinkedBodyCollisions(true)
-    )
+    NodeStyle* elevatorStyle;
 
-    gearSlotStyle := BoxStyle clone do(
-        setPos(0, 1, 0)
-        setCollisionMask(0)
-        setDispShape(none)
-        setGravity(none)
-        setCollisionResponseTag("gearSlot")
-    )
+    Structure* build();
+    static Node* configure(Graph* graph, Structure* elevator);
 
-    carStructure := Structure build(
-        carBody	(
-            leftAxle leftWheel,
-            gearAxle gearSlotStyle,
-            rightAxle rightWheel
-        )
-    )
-
-    car := graph addStructure(carStructure)
-
-    car rigidBody setLinearFactor(btVector3 tmp(1,1,0))
-    car rigidBody setAngularFactor(btVector3 tmp(0,0,1))
-
-
-    car constraintsA foreach(a,
-        a objB rigidBody setLinearFactor(btVector3 tmp(1,1,0))
-        a objB rigidBody setAngularFactor(btVector3 tmp(0,0,1))
-    )
-
-)
-
-struct Elevator {x, y,
-
-    elevatorStyle := CylXStyle clone do(
-        setIsKinematic(true)
-        setPos(x, y, 0)
-        setLength(6)
-        setRadius(0.5)
-        setFriction(1)
-        //setCollisionGroup(0)
-        setCollisionResponseTag("elevator")
-        setTexture("Media/testpattern.png")
-
-        //setRestitution(0)
-        //setMargin(0.05)
-    )
-
-    elevator := graph addNode(elevatorStyle)
-
-    elevator points := ArrayOfVector3df tmp  // const core::array< core::vector3df > &
-    elevator points push_back(vector3df tmp(x-10, y-4, 0))
-    elevator points push_back(vector3df tmp(x-5,  y+4, 0))
-    elevator points push_back(vector3df tmp(  x,  y-4, 0))
-    elevator points push_back(vector3df tmp(x+5,  y+4, 0))
-    elevator points push_back(vector3df tmp(x+10, y-4, 0))
-
-
-    anim := graph smgr createFollowSplineAnimator(
-        startTime := graph time currentTime,
-        elevator points,  // const core::array< core::vector3df > &
-        speed := 0.75,
-        tightness := 0.5,
-        loop := true,
-        pingpong := true
-    )
-
-    elevator addKinematicAnimator(anim)
-
-    standOnElevator := Generic6DOFStyle clone do(
-        mountA setPos(0, 0.5+0.5-0.1, 0)
-        mountB setPos(0, 0, 0)
-        setLinRange(-2.5,2.5,   0.1,0.1,   1,0)
-        setAngRange(0,0,   0,0,   1,0)
-    )
-
-    //elevator standOnElevator := standOnElevator
-
-    //graph addConstraint(standOnElevator, elevator, graph player)
-
-    //graph player elevator := elevator
-    //graph elevator := elevator
-
-    /*
-    graph time setTimeout(1.0/60,
-        block(
-            velE := elevator getLinearVelocity
-            velP := graph player getLinearVelocity
-            //graph player setLinearVelocity(velE + velP)
-            1.0/60
-        )
-    )
-    */
-)
+    LinkStyle* standOnElevator;
+};
 
 struct Box {
-    box := graph addNode(BoxStyle clone do( setPos(-7, 0, 0) setMass(100) setSize(5, 3, 1) ))
-    box rigidBody setLinearFactor(btVector3 tmp(1,1,0))
-    box rigidBody setAngularFactor(btVector3 tmp(0,0,1))
-)
+    Box();
+    NodeStyle* style;
+    static Node* configure(Graph* graph, NodeStyle* style);
+    Structure* build();
+};
 
 struct Dwarf {
-
-    smgr := graph smgr
-
-    //fsStr := irrFsStr newFromCStr(WayUpDir("Media/dwarf.x"))
-    fsStr := irrFsStr newFromCStr(WayUpDir("Media/earth.x"))
-    mesh := smgr getMeshFromPath(fsStr)
-    fsStr delete
-
-    /*
-
-    anode := smgr addAnimatedMeshSceneNode(
-        mesh,                   // IAnimatedMesh * mesh
-        nil,                    // ISceneNode * 	parent = 0,
-        -1,                     // s32 	id = -1,
-        vector3df tmp(0, 0, 0), // const core::vector3df & 	position = core::vector3df(0, 0, 0),
-        vector3df tmp(0, 0, 0), // const core::vector3df & 	rotation = core::vector3df(0, 0, 0),
-        vector3df tmp(0.1f, 0.1f, 0.1f),    // const core::vector3df & 	scale = core::vector3df(1.0f, 1.0f, 1.0f),
-        false // bool 	alsoAddIfMeshPointerZero = false
-    )
-
-    anode setPosition(vector3df tmp(0, 0, 0))
-
-    */
-
-    meshBuf := mesh getMeshBuffer(0)  // frame 0
-
-    if (meshBuf getVertexType != EVT_STANDARD, Exception raise("The mesh's vertex data not in the standard format."))
-
-    bulletMesh := btIndexedMesh tmp
-
-    bulletMesh set_m_numTriangles(meshBuf getIndexCount / 3)
-
-    triangleIndexBase := meshBuf getIndices_nc
-    triangleIndexBaseCasted := triangleIndexBase unsafe_ptr_cast
-
-    bulletMesh set_m_triangleIndexBase(triangleIndexBaseCasted)
-
-    vertexBase := meshBuf getVertices_nc
-    vertexBaseCasted := vertexBase unsafe_ptr_cast
-    bulletMesh set_m_vertexBase(vertexBaseCasted)
-
-
-    indexSize := 2 // 16 bits, 2 bytes
-    bulletMesh set_m_triangleIndexStride(3 * indexSize)
-    bulletMesh set_m_numVertices(meshBuf getVertexCount)
-    bulletMesh set_m_vertexStride(S3DVertex get_class get_size)
-
-    // This will be set when the bullet mesh buf is added to the triangle index vertex array object
-    //bulletMesh set_m_indexType(PHY_SHORT)
-
-    // This defaults to whatever bullet is built with (floats or doubles).  For Irrlicht I'm sure we want only floats.
-    bulletMesh set_m_vertexType(PHY_FLOAT)
-
-    // Cant' figure out how to set the indexType properly here, and a comment indicates this constructor is only for backwards compatibility.
-    // Best to use the default constructor and addIndexedMesh where you can specify the index type.
-    //meshInterface := btTriangleIndexVertexArray new(numTriangles, indices unsafe_ptr_cast, indexStride, numVertices, vertices unsafe_ptr_cast, vertexStride)
-
-    meshInterface := btTriangleIndexVertexArray new()
-    meshInterface addIndexedMesh(bulletMesh, PHY_SHORT)
-
-    meshShape := btBvhTriangleMeshShape new(meshInterface, true, true)
-
-    style := NodeStyle clone
-    style setScale(10) setMass(0) setPos(11, 6, 7)
-    obj := GameObject create(style, graph, mesh, meshShape)
-    graph objList append(obj)
-)
-
-
-Props loadL3DTMesh {
-
-    smgr := graph smgr
-
-    //fsStr := irrFsStr newFromCStr(WayUpDir("Media/dwarf.x"))
-    fsStr := irrFsStr newFromCStr(WayUpDir("Media/L3DT.x"))
-    mesh := smgr getMeshFromPath(fsStr)
-    fsStr delete
-
-    /*
-
-    anode := smgr addAnimatedMeshSceneNode(
-        mesh,                   // IAnimatedMesh * mesh
-        nil,                    // ISceneNode * 	parent = 0,
-        -1,                     // s32 	id = -1,
-        vector3df tmp(0, 0, 0), // const core::vector3df & 	position = core::vector3df(0, 0, 0),
-        vector3df tmp(0, 0, 0), // const core::vector3df & 	rotation = core::vector3df(0, 0, 0),
-        vector3df tmp(0.1f, 0.1f, 0.1f),    // const core::vector3df & 	scale = core::vector3df(1.0f, 1.0f, 1.0f),
-        false // bool 	alsoAddIfMeshPointerZero = false
-    )
-
-    anode setPosition(vector3df tmp(0, 0, 0))
-
-    */
-
-    /*
-
-    meshBuf := mesh getMeshBuffer(0)  // frame 0
-
-    if (meshBuf getVertexType != EVT_STANDARD, Exception raise("The mesh's vertex data not in the standard format."))
-
-    bulletMesh := btIndexedMesh tmp
-
-    bulletMesh set_m_numTriangles(meshBuf getIndexCount / 3)
-
-    triangleIndexBase := meshBuf getIndices_nc
-    triangleIndexBaseCasted := triangleIndexBase unsafe_ptr_cast
-
-    bulletMesh set_m_triangleIndexBase(triangleIndexBaseCasted)
-
-    vertexBase := meshBuf getVertices_nc
-    vertexBaseCasted := vertexBase unsafe_ptr_cast
-    bulletMesh set_m_vertexBase(vertexBaseCasted)
-
-    indexSize := 2 // 16 bits, 2 bytes
-    bulletMesh set_m_triangleIndexStride(3 * indexSize)
-    bulletMesh set_m_numVertices(meshBuf getVertexCount)
-    bulletMesh set_m_vertexStride(S3DVertex get_class get_size)
-
-    // This will be set when the bullet mesh buf is added to the triangle index vertex array object
-    //bulletMesh set_m_indexType(PHY_SHORT)
-
-    // This defaults to whatever bullet is built with (floats or doubles).  For Irrlicht I'm sure we want only floats.
-    bulletMesh set_m_vertexType(PHY_FLOAT)
-
-    // Cant' figure out how to set the indexType properly here, and a comment indicates this constructor is only for backwards compatibility.
-    // Best to use the default constructor and addIndexedMesh where you can specify the index type.
-    //meshInterface := btTriangleIndexVertexArray new(numTriangles, indices unsafe_ptr_cast, indexStride, numVertices, vertices unsafe_ptr_cast, vertexStride)
-
-    meshInterface := btTriangleIndexVertexArray new()
-    meshInterface addIndexedMesh(bulletMesh, PHY_SHORT)
-
-    meshShape := btBvhTriangleMeshShape new(meshInterface, true, true)
-    */
-
-    style := NodeStyle clone
-    style setScale(0.01) setMass(0) setPos(-26, -30, 0)
-    //obj := GameObject create(style, graph, mesh, meshShape)
-    obj := GameObject createClone(style, graph, mesh)
-    graph objList append(obj)
-)
-
-
-Props loadLevel {
-    terrain := Terrain clone setEngine(graph) load("Media/beach-heightmap.png")
-)
-
-Props loadLevelOld {
-
-    //graph editor terrain getTile(0,0)
-
-    fsStr1 := irrFsStr tmpFromCStr(WayUpDir("Media/beach-heightmap.png"))
-    image := graph driver createImageFromFileWithPath(fsStr1)
-
-    loadTile {x, y, xsize, ysize, scale, zscale,
-
-        xStart := -150
-        yStart := -100
-
-        rawShape := MeshTools createMeshFromHeightmap(
-            image,                      // IIMage object
-            dimension2du tmp(xsize, ysize),    // tileSizeInPixels
-            vector2di tmp(x, y),      // tilePosInTiles
-            true // extraStripsOnEdges
-        )
-
-        if(rawShape != nil,
-
-            zInsert := 3.0f
-
-            splitResult := MeshTools splitMeshZ(
-                rawShape,   // mesh
-                0.0f,       // zCut
-                zInsert,    // zInsert (width of added strip)
-                false,      // marginalTrisInLeft
-                true        // marginalTrisInRight
-            )
-
-            back := graph addNode(
-                EmptyStyle clone setTexture("Media/mountaintop.jpg") setScale(scale,scale,zscale) setGameObjType("static") setPos(x*xsize*scale+xStart, y*ysize*scale+yStart, 0)
-            ,
-                splitResult get_left
-            )
-
-            // For some strange reason a NULL IMesh* is not converting to nil as it should (NULLs of other types are converting to nil, just not this one)
-            if( ScriptUtil get_void_ptr(splitResult get_middle) != nil,
-                writeln("path not nil")
-                meshMan := graph smgr getMeshManipulator
-                repeatAmt := 1.0/2.0
-                xScale := (repeatAmt/zInsert)
-                yScale := (repeatAmt/zInsert)
-                meshMan makePlanarTextureMapping(splitResult get_middle getMeshBuffer(0), xScale, yScale, 1, vector3df tmp(-xsize/2.0, zInsert/2.0, (zInsert/2.0)/repeatAmt))
-                walk := graph addNode(
-                    EmptyStyle clone setTexture("Media/boardwalk.png") setScale(scale,scale,1.0) setGameObjType("static") setPos(x*xsize*scale+xStart, y*ysize*scale+yStart, 0) setPhysShape("mesh")
-                ,
-                    splitResult get_middle
-                )
-            )
-
-            fore := graph addNode(
-                EmptyStyle clone setTexture("Media/irrlicht2_dn.jpg") setScale(scale,scale,zscale) setGameObjType("static") setPos(x*xsize*scale+xStart, y*ysize*scale+yStart, 0)
-            ,
-                splitResult get_right
-            )
-        )
-    )
-
-    for( x, 0, 6,
-        for( y, 0, 2,
-            loadTile(x, y, 100, 100, 1.0, 1.0)
-        )
-    )
-)
-
-Props loadSkybox {
-
-    back := "irrlicht2_bk.jpg"
-    front := "irrlicht2_ft.jpg"
-    up := "irrlicht2_up.jpg"
-    down := "irrlicht2_dn.jpg"
-    left := "irrlicht2_lf.jpg"
-    right := "irrlicht2_rt.jpg"
-
-    style := Styles SkyboxStyle clone lexicalDo(
-        textureMap atPut("back", back)
-        textureMap atPut("front", front)
-        textureMap atPut("up", up)
-        textureMap atPut("down", down)
-        textureMap atPut("left", left)
-        textureMap atPut("right", right)
-    )
-
-    skybox := graph addNode(style)
-
-)
-
-Props testSoftBody {
-
-    // Set gravity to make the cloth "fall up"
-    graph softBodyWorldInfo set_m_gravity(btVector3 tmp(0, -9.8, 0))
-
-    /*
-    cloth := graph addNode(ClothStyle clone setDispShape("ball") setRadius(3) setPos(6, 4, 0) setMargin(0.2) setXTiles(8) setZTiles(8) setTexture("Media/irrlicht2_dn.jpg"))
-
-    // We want the ground to be plastic rather than elastic so set the softbody damping coefficient
-
-    // Get the softbody
-    softBody := cloth softBody
-
-    // m_cfg is the Config object of the softbody
-    // Using ref_ instead of get_ so we can change the settings.
-    config := softBody ref_m_cfg
-
-    // kDP is the damping coefficient in a range 0 to 1.0
-    config set_kDP(0.001)
-
-    config set_kDF(1)
-    config set_kPR(25)
-
-    // I read that kLST sets the spring strength.
-    // It's not a property of the config but rather a material property.
-    // (Softbody has array of materials.)
-
-
-    graph time setTimeout(6000, block(
-        writeln("removing cloth")
-        graph dynamicsWorld removeSoftBody(cloth rigidBody)
-        cloth node setVisible(false)
-        6000
-    ))
-
-    graph time setTimeout(9000, block(
-        writeln("adding cloth")
-        graph dynamicsWorld addSoftBody(cloth rigidBody, cloth style collisionGroup, cloth style collisionMask)
-        cloth node setVisible(true)
-        6000
-    ))
-    */
-
-    //cloth node setVisible(false)
-
-    sphere := graph addNode(BallStyle clone setPhysShape("none") setRadius(3))
-    sphere node setVisible(false)
-
-    topMesh := MeshTools sliceMesh(sphere dispShape, aabbox3df tmp( -100, -100,-100, 1,100,100 ) )
-    topMeshStyle := EmptyStyle clone setPos(0, 3.2, 0) setTexture("Media/mountaintop.jpg") // setWireframe(true)
-    topObj := graph addNode(topMeshStyle, topMesh)
-
-    botMesh := MeshTools sliceMesh(sphere dispShape, aabbox3df tmp( 1, -100 ,-100, 100, 100, 100 ) )
-    botMeshStyle := EmptyStyle clone setPos(0, 3.2, 0) setTexture("Media/grass.jpg") // setWireframe(true)
-    botObj := graph addNode(botMeshStyle, botMesh)
-
-    //graph addNode(BoxStyle clone setPos(1, 3.2, 0) setSize(0.02, 6, 6) setMass(0))
-
-    graph time setTimeout(100, block(
-        if (graph events isKeyDown(KEY_KEY_A),
-            topObj node setVisible(false)
-        )
-        if (graph events isKeyDown(KEY_KEY_S),
-            topObj node setVisible(true)
-        )
-        if (graph events isKeyDown(KEY_KEY_D),
-            botObj node setVisible(false)
-        )
-        if (graph events isKeyDown(KEY_KEY_F),
-            botObj node setVisible(true)
-        )
-        100
-    ))
-)
-
-return Props
-)
+    Dwarf();
+    NodeStyle* style;
+    static Node* configure(Graph* graph, Structure* dwarf);
+    Node* loadL3DTMesh();
+};
+
+struct Skybox {
+    Skybox();
+    NodeStyle* style;
+    static Node* configure(Graph* graph, Structure* skybox);
+};
+
+struct Props
+{
+    Terrain* terrain;
+    Skybox* skybox;
+
+    Props& loadLevel();
+    Props& loadLevelOld();
+    Props& loadSkybox();
+
+    Props& testSoftBody(Graph* graph);
+
+};
 
 }
