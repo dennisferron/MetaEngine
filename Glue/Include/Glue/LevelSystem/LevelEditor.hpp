@@ -1,30 +1,50 @@
-method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
+#pragma once
 
-    LevelEditor := Structure clone lexicalDo(
+#include "Graph.hpp"
+#include "Terrain.hpp"
 
-        appendProto(namespace_irr)
-        appendProto(namespace_irr core)
-        appendProto(namespace_irr custom)
-        appendProto(namespace_Custom)
-        appendProto(namespace_Bullet)
+#include <string>
 
-        SColor := namespace_irr video SColor
+virtual ISceneNode * getSceneNodeAndCollisionPointFromRay
+(core::line3df ray, core::vector3df &outCollisionPoint, core::triangle3df &outTriangle, s32 idBitMask=0, ISceneNode *collisionRootNode=0, bool noDebugObjects=false
 
-        engine ::= nil
-        driver ::= nil
-        gui ::= nil
-        cursor ::= nil
-        terrain ::= nil
-        collMan ::= nil
-        toolBar ::= nil
+namespace irr { namespace video {
+    class IVideoDriver;
+}}
 
-        inOutButton ::= nil
-        zEquation ::= nil
-        radiusKnob ::= nil
+namespace irr { namespace scene {
+    class ISceneCollisionManager;
+}}
+
+namespace irr { namespace gui {
+    class IGUIEnvironment;
+    class ICursorControl;
+    class IGUIButton;
+}}
+
+namespace Glue {
+
+using SColor = irr::video::SColor;
+using EKEY_CODE = irr::EKEY_CODE;
+
+class LevelEditor
+{
+private:
+        Graph* engine;
+        irr::video::IVideoDriver* driver;
+        irr::gui::IGUIEnvironment* gui;
+        irr::gui::ICursorControl* cursor;
+        Terrain* terrain;
+        irr::scene::ISceneCollisionManager* collMan;
+        Toolbar* toolBar;
+
+        IGUIButton* inOutButton;
+        std::string zEquation;
+        IGUISpinBox* radiusKnob;
 
         hitTriangle ::= nil
-        selectedSceneNode ::= nil
-        collisionPoint ::= nil
+        ISceneNode* selectedSceneNode;
+        irr::core::vector3df collisionPoint;
     )
 
     LevelEditor create := method(engine,
@@ -168,4 +188,6 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
     )
 
     return LevelEditor
-)
+};
+
+}
