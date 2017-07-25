@@ -1,100 +1,51 @@
+#pragma once
 
-method(namespace_irr, namespace_Custom, Constants,
+#include <functional>
 
-    NodeAttribute := Object clone lexicalDo(
-        appendProto(namespace_irr)
-        appendProto(namespace_irr scene)
-        appendProto(namespace_Custom)
+namespace irr { namespace video {
+    class ITexture;
+}}
 
-        Constants := Constants
+namespace irr { namespace scene {
+    class ISceneNode;
+    class ISceneNodeAnimator;
+}}
 
-        style ::= nil
-        texture ::= nil
-        sceneNode ::= nil
+namespace Glue {
 
-        motionState := nil
-        setMotionState := method(value,
-            motionState = value
-            if(motionState != nil,
-                if(sceneNode != nil,
-                    sceneNode addAnimator(motionState)
-                )
-            )
-        )
+class Node;
+class GameObjStyle;
 
-        dispShape ::= nil
-        flagBits ::= nil
+class NodeAttribute
+{
+private:
 
-        isMouseDraggable := nil
-        setIsMouseDraggable := method(state,
-            if(state==nil,
-                state = (style mass != 0)
-            )
-            isMouseDraggable = state
-            if(flagBits != nil and sceneNode != nil,
-                flagBits setBit(Constants mouseDraggableBitPos, state)
-            )
-            self
-        )
+    GameObjStyle* style;
+    irr::video::ITexture* texture;
+    irr::scene::ISceneNode* sceneNode;
+    irr::scene::ISceneNodeAnimator* motionState;
+    irr::scene::IMesh* dispShape;
+    int flagBits;
+    bool isMouseDraggable;
 
-        setFlagBit := method(pos, state,
-            flagBits setBit(pos, state)
-            self
-        )
+    NodeAttribute& setFlagBit(int pos, bool state);
 
-        addKinematicAnimator := method(anim,
-            animators append(anim)
-            sceneNode addAnimator(anim)
-        )
+public:
 
-        addChild := method(otherObj,
-            sceneNode addChild(otherObj sceneNode)
-        )
+    NodeAttribute& setMotionState(irr::scene::ISceneNodeAnimator* value);
+    NodeAttribute& setDispShape(irr::scene::IMesh* value);
+    NodeAttribute& setIsMouseDraggable(bool state=true);
 
-        getPos := method(
-            if (sceneNode != nil) then(
-                p := sceneNode getAbsolutePosition
-                o := Object clone
-                o x := p get_X; o y := p get_Y; o z := -p get_Z
-                return o
-            )
-            else(
-                return style getPos
-            )
-        )
+    void addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim);
+    void addChild(NodeAttribute* otherObj);
 
-        triggerAllGenerators := method(onTrigger,
-            if (style hasSlot("spawnStyle"),
-                s := style spawnStyle clone
-                s setPos(s x + getX, s y + getY, s z + getZ)
-                // TODO:  Set relative velocity as well as pos.
-                obj := engine addObj(s)
+    irr::core::vector3df getPos() const;
 
-                if(onTrigger != nil, onTrigger call(obj))
-            )
-            childObjs foreach(o, o triggerAllGenerators(onTrigger))
-        )
+    void triggerAllGenerators(std::function<void(Node*)> onTrigger);
 
-        lockTo := method(otherObj,
+    void lockTo(Node* otherObj);
 
-            oldMotionState := motionState
-            setMotionState(
-                LockAnimator new(otherObj rigidBody getMotionState_c, namespace Bullet getIdentityTransform)
-            )
+    ~NodeAttribute();
+};
 
-            if (sceneNode != nil,
-                sceneNode addAnimator(motionState)
-                sceneNode removeAnimator(oldMotionState)
-            )
-
-            oldMotionState drop
-
-            motionState
-        )
-
-        dispose := method(
-            sceneNode remove
-            //sceneNode drop
-        )
-    )
-)
+}

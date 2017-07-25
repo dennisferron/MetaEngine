@@ -1,58 +1,30 @@
-method(namespace_irr, PredefinedValues,
+#pragma once
 
-    SceneNodes := Object clone lexicalDo(
+#include <string>
 
-        smgr ::= nil
-        assets ::= nil
+namespace irr { namespace scene {
+    class ISceneManager;
+}}
 
-        appendProto(namespace_irr)
-        appendProto(namespace_irr core)
-        appendProto(PredefinedValues)
+namespace irr { namespace video {
+    class ITexture;
+}}
 
-        irr := namespace_irr
+namespace Glue {
 
-        loadTexture := method(style, key,
-            assets loadTextureFromFile(style textureMap at(key))
-        )
+class Assets;
+class GameObjStyle;
 
-        skybox := method(style,
-            smgr addSkyBoxSceneNode(
-                loadTexture(style, "up"),
-                loadTexture(style, "down"),
-                loadTexture(style, "left"),
-                loadTexture(style, "right"),
-                loadTexture(style, "front"),
-                loadTexture(style, "back"),
-                nil,    // parent
-                0       // id
-            )
-        )
+class SceneNodes
+{
+private:
 
-        default := method(style, shape,
+    irr::scene::ISceneManager* smgr;
+    Assets* assets;
 
-            sceneNode := smgr addMeshSceneNode(
-                shape,  // mesh
-                nil, // parent
-                0,         // id
-                vector3df tmp(style x, style y, -style z),    // position
-                vector3df tmp,    // rotation
-                vector3df tmp(style dispScaleX, style dispScaleY, style dispScaleZ), // scale
-                false  // alsoAddIfMeshPointerZero
-            )
+    irr::video::ITexture* loadTexture(GameObjStyle* style, std::string const& key);
+    irr::scene::ISceneNode* skybox(GameObjStyle* style);
+    irr::scene::ISceneNode* default_(GameObjStyle* style, irr::scene::IMesh* shape);
+};
 
-            // Debugging - this creates the boxes and arrows
-            /*
-            sceneNode addChild(
-                irr custom OrientationHelperSceneNode new(
-                    1.0, // size
-                    sceneNode, // parent
-                    smgr, // mgr
-                    0     // id
-                )
-            )
-            */
-
-            return sceneNode
-        )
-    )
-)
+}
