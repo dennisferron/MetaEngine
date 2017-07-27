@@ -2,40 +2,54 @@
 
 namespace irr { namespace video {
     class SColor;
+    class IVideoDriver;
+    class SExposedVideoData;
 }}
+
+namespace irr { namespace gui {
+    class IGUIEnvironment;
+}}
+
+namespace irr { namespace scene {
+    class ISceneManager;
+    class ISceneCollisionManager;
+    class IMeshManipulator;
+}}
+
+namespace irr {
+    class IrrlichtDevice;
+}
 
 namespace Glue {
 
+class Event;
+class EventDispatch;
+class Keyboard;
+class Mouse;
+class GuiEvents;
+class Assets;
+
 class Component
 {
-    SColor := namespace_irr video SColor
+private:
+    std::string mediaPath;
 
-    // Configuration args aren't visible after lexicalDo finishes,
-    // so we must store them in the proto for the init method to use them.
-    namespace_irr := namespace_irr
-    MainWindow := MainWindow
-    UserInterface := module UserInterface
-    ScriptUtil := ScriptUtil
+    Event* events;
+    EventDispatch* eventDispatch;
+    Keyboard* keyboard;
+    Mouse* mouse;
+    GuiEvents* guiEvents;
 
-    writeln("Engine io_vm get script path")
-    mediaPath := method(io_vm get_path("assets"))
+    irr::IrrlichtDevice* device;
+    irr::video::IVideoDriver* driver;
+    irr::scene::ISceneManager* smgr;
+    irr::video::SExposedVideoData* videoData;
+    Assets* assets;
 
-    events ::= nil
-    eventDispatch ::= nil
-    keyboard ::= nil
-    mouse ::= nil
-    guiEvents ::= nil
-
-    device ::= nil
-    driver ::= nil
-    smgr   ::= nil
-    videoData ::= nil
-    assets ::= nil
-
-    sound ::= nil
-    gui ::= nil
-    collMan ::= nil
-    meshMan ::= nil
+    void* sound;
+    irr::gui::IGUIEnvironment* gui;
+    irr::scene::ISceneCollisionManager* collMan;
+    irr::scene::IMeshManipulator* meshMan;
 
     sceneNodeBuilder ::= nil
 
