@@ -18,6 +18,7 @@ namespace irr { namespace scene {
 
 namespace irr {
     class IrrlichtDevice;
+    class ITimer;
 }
 
 namespace Glue {
@@ -28,6 +29,8 @@ class Keyboard;
 class Mouse;
 class GuiEvents;
 class Assets;
+class SceneNodeBuilder;
+class Camera;
 
 class Component
 {
@@ -51,182 +54,34 @@ private:
     irr::scene::ISceneCollisionManager* collMan;
     irr::scene::IMeshManipulator* meshMan;
 
-    sceneNodeBuilder ::= nil
+    SceneNodeBuilder* sceneNodeBuilder;
 
     // window title
-    title ::= nil
+    std::string title;
 
-    deviceTimer ::= nil
-    frames := 0
-    backColor := SColor tmpWithARGB(255,0,8,16)
+    irr::ITimer* deviceTimer;
+    long frames;
+    irr::video::SColor backColor;
 
-    camera ::= nil
+    Camera* camera;
 
-    graph := nil
-    setGraph := method(value,
-        updateSlot("graph", value)
-        mouse setGraph(value)
-    )
+    Graph* graph;
 
-    init := method(
+public:
 
-        setEventDispatch(UserInterface EventDispatch clone)
-        setEvents(eventDispatch eventReceiver)
+    Component();
+    ~Component();
 
-        setGuiEvents(UserInterface GuiEvents clone)
-        eventDispatch addHandler(EET_GUI_EVENT,
-            block(event,
-                guiEvents handle(event)
-            )
-        )
+    Component& setGraph(Graph* value);
 
-        windowSize := dimension2du tmp(MainWindow sizeX, MainWindow sizeY)
-        deviceType := list(EDT_OPENGL, EDT_BURNINGSVIDEO, EDT_SOFTWARE, EDT_NULL) at(0)
-        setDevice(namespace_irr createDevice(deviceType, windowSize, 16, false, false, false, events))
-
-        if (device == nil,
-            Exception raise("Failed to create irrlicht device")
-        )
-
-        setDeviceTimer(device getTimer)
-
-        setDriver(device getVideoDriver)
-
-        setAssets(module Assets clone setAssetPath(mediaPath) setDriver(driver))
-
-        setSmgr(device getSceneManager)
-
-        setCamera(
-            module Camera clone setSmgr(smgr) setDriver(driver)
-        )
-        camera createNode
-
-        shapeBuilder := module ShapeBuilder clone setDisplayShapes(
-            module DisplayShapes clone setGeometry(
-                smgr getGeometryCreator
-            )
-        )
-
-        sceneNodes := module SceneNodes clone setSmgr(smgr)
-        setSceneNodeBuilder(
-            module SceneNodeBuilder clone setAssets(assets) setShapeBuilder(shapeBuilder) setSceneNodes(
-                sceneNodes setAssets(assets)
-            )
-        )
-
-        setVideoData(SExposedVideoData tmp)
-
-        //if( CppFunc hasSlot("createIrrKlangDevice"),
-        //	setSound(CppFunc createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS, nil, IRR_KLANG_VERSION))
-        //)
-
-        smgr addLightSceneNode(
-            nil, // parent
-            vector3df tmpWithXYZ(0, 500, -50), // position
-            SColorf tmpWithRGBA(1,1,1,1), // color
-            200, // radius
-            0 // id
-        )
-
-        smgr setAmbientLight(SColorf tmpWithRGBA(0.2, 0.2, 0.2, 0.2))
-
-        setGui(device getGUIEnvironment)
-
-        setCollMan(smgr getSceneCollisionManager)
-        setMeshMan(smgr getMeshManipulator)
-
-        setTitle(ScriptUtil get_string(driver getName wchar_to_string) .. "  FPS: ")
-
-        setKeyboard(module UserInterface Keyboard clone)
-        eventDispatch addHandler(EET_KEY_INPUT_EVENT,
-            block(event,
-                keyboard handle(event)
-            )
-        )
-
-        setMouse(module UserInterface Mouse clone)
-        mouse setGui(gui)
-        mouse setCollMan(collMan)
-        mouse setDriver(driver)
-        mouse setIrrComp(self)
-        eventDispatch addHandler(EET_MOUSE_INPUT_EVENT,
-            block(event,
-                mouse handle(event)
-            )
-        )
-    )
-
-    addNode := method(node,
-        sceneNode := sceneNodeBuilder buildSceneNode(node style)
-        if( sceneNode != nil,
-            nodeAttr := module NodeAttribute clone setStyle(node style) setSceneNode(sceneNode)
-            nodeAttr setFlagBits(FlagBits_of_ISceneNode tmp(nodeAttr sceneNode)) setIsMouseDraggable
-            node addAttribute(
-                nodeAttr
-            )
-        )
-    )
-
-    playSound := method(file,
-        if(sound != nil,
-            sound play2D(file, false, false, false, ESM_AUTO_DETECT, false)
-        )
-    )
-
-    dispose := method(
-        //objList foreach(obj, obj dispose)
-        //device drop
-    )
-
-    beforeGraphics := method(
-        driver beginScene(true, true, backColor, videoData, nil)
-    )
-
-    onGraphics := method(timeElapsed,
-
-        // Keep the camera in sync with the player position
-        //camera update
-
-        // Draws debug lines to show where the windowbox of the camera is.
-        //camera drawBox
-
-        // !!! Graphics happens here !!!
-        smgr drawAll
-
-        // !!! Menu UI happens here !!!
-        //if (menu != nil, menu draw)
-
-        // !!! If you don't draw the environment at the end none of your GUI elements show up! !!!
-        gui drawAll
-    )
-
-    afterGraphics := method(
-        driver endScene
-
-        frames = frames + 1
-        if (frames % 10 == 0,
-            device setWindowCaption(title .. (driver getFPS asString))
-        )
-    )
-
-    shouldRun := method(
-        return device run
-    )
-
-    nodeToGameObj := method(node,
-        anim := ScriptObjAnimator findIn(node)
-        if(anim == nil,
-            nil
-        ,
-            anim getScriptObj
-        )
-    )
-
-    removeObj := method(obj,
-        if(obj != nil,
-            obj dispose
-        )
-    )
+    void addNode(Node* node);
+    void playSound(std::string const& file);
+    void beforeGraphics();
+    void onGraphics(Scalar timeElapsed);
+    void afterGraphics();
+    bool shouldRun() const;
+    Node* nodeToGameObj(irr::scene::ISceneNode*);
+    void removeObj(Node* obj);
 };
 
 }

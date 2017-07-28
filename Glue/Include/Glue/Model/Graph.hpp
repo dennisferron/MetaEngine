@@ -54,9 +54,9 @@ private:
     void removeConstraint(Constraint* constraint);
     void addConstraint := method(ConstraintStyle const& style, Node* objA, Node* objB);
 
-    IrrGameObj* nodeToGameObj(Node* node) const;
+    Node* nodeToGameObj(irr::Scene::ISceneNode* node) const;
 
-    void removeObj(IrrGameObj* obj);
+    void removeObj(Node* obj);
 
     Structure* addStructure(Structure* structure, Structure* leftHandSide);
 };
