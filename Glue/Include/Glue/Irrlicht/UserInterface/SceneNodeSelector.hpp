@@ -1,21 +1,25 @@
+#pragma once
 
-method(
+#include <memory>
 
-SceneNodeSelector := Object clone lexicalDo(
+namespace Glue {
+    class Attribute;
+}
 
-    sceneNode ::= nil
+namespace Glue { namespace Irrlicht {
 
-    select := method(attr,
-        setSceneNode(attr)
-    )
+class SceneNodeSelector
+{
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
-    deselect := method(attr,
-        if(sceneNode == attr,
-            setSceneNode(nil)
-        ,
-            writeln("Deselected wrong scene node (or in wrong order). Current selection was: ", sceneNode, " asked to deselect ", attr)
-        )
-    )
-)
+public:
+    SceneNodeSelector();
+    ~SceneNodeSelector();
 
-)
+    void select(Attribute* attr);
+    void deselect(Attribute* attr);
+};
+
+}}

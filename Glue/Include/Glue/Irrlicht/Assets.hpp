@@ -1,30 +1,28 @@
-method(irr_core,
+#pragma once
 
-    Assets := Object clone lexicalDo(
+#include <memory>
 
-        appendProto(irr_core)
+namespace irr { video {
+    class ITexture;
+    class IImage;
+}}
 
-        assetPath ::= nil
-        driver ::= nil
+namespace Glue { namespace Irrlicht {
 
-        getPath := method(assetFile,
-            assetPath .. "/" .. assetFile
-        )
+class Assets
+{
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
-        // Note:  This returns an ITexture, while the other method returns and IImage.
-        loadTextureFromFile := method(filename,
-            path := getPath(filename)
-            fsStr := irrFsStr tmpFromCStr(path)
-            texture := driver getTexture(fsStr)
-            return texture
-        )
+public:
 
-        // Note:  This returns an ITexture, while the other method returns and IImage.
-        loadImageFromFile := method(filename,
-            path := getPath(filename)
-            fsStr := irrFsStr tmpFromCStr(path)
-            image := driver createImageFromFileWithPath(fsStr)
-            return image
-        )
-    )
-)
+    Assets();
+    ~Assets();
+
+    std::string getPath(std::string const& assetFile) const;
+    ITexture* loadTextureFromFile(std::string const& filename) const;
+    IImage* loadImageFromFile(std::string const& filename) const;
+};
+
+}}
