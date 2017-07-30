@@ -1,38 +1,24 @@
+#pragma once
 
-method(namespace_irr, EnumMap,
+#include <memory>
 
-EventDispatch := Object clone lexicalDo(
+namespace Glue {
+    class EventCode;
+    class EventHandler;
+}
 
-    appendProto(namespace_irr)
-    appendProto(namespace_irr core)
-    appendProto(namespace_irr custom)
+namespace Glue { namespace Irrlicht {
 
-    EnumMap := EnumMap
+class EventDispatch
+{
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
-    eventReceiver ::= nil
+public:
 
-    menu ::= nil
+    EventDispatch();
+    void addHandler(EventCode const& enum_, EventHandler* handler);
+};
 
-    handlerMap ::= nil
-)
-
-
-EventDispatch init := method(
-
-    setHandlerMap(EnumMap clone)
-
-    setEventReceiver(
-        ScriptedEventReceiver new(
-            block(event, handlerMap at(event get_EventType) ?call(event); false)
-        )
-    )
-
-)
-
-EventDispatch addHandler := method(enum, handler,
-    handlerMap atPut(enum, handler)
-)
-
-return EventDispatch
-
-)
+}}

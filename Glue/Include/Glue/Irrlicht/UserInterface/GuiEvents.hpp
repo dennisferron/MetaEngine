@@ -1,41 +1,27 @@
+#pragma once
 
-method(SharedTypes, PredefinedValues,
+#include <memory>
 
+namespace Glue {
+    class Event;
+    class GuiElement;
+}
 
-    GuiEvents := Object clone lexicalDo(
+namespace Glue { namespace Irrlicht {
 
-        appendProto(SharedTypes)
-        appendProto(PredefinedValues)
+class GuiEvents
+{
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
-        guiIdMap ::= nil
+public:
 
-        _curId := 1000
-        nextId := method(
-            _curId = _curId + 1
-            return _curId
-        )
+    GuiEvents();
+    ~GuiEvents();
 
-        init := method(
-            setGuiIdMap(IdMap clone)
-        )
+    GuiEvents& handle(Event* event);
+    void register_(GuiElement* guiEl);
+};
 
-        handle := method(event,
-            id := event get_GUIEvent get_Caller getID
-            evType := event get_GUIEvent get_EventType
-            if(evType == EGET_BUTTON_CLICKED,
-                guiEl := guiIdMap at(id)
-                if (guiEl != nil,
-                    if (guiEl hasSlot("onClick"),
-                        guiEl onClick call(event)
-                    )
-                )
-            )
-        )
-
-        register := method(guiEl,
-            id := nextId
-            guiEl setID(id)
-            guiIdMap atPut(id, guiEl)
-        )
-    )
-)
+}}

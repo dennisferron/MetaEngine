@@ -6,7 +6,7 @@ namespace irr {
     enum EKEY_CODE;
 }
 
-namespace Glue {
+namespace Glue { namespace Irrlicht {
 
 using MenuItem = std::function<void()>;
 
@@ -25,4 +25,4 @@ public:
     void draw();
 };
 
-}
+}}

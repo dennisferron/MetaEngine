@@ -1,25 +1,15 @@
+#pragma once
 
-method(namespace_irr,
+namespace Glue {
+    class Event;
+}
 
-Keyboard := Object clone lexicalDo(
+namespace Glue { namespace Irrlicht {
 
-    handle := method(event,
+class Keyboard
+{
+public:
+    void handle(Event* event);
+};
 
-        /*
-        if (event get_KeyInput get_PressedDown not,
-            return
-        )
-
-        key := event get_KeyInput get_Key
-
-        if (engine menu != nil) then(
-            engine setMenu(engine menu doKey(key))
-        ) elseif(key == KEY_ESCAPE) then(
-            engine setMenu(Menu clone create(engine, "Menu"))
-        )
-        */
-        nil
-    )
-)
-
-)
+}}
