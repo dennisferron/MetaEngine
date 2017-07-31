@@ -1,37 +1,27 @@
 #pragma once
 
 namespace Glue {
+    class Time;
+}
 
-class Interaction
+namespace Glue { namespace Avatar {
+    Component;
+}}
+
+namespace Glue {
+
+class AvatarTime
 {
+private:
+    Avatar::Component* avComp;
+    Time* time;
 
+public:
+    AvatarTime(
+        Avatar::Component* avComp,
+        Time* time
+    );
+    ~AvatarTime();
 };
-
-method(ComponentInteraction, Model, Avatar,
-
-    AvatarTime := ComponentInteraction clone lexicalDo(
-
-        setReferent(mapSubdomains)
-
-        referent at("component") setTrigger(
-            avComp : Avatar Component,
-            time : Model Time
-        )
-
-        enter := method(
-
-            time beforePhysics append(
-                block(timeStep,
-                    avComp beforePhysics(timeStep)
-                )
-            )
-
-            self
-        )
-    )
-
-    Model Graph registerInteraction(AvatarTime)
-
-    return AvatarTime
 
 }

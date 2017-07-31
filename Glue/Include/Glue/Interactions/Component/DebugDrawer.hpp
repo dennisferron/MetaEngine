@@ -1,27 +1,26 @@
-method(ComponentInteraction, Model, Bullet, Irrlicht, namespace_Custom,
+#pragma once
 
-    DebugDrawer := ComponentInteraction clone lexicalDo(
+namespace Glue { namespace Bullet {
+    class Component;
+}}
 
-        appendProto(namespace_Custom)
+namespace Glue { namespace Irrlicht {
+    class Component;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue {
 
-        referent at("component") setTrigger(
-            physComp : Bullet Component,
-            dispComp : Irrlicht Component
-        )
+class DebugDrawer
+{
+private:
+    Bullet::Component* physComp;
+    Irrlicht::Component* dispComp;
 
-        motionState ::= nil
+public:
+    DebugDrawer(
+        Bullet::Component* physComp,
+        Irrlicht::Component* dispComp
+    );
+};
 
-        enter := method(
-            // Debug drawing will show phys objs, constraint limits and so forth.
-            //physComp setDebugDrawer(IrrlichtBulletDebugDrawer new(dispComp driver))
-            self
-        )
-    )
-
-    Model Graph registerInteraction(DebugDrawer)
-
-    return DebugDrawer
-)
-
+}

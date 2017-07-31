@@ -1,22 +1,11 @@
+#pragma once
 
-method(NodeInteraction, Node, Avatar, Bullet,
+namespace Glue {
 
-    PlayerNoPhysSleep := NodeInteraction clone lexicalDo(
+class PlayerNoPhysSleep
+{
+public:
+    PlayerNoPhysSleep(Bullet::Node* physRep, Avatar::Node* playerRep);
+};
 
-        setReferent(mapSubdomains)
-
-        referent at("node") setTrigger(
-            physRep : Bullet NodeAttribute,
-            playerRep : Avatar NodeAttribute
-        )
-
-        enter := method(
-            physRep disableSleepState
-            self
-        )
-    )
-
-    Node registerInteraction(PlayerNoPhysSleep)
-
-    return PlayerNoPhysSleep
-)
+}

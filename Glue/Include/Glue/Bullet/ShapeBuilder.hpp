@@ -1,23 +1,29 @@
-method(namespace_Bullet,
-    ShapeBuilder := Object clone lexicalDo(
-        appendProto(namespace_Bullet)
+#pragma once
 
-        physicsShapes ::= nil
-        shapeOffsets ::= nil
+class btRigidBody;
+class btTransform;
 
-        create := method(style,
+namespace Glue { namespace Bullet {
+    class PhysicsShapes;
+    class ShapeOffsets;
+}}
 
-            physShape := physicsShapes perform(style physShape, style, style mesh)
+namespace Glue { namespace Bullet {
 
-            if (physShape != nil and style margin != style default,
-                physShape setMargin(style margin)
-            )
+class ShapeBuilder
+{
+private:
+    PhysicsShapes* physicsShapes;
+    ShapeOffsets* shapeOffsets;
 
-            return physShape
-        )
+public:
+    ShapeBuilder(
+        PhysicsShapes* physicsShapes,
+        ShapeOffsets* shapeOffsets
+    );
 
-        getOffset := method(style,
-            return shapeOffsets perform(style physShape, style)
-        )
-    )
-)
+    btRigidBody create(NodeStyle* style) const;
+    btTransform getOffset(NodeStyle* style) const;
+};
+
+}}

@@ -1,36 +1,36 @@
-method(LinkInteraction, Node, MouseDragLinkAttribute, LinkStyles, BulletComponent,
+#pragma once
 
-    BulletMouseDrag := LinkInteraction clone lexicalDo(
+namespace Glue { namespace Irrlicht {
+    class MouseDragLinkAttribute;
+    class NodeAttribute;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue { namespace Bullet {
+    class Component;
+    class ConstraintAttribute;
+}}
 
-        referent at("link") setTrigger(
-            mouseAttr : MouseDragLinkAttribute
-        )
+namespace Glue {
+    class Node;
+}
 
-        referent at("component") setTrigger(
-            bulletComp : BulletComponent
-        )
+namespace Glue {
 
-        referent at("toNode") setTrigger(
-            toNode : Node
-        )
+class BulletMouseDrag
+{
+private:
+    Irrlicht::MouseDragLinkAttribute* mouseAttr;
+    Bullet::Component* bulletComp;
+    Node* toNode;
 
-        constraintAttr ::= nil
+public:
 
-        enter := method(
-            setConstraintAttr(bulletComp addLink(Point2PointStyle, nil, toNode))
-            mouseAttr setOnDrag(block(pos,
-                constraintAttr constraint setPivotB(btVector3 tmp(pos get_X, pos get_Y, 0))
-            ))
-        )
+    BulletMouseDrag(
+        Irrlicht::MouseDragLinkAttribute* mouseAttr,
+        Bullet::Component* bulletComp,
+        Node* toNode
+    );
+    ~BulletMouseDrag();
+};
 
-        leave := method(
-            mouseAttr setOnDrag(nil)
-            site removeAttribute(constraintAttr)
-            setConstraintAttr(nil)
-        )
-    )
-
-    return BulletMouseDrag
-)
+}

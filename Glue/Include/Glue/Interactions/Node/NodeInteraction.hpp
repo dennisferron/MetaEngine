@@ -1,10 +1,17 @@
+#pragma once
 
-method(Interaction,
+#include <memory>
 
-    NodeInteraction := Interaction clone lexicalDo(
+namespace Glue {
 
-        init := method(
-            setSubdomains(list("component", "node"))
-        )
-    )
-)
+class NodeInteraction : public Interaction
+{
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl;
+
+public:
+    NodeInteraction();
+};
+
+}

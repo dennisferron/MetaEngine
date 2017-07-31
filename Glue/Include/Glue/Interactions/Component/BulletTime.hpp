@@ -1,34 +1,27 @@
+#pragma once
 
-method(ComponentInteraction, Model, Bullet,
+namespace Glue {
+    class Time;
+}
 
-    BulletTime := ComponentInteraction clone lexicalDo(
+namespace Glue { namespace Bullet {
+    Component;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue {
 
-        referent at("component") setTrigger(
-            bltComp : Bullet Component,
-            time : Model Time
-        )
+class BulletTime
+{
+private:
+    Bullet::Component* bltComp;
+    Time* time;
 
-        enter := method(
+public:
+    BulletTime(
+        Bullet::Component* bltComp,
+        Time* time
+    );
+    ~BulletTime();
+};
 
-            time onPhysics append(
-                block(timeStep,
-                    bltComp onPhysics(timeStep)
-                )
-            )
-
-            time onGraphics append(
-                block(timeStep,
-                    bltComp onGraphics(timeStep)
-                )
-            )
-
-            self
-        )
-    )
-
-    Model Graph registerInteraction(BulletTime)
-
-    return BulletTime
-)
+}

@@ -1,21 +1,17 @@
-method(module, namespace_irr,
-    Component := Object clone lexicalDo(
-        module := module
+#pragma once
 
-        gui ::= nil
-        guiEvents ::= nil
-        assets ::= nil
-        camera ::= nil
-        tb ::= nil
+namespace Glue { namespace EditorGUI {
 
-        init := method(
-            setTb(module Toolbar clone)
-        )
+class Component
+{
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
-        load := method(
-            tb setGui(gui) setGuiEvents(guiEvents) setAssets(assets) setCamera(camera)
-            tb load
-            self
-        )
-    )
-)
+public:
+
+    Component();
+    ~Component();
+};
+
+}}

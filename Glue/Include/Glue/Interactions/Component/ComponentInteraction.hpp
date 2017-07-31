@@ -1,9 +1,9 @@
+#pragma once
 
-method(Interaction,
-    ComponentInteraction := Interaction clone lexicalDo(
-        init := method(
-            setSubdomains(list("component"))
-        )
-    )
-)
+namespace Glue {
 
+class ComponentInteraction
+{
+};
+
+}

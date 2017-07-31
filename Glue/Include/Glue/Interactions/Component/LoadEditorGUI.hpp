@@ -1,24 +1,33 @@
+#pragma once
 
-method(ComponentInteraction, Model, Irrlicht, EditorGUI, Avatar,
+namespace Glue { namespace Irrlicht {
+    Component;
+}}
 
-    LoadEditorGUI := ComponentInteraction clone lexicalDo(
+namespace Glue { namespace EditorGUI {
+    Component;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue { namespace Avatar {
+    Component;
+}}
 
-        referent at("component") setTrigger(
-            irrComp : Irrlicht Component,
-            guiComp : EditorGUI Component,
-            avComp : Avatar Component
-        )
+namespace Glue {
 
-        enter := method(
-            guiComp setGui(irrComp gui) setGuiEvents(irrComp guiEvents) setAssets(irrComp assets) setCamera(irrComp camera)
-            guiComp load
-            self
-        )
-    )
+class LoadEditorGUI
+{
+private:
+    Irrlicht::Component* irrComp;
+    EditorGUI::Component* guiComp;
+    Avatar::Component* avComp;
 
-    Model Graph registerInteraction(LoadEditorGUI)
+public:
+    LoadEditorGUI(
+        Irrlicht::Component* irrComp,
+        EditorGUI::Component* guiComp,
+        Avatar::Component* avComp
+    );
+    ~LoadEditorGUI();
+};
 
-    return LoadEditorGUI
-)
+}

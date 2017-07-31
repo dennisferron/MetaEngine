@@ -1,29 +1,23 @@
-method(LinkInteraction, Link, Irrlicht,
+#pragma once
 
-    SelectNode := LinkInteraction clone lexicalDo(
+namespace Glue { namespace Irrlicht {
+    class NodeAttribute;
+    class SceneNodeSelector;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue {
 
-        referent at("fromNode") setTrigger(
-            selector : Irrlicht UserInterface SceneNodeSelector
-        )
+class SelectNode
+{
+private:
+    Irrlicht::SceneNodeSelector* selector;
+    Irrlicht::NodeAttribute* dispAttr;
 
-        referent at("toNode") setTrigger(
-            dispAttr : Irrlicht NodeAttribute
-        )
+public:
 
-        enter := method(
-            selector select(dispAttr)
-            self
-        )
+    SelectNode(Irrlicht::SceneNodeSelector* selector,
+               Irrlicht::NodeAttribute* dispAttr);
+    ~SelectNode();
+};
 
-        leave := method(
-            selector deselect(dispAttr)
-            self
-        )
-    )
-
-    Link registerInteraction(SelectNode)
-
-    return SelectNode
-)
+}

@@ -1,31 +1,25 @@
+#pragma once
 
-method(NodeInteraction, Node, Irrlicht, Avatar, Time,
+namespace Glue { namespace Irrlicht {
+    class Component;
+}}
 
-    IrrlichtCamera := NodeInteraction clone lexicalDo(
+namespace Glue { namespace Avatar {
+    class Camera;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue {
 
-        referent at("component") setTrigger(
-            irrComp : Irrlicht Component,
-            time : Time
-        )
+class IrrlichtCamera
+{
+private:
+    Irrlicht::Component* irrComp;
+    Time* time;
+    Avatar::Camera* avatarCamera;
 
-        referent at("node") setTrigger(
-            avatarCamera  : Avatar Camera
-        )
+public:
+    IrrlichtCamera(Irrlicht::Component* irrComp, Time* time, Avatar::Camera* avatarCamera);
+    void enter();
+};
 
-        enter := method(
-            site addAttribute(irrComp camera)
-            time beforeGraphics append(
-                block(
-                    irrComp camera update
-                )
-            )
-            self
-        )
-    )
-
-    Node registerInteraction(IrrlichtCamera)
-
-    return IrrlichtCamera
-)
+}

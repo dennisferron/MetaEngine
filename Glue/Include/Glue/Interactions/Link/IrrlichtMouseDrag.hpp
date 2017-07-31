@@ -1,29 +1,24 @@
-method(LinkInteraction, MouseDragLinkAttribute, IrrlichtNodeAttribute,
+#pragma once
 
-    IrrlichtMouseDrag := LinkInteraction clone lexicalDo(
+namespace Glue { namespace Irrlicht {
+    class MouseDragLinkAttribute;
+    class NodeAttribute;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue {
 
-        referent at("link") setTrigger(
-            mouseAttr : MouseDragLinkAttribute
-        )
+class IrrlichtMouseDrag
+{
+private:
+    Irrlicht::MouseDragLinkAttribute* mouseAttr;
+    Irrlicht::NodeAttribute* irrAttr;
 
-        referent at("toNode") setTrigger(
-            irrAttr : IrrlichtNodeAttribute
-        )
+public:
 
-        constraintAttr ::= nil
+    IrrlichtMouseDrag(
+        Irrlicht::MouseDragLinkAttribute* mouseAttr,
+        Irrlicht::NodeAttribute* irrAttr);
+    ~IrrlichtMouseDrag();
+};
 
-        enter := method(
-            mouseAttr setOnDrag(block(pos,
-                irrAttr setPos(pos)
-            ))
-        )
-
-        leave := method(
-            mouseAttr setOnDrag(nil)
-        )
-    )
-
-    return IrrlichtMouseDrag
-)
+}

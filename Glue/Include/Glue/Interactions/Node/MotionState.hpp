@@ -1,22 +1,11 @@
+#pragma once
 
-method(NodeInteraction, Node, Irrlicht, Bullet,
+namespace Glue {
 
-    MotionState := NodeInteraction clone lexicalDo(
+class MotionState
+{
+public:
+    MotionState(Bullet::NodeAttribute* physRep, Irrlicht::NodeAttribute* dispRep);
+};
 
-        setReferent(mapSubdomains)
-
-        referent at("node") setTrigger(
-            physRep : Bullet NodeAttribute,
-            dispRep : Irrlicht NodeAttribute
-        )
-
-        enter := method(
-            dispRep setMotionState(physRep motionState)
-            self
-        )
-    )
-
-    Node registerInteraction(MotionState)
-
-    return MotionState
-)
+}

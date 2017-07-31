@@ -1,22 +1,27 @@
+#pragma once
 
-method(ComponentInteraction, Model, Irrlicht, Avatar,
+namespace Glue { namespace Irrlicht {
+    Component;
+}}
 
-    IrrlichtKeyInput := ComponentInteraction clone lexicalDo(
+namespace Glue { namespace Avatar {
+    Component;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue {
 
-        referent at("component") setTrigger(
-            irrComp : Irrlicht Component,
-            avComp  : Avatar Component
-        )
+class IrrlichtKeyInput
+{
+private:
+    Irrlicht::Component* irrComp;
+    Avatar::Component* avComp;
 
-        enter := method(
-            avComp setEvents(irrComp events)
-            self
-        )
-    )
+public:
+    IrrlichtKeyInput(
+        Irrlicht::Component* irrComp,
+        Avatar::Component* avComp
+    );
+    ~IrrlichtKeyInput();
+};
 
-    Model Graph registerInteraction(IrrlichtKeyInput)
-
-    return IrrlichtKeyInput
-)
+}

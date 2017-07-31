@@ -1,52 +1,27 @@
+#pragma once
 
-method(ComponentInteraction, Model, Irrlicht,
+namespace Glue {
+    class Time;
+}
 
-    IrrlichtTime := ComponentInteraction clone lexicalDo(
+namespace Glue { namespace Irrlicht {
+    Component;
+}}
 
-        setReferent(mapSubdomains)
+namespace Glue {
 
-        referent at("component") setTrigger(
-            irrComp : Irrlicht Component,
-            time : Model Time
-        )
+class IrrlichtTime
+{
+private:
+    Irrlicht::Component* irrComp;
+    Time* time;
 
-        enter := method(
+public:
+    IrrlichtTime(
+        Irrlicht::Component* irrComp,
+        Time* time
+    );
+    ~IrrlichtTime();
+};
 
-            time setDeviceTimer(
-                block(
-                    irrComp deviceTimer getTime
-                )
-            )
-
-            time setShouldRun(
-                block(
-                    irrComp shouldRun
-                )
-            )
-
-            time beforeGraphics append(
-                block(
-                    irrComp beforeGraphics
-                )
-            )
-
-            time onGraphics append(
-                block(timeStep,
-                    irrComp onGraphics(timeStep)
-                )
-            )
-
-            time afterGraphics append(
-                block(
-                    irrComp afterGraphics
-                )
-            )
-
-            self
-        )
-    )
-
-    Model Graph registerInteraction(IrrlichtTime)
-
-    return IrrlichtTime
-)
+}
