@@ -57,6 +57,7 @@
 		<Unit filename="Include/Glue/Bullet/ConstraintBuilder.hpp" />
 		<Unit filename="Include/Glue/Bullet/ConstraintObj.hpp" />
 		<Unit filename="Include/Glue/Bullet/NodeAttribute.hpp" />
+		<Unit filename="Include/Glue/Bullet/PhysicsConstraints.hpp" />
 		<Unit filename="Include/Glue/Bullet/PhysicsShapes.hpp" />
 		<Unit filename="Include/Glue/Bullet/Sense.hpp" />
 		<Unit filename="Include/Glue/Bullet/ShapeBuilder.hpp" />

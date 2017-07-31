@@ -1,26 +1,21 @@
-method(module,
-    Component := Object clone lexicalDo(
+#pragma once
 
-        module := module
+#include <memory>
 
-        events ::= nil
-        keyInputs ::= nil
-        playerAttr ::= nil
+namespace Glue { namespace Avatar {
 
-        init := method(
-            setKeyInputs(module KeyInputs clone)
-        )
+class Component
+{
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
-        attachControl := method(node,
-            // TODO:  Remove old player attr from old node if they exist.
-            setPlayerAttr(module NodeAttribute clone)
-            node addAttribute(playerAttr)
-        )
+public:
+    Component();
+    ~Component();
 
-        beforePhysics := method(
-            if (playerAttr != nil,
-                keyInputs update(playerAttr, events)
-            )
-        )
-    )
-)
+    void attachControl(Node* node);
+    void beforePhysics(TimeInfo const&);
+};
+
+}}

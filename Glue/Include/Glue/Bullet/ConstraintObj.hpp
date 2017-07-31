@@ -1,8 +1,8 @@
 #pragma once
 
-namespace Glue {
-    class Node;
-}
+namespace Glue { namespace Bullet {
+    class Mount;
+}}
 
 namespace Glue { namespace Bullet {
 
@@ -10,8 +10,8 @@ class ConstraintObj
 {
 protected:
     LinkStyle* style;
-    Node* objA;
-    Node* objB;
+    Mount* objA;
+    Mount* objB;
 
     // Create in derived class
     //constraint ::= nil
