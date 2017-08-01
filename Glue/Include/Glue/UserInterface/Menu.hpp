@@ -1,45 +1,37 @@
 #pragma once
 
-#include "irrlicht.h"
-
-#include <functional>
-
-#include "Graph.hpp"
-
 namespace Glue {
 
-using MenuItem = std::function<void()>;
-
-using SColor = irr::video::SColor;
-using EKEY_CODE = irr::EKEY_CODE;
+class MainWindow;
+class MenuPath;
 
 class AbstractMenu
 {
 private:
-
-    Graph* graph;
-    std::string path;
-    AbstractMenu* parent;
-    std::vector<AbstractMenu*> items;
-    int lineH = 50;
-    int selectedLine = 0;
-    SColor selectedColor = SColor(255, 255, 255, 255);
-    SColor regularColor = SColor(120, 120, 120, 120);
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
 protected:
 
-    AbstractMenu(Graph* engine, std::string path, AbstractMenu* parent=nullptr)
-        : graph(engine), path(path), parent(parent)
-    {
-        load();
-    }
+    AbstractMenu(
+                 MainWindow* window,
+                 MenuPath const& path,
+                 AbstractMenu* parent=nullptr);
+
+    virtual void drawBorder(const core::rect<s32>& pos,
+            SColor colorLeftUp, SColor colorRightUp,
+            SColor colorLeftDown, SColor colorRightDown,
+            const core::rect<s32>* clip) = 0;
+
+	virtual void drawText(const std::string& text, const core::rect<s32>& position,
+		video::SColor color, bool hcenter, bool vcenter,
+		const core::rect<s32>* clip) = 0;
 
 public:
-
-    virtual void load();
+    virtual ~AbstractMenu();
+    virtual AbstractMenu* load();
     virtual AbstractMenu* doKey(EKEY_CODE key);
     virtual void draw();
-    static std::string trimItem(std::string const& item);
 };
 
 }

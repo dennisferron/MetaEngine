@@ -1,6 +1,7 @@
+// TODO: Figure out what UserInterfaceStyle is.
 #pragma once
 
-#include <string>
+#include <memory>
 
 namespace Glue {
 
@@ -9,11 +10,14 @@ class UserInterfaceStyle;
 class UserInterfaceRepresentation
 {
 private:
-    UserInterfaceStyle style;
-    bool isMouseDraggable;
+    class Impl;
+    std::unique_ptr<Impl> impl;
 
 public:
     UserInterfaceRepresentation(UserInterfaceStyle const& style);
+    void setStyle(UserInterfaceStyle const& value);
+    void setIsMouseDraggable(bool value);
+
 };
 
 }

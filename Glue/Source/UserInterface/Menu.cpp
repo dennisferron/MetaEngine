@@ -1,153 +1,149 @@
-method(namespace_irr,
 
-Menu := Object clone lexicalDo(
+#include "Glue/UserInterface/Menu.hpp"
+#include "irrlicht.h"
 
-    // Wait, why does a "menu" depend so heavily on irrlicht types?
-    appendProto(namespace_irr)
-    appendProto(namespace_irr core)
-    appendProto(namespace_irr gui)
-    appendProto(namespace_irr video)
+#include <functional>
 
-    SColor := namespace_irr video SColor
+#include "MainWindow.hpp"
 
-    context ::= nil
-    path ::= nil
-    engine ::= nil
-    parent ::= nil
-    items ::= nil
-    font ::= nil
-    lineH ::= 50
-    selectedLine ::= 0
-    selectedColor ::= SColor tmp(255, 255, 255, 255)
-    regularColor ::= SColor tmp(120, 120, 120, 120)
+namespace Glue {
 
-    create := method(engine, path, parent,
-        setEngine(engine)
-        setPath(path)
-        setParent(parent)
-        setItems(list())
-        setFont(engine gui getBuiltInFont)
-        load
-        return self
+using MenuItem = std::function<void()>;
+
+using SColor = irr::video::SColor;
+using EKEY_CODE = irr::EKEY_CODE;
+
+class AbstractMenu::Impl
+{
+private:
+
+    AbstractMenu* self;
+    MainWindow* window;
+    MenuPath path;
+    AbstractMenu* parent;
+    std::vector<AbstractMenu*> items;
+    int lineH = 50;
+    int selectedLine = 0;
+    SColor selectedColor = SColor(255, 255, 255, 255);
+    SColor regularColor = SColor(120, 120, 120, 120);
+
+public:
+
+    Impl(AbstractMenu* self, Graph* graph, MenuPath const& path, AbstractMenu* parent=nullptr);
+    void load();
+    AbstractMenu* doKey(EKEY_CODE key);
+    void draw();
+};
+
+AbstractMenu::~AbstractMenu()
+{
+}
+
+AbstractMenu* AbstractMenu::load()
+{
+    impl->load();
+    return this;
+}
+
+AbstractMenu* AbstractMenu::doKey(EKEY_CODE key)
+{
+    return doKey(key);
+}
+
+void AbstractMenu::draw()
+{
+    impl->draw();
+}
+
+AbstractMenu::Impl::Impl(AbstractMenu* self, Graph* graph, MenuPath const& path, AbstractMenu* parent)
+    : self(self), graph(graph), path(path), parent(parent)
+{
+    load();
+}
+
+void AbstractMenu::Impl::load()
+{
+    // TODO: Load menu from database.
+
+    selectedLine = 0;
+}
+
+AbstractMenu* AbstractMenu::Impl::doKey(EKEY_CODE key)
+{
+    if (items.size() == 0)
+        return owner;
+
+    switch (key)
+    {
+    case KEY_ESCAPE:
+    case KEY_BACK:
+        if (parent != nil)
+            return parent->load();
+    case KEY_DOWN:
+        ++selectedLine;
+        if (selectedLine >= items.size())
+            selectedLine = 0;
+        return owner;
+    case KEY_UP:
+        --selectedLine;
+        if (selectedLine < 0)
+            selectedLine = items.size() - 1;
+        return owner;
+    case KEY_RETURN:
+        // TODO:  Execute menu item at selected line.
+    };
+}
+
+void AbstractMenu::Impl::draw()
+{
+    Scalar borderX = window->windowSizeX / 5;
+    Scalar borderY = window->windowSizeY / 5;
+
+    Scalar top = borderY;
+    Scalar bottom = window->windowSizeY - borderY;
+    Scalar left = borderX;
+    Scalar right = window->windowSizeX - borderX;
+
+    recti pos(left, top, right, bottom);
+
+    SColor colorLeftUp(200, 30, 60, 30);
+    SColor colorRightUp(200, 30, 90, 60);
+    SColor colorLeftDown(200, 50, 50, 90);
+    SColor colorRightDown(200, 60, 30, 90);
+
+    const core::rect< s32 >* clip = nullptr;
+
+    drawBorder(
+        pos,
+        colorLeftUp,
+        colorRightUp,
+        colorLeftDown,
+        colorRightDown,
+        clip
+    );
+
+    Scalar lineY = (window->windowSizeY - lineH * items.size()) / 2;
+    for (int i=0; i<items.size(); ++i)
+    {
+        auto item = items[i];
+        std::string str = "TODO: Get name string from menu path";
+        recti position(0, lineY, engine windowSizeX, lineY + lineH);
+        SColor color = (i == selectedLine) ? selectedColor : regularColor;
+        bool hcenter = true;
+        bool vcenter = true;
+
+        drawText(
+            str,
+            position,
+            color,
+            hcenter,
+            vcenter,
+            clip
+        );
+        lineY += lineH;
     )
-
-    load := method(
-        dir := Directory at(WayUpDir(path))
-        if (dir != nil,
-            setItems(list())
-            dir files foreach(f,
-                if (f name == "Context.io",
-                    setContext(doFile(f path))
-                ,
-                    items append(f name)
-                )
-            )
-            dir directories foreach(d, items append(d name))
-        )
-        items sortInPlace
-        setSelectedLine(0)
-    )
-
-    doKey := method(key,
-
-        if (key == KEY_ESCAPE or key == KEY_BACK,
-            if (parent != nil,
-                parent load
-            )
-            return parent
-        )
-
-        // Some of the keys assume the size of the items list is nonzero.
-        if (items size > 0,
-            if (key == KEY_DOWN,
-                setSelectedLine( (selectedLine+1) % items size)
-                return self
-            )
-
-            if (key == KEY_UP,
-                setSelectedLine( (selectedLine+items size-1) % items size)
-                return self
-            )
-
-            if (key == KEY_RETURN,
-                itemPath := WayUpDir(path .. "/" .. items at(selectedLine))
-                if (File exists(itemPath),
-                    f := File clone setPath(itemPath)
-                    isDirectory := f isDirectory
-                    if (isDirectory,
-                        return self clone create(engine, path .. "/" .. items at(selectedLine), self)
-                    ,
-                        context doFile(itemPath)
-                        return self
-                    )
-                )
-            )
-        )
-        return self
-    )
-
-    draw := method(
-        borderX := engine windowSizeX / 5
-        borderY := engine windowSizeY / 5
-        top := borderY
-        bottom := engine windowSizeY - borderY
-        left := borderX
-        right := engine windowSizeX - borderX
-
-        engine driver draw2DRectangle(
-            recti tmp(left, top, right, bottom), // const core::rect< s32 > &pos,
-            SColor tmp(200, 30, 60, 30), // SColor colorLeftUp,
-            SColor tmp(200, 30, 90, 60), // SColor colorRightUp,
-            SColor tmp(200, 50, 50, 90), // SColor colorLeftDown,
-            SColor tmp(200, 60, 30, 90), // SColor colorRightDown,
-            nil //const core::rect< s32 > *clip
-        )
-
-        lineY := (engine windowSizeY - lineH * items size) / 2
-        items foreach(i, item,
-            str := trimItem(item)
-            font draw(
-                stringw tmp(str),
-                recti tmp(0, lineY, engine windowSizeX, lineY + lineH),
-                if(i == selectedLine, selectedColor, regularColor),
-                true, // horizontal center
-                true, // vertical center
-                nil // clip
-            )
-            lineY = lineY + lineH
-        )
-    )
-
-    trimItem := method(item,
-        zero := "0" at(0)
-        nine := "9" at(0)
-        space := " " at(0)
-        pos := 0
-        loop(
-            char := item at(pos)
-            if (char < zero or char > nine,
-                break
-            )
-            pos = pos + 1
-            if(pos >= item size,
-                pos = 0
-                break
-            )
-        )
-        loop(
-            char := item at(pos)
-            if (char != space,
-                break
-            )
-            pos = pos + 1
-            if(pos >= item size,
-                pos = 0
-                break
-            )
-        )
-        return item inclusiveSlice(pos)
-    )
-
 )
 
-)
+}
+
+}
