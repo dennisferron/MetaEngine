@@ -4,9 +4,10 @@ namespace Glue {
 
 class MainWindow
 {
-private:
-    int size_x = 1000;
-    int size_y = 600;
+public:
+    virtual ~MainWindow();
+    virtual int windowSizeX() const;
+    virtual int windowSizeY() const;
 };
 
 }

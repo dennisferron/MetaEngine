@@ -96,13 +96,13 @@ AbstractMenu* AbstractMenu::Impl::doKey(EKEY_CODE key)
 
 void AbstractMenu::Impl::draw()
 {
-    Scalar borderX = window->windowSizeX / 5;
-    Scalar borderY = window->windowSizeY / 5;
+    Scalar borderX = window->windowSizeX() / 5;
+    Scalar borderY = window->windowSizeY() / 5;
 
     Scalar top = borderY;
-    Scalar bottom = window->windowSizeY - borderY;
+    Scalar bottom = window->windowSizeY() - borderY;
     Scalar left = borderX;
-    Scalar right = window->windowSizeX - borderX;
+    Scalar right = window->windowSizeX() - borderX;
 
     recti pos(left, top, right, bottom);
 
