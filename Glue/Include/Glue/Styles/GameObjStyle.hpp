@@ -23,6 +23,7 @@ namespace Glue {
         cone,
         coneX,
         coneZ,
+        skybox,
         plane,
         mesh,
         hills
@@ -84,6 +85,7 @@ namespace Glue {
     protected:
 
         GameObjStyle(ObjShapes shape);
+        GameObjStyle(ObjShapes dispShape, ObjShapes physShape);
 
     public:
 

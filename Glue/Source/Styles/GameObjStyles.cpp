@@ -1,67 +1,114 @@
-method(GameObjStyle,
+#include "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Styles/GameObjStyle.hpp"
 
-    GameObjStyles := Module clone lexicalDo(
+namespace Glue { namespace GameObjStyles {
 
-        EmptyStyle := GameObjStyle clone setShape("none")
-        BoxStyle := GameObjStyle clone setShape("box")
-        BallStyle := GameObjStyle clone setShape("ball")
-        CylStyle := GameObjStyle clone setShape("cyl")
-        CylXStyle := GameObjStyle clone setShape("cylX")
-        CylZStyle := GameObjStyle clone setShape("cylZ")
-        ConeStyle := GameObjStyle clone setShape("cone")
-        ConeXStyle := GameObjStyle clone setShape("coneX")
-        ConeZStyle := GameObjStyle clone setShape("coneZ")
+    enum class ObjShapes
+    {
+        none,
+        box,
+        ball
+        cyl,
+        cylX,
+        cylZ,
+        cone,
+        coneX,
+        coneZ,
+        plane,
+        mesh,
+        hills
+    };
 
-        SkyboxStyle := GameObjStyle clone setShape("skybox") setPhysShape("none")
+EmptyStyle::EmptyStyle()
+    : GameObjStyle(ObjShapes::none)
+{
+}
 
-        HillStyle := GameObjStyle clone do(
-            setShape("hills")
-            setGameObjType("static")
-            setMass(0)
-            setSize(1.0f, 2.0f, 1.0f)
-            xTiles ::= 15.0
-            zTiles ::= 15.0
-            xHills ::= 2
-            zHills ::= 1
-            xTextureRepeat ::= 1
-            zTextureRepeat ::= 1
-        )
+BoxStyle::BoxStyle()
+    : GameObjStyle(ObjShapes::box)
+{
+}
 
-        PlaneStyle := GameObjStyle clone do(
-            setDispShape("plane")
-            setPhysShape("mesh")
-            setGameObjType("static")
-            setMargin(0.1)
-            setMass(0)
-            setSize(1.0f, 0.0f, 1.0f)
-            xTiles ::= 15.0
-            zTiles ::= 15.0
-            xTextureRepeat ::= 1
-            zTextureRepeat ::= 1
-        )
+BallStyle::BallStyle()
+    : GameObjStyle(ObjShapes::ball)
+{
+}
 
-        WallStyle := GameObjStyle clone lexicalDo(
-            prependProto(CylStyle)
-            setColor(200, 60, 240)
-            setMass(0)
-            setRadius(10)
-            setLength(1000)
-        )
+CylStyle::CylStyle()
+    : GameObjStyle(ObjShapes::cyl)
+{
+}
 
-        GeneratorStyle := GameObjStyle clone lexicalDo(
-            setIsKinematic(true)
-            setPhysShape(none)
-            setCollisionGroup(0)  // TODO:  make a group just for generators
-            setCollisionMask(0)
+CylXStyle::CylXStyle()
+    : GameObjStyle(ObjShapes::cylX)
+{
+}
 
-            spawnStyle ::= BallStyle clone do(
-                setVel(0, 30, 0)
-            )
-        )
+CylZStyle::CylZStyle()
+    : GameObjStyle(ObjShapes::cylZ)
+{
+}
 
-        ClothStyle := PlaneStyle clone do(
-            setDispShape("plane")
-            setGameObjType("soft")
-        )
-    )
-)
+ConeStyle::ConeStyle()
+    : GameObjStyle(ObjShapes::cone)
+{
+}
+
+ConeXStyle::ConeXStyle()
+    : GameObjStyle(ObjShapes::coneX)
+{
+}
+
+ConeZStyle::ConeZStyle()
+    : GameObjStyle(ObjShapes::coneZ)
+{
+}
+
+SkyboxStyle::SkyboxStyle()
+    : GameObjStyle(ObjShapes::skybox, ObjShapes::none)
+{
+}
+
+HillStyle::HillStyle()
+    : GameObjStyle(ObjShapes::hills)
+{
+    gameObjType = GameObjTypes::static_;
+    mass = 0;
+    setSize(1.0, 2.0, 1.0);
+    xTiles = 15;
+    zTiles = 15;
+    xHills = 2;
+    zHills = 1;
+    xTextureRepeat = 1;
+    zTextureRepeat = 1;
+}
+
+PlaneStyle::PlaneStyle()
+    : GameObjStyle(ObjShapes::plane, ObjShapes::mesh)
+{
+    gameObjType = GameObjTypes::static_;
+    margin = 0.1;
+    mass = 0;
+    setSize(1.0f, 0.0f, 1.0f)
+    xTiles = 15;
+    zTiles = 15;
+    xTextureRepeat = 1;
+    zTextureRepeat = 1;
+}
+
+WallStyle::WallStyle()
+    : GameObjStyle(ObjShapes::mesh)
+{
+    setColor(200, 60, 240);
+    mass = 0;
+    radius = 10;
+    length = 1000;
+}
+
+ClothStyle::ClothStyle()
+    : GameObjStyle(ObjShapes::plane, ObjShapes::mesh)
+{
+    gameObjType = GameObjTypes::soft;
+}
+
+}}

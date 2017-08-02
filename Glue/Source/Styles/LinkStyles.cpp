@@ -1,7 +1,21 @@
-method(LinkStyle,
+#include "Glue/Styles/LinkStyles.hpp"
 
-    LinkStyles := Module clone lexicalDo(
-        LookAtStyle := LinkStyle clone setJointType("lookAt")
-        MouseDragStyle := LinkStyle clone setJointType("mouseDrag")
-    )
-)
+namespace Glue namespace LinkStyles {
+
+LookAtStyle : public LinkStyle
+{
+    LookAtStyle()
+        : LinkStyle(JointType::lookAt)
+    {
+    }
+};
+
+struct MouseDragStyle : public LinkStyle
+{
+    MouseDragStyle()
+        : LinkStyle(JointType::mouseDrag)
+    {
+    }
+};
+
+}}

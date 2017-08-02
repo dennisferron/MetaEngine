@@ -1,5 +1,11 @@
-method(
-    LinkStyle := Object clone lexicalDo(
-        jointType ::= "none"
-    )
-)
+#include "LinkStyle.hpp"
+
+namespace Glue {
+
+LinkStyle::LinkStyle(JointType jointType)
+    : JointType(jointType)
+{
+}
+
+
+}

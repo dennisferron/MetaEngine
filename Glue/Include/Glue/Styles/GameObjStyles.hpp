@@ -2,7 +2,7 @@
 
 #include "GameObjStyle.hpp"
 
-namespace Glue::GameObjStyles {
+namespace Glue { namespace GameObjStyles {
 
     struct EmptyStyle : GameObjStyle
     {
@@ -57,36 +57,46 @@ namespace Glue::GameObjStyles {
     struct HillStyle : GameObjStyle
     {
         HillStyle();
-        int xTiles = 15;
-        int zTiles = 15;
-        int xHills = 2;
-        int zHills = 1;
-        int xTextureRepeat = 1;
-        int zTextureRepeat = 1;
+        int xTiles;
+        int zTiles;
+        int xHills;
+        int zHills;
+        int xTextureRepeat;
+        int zTextureRepeat;
     };
 
     struct PlaneStyle : GameObjStyle
     {
         PlaneStyle();
-        int xTiles = 15;
-        int zTiles = 15;
-        int xTextureRepeat = 1;
-        int zTextureRepeat = 1;
-    )
+        int xTiles;
+        int zTiles;
+        int xTextureRepeat;
+        int zTextureRepeat;
+    };
 
     struct WallStyle : CylStyle  // I believe this makes a vertical pipe shaped obstacle...
     {
         WallStyle();
     };
 
+    template <typename T>
     struct GeneratorStyle : GameObjStyle
     {
-        GeneratorStyle();
-        GameObjStyle* spawnStyle;
+        T spawnStyle;
+
+        GeneratorStyle()
+            : GameObjStyle(ObjShapes::none)
+        {
+            isKinematic = true;
+            collisionGroup = 0;  // TODO:  make a group just for generators
+            collisionMask = 0;
+
+            spawnStyle.setVel(0, 30, 0);
+        }
     };
 
     struct ClothStyle : PlaneStyle
     {
         ClothStyle();
     };
-}
+}}

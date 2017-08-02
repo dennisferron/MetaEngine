@@ -2,7 +2,7 @@
 
 #include "LinkStyle.hpp"
 
-namespace Glue::LinkStyles {
+namespace Glue namespace LinkStyles {
 
     struct LookAtStyle : public LinkStyle
     {
@@ -13,4 +13,4 @@ namespace Glue::LinkStyles {
     {
         MouseDragStyle();
     };
-}
+}}

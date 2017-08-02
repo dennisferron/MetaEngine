@@ -4,12 +4,16 @@ namespace Glue {
 
     enum class JointType
     {
-        none
+        none,
+        lookAt,
+        mouseDrag,
+        physConstraint
     };
 
     struct LinkStyle
     {
-        JointType jointType = JointType::none;
+        JointType jointType;
+        LinkStyle(JointType jointType = JointType::none);
     };
 
 }
