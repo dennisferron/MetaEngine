@@ -141,9 +141,7 @@ void AbstractMenu::Impl::draw()
             clip
         );
         lineY += lineH;
-    )
-)
-
+    }
 }
 
 }

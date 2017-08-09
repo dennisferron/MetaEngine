@@ -1,23 +1,7 @@
 #include "Glue/Styles/GameObjStyle.hpp"
-#include "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Styles/GameObjStyles.hpp"
 
 namespace Glue { namespace GameObjStyles {
-
-    enum class ObjShapes
-    {
-        none,
-        box,
-        ball
-        cyl,
-        cylX,
-        cylZ,
-        cone,
-        coneX,
-        coneZ,
-        plane,
-        mesh,
-        hills
-    };
 
 EmptyStyle::EmptyStyle()
     : GameObjStyle(ObjShapes::none)

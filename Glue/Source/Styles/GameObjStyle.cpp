@@ -1,25 +1,14 @@
-method(Constants, Structure, SColor,
+#inlude "Glue/Styles/GameObjStyle.hpp"
 
+namespace Glue {
 
-    // Inspired by cascading style sheets used in websites, this is "CSS for 3d game objects".
+GameObjStyle::GameObjStyle(ObjShapes shape)
+{
+}
 
-    // Style proto for 3d objects.
-    // Creates defaults for all possible object properties.
-    // No single object uses all of these properties; different combinations
-    // will be used determined by what shape it is (which is itself a property).
-    // Note:  Instead of prop ::= value, use setProp(value) in derived styles.
-    //
-    // Example:  myStyle := GameObjStyle clone prependProto(BallStyle) setPos(10, 20, 30) setColor(200, 100, 50)
-    //           engine addObj(myStyle)
-    //
-    GameObjStyle := Structure clone lexicalDo(
-
-        TAU := Constants TAU
-        SColor := SColor // method arg
-
-        none := "none"
-        default := "default"
-        custom := "custom"
+GameObjStyle::GameObjStyle(ObjShapes dispShape, ObjShapes physShape)
+{
+}
 
         // Location
         x ::= 0
@@ -197,4 +186,4 @@ method(Constants, Structure, SColor,
             setTextureMap(Map clone)
         )
     )
-)
+}

@@ -2,20 +2,14 @@
 
 namespace Glue namespace LinkStyles {
 
-LookAtStyle : public LinkStyle
+LookAtStyle::LookAtStyle()
+    : LinkStyle(JointType::lookAt)
 {
-    LookAtStyle()
-        : LinkStyle(JointType::lookAt)
-    {
-    }
-};
+}
 
-struct MouseDragStyle : public LinkStyle
+MouseDragStyle::MouseDragStyle()
+    : LinkStyle(JointType::mouseDrag)
 {
-    MouseDragStyle()
-        : LinkStyle(JointType::mouseDrag)
-    {
-    }
-};
+}
 
 }}
