@@ -129,6 +129,7 @@ GameObjStyle& GameObjStyle::setPos(Scalar x, Scalar y, Scalar z)
     this->x = x;
     this->y = y;
     this->z = z;
+    return *this;
 }
 
 std::tuple<Scalar, Scalar, Scalar> GameObjStyle::getPos() const
@@ -136,19 +137,25 @@ std::tuple<Scalar, Scalar, Scalar> GameObjStyle::getPos() const
     return std::make_tuple(x, y, z);
 }
 
+// Set xv, yv, zv all at once
+GameObjStyle& GameObjStyle::setVel(Scalar xv, Scalar yv, Scalar zv)
+{
+    this->xv = xv;
+    this->yv = yv;
+    this->zv = zv;
+    return *this;
+}
 
-        // Set xv, yv, zv all at once
-        GameObjStyle& GameObjStyle::setVel(Scalar xv, Scalar yv, Scalar zv);
+GameObjStyle& GameObjStyle::setGravityType(GravityType gravityType)
+{
+    this->gravityType = gravityType;
+    return *this;
+}
 
-    // Set xv, yv, zv all at once
-    setVel := method(xv, yv, zv, setXv(xv) setYv(yv) setZv(zv))
+GameObjStyle& GameObjStyle::setGravity(Scalar x, Scalar y, Scalar z)
+{
+    gravityType = GravityType::custom;
 
-        GameObjStyle& GameObjStyle::setGravity(Scalar x, Scalar y, Scalar z);
-    setGravity := method(x, y, z,
-        if(y == nil,
-            // setGravity(0) is a synonym for setGravity(none)
-            gravityType = if(x==0, none, x); gravityX = nil; gravityY = nil; gravityZ = nil
-        ,
             gravityType = "custom"; gravityX = x; gravityY = y; gravityZ = z
         )
         return self
