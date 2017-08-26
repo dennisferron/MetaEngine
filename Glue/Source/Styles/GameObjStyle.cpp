@@ -155,64 +155,88 @@ GameObjStyle& GameObjStyle::setGravityType(GravityType gravityType)
 GameObjStyle& GameObjStyle::setGravity(Scalar x, Scalar y, Scalar z)
 {
     gravityType = GravityType::custom;
+    gravityX = x;
+    gravityY = y;
+    gravityZ = z;
+    return *this;
+}
 
-            gravityType = "custom"; gravityX = x; gravityY = y; gravityZ = z
-        )
-        return self
-    )
 
-        GameObjStyle& GameObjStyle::setDamping(Scalar lin, Scalar ang);
-        setDamping := method(lin, ang, setLinDamping(lin) setAngDamping(ang))
+GameObjStyle& GameObjStyle::setDamping(Scalar lin, Scalar ang)
+{
+    linDamping = lin;
+    angDamping = ang;
+}
 
-                // Set xSize,ySize,zSize all at once
-        GameObjStyle& GameObjStyle::setSize(Scalar xSize, Scalar ySize, Scalar zSize);
+GameObjStyle& GameObjStyle::setSize(Scalar sz)
+{
+    this->xSize = sz;
+    this->ySize = sz;
+    this->zSize = sz;
+}
 
-    // Set xSize,ySize,zSize all at once
-    setSize := method(xSize, ySize, zSize,
-        if (ySize == nil,
-            setXSize(xSize) setYSize(xSize) setZSize(xSize)
-        ,
-            setXSize(xSize) setYSize(ySize) setZSize(zSize)
-        )
-        self
-    )
+GameObjStyle& GameObjStyle::setSize(Scalar xSize, Scalar ySize, Scalar zSize)
+{
+    this->xSize = xSize;
+    this->ySize = ySize;
+    this->zSize = zSize;
+}
 
-        // Set physical and display shape at once.
-        GameObjStyle& GameObjStyle::setShape(ObjShapes s);
+GameObjStyle& GameObjStyle::setShape(ObjShapes s)
+{
+    physShape = s;
+    dispShape = s;
+}
 
-    // Set physical and display shape at once.
-    setShape := method(s, setPhysShape(s) setDispShape(s))
+// Note:  This method puts alpha last as opposed to SColor which has it first.
+GameObjStyle& GameObjStyle::setColor(IntColor r, IntColor g, IntColor b, IntColor a)
+{
+    color = SColor(a, r, g, b);
+}
 
-        // Note:  This method puts alpha last as opposed to SColor which has it first.
-        GameObjStyle& GameObjStyle::setColor(IntColor r, IntColor g, IntColor b, IntColor a = 255);
+GameObjStyle& GameObjStyle::setColor(SColor c)
+{
+    color = c;
+}
 
-    // Note:  This method puts alpha last as opposed to SColor which has it first.
-    setColor := method(r,g,b,a,
-        if(g==nil) then(color=r) elseif(a==nil) then(color = SColor tmpWithARGB(255, r, g, b)) else(color = SColor tmpWithARGB(a, r, g, b))
-        return self
-    )
+GameObjStyle& GameObjStyle::setTexture(ITexture* value)
+{
+    texture = value;
+    textureMap["primary"] = value;
+}
 
-        GameObjStyle& GameObjStyle::setTexture(ITexture* value);
-    setTexture := method(value,
-        texture = value
-        textureMap atPut("primary", value)
-        self
-    )
+GameObjStyle& GameObjStyle::setAxis(Scalar x, Scalar y, Scalar z)
+{
+    axisX = x;
+    axisY = y;
+    axisZ = z;
+}
 
-        GameObjStyle& GameObjStyle::setAxis(Scalar x, Scalar y, Scalar z);
-    setAxis := method(x, y, z, setAxisX(x) setAxisY(y) setAxisZ(z))
+GameObjStyle& GameObjStyle::setLinearFactor(Scalar x, Scalar y, Scalar z)
+{
+    linFactorX = x;
+    linFactorY = y;
+    linFactorZ = z;
+}
 
-        GameObjStyle& GameObjStyle::setLinearFactor(Scalar x, Scalar y, Scalar z);
-    setLinearFactor := method(x, y, z, setLinFactorX(x) setLinFactorY(y) setLinFactorZ(z))
+GameObjStyle& GameObjStyle::setAngularFactor(Scalar x, Scalar y, Scalar z)
+{
+    angFactorX = x;
+    angFactorY = y;
+    angFactorZ = z;
+}
 
-        GameObjStyle& GameObjStyle::setAngularFactor(Scalar x, Scalar y, Scalar z);
-    setAngularFactor := method(x, y, z, setAngFactorX(x) setAngFactorY(y) setAngFactorZ(z))
+GameObjStyle& GameObjStyle::setDispScale(Scalar x, Scalar y, Scalar z)
+{
+    dispScaleX = x;
+    dispScaleY = y;
+    dispScaleZ = z;
+}
 
-            GameObjStyle& GameObjStyle::setDispScale(Scalar x, Scalar y, Scalar z);
-        GameObjStyle& GameObjStyle::setPhysScale(Scalar x, Scalar y, Scalar z);
-        GameObjStyle& GameObjStyle::setScale(Scalar x, Scalar y, Scalar z);
-    setDispScale := method(x,y,z, setDispScaleX(x) setDispScaleY(y) setDispScaleZ(z))
+GameObjStyle& GameObjStyle::setPhysScale(Scalar x, Scalar y, Scalar z);
     setPhysScale := method(x,y,z, setPhysScaleX(x) setPhysScaleY(y) setPhysScaleZ(z))
+
+GameObjStyle& GameObjStyle::setScale(Scalar x, Scalar y, Scalar z);
     setScale := method(x,y,z, setDispScale(x,y,z) setPhysScale(x,y,z))
 
     // Default is an object is draggable iff it's not static

@@ -133,14 +133,17 @@ namespace Glue {
         // other than something colliding with it.  (Note: isKinematic also disables deactivation.)
         bool disableDeactivation;
 
-        GravityType gravityType = GravityType::default_;
+        GravityType gravityType;
         std::optional<Scalar> gravityX;
         std::optional<Scalar> gravityY;
         std::optional<Scalar> gravityZ;
+        GameObjStyle& setGravityType(GravityType gravityType);
+        GameObjStyle& setGravity(Scalar x, Scalar y, Scalar z);
 
         // 1 gives no damping and 0 is fully damped.
         Scalar linDamping;
         Scalar angDamping;
+        GameObjStyle& setDamping(Scalar lin, Scalar ang);
 
         static constexpr ShortBitMask DefaultCollisionGroup = Bitmask(-1) ^ Constants::CameraFilter;
         static constexpr ShortBitMask DefaultCollisionMask = Constants::AllFilter;
@@ -159,12 +162,17 @@ namespace Glue {
         Scalar xSize;
         Scalar ySize;
         Scalar zSize;
+        GameObjStyle& setSize(Scalar sz);
+        GameObjStyle& setSize(Scalar xSize, Scalar ySize, Scalar zSize);
+
+        GameObjStyle& setShape(ObjShapes s);
 
         // Appearance properties
         SColor color;
 
         // Note:  This method puts alpha last as opposed to SColor which has it first.
         GameObjStyle& setColor(IntColor r, IntColor g, IntColor b, IntColor a = 255);
+        GameObjStyle& setColor(SColor c);
 
         // Map of texture name keys to texture files
         // Generalizes style texture to include more than one in a style,
