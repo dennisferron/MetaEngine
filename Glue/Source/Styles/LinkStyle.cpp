@@ -2,8 +2,8 @@
 
 namespace Glue {
 
-LinkStyle::LinkStyle(JointType jointType)
-    : JointType(jointType)
+LinkStyle::LinkStyle(LinkType linkType)
+    : LinkType(linkType)
 {
 }
 

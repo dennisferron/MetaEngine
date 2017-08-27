@@ -38,14 +38,14 @@ namespace Glue {
         std::optional<MountStyle> mountA;
         MountStyle mountB;
 
-        JointTypes jointType = JointTypes::none;
+        JointTypes jointType;
 
         std::optional<Scalar> damping;
 
         // Set to true if you don't want the joined bodies to collide.
-        bool disableLinkedBodyCollisions = false;
+        bool disableLinkedBodyCollisions;
 
         // how big to draw the constraint debug wireframe
-        Scalar debugDrawSize = 1.0;
+        Scalar debugDrawSize;
     };
 )

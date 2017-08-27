@@ -23,7 +23,6 @@ GameObjStyle::GameObjStyle(ObjShapes dispShape, ObjShapes physShape)
     yv = 0;
     zv = 0;
 
-
     // Physical properties
     mass = 1;
     friction = 0.5;
@@ -233,12 +232,20 @@ GameObjStyle& GameObjStyle::setDispScale(Scalar x, Scalar y, Scalar z)
     dispScaleZ = z;
 }
 
-GameObjStyle& GameObjStyle::setPhysScale(Scalar x, Scalar y, Scalar z);
-    setPhysScale := method(x,y,z, setPhysScaleX(x) setPhysScaleY(y) setPhysScaleZ(z))
+GameObjStyle& GameObjStyle::setPhysScale(Scalar x, Scalar y, Scalar z)
+{
+    physScaleX = x;
+    physScaleY = y;
+    physScaleZ = z;
+}
 
-GameObjStyle& GameObjStyle::setScale(Scalar x, Scalar y, Scalar z);
-    setScale := method(x,y,z, setDispScale(x,y,z) setPhysScale(x,y,z))
+GameObjStyle& GameObjStyle::setScale(Scalar x, Scalar y, Scalar z)
+{
+    setDispScale(x, y, z);
+    setPhysScale(x, y, z);
+}
 
-    // Default is an object is draggable iff it's not static
-    isMouseDraggable ::= method(mass != 0)
-bool GameObjStyle::isMouseDraggable() const;
+bool GameObjStyle::isMouseDraggable() const
+{
+    return mess != 0;
+}

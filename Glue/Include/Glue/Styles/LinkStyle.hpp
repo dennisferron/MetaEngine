@@ -2,7 +2,7 @@
 
 namespace Glue {
 
-    enum class JointType
+    enum class LinkTypes
     {
         none,
         lookAt,
@@ -12,8 +12,8 @@ namespace Glue {
 
     struct LinkStyle
     {
-        JointType jointType;
-        LinkStyle(JointType jointType = JointType::none);
+        LinkTypes linkType;
+        LinkStyle(LinkTypes linkType = LinkTypes::none);
     };
 
 }

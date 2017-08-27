@@ -1,133 +1,144 @@
-method(ConstraintStyle,
+#pragma once
 
-    ConstraintStyles := Module clone lexicalDo(
+#include "ConstraintStyles.hpp"
 
-        SliderStyle := ConstraintStyle clone do(
-            setJointType("slider")
+namespace Glue { namespace ConstraintStyles {
 
-            lowerLinLimit ::= 0
-            upperLinLimit ::= 0
-            lowerAngLimit ::= 0
-            upperAngLimit ::= 0
+SliderStyle::SliderStyle()
+{
+    lowerLinLimit = 0;
+    upperLinLimit = 0;
+    lowerAngLimit = 0;
+    upperAngLimit = 0;
 
-            setLinRange := method(lower, upper, setLowerLinLimit(lower) if(upper == nil, setUpperLinLimit(lower), setUpperLinLimit(upper)))
-            setAngRange := method(lower, upper, setLowerAngLimit(lower) if(upper == nil, setUpperAngLimit(lower), setUpperAngLimit(upper)))
+    // I'm not really sure what this does, but some code I saw had a comment that seemed to say:
+    // If true, use the frame in A as the reference frame for linear limits.
+    // If false, use the frame in B as the reference frame for linear limits.
+    // Now, what if we're using the B-only form of the constraint, then what does it mean if this is true??
+    useLinearReferenceFrameA = true;
+}
 
-            // I'm not really sure what this does, but some code I saw had a comment that seemed to say:
-            // If true, use the frame in A as the reference frame for linear limits.
-            // If false, use the frame in B as the reference frame for linear limits.
-            // Now, what if we're using the B-only form of the constraint, then what does it mean if this is true??
-            useLinearReferenceFrameA ::= true
+SliderStyle& SliderStyle::setLinRange(Scalar lower, Scalar upper)
+{
+    lowerLinLimit = lower;
+    upperLinLimit = upper;
+}
 
-        )
+SliderStyle& SliderStyle::setAngRange(Scalar lower, Scalar upper)
+{
+    lowerAngLimit = lower;
+    upperAngLimit = upper;
+}
 
-        ConeTwistStyle := ConstraintStyle clone do(
-            setJointType("coneTwist")
+ConeTwistStyle::ConeTwistStyle()
+{
+    swingSpan1 = TAU * 0.10;
+    swingSpan2 = TAU * 0.10;
+    twistSpan = TAU * 0.25;
+    softness = 0.8;
+    biasFactor = 0.3;
+    relaxationFactor = 1.0;
+}
 
-            swingSpan1 ::= TAU * 0.10
-            swingSpan2 ::= TAU * 0.10
-            twistSpan ::= TAU * 0.25
-            softness ::= 0.8
-            biasFactor ::= 0.3
-            relaxationFactor ::= 1.0
-        )
+HingeStyle::HingeStyle()
+{
+    softness = 0.8;
+    biasFactor = 0.3;
+    relaxationFactor = 1.0;
 
-        HingeStyle := ConstraintStyle clone do(
-            setJointType("hinge")
+    lowerAngLimit = 0;
+    upperAngLimit = 0;
+    useLinearReferenceFrameA = false;
+}
 
-            softness ::= 0.8
-            biasFactor ::= 0.3
-            relaxationFactor ::= 1.0
+HingeStyle& HingeStyle::setAngRange(Scalar lower, Scalar upper)
+{
+    lowerAngLimit = lower;
+    upperAngLimit = upper;
+}
 
-            lowerAngLimit ::= 0
-            upperAngLimit ::= 0
-            setAngRange := method(lower, upper, setLowerAngLimit(lower) if(upper == nil, setUpperAngLimit(lower), setUpperAngLimit(upper)))
-            useLinearReferenceFrameA ::= false
-        )
+GearStyle::GearStyle()
+{
+    ratio = 1.0;
+}
 
-        GearStyle := ConstraintStyle clone do(
-            setJointType("gear")
-            ratio ::= 1.0
-        )
+Point2PointStyle::Point2PointStyle()
+{
+}
 
-        Point2PointStyle := ConstraintStyle clone do(
-            setJointType("point2point")
-        )
+Generic6DOFStyle::Generic6DOFStyle()
+        : Generic6DOFStyle(JointTypes::generic)
+{
+}
 
-        Generic6DOFStyle := ConstraintStyle clone do(
-            setJointType("generic")
+Generic6DOFStyle::Generic6DOFStyle(JointTypes jointType)
+{
+    lowerLinLimitX = 0;
+    upperLinLimitX = 0;
+    lowerAngLimitX = 0;
+    upperAngLimitX = 0;
 
-            lowerLinLimitX ::= 0
-            upperLinLimitX ::= 0
-            lowerAngLimitX ::= 0
-            upperAngLimitX ::= 0
+    lowerLinLimitY = 0;
+    upperLinLimitY = 0;
+    lowerAngLimitY = 0;
+    upperAngLimitY = 0;
 
-            lowerLinLimitY ::= 0
-            upperLinLimitY ::= 0
-            lowerAngLimitY ::= 0
-            upperAngLimitY ::= 0
+    lowerLinLimitZ = 0;
+    upperLinLimitZ = 0;
+    lowerAngLimitZ = 0;
+    upperAngLimitZ = 0;
 
-            lowerLinLimitZ ::= 0
-            upperLinLimitZ ::= 0
-            lowerAngLimitZ ::= 0
-            upperAngLimitZ ::= 0
+    useLinearReferenceFrameA = true;
+}
 
+Generic6DOFStyle& Generic6DOFStyle::setLinRange(Scalar lowerX, Scalar upperX, Scalar lowerY, Scalar upperY, Scalar lowerZ, Scalar upperZ)
+{
+    lowerLinLimitX = lowerX;
+    upperLinLimitX = upperX;
 
-            setLinRange := method(lowerX, upperX, lowerY, upperY, lowerZ, upperZ,
+    lowerLinLimitY = lowerY;
+    upperLinLimitY = upperY;
 
-                list(lowerX, upperX, lowerY, upperY, lowerZ, upperZ) foreach(value,
-                    if(value == nil, Exception raise("All values must be provided for setLinRange.")))
+    lowerLinLimitZ = lowerZ;
+    upperLinLimitZ = upperZ;
+}
 
-                setLowerLinLimitX(lowerX) setLowerLinLimitY(lowerY) setLowerLinLimitZ(lowerZ)
-                setUpperLinLimitX(upperX) setUpperLinLimitY(upperY) setUpperLinLimitZ(upperZ)
-            )
+Generic6DOFStyle& Generic6DOFStyle::setAngRange(Scalar lowerX, Scalar upperX, Scalar lowerY, Scalar upperY, Scalar lowerZ, Scalar upperZ)
+{
+    lowerAngLimitX = lowerX;
+    upperAngLimitX = upperX;
 
-            setAngRange := method(lowerX, upperX, lowerY, upperY, lowerZ, upperZ,
+    lowerAngLimitY = lowerY;
+    upperAngLimitY = upperY;
 
-                list(lowerX, upperX, lowerY, upperY, lowerZ, upperZ) foreach(value,
-                    if(value == nil, Exception raise("All values must be provided for setAngRange.")))
+    lowerAngLimitZ = lowerZ;
+    upperAngLimitZ = upperZ;
+}
 
-                setLowerAngLimitX(lowerX) setLowerAngLimitY(lowerY) setLowerAngLimitZ(lowerZ)
-                setUpperAngLimitX(upperX) setUpperAngLimitY(upperY) setUpperAngLimitZ(upperZ)
-            )
+SpringProperty::SpringProperty()
+{
+    enabled = true;
+    stiffness = 5;
+    damping = 0.9;
+}
 
-            // I'm not really sure what this does, but some code I saw had a comment that seemed to say:
-            // If true, use the frame in A as the reference frame for linear limits.
-            // If false, use the frame in B as the reference frame for linear limits.
-            // Now, what if we're using the B-only form of the constraint, then what does it mean if this is true??
-            useLinearReferenceFrameA ::= true
+Generic6DOFSpringStyle::Generic6DOFSpringStyle()
+    : Generic6DOFStyle(JointTypes::genericSpring)
+{
+    // Default ranges so you know it's a spring
+    setLinRange(-0.1,0.1,  -0.1,0.1,  -0.1,0.1);
+    setAngRange(-TAU/10,TAU/10,  -TAU/10,TAU/10,  -TAU/10,TAU/10);
+}
 
-        )
+// A "constraint" with no limitations, so it disables collisions
+// between the linked bodies without constraining their motion.
+DisableCollisionStyle::DisableCollisionStyle()
+    : Generic6DOFStyle(JointTypes::none)
+{
+    disableLinkedBodyCollisions = true;
+    setLinRange(1,0, 1,0, 1,0);
+    setAngRange(1,0, 1,0, 1,0);
+    debugDrawSize = 0;
+}
 
-        Generic6DOFSpringStyle := Generic6DOFStyle clone do(
-            setJointType("genericSpring")
-
-            springProperty := Object clone do(
-                enabled ::= true
-                stiffness ::= 5
-                damping ::= 0.9
-            )
-
-            // Default ranges so you know it's a spring
-            setLinRange(-0.1,0.1,  -0.1,0.1,  -0.1,0.1)
-            setAngRange(-TAU/10,TAU/10,  -TAU/10,TAU/10,  -TAU/10,TAU/10)
-
-            transX := springProperty clone
-            transY := springProperty clone
-            transZ := springProperty clone
-            rotX := springProperty clone
-            rotY := springProperty clone
-            rotZ := springProperty clone
-        )
-
-        // A "constraint" with no limitations, so it disables collisions
-        // between the linked bodies without constraining their motion.
-        DisableCollisionStyle := Generic6DOFStyle clone do(
-            setDisableLinkedBodyCollisions(true)
-            setLinRange(1,0, 1,0, 1,0)
-            setAngRange(1,0, 1,0, 1,0)
-            setDebugDrawSize(0)
-        )
-
-    )
-)
+}}

@@ -1,29 +1,17 @@
-method(Constants, MountStyle, LinkStyle,
+#include "ConstraintStyle.hpp"
 
-    ConstraintStyle := LinkStyle clone lexicalDo(
+namespace Glue {
 
-        TAU := Constants TAU
+ConstraintStyle::ConstraintStyle()
+    : LinkStyle(LinkTypes::none)
+{
+    jointType = JointTypes::none;
 
-        // Mount styles.  If the constraint is mounted "to the world" then set mountA to nil.
-        mountA ::= MountStyle clone
-        mountB ::= MountStyle clone
+    // Set to true if you don't want the joined bodies to collide.
+    disableLinkedBodyCollisions = false;
 
-        jointType ::= "none"
+    // how big to draw the constraint debug wireframe
+    debugDrawSize = 1.0
+}
 
-        damping ::= "none"
-
-        // Set to true if you don't want the joined bodies to collide.
-        disableLinkedBodyCollisions ::= false
-
-        // how big to draw the constraint debug wireframe
-        debugDrawSize ::= 1
-    )
-
-    ConstraintStyle init := method(
-        setMountA(mountA clone)
-        setMountB(mountB clone)
-        self
-    )
-
-    return ConstraintStyle
-)
+}
