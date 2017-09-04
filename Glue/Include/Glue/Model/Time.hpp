@@ -44,12 +44,18 @@ struct EngineEvent
 
 struct TimeoutEvent
 {
+    AbsTime fromTime;
     AbsTime atTime;
     std::function<RelTime(RelTime)> action;
 
     bool operator <(TimeoutEvent const& that) const
     {
         return this->atTime < that.atTime;
+    }
+
+    bool operator <=(AbsTime const& nowTime) const
+    {
+        return this->atTime <= nowTime;
     }
 };
 
