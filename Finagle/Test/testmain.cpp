@@ -10,16 +10,37 @@ struct Vect
     int y;
 };
 
+struct MotionState
+{
+    virtual void upd_pos(Vect value) = 0;
+};
+
 struct PhysAttr
 {
     Vect pos;
     Vect vel;
+    MotionState* state;
+};
+
+struct Animator
+{
+    virtual Vect get_pos() const = 0;
 };
 
 struct ViewAttr
 {
-    std::function<Vect()> pos;
+    Animator* anim;
     int color;
+};
+
+struct MotionStateAnimator
+    : public MotionState, public Animator
+{
+    Vect cached_pos;
+    void upd_pos(Vect value) override
+        { cached_pos = value; }
+    Vect get_pos() const override
+        { return cached_pos; }
 };
 
 struct SyncPos
