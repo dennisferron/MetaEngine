@@ -1,3 +1,9 @@
+//#include "Model/Referent.hpp"
+
+// Not ready to convert this one yet.
+
+/*
+
 method(
 
 Referent := Object clone lexicalDo(
@@ -63,3 +69,4 @@ Referent := Object clone lexicalDo(
 )
 
 )
+*/

@@ -1,3 +1,18 @@
+// TODO:  Figure out Referent and Domain, then we can do Interaction.
+
+/*
+
+#include "Model/Interaction.hpp"
+
+namespace Glue {
+
+Interactor::~Interactor()
+{
+}
+
+}
+
+
 method(module,
 
 // Proto for interactions, provides the setTrigger method for clones to
@@ -77,3 +92,5 @@ Interaction := Object clone lexicalDo(
 )
 
 )
+
+*/

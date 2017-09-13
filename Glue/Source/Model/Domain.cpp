@@ -1,20 +1,15 @@
+#include "Model/Domain.hpp"
 
-method(
+namespace Glue {
 
-    Domain := Object clone lexicalDo(
+Domain::Domain() :
+    site(nullptr)
+{
+}
 
-        activeObjects ::= nil
-        activeInteractions ::= nil
-
-        site ::= nil
-
-        init := method(
-            setActiveObjects(Map clone)
-            setActiveInteractions(list())
-        )
-
-        merge := method(targetSubdomain, sourceDomain, sourceSubdomain,
-            if( sourceDomain activeObjects hasKey(sourceSubdomain),
+Domain& Domain::merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sourceSubdomain)
+{
+    if(sourceDomain->activeObjects.hasKey(sourceSubdomain),
                 sourceDomain activeObjects at(sourceSubdomain) foreach(obj,
                     self addObject(targetSubdomain, obj)
                 )
@@ -23,7 +18,10 @@ method(
             )
             self
         )
+}
 
+Domain& Domain::addObject(Domain* subdomain, Object* newObj, Interaction* expectedInteraction)
+{
         addObject := method(subdomain, newObj, expectedInteraction,
 
             activeObjects hasKey(
@@ -49,7 +47,10 @@ method(
 
             self
         )
+}
 
+void Domain::checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj)
+{
         checkInteraction := method(expectedInteraction, subdomain, newObj,
             //writeln("site possibleInteractions is ", site possibleInteractions)
             if(site possibleInteractions contains(expectedInteraction),
@@ -78,12 +79,16 @@ method(
                 )
             )
         )
+}
 
+Object* Domain::findObject(Domain* subdomain, Type* objProto)
+{
         findObject := method(subdomain, objProto,
             activeObjects at(subdomain) foreach(obj,
                 if(obj hasProto(objProto), return obj)
             )
             nil
         )
-    )
-)
+}
+
+}

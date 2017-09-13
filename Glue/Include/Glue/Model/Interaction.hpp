@@ -1,11 +1,19 @@
+// Can't really get this one up and running until Referent is figured out...
+
 #pragma once
 
+#include <string>
 #include <vector>
 
 namespace Glue {
 
 class Domain;
 class Referent;
+
+class Interactor
+{
+    virtual ~Interactor() = 0;
+};
 
 // Proto for interactions, provides the setTrigger method for clones to
 // use to call out the combination of attributes which trigger them.
