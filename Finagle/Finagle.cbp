@@ -42,9 +42,13 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="Test" />
 				</Compiler>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add directory="Include" />
+		</Compiler>
 		<Unit filename="Include/Finagle/Data.hpp" />
 		<Unit filename="Include/Finagle/Finagle.hpp" />
 		<Unit filename="Include/Finagle/Frame.hpp" />
@@ -54,6 +58,9 @@
 		<Unit filename="Source/Frame.cpp" />
 		<Unit filename="Source/Posit.cpp" />
 		<Unit filename="Source/Rule.cpp" />
+		<Unit filename="Test/MockComponents.hpp" />
+		<Unit filename="Test/MockEngine.hpp" />
+		<Unit filename="Test/NodeSyncTest.hpp" />
 		<Unit filename="Test/testmain.cpp">
 			<Option target="Test" />
 		</Unit>
