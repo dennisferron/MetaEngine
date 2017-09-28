@@ -49,17 +49,18 @@
 		<Compiler>
 			<Add directory="Include" />
 		</Compiler>
-		<Unit filename="Include/Finagle/Data.hpp" />
+		<Unit filename="Include/Finagle/Coupon.hpp" />
 		<Unit filename="Include/Finagle/Finagle.hpp" />
-		<Unit filename="Include/Finagle/Frame.hpp" />
-		<Unit filename="Include/Finagle/Posit.hpp" />
+		<Unit filename="Include/Finagle/Product.hpp" />
 		<Unit filename="Include/Finagle/Rule.hpp" />
-		<Unit filename="Source/Data.cpp" />
-		<Unit filename="Source/Frame.cpp" />
-		<Unit filename="Source/Posit.cpp" />
+		<Unit filename="Include/Finagle/Store.hpp" />
+		<Unit filename="Source/Coupon.cpp" />
+		<Unit filename="Source/Product.cpp" />
 		<Unit filename="Source/Rule.cpp" />
-		<Unit filename="Test/MockComponents.hpp" />
+		<Unit filename="Source/Store.cpp" />
 		<Unit filename="Test/MockEngine.hpp" />
+		<Unit filename="Test/MockInteractions.hpp" />
+		<Unit filename="Test/MockLibs.hpp" />
 		<Unit filename="Test/NodeSyncTest.hpp" />
 		<Unit filename="Test/testmain.cpp">
 			<Option target="Test" />

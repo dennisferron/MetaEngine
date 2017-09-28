@@ -2,27 +2,8 @@
 
 #include "MockComponents.hpp"
 
-namespace NodeSyncTest {
+namespace Mocks {
 
-struct MotionStateAnimator
-    : public MotionState, public Animator
-{
-    Vect cached_pos;
-    void upd_pos(Vect value) override
-        { cached_pos = value; }
-    Vect get_pos() const override
-        { return cached_pos; }
-};
-
-struct PhysAttr
-{
-    RigidBody* phys_body;
-};
-
-struct SceneAttr
-{
-    SceneNode* scene_node;
-};
 
 struct SyncPos
 {
