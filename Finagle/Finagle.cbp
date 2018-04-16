@@ -62,6 +62,12 @@
 		<Unit filename="Test/MockInteractions.hpp" />
 		<Unit filename="Test/MockLibs.hpp" />
 		<Unit filename="Test/NodeSyncTest.hpp" />
+		<Unit filename="Test/TestEngineRules.cpp">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="Test/TestTMS.cpp">
+			<Option target="Test" />
+		</Unit>
 		<Unit filename="Test/testmain.cpp">
 			<Option target="Test" />
 		</Unit>

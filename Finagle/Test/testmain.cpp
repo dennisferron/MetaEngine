@@ -1,17 +1,19 @@
 #include "Finagle/Finagle.hpp"
 #include "NodeSyncTest.hpp"
 
+namespace StackStacking {
+
+void test_it();
+
+}
+
 namespace TestFinagle {
 
 using Finagle;
 
 int main(int, char**)
 {
-    Graph graph;
-
-    graph.add_component(new PhysComp());
-    graph.add_component(new ViewComp());
-
+    StackStacking::test_it();
     return 0;
 }
 
