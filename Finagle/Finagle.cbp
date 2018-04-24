@@ -15,6 +15,7 @@
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-std=c++14" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -26,8 +27,9 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-std=c++14" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -41,6 +43,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
+					<Add option="-std=c++14" />
 					<Add option="-g" />
 					<Add directory="Test" />
 				</Compiler>
@@ -48,6 +51,8 @@
 		</Build>
 		<Compiler>
 			<Add directory="Include" />
+			<Add directory="../mpark_variant/include" />
+			<Add directory="/home/dennis/MetaEngine/mpark_variant/include/mpark" />
 		</Compiler>
 		<Unit filename="Include/Finagle/Coupon.hpp" />
 		<Unit filename="Include/Finagle/Finagle.hpp" />

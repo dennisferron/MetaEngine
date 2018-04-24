@@ -1,20 +1,15 @@
 #include "Finagle/Finagle.hpp"
-#include "NodeSyncTest.hpp"
 
-namespace StackStacking {
+namespace fngl {
 
 void test_it();
 
 }
 
-namespace TestFinagle {
-
-using Finagle;
+using namespace fngl;
 
 int main(int, char**)
 {
-    StackStacking::test_it();
+    test_it();
     return 0;
-}
-
 }

@@ -4,49 +4,79 @@
 #include <vector>
 #include <tuple>
 #include <iostream>
+#include <bitset>
 
-namespace StackStacking {
+#include "mpark/variant.hpp"
 
-using Continuation = std::function<void()>;
-using WorkFunc = std::function<void(Continuation)>;
-using TaskList = std::vector<WorkFunc>;
-using TaskIter = TaskList::const_iterator;
-using TaskRange = std::pair<TaskIter, TaskIter>;
+namespace fngl {
 
-struct Trampoline
+struct SearchTree;
+struct Gamma;
+
+struct Deferred
 {
-    TaskRange iters;
-
-    void operator()() const
-    {
-        if (iters.first != iters.second)
-            (*(iters.first++))(*this);
-    }
+    std::function<SearchTree(Gamma)> get;
 };
 
-void thingA(Continuation cc)
+struct Lattice
 {
-    std::cout << "Doing thing A\n";
-    cc();
+    std::vector<SearchTree> terms;
+};
+
+struct Branch
+{
+    std::vector<SearchTree> terms;
+
+    Branch() : terms() {}
+    Branch(std::vector<SearchTree> terms) : terms(terms) {}
+};
+
+struct SearchTree
+{
+    mpark::variant<Deferred, Lattice, Branch> value;
+};
+
+template <typename... Ts>
+auto search_branch(Ts... terms)
+{
+    return Branch
+    {
+        std::vector<SearchTree>
+        {
+            SearchTree {Ts}...
+        }
+    };
 }
 
-void thingB(Continuation cc)
+template <typename... Ts>
+auto search_lattice(Ts... terms)
 {
-    std::cout << "Doing thing B\n";
-    cc();
+    return Lattice
+    {
+        std::vector<SearchTree>
+        {
+            SearchTree {Ts}...
+        }
+    };
 }
 
-void thingC(Continuation cc)
+SearchTree success()
 {
-    std::cout << "From thing ...\n";
-    throw std::logic_error("Whoa, how did we get here?");
+    return Lattice {{}};
+}
+
+SearchTree failure()
+{
+    return Branch {{}};
 }
 
 void test_it()
 {
-    std::vector<TaskList> tasks = { thingA, thingB, thingC };
-    Trampoline tramp = { tasks.begin(), tasks.end() };
-    tramp();  // Start bouncing
+    auto tb = branch(
+        [](Gamma){ return success(); },
+        [](Gamma){ return success(); },
+        [](Gamma){ return failure(); }
+     );
 }
 
 }
