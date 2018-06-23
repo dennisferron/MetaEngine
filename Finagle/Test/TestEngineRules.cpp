@@ -1,138 +1,160 @@
 #include <vector>
 
-/*
+class Scope;
 
-template <typename T>
-class var
+class Identity
 {
-};
+private:
+    Scope const* scope;
+    int id_val;
 
-template <typename T>
-class vars
-{
-};
+    friend class Scope;
 
-template <typename T>
-class assume
-{
-};
-
-class Style
-{
-};
-
-class Attribute
-{
-};
-
-class AttributeInteraction
-{
-    virtual var<bool> operator()(vars<Attribute> attrs) const
+    Identity(Scope const* scope, int id_val)
+        : scope(scope), id_val(id_val)
     {
-        return var<bool>();
     }
-};
-
-class Configuration
-{
-    vars<AttributeInteraction> possible_interactions;
-};
-
-class Entity
-{
-    var<Style> style;
-    vars<Attribute> attrs;
 
 public:
-    Entity(var<Style> style, var<Attribute> attrs)
-        : style(style), attrs(attrs)
+    friend bool operator ==(Identity const& x, Identity const& y)
     {
+        return (x.scope == y.scope) && (x.id_val == y.id_val);
     }
 
-    auto operator()(auto cont) const
+    friend bool operator <(Identity const& x, Identity const& y)
     {
-        return cont(style, attrs);
+        return (x.scope == y.scope) ? (x.id_val < y.id_val) : (x.scope < y.scope);
     }
+};
+
+class Scope
+{
+private:
+    int id_counter;
+
+public:
+
+    Scope() : id_counter(0) {}
+
+    Identity operator ++()
+    {
+        return { this, id_counter++ };
+    }
+};
+
+template <typename T>
+class symbol
+{
+private:
+    Identity id;
+
+public:
+    symbol(Identity id) : id(id) {}
+
+    friend bool operator ==(symbol<T> const& x, symbol<T> const& y)
+    {
+        return x.id == y.id;
+    }
+
+    friend bool operator <(symbol<T> const& x, symbol<T> const& y)
+    {
+        return x.id < y.id;
+    }
+};
+
+template <typename... Ts>
+class relation
+{
+};
+
+struct NodeStyle
+{
+
+};
+
+struct BallStyle
+{
+    double radius;
+};
+
+struct BoxStyle
+{
+    double xs;
+    double ys;
+    double zs;
+};
+
+class NodeInteraction
+{
+private:
+public:
+    ~NodeInteraction() = 0;
+};
+
+NodeInteraction::~NodeInteraction() {}
+
+class Node
+{
+private:
+    Scope scope;
+    std::map< Identity , std::unique_ptr<NodeInteraction> > interactions;
+
+public:
+
+
 };
 
 class Component
 {
-public:
-    virtual var<Attribute> get_attr(var<Style> style) const
-    {
-        return var<Attribute>();
-    }
+};
+
+class Animator
+{
+};
+
+class SceneNode
+{
+};
+
+class IrrComp : public Component
+{
+private:
+    std::map< symbol<Node> , std::unique_ptr<SceneNode> > scene_nodes;
+};
+
+class MotionState
+{
+};
+
+class RigidBody
+{
+};
+
+class PhysComp : public Component
+{
+private:
+    std::map< symbol<Node> , RigidBody > bodies;
+};
+
+class MotionStateAnimator : public MotionState, public Animator
+{
 };
 
 class Engine
 {
-    vars<Component> components;
-    vars<Entity> entities;
-    vars<AttributeInteraction> poss_inter;
-public:
-    auto operator()()
-    {
-        assume<Component> comp <<= components;
-        assume<Entity> ent <<= entities;
-        ent->attrs >>= comp->get_attr(ent->style);
-    }
-};
-
-class EngineRules
-{
 private:
-    var<Engine> engine;
-    var<Component> component;
-    var<Entity> entity;
-    var<Style> style;
-    var<Attribute> attribute;
-    var<AttributeInteraction> attr_inter;
+    Scope scope;
+    std::map<Identity,  std::unique_ptr<Component>  > components;
+    std::map<Identity, Node> nodes;
+    relation<Node, NodeInteraction> poss_inter;
 
-    auto engine_component(subs<EngineRules> sb)
-    {
-        return sb[engine][component];
-    }
+public:
 
-    auto engine_entity(subs<EngineRules> sb)
-    {
-        return composition(sb,
-        {
-            engine,
-            {
-                entity { style }
-            }
-        });
-    }
 
-    auto entity_attribute(subs<EngineRules> sb)
-    {
-        return sb[entity].has_many(sb[attribute]);
-    }
-
-    auto entity_style(subs<EngineRules> sb)
-    {
-    }
-
-    auto component_attribute(subs<EngineRules> sb)
-    {
-        auto make_attr = [](Component const& cmp_inst, Style const& style)
-            { return cmp_inst.make_attr(style); };
-
-        return (sb[component] * sb[entity]) >> call(make_attr, component, style);
-    }
-
-    auto attribute_interaction(subs<EngineRules> s0)
-    {
-        auto s1 = entity_attribute(s0);
-        return posb_interaction(s1[entity],
-                                s1[attribute][0],
-                                s1[attribute][1]);
-    }
 };
+
 
 void do_test()
 {
 
 }
-
-*/
