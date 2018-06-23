@@ -98,6 +98,7 @@ private:
 public:
 
     void add_interaction(NodeInteraction const* interaction);
+
 };
 
 class Component
@@ -152,11 +153,20 @@ private:
 
 public:
 
+    template <typename T>
+    Node& add_node(T const& style)
+    {
 
+    }
 };
 
 
 void do_test()
 {
+    BallStyle a_ball;
+    BoxStyle a_box;
 
+    Engine engine;
+    Node& n0 = engine.add_node(a_ball);
+    Node& n1 = engine.add_node(a_box);
 }
