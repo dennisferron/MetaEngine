@@ -54,15 +54,6 @@
 			<Add directory="../mpark_variant/include" />
 			<Add directory="/home/dennis/MetaEngine/mpark_variant/include/mpark" />
 		</Compiler>
-		<Unit filename="Include/Finagle/Coupon.hpp" />
-		<Unit filename="Include/Finagle/Finagle.hpp" />
-		<Unit filename="Include/Finagle/Product.hpp" />
-		<Unit filename="Include/Finagle/Rule.hpp" />
-		<Unit filename="Include/Finagle/Store.hpp" />
-		<Unit filename="Source/Coupon.cpp" />
-		<Unit filename="Source/Product.cpp" />
-		<Unit filename="Source/Rule.cpp" />
-		<Unit filename="Source/Store.cpp" />
 		<Unit filename="Test/MockEngine.hpp" />
 		<Unit filename="Test/MockInteractions.hpp" />
 		<Unit filename="Test/MockLibs.hpp" />

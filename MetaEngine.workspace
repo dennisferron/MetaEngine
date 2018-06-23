@@ -5,6 +5,5 @@
 		<Project filename="Glue/Glue.cbp" />
 		<Project filename="ThinPlateSpline/ThinPlateSpline.cbp" />
 		<Project filename="Finagle/Finagle.cbp" />
-		<Project filename="TestProject/TestProject.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

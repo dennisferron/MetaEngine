@@ -67,11 +67,6 @@ class relation
 {
 };
 
-struct NodeStyle
-{
-
-};
-
 struct BallStyle
 {
     double radius;
@@ -97,15 +92,18 @@ class Node
 {
 private:
     Scope scope;
-    std::map< Identity , std::unique_ptr<NodeInteraction> > interactions;
+
+    std::map< Identity , std::unique_ptr<NodeInteraction const> > interactions;
 
 public:
 
-
+    void add_interaction(NodeInteraction const* interaction);
 };
 
 class Component
 {
+public:
+    virtual void add_node(Node const& node) = 0;
 };
 
 class Animator
@@ -114,12 +112,16 @@ class Animator
 
 class SceneNode
 {
+public:
 };
 
 class IrrComp : public Component
 {
 private:
     std::map< symbol<Node> , std::unique_ptr<SceneNode> > scene_nodes;
+
+public:
+
 };
 
 class MotionState
