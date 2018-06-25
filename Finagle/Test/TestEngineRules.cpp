@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream>
 
 class Scope;
 
@@ -131,10 +132,12 @@ class SceneNode
 public:
     void add_animator(Animator* anim)
     {
+        std::cout << "add_animator\n";
     }
 
     void remove_animator(Animator* anim)
     {
+        std::cout << "remove_animator\n";
     }
 };
 
@@ -158,10 +161,12 @@ class RigidBody
 public:
     void set_motion_state(MotionState* motion_state)
     {
+        std::cout << "set_motion_state\n";
     }
 
     void unset_motion_state(MotionState* motion_state)
     {
+        std::cout << "unset_motion_state\n";
     }
 };
 
@@ -200,7 +205,7 @@ public:
     ~AddMotionStateAnimator()
     {
         node->remove_animator(&motion_anim);
-        body->remove_animator(&motion_anim);
+        body->unset_motion_state(&motion_anim);
     }
 
     static auto create_rule()
@@ -220,9 +225,9 @@ class Engine
 {
 private:
     Scope scope;
-    std::map<Identity,  std::unique_ptr<Component>  > components;
-    std::map<Identity,  std::unique_ptr<Node>  > nodes;
-    relation<Node, NodeInteraction> poss_inter;
+    std::map< symbol<Component>,  std::unique_ptr<Component>  > components;
+    std::map< symbol<Node>,  std::unique_ptr<Node>  > nodes;
+    std::map< symbol<NodeInteraction>, std::unique_ptr<NodeInteraction>  > poss_inter;
 
 public:
 
