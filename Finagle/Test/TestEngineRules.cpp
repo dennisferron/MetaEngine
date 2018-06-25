@@ -62,22 +62,31 @@ public:
     }
 };
 
-template <typename... Ts>
-class relation
+Scope global_scope;
+
+struct NodeStyle
 {
 };
 
 struct BallStyle
 {
+    static symbol<BallStyle> style_id;
+
     double radius;
 };
 
+symbol<BallStyle> BallStyle::style_id(global_scope++);
+
 struct BoxStyle
 {
+    static symbol<BoxStyle> style_id;
+
     double xs;
     double ys;
     double zs;
 };
+
+symbol<BoxStyle> BoxStyle::style_id(global_scope++);
 
 class NodeInteraction
 {
@@ -91,11 +100,17 @@ NodeInteraction::~NodeInteraction() {}
 class Node
 {
 private:
-    Scope scope;
-
+    computation<Node> comp;
+    std::unique_ptr<NodeStyle> style;
     std::map< Identity , std::unique_ptr<NodeInteraction const> > interactions;
 
 public:
+
+    template <typename T>
+    Node(T const& style) : comp(this), std::make_unique<T>(style)
+    {
+        comp[T::style_id] = *(this->style);
+    }
 
     void add_interaction(NodeInteraction const* interaction);
 
@@ -114,6 +129,13 @@ class Animator
 class SceneNode
 {
 public:
+    void add_animator(Animator* anim)
+    {
+    }
+
+    void remove_animator(Animator* anim)
+    {
+    }
 };
 
 class IrrComp : public Component
@@ -122,8 +144,10 @@ private:
     std::map< symbol<Node> , std::unique_ptr<SceneNode> > scene_nodes;
 
 public:
-
+    static symbol<SceneNode> node_attribute;
 };
+
+symbol<SceneNode> IrrComp::node_attribute = global_scope++;
 
 class MotionState
 {
@@ -131,16 +155,65 @@ class MotionState
 
 class RigidBody
 {
+public:
+    void set_motion_state(MotionState* motion_state)
+    {
+    }
+
+    void unset_motion_state(MotionState* motion_state)
+    {
+    }
 };
 
 class PhysComp : public Component
 {
 private:
     std::map< symbol<Node> , RigidBody > bodies;
+
+public:
+    static symbol<RigidBody> node_attribute;
+
 };
+
+symbol<RigidBody> PhysComp::node_attribute = global_scope++;
+
 
 class MotionStateAnimator : public MotionState, public Animator
 {
+};
+
+class AddMotionStateAnimator : public NodeInteraction
+{
+private:
+    SceneNode* node;
+    RigidBody* body;
+    MotionStateAnimator motion_anim;
+
+public:
+    AddMotionStateAnimator(SceneNode* node, RigidBody* body)
+        : node(node), body(body), motion_anim()
+    {
+        node->add_animator(&motion_anim);
+        body->set_motion_state(&motion_anim);
+    }
+
+    ~AddMotionStateAnimator()
+    {
+        node->remove_animator(&motion_anim);
+        body->remove_animator(&motion_anim);
+    }
+
+    static auto create_rule()
+    {
+        return make_interaction(
+            IrrComp::node_attribute,
+            PhysComp::node_attribute,
+            [](SceneNode* node, RigidBody* body)
+            {
+                return new AddMotionStateAnimator(node, body);
+            }
+        );
+    }
 };
 
 class Engine
@@ -148,7 +221,7 @@ class Engine
 private:
     Scope scope;
     std::map<Identity,  std::unique_ptr<Component>  > components;
-    std::map<Identity, Node> nodes;
+    std::map<Identity,  std::unique_ptr<Node>  > nodes;
     relation<Node, NodeInteraction> poss_inter;
 
 public:
@@ -156,6 +229,8 @@ public:
     template <typename T>
     Node& add_node(T const& style)
     {
+        Identity node_id = scope++;
+        auto iter_bool = nodes.emplace(node_id, style);
 
     }
 };
