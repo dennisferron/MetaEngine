@@ -69,3 +69,6 @@ doxygen/*
 ./symbols*.txt
 ./analysis*.txt
 	
+#Ignore IntelliJ workspace file
+.idea/workspace.xml
+
