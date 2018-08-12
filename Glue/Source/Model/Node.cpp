@@ -1,59 +1,37 @@
+#include "Model/Node.cpp"
 
-method(module,
+namespace Glue {
 
-    Node := Object clone lexicalDo(
+// This list is shared among all Node clones
+std::vector<Interaction*> Node::possibleInteractions;
 
-        module := module
+Node::Node(GameObjStyle const* style) :
+    graph(nullptr),
+    style(style),
+    domain()
+{
+    domain.setSite(this);
+}
 
-        graph := nil
-        setGraph := method(value,
-            self graph = value
-            graph components foreach(c,
-                domain addObject("component", c)
-            )
-        )
+Node::~Node()
+{
+}
 
-        style ::= nil
-        domain ::= nil
+Node& Node::setGraph(Graph* value)
+{
+    graph = value;
+    for (auto& c : components)
+        domain.addObject("component", c);
+}
 
-        // This list is shared among all Node clones
-        possibleInteractions := list()
+void Node::registerInteraction(Interaction* interaction)
+{
+    possibleInteractions.push_back(interaction);
+}
 
-        init := method(
-            setDomain(
-                module Domain clone setSite(self)
-            )
-        )
+Node& addAttribute(NodeAttribute* attr, Interation* expectedInteraction)
+{
+    domain.addObject("node", attr, expectedInteraction);
+}
 
-        with := method(style,
-            setStyle(style)
-        )
-
-        registerInteraction := method(interaction,
-            possibleInteractions append(interaction)
-        )
-
-        addAttribute := method(attr, expectedInteraction,
-            domain addObject("node", attr, expectedInteraction)
-            self
-        )
-
-        findAttribute := method(attr,
-            domain findObject("node", attr)
-        )
-    )
-
-    Node getPos := method(
-        Exception raise("TODO: Define Model Node getPos")
-    )
-
-    Node do(
-        getX := method(getPos x)
-        getY := method(getPos y)
-        getZ := method(getPos z)
-    )
-
-    Node dispose := method(nil)
-
-    return Node
-)
+} // namespace Glue

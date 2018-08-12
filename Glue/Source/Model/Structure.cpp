@@ -1,4 +1,8 @@
+#include "Model/Structure.hpp"
 
+// This looks hard to convert.  Saving it for last.
+
+/*
 method(
 
     // Structure Description Language -
@@ -90,3 +94,4 @@ method(
         )
     )
 )
+*/

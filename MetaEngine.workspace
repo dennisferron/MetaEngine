@@ -4,5 +4,6 @@
 		<Project filename="MetaEngine.cbp" />
 		<Project filename="Glue/Glue.cbp" />
 		<Project filename="ThinPlateSpline/ThinPlateSpline.cbp" />
+		<Project filename="Finagle/Finagle.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

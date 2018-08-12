@@ -5,6 +5,7 @@
 namespace Glue { namespace ConstraintStyles {
 
 SliderStyle::SliderStyle()
+    : ConstraintStyle(JointTypes::slider)
 {
     lowerLinLimit = 0;
     upperLinLimit = 0;
@@ -31,6 +32,7 @@ SliderStyle& SliderStyle::setAngRange(Scalar lower, Scalar upper)
 }
 
 ConeTwistStyle::ConeTwistStyle()
+    : ConstraintStyle(JointTypes::coneTwist)
 {
     swingSpan1 = TAU * 0.10;
     swingSpan2 = TAU * 0.10;
@@ -41,11 +43,11 @@ ConeTwistStyle::ConeTwistStyle()
 }
 
 HingeStyle::HingeStyle()
+    : ConstraintStyle(JointTypes::hinge)
 {
     softness = 0.8;
     biasFactor = 0.3;
     relaxationFactor = 1.0;
-
     lowerAngLimit = 0;
     upperAngLimit = 0;
     useLinearReferenceFrameA = false;
@@ -58,20 +60,23 @@ HingeStyle& HingeStyle::setAngRange(Scalar lower, Scalar upper)
 }
 
 GearStyle::GearStyle()
+    : ConstraintStyle(JointTypes::gear)
 {
     ratio = 1.0;
 }
 
 Point2PointStyle::Point2PointStyle()
+    : ConstraintStyle(JointTypes::point2point)
 {
 }
 
 Generic6DOFStyle::Generic6DOFStyle()
-        : Generic6DOFStyle(JointTypes::generic)
+    : Generic6DOFStyle(JointTypes::generic)
 {
 }
 
 Generic6DOFStyle::Generic6DOFStyle(JointTypes jointType)
+    : ConstraintStyle(jointType)
 {
     lowerLinLimitX = 0;
     upperLinLimitX = 0;
@@ -133,9 +138,12 @@ Generic6DOFSpringStyle::Generic6DOFSpringStyle()
 // A "constraint" with no limitations, so it disables collisions
 // between the linked bodies without constraining their motion.
 DisableCollisionStyle::DisableCollisionStyle()
-    : Generic6DOFStyle(JointTypes::none)
+    : Generic6DOFStyle(JointTypes::disableCollision)
 {
+    // TODO:  Which is the right syntax?
     disableLinkedBodyCollisions = true;
+    disableLinkedBodyCollisions(true);
+    
     setLinRange(1,0, 1,0, 1,0);
     setAngRange(1,0, 1,0, 1,0);
     debugDrawSize = 0;

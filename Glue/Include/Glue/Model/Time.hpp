@@ -13,16 +13,16 @@ using ITimer = irr::ITimer;
 
 enum class EventWhen
 {
-    Before,
-    On,
-    After
+    before,
+    on,
+    after
 };
 
 enum class EventWhat
 {
-    Frame,
-    Physics,
-    Graphics
+    frame,
+    physics,
+    graphics
 };
 
 using RelTime = Scalar;
@@ -31,8 +31,8 @@ using AbsTime = Scalar;
 struct TimeInfo
 {
     RelTime delta;
-    AbsTime last;
     AbsTime current;
+    AbsTime last;
 };
 
 struct EngineEvent
@@ -44,12 +44,18 @@ struct EngineEvent
 
 struct TimeoutEvent
 {
+    AbsTime fromTime;
     AbsTime atTime;
     std::function<RelTime(RelTime)> action;
 
     bool operator <(TimeoutEvent const& that) const
     {
         return this->atTime < that.atTime;
+    }
+
+    bool operator <=(AbsTime const& nowTime) const
+    {
+        return this->atTime <= nowTime;
     }
 };
 
@@ -67,6 +73,7 @@ private:
     volatile bool shouldRun = true;
 
 	void _processTimeoutEvents();
+    void doEvents(EventWhen when, EventWhat what) const;
 
 public:
 
@@ -74,7 +81,7 @@ public:
 	void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action);
     RelTime elapsed() const;
     void runLoop();
-    void doEvents(EventWhen when, EventWhat what);
+    void add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action);
 };
 
 }

@@ -18,7 +18,7 @@ class ConstraintStyle;
 
 }}
 
-namespace MetaEngine { namespace Model {
+namespace MetaEngine {
 
 class Component;
 class Domain;
@@ -29,13 +29,11 @@ class Link;
 class Graph
 {
 private:
-    RootModule* module;
-
     std::vector<Component*> components;
-	Domain* domain;
+	Domain domain;
 
     // possible interactions shared among all instances
-    std::vector<Interaction*> possibleInteractions;
+    static std::vector<Interaction*> possibleInteractions;
 
     Node* addNode(NodeStyle const& style);
     Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
@@ -47,12 +45,12 @@ private:
 
     // Deprecated?  Not sure...
     void playSound(std::string const& file);
-    void createCamera := method(lockObj, irrComp createCamera(lockObj))
+    void createCamera(Node* lockObj);
 
     ~Graph();
 
     void removeConstraint(Constraint* constraint);
-    void addConstraint := method(ConstraintStyle const& style, Node* objA, Node* objB);
+    void addConstraint(ConstraintStyle const& style, Node* objA, Node* objB);
 
     Node* nodeToGameObj(irr::Scene::ISceneNode* node) const;
 

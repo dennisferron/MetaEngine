@@ -1,7 +1,7 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "Glue/LockAnimator.hpp"
-#include "Glue/CustomAnimatorTypes.hpp"
+#include "Glue/Animators/LockAnimator.hpp"
+#include "Glue/Animators/CustomAnimatorTypes.hpp"
 
 #include <stdexcept>
 

@@ -1,7 +1,7 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "Glue/KinematicAnimator.hpp"
-#include "Glue/CustomAnimatorTypes.hpp"
+#include "Glue/Animators/KinematicAnimator.hpp"
+#include "Glue/Animators/CustomAnimatorTypes.hpp"
 
 #include <stdexcept>
 #include <iostream>

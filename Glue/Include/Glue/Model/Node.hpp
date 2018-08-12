@@ -17,16 +17,16 @@ class NodeAttribute
 class Node
 {
 private:
-    Graph* graph = nullptr;
-    GameObjStyle* style = nullptr;
-    Domain* domain = nullptr;
+    Graph* graph;
+    GameObjStyle const* style;
+    Domain domain;
 
     // This list is shared among all Node clones
     static std::vector<Interaction*> possibleInteractions;
 
 public:
 
-    Node(GameObjStyle style);
+    Node(GameObjStyle const* style);
     ~Node();
 
     Node& setGraph(Graph* value);

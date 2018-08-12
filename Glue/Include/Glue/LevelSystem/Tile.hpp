@@ -1,8 +1,22 @@
 #pragma once
 
-#include "irrlicht.h"
+namespace irr {
+
+    namespace core {
+        template <typename T>
+        class bbox2d;
+
+        typedef bbox2d<float> bbox2df;
+    }
+
+    namespace scene {
+        class IMeshSceneNodeManager;
+    }
+}
 
 namespace Glue {
+
+using Scalar = double;
 
 class Tile
 {

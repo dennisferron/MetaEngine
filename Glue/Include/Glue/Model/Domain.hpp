@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace Glue {
 
 class Object;
@@ -7,20 +9,22 @@ class Type;
 class Interaction;
 class Site;
 
+using Subdomain = std::string;
+
 class Domain
 {
 private:
-    std::map<Domain*, Object*> activeObjects;
+    std::map<Subdomain, Object*> activeObjects;
     std::vector<Interaction*> activeInteractions;
 
-    Site* site ::= nil
+    Site* site;
 
 public:
 
-    Domain& merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sourceSubdomain);
-    Domain& addObject(Domain* subdomain, Object* newObj, Interaction* expectedInteraction);
-    void checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj);
-    Object* findObject(Domain* subdomain, Type* objProto);
+    Domain& merge(Subdomain targetSubdomain, Domain* sourceDomain, Subdomain sourceSubdomain);
+    Domain& addObject(Subdomain subdomain, Object* newObj, Interaction* expectedInteraction);
+    void checkInteraction(Interaction* expectedInteraction, Subdomain subdomain, Object* newObj);
+    Object* findObject(Subdomain subdomain, Type* objProto);
 };
 
 }

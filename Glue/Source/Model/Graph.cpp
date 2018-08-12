@@ -1,72 +1,14 @@
-method(module, namespace_std,
+#include "Model/Graph.hpp"
 
-Graph := Object clone lexicalDo(
+namespace Glue {
 
-    appendProto(namespace_std)
+std::vector<Interaction*> Graph::possibleInteractions;
 
-    module := module
+Graph::Graph()
+{
+    domain.setSite(this);
 
-	components ::= nil
-	domain ::= nil
-
-	// This list really just ensures the Nodes get marked
-	objList ::= nil
-
-    // possible interactions shared among all instances
-    possibleInteractions := list()
-
-    addNode := method(style,
-        node := module Node clone with(style)
-        node setGraph(self)
-        objList append(node)
-        components foreach(c,
-            if(c hasSlot("addNode"),
-                c addNode(node)
-            )
-        )
-        return node
-    )
-
-    addLink := method(style, fromNode, toNode,
-        link := module Link clone with(style)
-        link setFromNode(fromNode)
-        link setToNode(toNode)
-        link setGraph(self)
-
-        // TODO: Maybe component addLink can be replaced with an interaction!
-        components foreach(c,
-            if(c hasSlot("addLink"),
-                c addLink(link)
-            )
-        )
-        return link
-    )
-
-    removeLink := method(link,
-        // TODO: notify components to remove link attributes
-        nil
-    )
-
-    registerInteraction := method(interaction,
-        possibleInteractions append(interaction)
-    )
-
-    addComponent := method(newComp, expectedInteraction,
-        components append(newComp)
-        domain addObject("component", newComp, expectedInteraction)
-        self
-    )
-)
-
-
-Graph init := method(
-
-    writeln("Begin Graph init")
-
-    setDomain(module Domain clone setSite(self))
-
-    setObjList(list())
-    setComponents(list())
+    // I assume the code below was moved...somewhere?
 
     // TODO:  Decouple Time proto from irrComponent
 	//setTime(Time clone setDeviceTimer(irrComp deviceTimer))
@@ -82,43 +24,92 @@ Graph init := method(
     // TODO:  Refactor this, currently Keyboard knows too much about Engine
     //setKeyboard(irrComp keyboard)
     //setMouse(irrComp keyboard)
-)
+}
 
-Graph playSound := method(file,
-    if(sound != nil,
-        sound play2D(file, false, false, false, ESM_AUTO_DETECT, false)
-    )
-)
+Graph::~Graph()
+{
+}
 
-Graph createCamera := method(lockObj, irrComp createCamera(lockObj))
+Node* Graph::addNode(NodeStyle const& style)
+{
+    Node* node = new Node(style);
+    node->setGraph(this);
 
-Graph dispose := method(
-    //objList foreach(obj, obj dispose)
-    //device drop
-    nil
-)
+    for (auto c : components)
+        c->addNode(node);
 
+    return node;
+}
 
-Graph removeConstraint := method(constraint,
-    bltComp removeConstraint(constraint)
-)
+Link* Graph::addLink(LinkStyle const& style, Node* fromNode, Node* toNode)
+{
+    Link* link = new Link(style);
+    link->setFromNode(fromNode);
+    link->setToNode(toNode);
+    link->setGraph(this);
 
-Graph addConstraint := method(style, objA, objB,
-    bltComp addConstraint(style, objA, objB)
-)
+    for (auto c : components)
+        c->addLink(link);
 
+    return link;
+}
 
-Graph nodeToGameObj := method(node, irrComp nodeToGameObj(node))
+void Graph::removeLink(Link* link) const
+{
+    // TODO:  Notify components to remove link attributes
+}
 
-Graph removeObj := method(obj,
-    objList remove(obj)
-    irrComp removeObj(obj)
-)
+void Graph::registerInteraction(Interaction* interaction)
+{
+    possibleInteractions.push_back(interaction);
+}
 
-Graph addStructure := method(structure, leftHandSide,
+void Graph::addComponent(Component* newComp, Interaction* expectedInteraction)
+{
+    components.push_back(newComp);
+    domain.addObject("component", newComp, expectedInteraction);
+}
 
-    //writeln("structure style ", structure style)
+// Deprecated?  Not sure...
+void Graph::playSound(std::string const& file)
+{
+//    if(sound != nil,
+//        sound play2D(file, false, false, false, ESM_AUTO_DETECT, false)
+//    )
+}
 
+void Graph::createCamera(Node* lockObj)
+{
+    // TODO:  Check that this is done using the interaction now?
+    //Graph createCamera := method(lockObj, irrComp createCamera(lockObj))
+}
+
+void Graph::removeConstraint(Constraint* constraint)
+{
+    bltComp->removeConstraint(constraint);
+}
+
+void Graph::addConstraint(ConstraintStyle const& style, Node* objA, Node* objB)
+{
+    bltComp->addConstraint(style, objA, objB);
+}
+
+Node* Graph::nodeToGameObj(irr::Scene::ISceneNode* node) const
+{
+    return irrComp nodeToGameObj(node);
+}
+
+void Graph::removeObj(Node* obj)
+{
+    objList.remove(obj);
+    irrComp.removeObj(obj);
+}
+
+Structure* Graph::addStructure(Structure* structure, Structure* leftHandSide)
+{
+    // TODO: Implement structure
+    throw "Not implemented";
+    /*
     if (structure style == "root") then(
         return addStructure(structure attachments at(0))
     ) elseif (
@@ -165,9 +156,7 @@ Graph addStructure := method(structure, leftHandSide,
 
         structure attachments foreach(a, addStructure(a, obj))
         return obj
-    )
-)
+    ) */
+}
 
-return Graph
-
-)
+}

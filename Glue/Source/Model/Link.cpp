@@ -1,66 +1,76 @@
-method(module,
-    Link := Object clone lexicalDo(
-        module := module
+#include "Model/Link.hpp"
 
-        style := nil
-        fromNode := nil
-        toNode := nil
-        domain ::= nil
-        graph := nil
+namespace Glue {
 
-        // This list is shared among all Link clones
-        possibleInteractions := list()
+std::vector<Interaction*> Link::possibleInteractions;
 
-        registerInteraction := method(interaction,
-            possibleInteractions append(interaction)
-        )
+Link::Link(LinkStyle* newStyle) :
+    style(newStyle),
+    fromNode(nullptr),
+    toNode(nullptr),
+    domain(),
+    graph(nullptr)
+{
+    domain.setSite(this);
+}
 
-        init := method(
-            setDomain(module Domain clone setSite(self))
-        )
+void Link::registerInteraction(Interaction* interaction)
+{
+    possibleInteractions.push_back(interaction);
+}
 
-        with := method(newStyle,
-            setStyle(newStyle)
-        )
+Link& Link::setStyle(LinkStyle* value, Interaction* expectedInteraction)
+{
+    style = value;
+    domain.addObject("style", value, expectedInteraction);
+    return *this;
+}
 
-        setStyle := method(value, expectedInteraction,
-            updateSlot("style", value)
-            domain addObject("style", style, expectedInteraction)
-            self
-        )
+Link& Link::setFromNode(Node* value)
+{
+    fromNode = value;
 
-        setFromNode := method(value,
-            updateSlot("fromNode", value)
-            // TODO:  Notify and remove old node value from domain.
-            if(fromNode != nil,
-                domain merge("fromNode", fromNode domain, "node")
-            )
-            self
-        )
+    // TODO:  Notify and remove old node value from domain.
 
-        setToNode := method(value,
-            updateSlot("toNode", value)
-            // TODO:  Notify and remove old node value from domain.
-            if(toNode != nil,
-                domain merge("toNode", toNode domain, "node")
-            )
-            self
-        )
+    // TODO:  What does this do?
+    if (fromNode != nullptr)
+        domain.merge("fromNode", fromNode->domain, "node");
 
-        setGraph := method(value,
-            updateSlot("graph", value)
-            // TODO:  Notify and remove old components from the domain.
-            domain merge("component", graph domain, "component")
-            self
-        )
+    return *this;
+}
 
-        addAttribute := method(attr, expectedInteraction,
-            domain addObject("link", attr, expectedInteraction)
-            self
-        )
+Link& Link::setToNode(Node* value)
+{
+    toNode = value;
 
-        findAttribute := method(attr,
-            domain findObject("link", attr)
-        )
-    )
-)
+    // TODO:  Notify and remove old node value from domain.
+
+    // TODO:  What does this do?
+    if (toNode != nullptr)
+        domain.merge("toNode", toNode->domain, "node");
+
+    return *this;
+}
+
+Link& Link::setGraph(Graph* value)
+{
+    graph = value;
+
+    // TODO:  Notify and remove old components from the domain.
+
+    domain.merge("component", graph->domain, "component");
+    return *this;
+}
+
+Link& Link::addAttribute(Attribute* attr, Interaction* expectedInteraction)
+{
+    domain.addObject("link", attr, expectedInteraction);
+    return *this;
+}
+
+Attribute* Link::findAttribute(Attribute* attr)
+{
+    return domain.findObject("link", attr);
+}
+
+} // namespace Glue

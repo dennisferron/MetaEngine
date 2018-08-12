@@ -20,7 +20,7 @@ namespace Glue { namespace ConstraintStyles {
         // If true, use the frame in A as the reference frame for linear limits.
         // If false, use the frame in B as the reference frame for linear limits.
         // Now, what if we're using the B-only form of the constraint, then what does it mean if this is true??
-        bool useLinearReferenceFrameA = true;
+        bool useLinearReferenceFrameA;
     };
 
     struct ConeTwistStyle : ConstraintStyle
@@ -76,7 +76,7 @@ namespace Glue { namespace ConstraintStyles {
 
         Scalar lowerLinLimitY;
         Scalar upperLinLimitY;
-        Scalar  lowerAngLimitY;
+        Scalar lowerAngLimitY;
         Scalar upperAngLimitY;
 
         Scalar lowerLinLimitZ;

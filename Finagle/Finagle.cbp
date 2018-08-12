@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Finagle" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug Linux">
+				<Option output="bin/Debug/Finagle" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++14" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release Linux">
+				<Option output="bin/Release/Finagle" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-std=c++14" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Test">
+				<Option output="bin/Debug/Test-Finagle" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/Debug" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-std=c++14" />
+					<Add option="-g" />
+					<Add directory="Test" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="Include" />
+			<Add directory="../mpark_variant/include" />
+			<Add directory="/home/dennis/MetaEngine/mpark_variant/include/mpark" />
+		</Compiler>
+		<Unit filename="Test/MockEngine.hpp" />
+		<Unit filename="Test/MockInteractions.hpp" />
+		<Unit filename="Test/MockLibs.hpp" />
+		<Unit filename="Test/NodeSyncTest.hpp" />
+		<Unit filename="Test/TestEngineRules.cpp">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="Test/TestTMS.cpp">
+			<Option target="Test" />
+		</Unit>
+		<Unit filename="Test/testmain.cpp">
+			<Option target="Test" />
+		</Unit>
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

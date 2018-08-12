@@ -15,18 +15,18 @@ class Attribute;
 class Link
 {
 private:
-    LinkStyle* style = nullptr;
-    Node* fromNode = nullptr;
-    Node* toNode = nullptr;
-    Domain* domain = nullptr;
-    Graph* graph = nullptr;
+    LinkStyle* style;
+    Node* fromNode;
+    Node* toNode;
+    Domain domain;
+    Graph* graph;
 
 public:
 
     // This list is shared among all Link clones
     static std::vector<Interaction*> possibleInteractions;
 
-    static void registerInteraction(Interaction*);
+    static void registerInteraction(Interaction* interaction);
 
     Link(LinkStyle* newStyle);
 
