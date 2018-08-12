@@ -7,6 +7,3 @@
 [submodule "libtcod-mac"]
 	path = libtcod-mac
 	url = https://github.com/podiki/libtcod-mac.git
-[submodule "flare-engine"]
-	path = flare-engine
-	url = https://github.com/clintbellanger/flare-engine.git
