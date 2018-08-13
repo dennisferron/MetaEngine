@@ -1,6 +1,6 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "Glue/GearConstraint.hpp"
+#include "Glue/Styles/GearConstraint.hpp"
 
 #include <stdexcept>
 #include <iostream>

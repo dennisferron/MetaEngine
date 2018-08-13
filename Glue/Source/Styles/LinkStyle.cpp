@@ -1,9 +1,9 @@
-#include "LinkStyle.hpp"
+#include "Glue/Styles/LinkStyle.hpp"
 
 namespace Glue {
 
-LinkStyle::LinkStyle(LinkType linkType)
-    : LinkType(linkType)
+LinkStyle::LinkStyle(LinkTypes linkType)
+    : linkType(linkType)
 {
 }
 

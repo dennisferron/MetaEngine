@@ -3,6 +3,7 @@
 #include "irrlicht.h"
 
 #include <functional>
+#include <vector>
 
 #include "MainWindow.hpp"
 

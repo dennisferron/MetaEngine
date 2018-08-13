@@ -90,7 +90,6 @@ WallStyle::WallStyle()
 }
 
 ClothStyle::ClothStyle()
-    : GameObjStyle(ObjShapes::plane, ObjShapes::mesh)
 {
     gameObjType = GameObjTypes::soft;
 }

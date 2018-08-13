@@ -11,7 +11,7 @@ int MainWindow::windowSizeX() const
     return 1000;
 }
 
-int windowSizeY() const
+int MainWindow::windowSizeY() const
 {
     return 600;
 }

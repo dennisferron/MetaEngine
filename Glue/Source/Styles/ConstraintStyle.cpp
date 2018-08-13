@@ -1,12 +1,10 @@
-#include "ConstraintStyle.hpp"
+#include "Glue/Styles/ConstraintStyle.hpp"
 
 namespace Glue {
 
-ConstraintStyle::ConstraintStyle()
-    : LinkStyle(LinkTypes::none)
+ConstraintStyle::ConstraintStyle(JointTypes jointType)
+    : LinkStyle(LinkTypes::none), jointType(jointType)
 {
-    jointType = JointTypes::none;
-
     // Set to true if you don't want the joined bodies to collide.
     disableLinkedBodyCollisions = false;
 

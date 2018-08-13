@@ -1,9 +1,9 @@
 #include "Glue/Styles/LinkStyles.hpp"
 
-namespace Glue namespace LinkStyles {
+namespace Glue { namespace LinkStyles {
 
 LookAtStyle::LookAtStyle()
-    : LinkStyle(JointType::lookAt)
+    : LinkStyle(LinkTypes::lookAt)
 {
 }
 
