@@ -11,7 +11,7 @@
 
 #define TAU 2*M_PI
 
-namespace MetaEngine {
+namespace Glue {
 
 GearConstraint::GearConstraint(btRigidBody& rbA, btRigidBody& rbB, btScalar ratio_)
 :

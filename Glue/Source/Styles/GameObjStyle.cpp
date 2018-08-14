@@ -1,4 +1,4 @@
-#inlude "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Styles/GameObjStyle.hpp"
 
 namespace Glue {
 
@@ -247,5 +247,7 @@ GameObjStyle& GameObjStyle::setScale(Scalar x, Scalar y, Scalar z)
 
 bool GameObjStyle::isMouseDraggable() const
 {
-    return mess != 0;
+    return mesh != 0;
+}
+
 }

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ConstraintStyles.hpp"
+#include "Glue/Styles/ConstraintStyles.hpp"
+
+using namespace Glue::Constants;
 
 namespace Glue { namespace ConstraintStyles {
 

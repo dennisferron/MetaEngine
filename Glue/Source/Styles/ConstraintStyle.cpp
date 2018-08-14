@@ -9,7 +9,7 @@ ConstraintStyle::ConstraintStyle(JointTypes jointType)
     disableLinkedBodyCollisions = false;
 
     // how big to draw the constraint debug wireframe
-    debugDrawSize = 1.0
+    debugDrawSize = 1.0;
 }
 
 }

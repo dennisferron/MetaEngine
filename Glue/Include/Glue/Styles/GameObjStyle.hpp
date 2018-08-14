@@ -1,10 +1,15 @@
 #pragma once
 
-#include "Constants.hpp"
+#include "Glue/Constants.hpp"
 
 #include "irrlicht.h"
 
-#include <optional>
+#include <experimental/optional>
+
+namespace std {
+    template <typename T>
+    using optional = std::experimental::optional<T>;
+}
 
 namespace Glue {
 
@@ -60,7 +65,7 @@ namespace Glue {
         rigid,
         static_,
         soft
-    }
+    };
 
     struct ObjPos
     {
@@ -106,7 +111,7 @@ namespace Glue {
         Scalar z;
 
         // Set x,y,z all at once
-        GameObjStyle& setPos(Scalar x, Scalar y, Scalar z)
+        GameObjStyle& setPos(Scalar x, Scalar y, Scalar z);
         std::tuple<Scalar, Scalar, Scalar> getPos() const;
 
         // Velocity
@@ -145,12 +150,12 @@ namespace Glue {
         Scalar angDamping;
         GameObjStyle& setDamping(Scalar lin, Scalar ang);
 
-        static constexpr ShortBitMask DefaultCollisionGroup = Bitmask(-1) ^ Constants::CameraFilter;
+        static constexpr ShortBitMask DefaultCollisionGroup = ShortBitMask(-1) ^ Constants::CameraFilter;
         static constexpr ShortBitMask DefaultCollisionMask = Constants::AllFilter;
 
         // Collision properties
         ShortBitMask collisionGroup;
-        ShortBitmask collisionMask;
+        ShortBitMask collisionMask;
         CollisionResponseTags collisionResponseTag;
 
         // Dimensions - sphere/cylinder/cone
@@ -164,8 +169,6 @@ namespace Glue {
         Scalar zSize;
         GameObjStyle& setSize(Scalar sz);
         GameObjStyle& setSize(Scalar xSize, Scalar ySize, Scalar zSize);
-
-        GameObjStyle& setShape(ObjShapes s);
 
         // Appearance properties
         SColor color;

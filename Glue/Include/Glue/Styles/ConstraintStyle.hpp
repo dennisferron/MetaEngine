@@ -1,12 +1,17 @@
 #pragma once
 
-#include "../Constants.hpp"
+#include "Glue/Constants.hpp"
 #include "LinkStyle.hpp"
 #include "MountStyle.hpp"
 
 #include "irrlicht.h"
 
-#include <optional>
+#include <experimental/optional>
+
+namespace std {
+    template <typename T>
+    using optional = std::experimental::optional<T>;
+}
 
 namespace Glue {
 
@@ -23,7 +28,8 @@ namespace Glue {
         gear,
         point2point,
         generic,
-        genericSpring
+        genericSpring,
+        disableCollision
     };
 
     struct ConstraintStyle : LinkStyle
@@ -48,4 +54,4 @@ namespace Glue {
         // how big to draw the constraint debug wireframe
         Scalar debugDrawSize;
     };
-)
+}
