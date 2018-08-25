@@ -1,6 +1,6 @@
 # The ZLIB license
 #
-# Copyright (c) 2015 André Netzeband
+# Copyright (c) 2015 Andre Netzeband
 #
 # This software is provided 'as-is', without any express or implied
 # warranty. In no event will the authors be held liable for any damages
@@ -36,11 +36,14 @@ endif ()
 
 if (GCC_LIKE_COMPILER)
 	SET (CMAKE_CXX_FLAGS
-		"${CMAKE_CXX_FLAGS} -Wall -pipe -fno-exceptions -fno-rtti -fstrict-aliasing"
+		"${CMAKE_CXX_FLAGS} -Wall -pipe -fno-exceptions -fno-rtti -fstrict-aliasing -std=c++17"
 	)
 	SET (CMAKE_CXX_FLAGS_RELEASE
-		"${CMAKE_CXX_FLAGS_RELEASE} -fexpensive-optimizations -O3"
+		"${CMAKE_CXX_FLAGS_RELEASE} -fexpensive-optimizations -O3 -std=c++17"
 	)
+	SET (CMAKE_CXX_FLAGS_DEBUG
+			"${CMAKE_CXX_FLAGS_DEBUG} -std=c++17"
+			)
 	SET (CMAKE_C_FLAGS_RELEASE
 		"${CMAKE_C_FLAGS_RELEASE} -O3 -fexpensive-optimizations"
 	)

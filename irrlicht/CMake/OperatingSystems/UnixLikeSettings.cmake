@@ -21,9 +21,9 @@
 
 if (UNIX)
 	if ("$ENV{HOSTTYPE}" STREQUAL "x86_64")
-		LINK_DIRECTORIES(/usr/X11R6/lib64)
+		LINK_DIRECTORIES(/usr/X11/lib64)
 	else ()
-		LINK_DIRECTORIES(/usr/X11R6/lib)
+		LINK_DIRECTORIES(/usr/X11/lib)
 	endif ()
 		
 endif ()

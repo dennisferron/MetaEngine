@@ -237,6 +237,7 @@ SET (IRRMESHWRITER_SOURCE_FILES
 	source/Irrlicht/CSTLMeshWriter.cpp
 	source/Irrlicht/COBJMeshWriter.cpp
 	source/Irrlicht/CPLYMeshWriter.cpp
+    source/Irrlicht/CB3DMeshWriter.cpp
 )
 
 SET (IRRMESH_SOURCE_FILES
@@ -317,7 +318,7 @@ SET (IRRDRVR_SOURCE_FILES
 	source/Irrlicht/COpenGLParallaxMapRenderer.cpp
 	source/Irrlicht/COpenGLShaderMaterialRenderer.cpp
 	#source/Irrlicht/COpenGLTexture.cpp
-	#source/Irrlicht/COpenGLSLMaterialRenderer.cpp
+	source/Irrlicht/COpenGLSLMaterialRenderer.cpp
 	source/Irrlicht/COpenGLExtensionHandler.cpp
 	#source/Irrlicht/CD3D8Driver.cpp
 	#source/Irrlicht/CD3D8NormalMapRenderer.cpp
@@ -428,8 +429,9 @@ SET (IRROTHER_SOURCE_FILES
 	source/Irrlicht/CIrrDeviceWin32.cpp
 	source/Irrlicht/CIrrDeviceFB.cpp
 	source/Irrlicht/CLogger.cpp
-	source/Irrlicht/COSOperator.cpp
-	source/Irrlicht/Irrlicht.cpp
+    #TODO:  auto switch between cpp and mm version of these files based on OS
+	#source/Irrlicht/COSOperator.cpp
+	#source/Irrlicht/Irrlicht.cpp
 	source/Irrlicht/os.cpp
 )
 
@@ -458,6 +460,8 @@ SET (IRRGUI_SOURCE_FILES
 	source/Irrlicht/CGUIToolBar.cpp
 	source/Irrlicht/CGUIWindow.cpp
 	source/Irrlicht/CGUIColorSelectDialog.cpp
+    source/Irrlicht/CGUIProfiler.cpp
+    source/Irrlicht/CProfiler.cpp
 	source/Irrlicht/CDefaultGUIElementFactory.cpp
 	source/Irrlicht/CGUISpriteBank.cpp
 	source/Irrlicht/CGUIImageList.cpp
@@ -531,7 +535,7 @@ SET (IRRLICHT_PRIVATE_HEADER_FILES
 	source/Irrlicht/CTRTextureGouraud.h
 	source/Irrlicht/CColladaFileLoader.h                
 	source/Irrlicht/CGUIWindow.h           
-	source/Irrlicht/COpenGLCgMaterialRenderer.h              
+	#source/Irrlicht/COpenGLCgMaterialRenderer.h
 	source/Irrlicht/CTarReader.h
 	source/Irrlicht/CColladaMeshWriter.h                
 	source/Irrlicht/CGeometryCreator.h     
@@ -545,31 +549,31 @@ SET (IRRLICHT_PRIVATE_HEADER_FILES
 	source/Irrlicht/CImageLoaderBMP.h      
 	source/Irrlicht/COpenGLMaterialRenderer.h                
 	source/Irrlicht/CTextSceneNode.h
-	source/Irrlicht/CD3D8Driver.h                       
+	#source/Irrlicht/CD3D8Driver.h
 	source/Irrlicht/CImageLoaderDDS.h      
 	source/Irrlicht/COpenGLNormalMapRenderer.h               
 	source/Irrlicht/CTimer.h
-	source/Irrlicht/CD3D8MaterialRenderer.h             
+	#source/Irrlicht/CD3D8MaterialRenderer.h
 	source/Irrlicht/CImageLoaderJPG.h      
 	source/Irrlicht/COpenGLParallaxMapRenderer.h             
 	source/Irrlicht/CTriangleBBSelector.h
-	source/Irrlicht/CD3D8NormalMapRenderer.h            
+	#source/Irrlicht/CD3D8NormalMapRenderer.h
 	source/Irrlicht/CImageLoaderPCX.h      
 	source/Irrlicht/COpenGLSLMaterialRenderer.h              
 	source/Irrlicht/CTriangleSelector.h
-	source/Irrlicht/CD3D8ParallaxMapRenderer.h          
+	#source/Irrlicht/CD3D8ParallaxMapRenderer.h
 	source/Irrlicht/CImageLoaderPNG.h      
 	source/Irrlicht/COpenGLShaderMaterialRenderer.h          
 	source/Irrlicht/CVideoModeList.h
-	source/Irrlicht/CD3D8ShaderMaterialRenderer.h       
+	#source/Irrlicht/CD3D8ShaderMaterialRenderer.h
 	source/Irrlicht/CImageLoaderPPM.h      
-	source/Irrlicht/COpenGLTexture.h                         
+	source/Irrlicht/COpenGLCoreTexture.h
 	source/Irrlicht/CVolumeLightSceneNode.h
-	source/Irrlicht/CD3D8Texture.h                      
+	#source/Irrlicht/CD3D8Texture.h
 	source/Irrlicht/CImageLoaderPSD.h      
 	source/Irrlicht/CPLYMeshFileLoader.h                     
 	source/Irrlicht/CWADReader.h
-	source/Irrlicht/CD3D9CgMaterialRenderer.h           
+	#source/Irrlicht/CD3D9CgMaterialRenderer.h
 	source/Irrlicht/CImageLoaderRGB.h      
 	source/Irrlicht/CPLYMeshWriter.h                         
 	source/Irrlicht/CWaterSurfaceSceneNode.h
@@ -634,7 +638,7 @@ SET (IRRLICHT_PRIVATE_HEADER_FILES
 	source/Irrlicht/CQ3LevelMesh.h                           
 	source/Irrlicht/Octree.h
 	source/Irrlicht/CFileList.h                         
-	source/Irrlicht/CIrrDeviceWinCE.h      
+	#source/Irrlicht/CIrrDeviceWinCE.h
 	source/Irrlicht/CQuake3ShaderSceneNode.h                 
 	source/Irrlicht/S2DVertex.h
 	source/Irrlicht/CFileSystem.h                       
@@ -681,6 +685,9 @@ SET (IRRLICHT_PRIVATE_HEADER_FILES
 	source/Irrlicht/CSceneNodeAnimatorDelete.h
 	source/Irrlicht/lzma/LzmaDec.h
 	source/Irrlicht/lzma/Types.h
+    source/Irrlicht/CGUIProfiler.h
+    source/Irrlicht/CProfiler.h
+    source/Irrlicht/CB3DMeshWriter.h
 )
 
 SET (ZLIB_SOURCE_FILES

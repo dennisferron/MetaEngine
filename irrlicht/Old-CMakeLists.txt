@@ -21,10 +21,10 @@ SET(OSX_SOURCE_FILES
         source/Irrlicht/Irrlicht.mm
         )
 
-SET(NON_OSX_SOURCE_FILES
-        source/Irrlicht/COSOperator.cpp
-        source/Irrlicht/Irrlicht.cpp
-        )
+#SET(NON_OSX_SOURCE_FILES
+#        source/Irrlicht/COSOperator.cpp
+#        source/Irrlicht/Irrlicht.cpp
+#        )
 
 add_executable(irrlicht
         ${OSX_SOURCE_FILES}
