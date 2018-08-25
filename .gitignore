@@ -74,5 +74,5 @@ doxygen/*
 .idea/workspace.xml
 
 #Ignore cmake temporary build output
-#cmake-build-*/
+cmake-build-*/
 
