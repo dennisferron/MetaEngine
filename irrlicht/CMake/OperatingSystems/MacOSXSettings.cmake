@@ -23,7 +23,8 @@ if (APPLE)
 	#message(WARNING "These MacOSX like settings have not been tested so far...")
 	#message(WARNING "It might work or not, please delete this warning, when you have tested it.")
 
-    SET(CMAKE_MACOSX_RPATH 1)
+    SET(CMAKE_MACOSX_RPATH 0)
+    SET(CMAKE_MACOSX_BUNDLE_BUNDLE_NAME "IrrlichtExample")
 
 	SET(ALL_SOURCE_FILES
 		${ALL_SOURCE_FILES}
@@ -57,20 +58,21 @@ if (APPLE)
 		else ()
 			LINK_DIRECTORIES(/usr/X11/lib)
 		endif ()
+	endif ()
 			
-	else ()	
+	#else ()
 		if (GCC_LIKE_COMPILER)		
 			SET (CMAKE_STATIC_LINKER_FLAGS
-				"${CMAKE_STATIC_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation"
+				"${CMAKE_STATIC_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation -framework Foundation"
 			)
 			SET (CMAKE_SHARED_LINKER_FLAGS
-				"${CMAKE_SHARED_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation"
+				"${CMAKE_SHARED_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation -framework Foundation"
 			)
 			SET (CMAKE_MODULE_LINKER_FLAGS
-				"${CMAKE_MODULE_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation"
+				"${CMAKE_MODULE_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation -framework Foundation"
 			)
 			SET (CMAKE_EXE_LINKER_FLAGS
-				"${CMAKE_EXE_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation"
+				"${CMAKE_EXE_LINKER_FLAGS} -framework cocoa -framework carbon -framework opengl -framework IOKit -framework CoreFoundation -framework Foundation"
 			)
 			
 		else ()
@@ -78,6 +80,6 @@ if (APPLE)
 			
 		endif ()	
 	
-	endif ()
+	#endif ()
 	
 endif ()

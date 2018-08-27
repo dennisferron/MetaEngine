@@ -229,6 +229,8 @@ SET (IRRMESHLOADER_SOURCE_FILES
 	source/Irrlicht/CLWOMeshFileLoader.cpp
 	source/Irrlicht/CPLYMeshFileLoader.cpp
 	source/Irrlicht/CSMFMeshFileLoader.cpp
+    source/Irrlicht/CMeshTextureLoader.cpp
+    source/Irrlicht/CImageLoaderPVR.cpp
 )
 
 SET (IRRMESHWRITER_SOURCE_FILES
@@ -265,7 +267,11 @@ SET (IRRMAIN_SOURCE_FILES
 	source/Irrlicht/COctreeTriangleSelector.cpp
 	source/Irrlicht/CSceneCollisionManager.cpp
 	source/Irrlicht/CSceneManager.cpp
-	source/Irrlicht/CShadowVolumeSceneNode.cpp
+	source/Irrlicht/CGLXManager.cpp
+	source/Irrlicht/CWGLManager.cpp
+	source/Irrlicht/leakHunter.cpp
+    source/Irrlicht/utf8.cpp
+    source/Irrlicht/CShadowVolumeSceneNode.cpp
 	source/Irrlicht/CSkyBoxSceneNode.cpp
 	source/Irrlicht/CSkyDomeSceneNode.cpp
 	source/Irrlicht/CTerrainSceneNode.cpp
@@ -320,6 +326,7 @@ SET (IRRDRVR_SOURCE_FILES
 	#source/Irrlicht/COpenGLTexture.cpp
 	source/Irrlicht/COpenGLSLMaterialRenderer.cpp
 	source/Irrlicht/COpenGLExtensionHandler.cpp
+	source/Irrlicht/COpenGLCacheHandler.cpp
 	#source/Irrlicht/CD3D8Driver.cpp
 	#source/Irrlicht/CD3D8NormalMapRenderer.cpp
 	#source/Irrlicht/CD3D8ParallaxMapRenderer.cpp
@@ -331,6 +338,7 @@ SET (IRRDRVR_SOURCE_FILES
 	source/Irrlicht/CD3D9ParallaxMapRenderer.cpp
 	source/Irrlicht/CD3D9ShaderMaterialRenderer.cpp
 	source/Irrlicht/CD3D9Texture.cpp
+	source/Irrlicht/CD3D9RenderTarget.cpp
 )
 
 SET (IRRIMAGE_SOURCE_FILES
@@ -577,8 +585,9 @@ SET (IRRLICHT_PRIVATE_HEADER_FILES
 	source/Irrlicht/CImageLoaderRGB.h      
 	source/Irrlicht/CPLYMeshWriter.h                         
 	source/Irrlicht/CWaterSurfaceSceneNode.h
-	source/Irrlicht/CD3D9Driver.h                       
-	source/Irrlicht/CImageLoaderTGA.h      
+	source/Irrlicht/CD3D9Driver.h
+	source/Irrlicht/CD3D9RenderTarget.h
+	source/Irrlicht/CImageLoaderTGA.h
 	source/Irrlicht/CPakReader.h                             
 	source/Irrlicht/CWriteFile.h
 	source/Irrlicht/CD3D9HLSLMaterialRenderer.h         
