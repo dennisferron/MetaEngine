@@ -19,10 +19,19 @@
 # 3. This notice may not be removed or altered from any source distribution.
 #
 
-SET (IRRLICHT_STATIC_LIBRARY OFF CACHE BOOL "Enabled static lib build.")
+SET (IRRLICHT_STATIC_LIBRARY ON CACHE BOOL "Enabled static lib build.")
 
 if (IRRLICHT_STATIC_LIBRARY)
 	message(STATUS "Build static library...")
+
+	if (MSVC_LIKE_COMPILER)
+		SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_IRR_STATIC_LIB_")
+		SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /D_IRR_STATIC_LIB_")
+    else ()
+        SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_IRR_STATIC_LIB_")
+        SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_IRR_STATIC_LIB_")
+	endif ()
+
 else ()
 	message(STATUS "Build shared library...")
 endif ()

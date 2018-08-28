@@ -24,8 +24,14 @@ if (WIN32)
 		${OS_DEPENDENT_LIBRARIES}
 		winmm.lib 
 		gdi32.lib
-	)	
-	
+	)
+
+	SET(ALL_SOURCE_FILES
+			${ALL_SOURCE_FILES}
+			source/Irrlicht/COSOperator.cpp
+			source/Irrlicht/Irrlicht.cpp
+	)
+
 	if (IRRLICHT_STATIC_LIBRARY)
 		ADD_DEFINITIONS(
 			-D_IRR_STATIC_LIB_

@@ -20,7 +20,7 @@
 #
 
 if(WIN32)
-	SET (IRRLICHT_ENABLE_DIRECTX9 ON CACHE BOOL "Enabled DirectX9 support.")
+	SET (IRRLICHT_ENABLE_DIRECTX9 OFF CACHE BOOL "Enabled DirectX9 support.")
 else()
 	SET (IRRLICHT_ENABLE_DIRECTX9 OFF CACHE BOOL "Enabled DirectX9 support.")
 endif()

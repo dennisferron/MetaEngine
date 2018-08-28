@@ -20,6 +20,13 @@
 #
 
 if (UNIX)
+
+	SET(ALL_SOURCE_FILES
+			${ALL_SOURCE_FILES}
+			source/Irrlicht/COSOperator.cpp
+			source/Irrlicht/Irrlicht.cpp
+	)
+
 	if ("$ENV{HOSTTYPE}" STREQUAL "x86_64")
 		LINK_DIRECTORIES(/usr/X11/lib64)
 	else ()
