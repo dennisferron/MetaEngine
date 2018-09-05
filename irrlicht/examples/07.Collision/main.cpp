@@ -62,7 +62,7 @@ int main()
 	video::IVideoDriver* driver = device->getVideoDriver();
 	scene::ISceneManager* smgr = device->getSceneManager();
 
-	const io::path mediaPath = getExampleMediaPath();
+	const io::path mediaPath = "/Users/dennisferron/MetaEngine/irrlicht/media/"; //getExampleMediaPath();
 
 	device->getFileSystem()->addFileArchive(mediaPath + "map-20kdm2.pk3");
 

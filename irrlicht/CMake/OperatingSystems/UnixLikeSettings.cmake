@@ -19,7 +19,7 @@
 # 3. This notice may not be removed or altered from any source distribution.
 #
 
-if (UNIX)
+if (UNIX AND NOT APPLE)
 
 	SET(ALL_SOURCE_FILES
 			${ALL_SOURCE_FILES}

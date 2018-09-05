@@ -185,7 +185,7 @@ int main()
 	Whatever you chose to find your base-folder for media - wrap it with some 
 	function and then you can improve the code to locate the media later on.
 	*/
-	const io::path mediaPath = getExampleMediaPath();
+	const io::path mediaPath = "/Users/dennisferron/MetaEngine/irrlicht/media/"; //getExampleMediaPath();
 
 	/*
 	To show something interesting, we load a Quake 2 model and display it.
