@@ -1,3 +1,13 @@
+
+namespace {
+
+    bool ScriptUtil::is_nan(float f)
+    {
+        return (boost::math::isnan)(f);
+    }
+}
+
+
 method(namespace_Bullet, namespace_Custom, PredefinedValues,
 
     PhysicsShapes := Object clone lexicalDo(

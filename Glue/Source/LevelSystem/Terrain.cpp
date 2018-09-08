@@ -1,4 +1,34 @@
-method(namespace_irr, namespace_Custom, namespace_TPS, Tile, Styles, ScriptUtil,
+
+#include "Glue/Terrain.hpp"
+#include "irrlicht.h"
+#include "Glue/MeshTools.hpp"
+#include "ThinPlateSpline/ThinPlateQuilt.hpp"
+#include "Glue/GameObjStyles.hpp"
+
+using namespace std;
+using namespace boost;
+
+using namespace irr;
+using namespace irr::core;
+using namespace irr::video;
+using namespace irr::scene;
+
+using namespace TPS;
+
+namespace {
+
+    float get_random_float(float min, float max)
+    {
+            static boost::minstd_rand algorithm;
+            static boost::uniform_real<float> range(0.0f, 1.0f);
+            static boost::variate_generator<boost::minstd_rand&, boost::uniform_real<float> > generator(algorithm, range);
+            float result = (max-min)*generator()+min;
+            return result;
+    }
+}
+
+namespace Glue {
+
 
     Terrain := Object clone lexicalDo(
         appendProto(namespace_irr video)
@@ -6,7 +36,6 @@ method(namespace_irr, namespace_Custom, namespace_TPS, Tile, Styles, ScriptUtil,
         appendProto(namespace_TPS)
         appendProto(namespace_Custom)
 
-        ScriptUtil := ScriptUtil
         Styles := Styles GameObjStyles
 
         Tile := Tile
@@ -130,3 +159,5 @@ method(namespace_irr, namespace_Custom, namespace_TPS, Tile, Styles, ScriptUtil,
 
     return Terrain
 )
+
+}  // namespace Glue

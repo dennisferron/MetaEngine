@@ -1,5 +1,7 @@
 #include "Model/Domain.hpp"
 
+/* TODO: Figure out Interactions
+
 namespace Glue {
 
 Domain::Domain() :
@@ -92,3 +94,5 @@ Object* Domain::findObject(Domain* subdomain, Type* objProto)
 }
 
 }
+
+ */
