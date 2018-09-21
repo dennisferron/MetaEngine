@@ -24,8 +24,8 @@ private:
     int numTilesX;
     int numTilesY;
 
-    TPS::ThinPlateQuilt tps;
-    SurfaceQuadTree surface;
+    TPS::ThinPlateQuilt* tps;
+    SurfaceQuadTree* surface;
 
     int initialSplit = 4;
 
@@ -35,7 +35,7 @@ private:
 
     Scalar minFitSizeLen = 0.5 + 0.01;
 
-    irr::core::dimension2df minFitSize;
+    irr::core::dimension2df minFitSize = irr::core::dimension2df(minFitSizeLen, minFitSizeLen);
 
 public:
     Terrain();

@@ -1,26 +1,29 @@
-method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
+#include "Glue/Props.hpp"
+#include "irrlicht.h"
+#include "Glue/MeshTools.hpp"
+#include "ThinPlateSpline/ThinPlateQuilt.hpp"
+#include "Glue/GameObjStyles.hpp"
 
-    Props := Object clone lexicalDo(
+using namespace std;
+using namespace boost;
 
-        appendProto(namespace_irr)
-        appendProto(namespace_irr core)
-        appendProto(namespace_Bullet)
-        appendProto(namespace_Custom)
+using namespace irr;
+using namespace irr::core;
+using namespace irr::video;
+using namespace irr::scene;
 
-        Styles := Styles GameObjStyles
+using namespace TPS;
 
-        graph ::= nil
-    )
+namespace Glue {
 
-    Props makeStage := method(
+    Stage::Stage()
+    {
+        graph->addNode(WallStyle().setPos(-50, -40, 0));
+        graph->addNode(WallStyle().setPos( 50, -40, 0).setFriction(0.07));
+        graph->addNode(BoxStyle().setPos(0, -5.01, 0).setSize(100, 10, 20).setMass(0).setTexture("Media/testpattern.png"));
+    }
 
-        graph addNode(WallStyle clone setPos(-50, -40, 0))
-        graph addNode(WallStyle clone setPos( 50, -40, 0) setFriction(0.07))
-        graph addNode(BoxStyle clone setPos(0, -5.01, 0) setSize(100, 10, 20) setMass(0) setTexture("Media/testpattern.png"))
-
-    )
-
-    Props makeTree := method(
+    ::Tree := method(
 
         base := ConeStyle clone do(
             setPos(0, 0.5, 0)
@@ -91,17 +94,17 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
             top setPos(0, 4.5, 0)
         )
 
-        tree := graph addStructure(treeStructure)
+        tree := graph->addStructure(treeStructure)
 
         // TODO:  Replace the line above with the code below
         // when I'm finished with changes to style/structure mechanics.
         //tree := GameObject clone with(treeStructure)
-        //graph addGameObject(tree)
+        //graph->addGameObject(tree)
 
         return tree
     )
 
-    Props makeSnake := method(
+    ::Snake := method(
         segmentStyle := CylXStyle clone do(
             setLength(1)
             setRadius(0.5)
@@ -174,7 +177,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
         snakeStructure move(-2, 3, 0)
 
-        nose := graph addStructure(snakeStructure)
+        nose := graph->addStructure(snakeStructure)
         nose rigidBody setLinearFactor(btVector3 tmp(1,1,0))
         nose rigidBody setAngularFactor(btVector3 tmp(0,0,1))
 
@@ -189,21 +192,21 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         rightStache rigidBody setLinearFactor(btVector3 tmp(1,1,0))
         rightStache rigidBody setAngularFactor(btVector3 tmp(0,0,1))
 
-        leftRound := graph addNode(BallStyle clone do(setIsKinematic(true) setPhysShape(none) setPos(0, 0, 0) setRadius(0.5)))
+        leftRound := graph->addNode(BallStyle clone do(setIsKinematic(true) setPhysShape(none) setPos(0, 0, 0) setRadius(0.5)))
         leftStache addChild(leftRound)
 
-        rightRound := graph addNode(BallStyle clone do(setIsKinematic(true) setPhysShape(none) setPos(0, 1.0, 0) setRadius(0.5)))
+        rightRound := graph->addNode(BallStyle clone do(setIsKinematic(true) setPhysShape(none) setPos(0, 1.0, 0) setRadius(0.5)))
         rightStache addChild(rightRound)
 
-        graph addConstraint(DisableCollisionStyle, head, leftStache)
-        graph addConstraint(DisableCollisionStyle, head, rightStache)
-        graph addConstraint(DisableCollisionStyle, leftStache, rightStache)
+        graph->addConstraint(DisableCollisionStyle, head, leftStache)
+        graph->addConstraint(DisableCollisionStyle, head, rightStache)
+        graph->addConstraint(DisableCollisionStyle, leftStache, rightStache)
 
         setMotors := method(segment, count,
             if (segment constraintsA size > 0,
                 constraint := segment constraintsA at(0) constraint
                 v := 10
-                graph time setTimeout(500, block(v = -v; constraint enableAngularMotor(true, v, 5); 100+100*count))
+                graph->time setTimeout(500, block(v = -v; constraint enableAngularMotor(true, v, 5); 100+100*count))
                 setMotors(segment constraintsA at(0) objB, count + 1)
             )
         )
@@ -233,7 +236,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
     )
 
-    Props makeRobot := method(
+    ::Robot := method(
 
         shoulderBall := BallStyle clone do(
             setRadius(0.75)
@@ -504,7 +507,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
             ) torsoToBase base(leftAxle leftWheel, rightAxle rightWheel)
         )
 
-        robot := graph addStructure(robotStructure)
+        robot := graph->addStructure(robotStructure)
 
         torsoObj := robot constraintsA at(0) objB
 
@@ -527,11 +530,11 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         constraint2 := baseObj constraintsA at(1) constraint
 
         foreArmObj1 setSteering(Steering clone setGameObj(foreArmObj1))
-        foreArmObj1 steering setPursuitTarget(graph player steering)
+        foreArmObj1 steering setPursuitTarget(graph->player steering)
 
         // Do this before adding the obstacle object because addObstacleGameObj creates a steering obj.
         foreArmObj2 setSteering(Steering clone setGameObj(foreArmObj2))
-        foreArmObj2 steering setPursuitTarget(graph player steering)
+        foreArmObj2 steering setPursuitTarget(graph->player steering)
 
         foreArmObj1 steering addObstacleGameObj(baseObj)
         foreArmObj1 steering addObstacleGameObj(torsoObj)
@@ -544,7 +547,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         foreArmObj2 steering addObstacleGameObj(robot)
 
 
-        graph time setTimeout(2000,
+        graph->time setTimeout(2000,
             block(
                 angle := baseObj getRotZ
 
@@ -564,7 +567,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
     /*
         state := true
 
-        graph time setTimeout(2100,
+        graph->time setTimeout(2100,
             block(
                 state = state not
                 foreArmObj1 steering setBehaviorFlag(EBF_PURSUIT, state)
@@ -579,7 +582,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
 
 
-    Props makeCannon := method(
+    Cannon::Cannon := method(
 
         hub := BallStyle clone do(
             setPos(0, -15, 0)
@@ -621,17 +624,17 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
             )
         )
 
-        cannon := graph addStructure(CannonStructure)
+        cannon := graph->addStructure(CannonStructure)
         rot := vector3df clone do(set(0, 0.4, 0))
-        anim := graph smgr createRotationAnimator(rot)
+        anim := graph->smgr createRotationAnimator(rot)
 
-        graph time setTimeout(1500,
+        graph->time setTimeout(1500,
             block(
                 cannon triggerAllGenerators(
                     block(obj,
-                        graph time setTimeout(2500,
+                        graph->time setTimeout(2500,
                             block(
-                                graph playSound(WayUpDir("Media/explosion.wav"))
+                                graph->playSound(WayUpDir("Media/explosion.wav"))
                                 obj dispose
                                 0
                             )
@@ -644,7 +647,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
     )
 
 
-    Props makeCar := method(
+    Car::Car := method(
 
         leftWheel := CylZStyle clone do(
             setPos(2, -5, 0)
@@ -701,7 +704,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
             )
         )
 
-        car := graph addStructure(carStructure)
+        car := graph->addStructure(carStructure)
 
         car rigidBody setLinearFactor(btVector3 tmp(1,1,0))
         car rigidBody setAngularFactor(btVector3 tmp(0,0,1))
@@ -714,7 +717,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
     )
 
-    Props makeElevator := method(x, y,
+    Elevator::Elevator := method(x, y,
 
         elevatorStyle := CylXStyle clone do(
             setIsKinematic(true)
@@ -730,7 +733,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
             //setMargin(0.05)
         )
 
-        elevator := graph addNode(elevatorStyle)
+        elevator := graph->addNode(elevatorStyle)
 
         elevator points := ArrayOfVector3df tmp  // const core::array< core::vector3df > &
         elevator points push_back(vector3df tmp(x-10, y-4, 0))
@@ -740,8 +743,8 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         elevator points push_back(vector3df tmp(x+10, y-4, 0))
 
 
-        anim := graph smgr createFollowSplineAnimator(
-            startTime := graph time currentTime,
+        anim := graph->smgr createFollowSplineAnimator(
+            startTime := graph->time currentTime,
             elevator points,  // const core::array< core::vector3df > &
             speed := 0.75,
             tightness := 0.5,
@@ -760,32 +763,32 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
         //elevator standOnElevator := standOnElevator
 
-        //graph addConstraint(standOnElevator, elevator, graph player)
+        //graph->addConstraint(standOnElevator, elevator, graph->player)
 
-        //graph player elevator := elevator
-        //graph elevator := elevator
+        //graph->player elevator := elevator
+        //graph->elevator := elevator
 
         /*
-        graph time setTimeout(1.0/60,
+        graph->time setTimeout(1.0/60,
             block(
                 velE := elevator getLinearVelocity
-                velP := graph player getLinearVelocity
-                //graph player setLinearVelocity(velE + velP)
+                velP := graph->player getLinearVelocity
+                //graph->player setLinearVelocity(velE + velP)
                 1.0/60
             )
         )
         */
     )
 
-    Props makeBox := method(
-        box := graph addNode(BoxStyle clone do( setPos(-7, 0, 0) setMass(100) setSize(5, 3, 1) ))
+    Box::Box := method(
+        box := graph->addNode(BoxStyle clone do( setPos(-7, 0, 0) setMass(100) setSize(5, 3, 1) ))
         box rigidBody setLinearFactor(btVector3 tmp(1,1,0))
         box rigidBody setAngularFactor(btVector3 tmp(0,0,1))
     )
 
-    Props makeDwarf := method(
+    Dwarf::Dwarf := method(
 
-        smgr := graph smgr
+        smgr := graph->smgr
 
         //fsStr := irrFsStr newFromCStr(WayUpDir("Media/dwarf.x"))
         fsStr := irrFsStr newFromCStr(WayUpDir("Media/earth.x"))
@@ -849,13 +852,13 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         style := GameObjStyle clone
         style setScale(10) setMass(0) setPos(11, 6, 7)
         obj := GameObject create(style, graph, mesh, meshShape)
-        graph objList append(obj)
+        graph->objList append(obj)
     )
 
 
     Props loadL3DTMesh := method(
 
-        smgr := graph smgr
+        smgr := graph->smgr
 
         //fsStr := irrFsStr newFromCStr(WayUpDir("Media/dwarf.x"))
         fsStr := irrFsStr newFromCStr(WayUpDir("Media/L3DT.x"))
@@ -922,7 +925,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         style setScale(0.01) setMass(0) setPos(-26, -30, 0)
         //obj := GameObject create(style, graph, mesh, meshShape)
         obj := GameObject createClone(style, graph, mesh)
-        graph objList append(obj)
+        graph->objList append(obj)
     )
 
 
@@ -932,10 +935,10 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
     Props loadLevelOld := method(
 
-        //graph editor terrain getTile(0,0)
+        //graph->editor terrain getTile(0,0)
 
         fsStr1 := irrFsStr tmpFromCStr(WayUpDir("Media/beach-heightmap.png"))
-        image := graph driver createImageFromFileWithPath(fsStr1)
+        image := graph->driver createImageFromFileWithPath(fsStr1)
 
         loadTile := method(x, y, xsize, ysize, scale, zscale,
 
@@ -961,7 +964,7 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
                     true        // marginalTrisInRight
                 )
 
-                back := graph addNode(
+                back := graph->addNode(
                     EmptyStyle clone setTexture("Media/mountaintop.jpg") setScale(scale,scale,zscale) setGameObjType("static") setPos(x*xsize*scale+xStart, y*ysize*scale+yStart, 0)
                 ,
                     splitResult get_left
@@ -970,19 +973,19 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
                 // For some strange reason a NULL IMesh* is not converting to nil as it should (NULLs of other types are converting to nil, just not this one)
                 if( ScriptUtil get_void_ptr(splitResult get_middle) != nil,
                     writeln("path not nil")
-                    meshMan := graph smgr getMeshManipulator
+                    meshMan := graph->smgr getMeshManipulator
                     repeatAmt := 1.0/2.0
                     xScale := (repeatAmt/zInsert)
                     yScale := (repeatAmt/zInsert)
                     meshMan makePlanarTextureMapping(splitResult get_middle getMeshBuffer(0), xScale, yScale, 1, vector3df tmp(-xsize/2.0, zInsert/2.0, (zInsert/2.0)/repeatAmt))
-                    walk := graph addNode(
+                    walk := graph->addNode(
                         EmptyStyle clone setTexture("Media/boardwalk.png") setScale(scale,scale,1.0) setGameObjType("static") setPos(x*xsize*scale+xStart, y*ysize*scale+yStart, 0) setPhysShape("mesh")
                     ,
                         splitResult get_middle
                     )
                 )
 
-                fore := graph addNode(
+                fore := graph->addNode(
                     EmptyStyle clone setTexture("Media/irrlicht2_dn.jpg") setScale(scale,scale,zscale) setGameObjType("static") setPos(x*xsize*scale+xStart, y*ysize*scale+yStart, 0)
                 ,
                     splitResult get_right
@@ -1015,17 +1018,17 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
             textureMap atPut("right", right)
         )
 
-        skybox := graph addNode(style)
+        skybox := graph->addNode(style)
 
     )
 
     Props testSoftBody := method(
 
         // Set gravity to make the cloth "fall up"
-        graph softBodyWorldInfo set_m_gravity(btVector3 tmp(0, -9.8, 0))
+        graph->softBodyWorldInfo set_m_gravity(btVector3 tmp(0, -9.8, 0))
 
         /*
-        cloth := graph addNode(ClothStyle clone setDispShape("ball") setRadius(3) setPos(6, 4, 0) setMargin(0.2) setXTiles(8) setZTiles(8) setTexture("Media/irrlicht2_dn.jpg"))
+        cloth := graph->addNode(ClothStyle clone setDispShape("ball") setRadius(3) setPos(6, 4, 0) setMargin(0.2) setXTiles(8) setZTiles(8) setTexture("Media/irrlicht2_dn.jpg"))
 
         // We want the ground to be plastic rather than elastic so set the softbody damping coefficient
 
@@ -1047,16 +1050,16 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         // (Softbody has array of materials.)
 
 
-        graph time setTimeout(6000, block(
+        graph->time setTimeout(6000, block(
             writeln("removing cloth")
-            graph dynamicsWorld removeSoftBody(cloth rigidBody)
+            graph->dynamicsWorld removeSoftBody(cloth rigidBody)
             cloth node setVisible(false)
             6000
         ))
 
-        graph time setTimeout(9000, block(
+        graph->time setTimeout(9000, block(
             writeln("adding cloth")
-            graph dynamicsWorld addSoftBody(cloth rigidBody, cloth style collisionGroup, cloth style collisionMask)
+            graph->dynamicsWorld addSoftBody(cloth rigidBody, cloth style collisionGroup, cloth style collisionMask)
             cloth node setVisible(true)
             6000
         ))
@@ -1064,35 +1067,34 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
         //cloth node setVisible(false)
 
-        sphere := graph addNode(BallStyle clone setPhysShape("none") setRadius(3))
+        sphere := graph->addNode(BallStyle clone setPhysShape("none") setRadius(3))
         sphere node setVisible(false)
 
         topMesh := MeshTools sliceMesh(sphere dispShape, aabbox3df tmp( -100, -100,-100, 1,100,100 ) )
         topMeshStyle := EmptyStyle clone setPos(0, 3.2, 0) setTexture("Media/mountaintop.jpg") // setWireframe(true)
-        topObj := graph addNode(topMeshStyle, topMesh)
+        topObj := graph->addNode(topMeshStyle, topMesh)
 
         botMesh := MeshTools sliceMesh(sphere dispShape, aabbox3df tmp( 1, -100 ,-100, 100, 100, 100 ) )
         botMeshStyle := EmptyStyle clone setPos(0, 3.2, 0) setTexture("Media/grass.jpg") // setWireframe(true)
-        botObj := graph addNode(botMeshStyle, botMesh)
+        botObj := graph->addNode(botMeshStyle, botMesh)
 
-        //graph addNode(BoxStyle clone setPos(1, 3.2, 0) setSize(0.02, 6, 6) setMass(0))
+        //graph->addNode(BoxStyle clone setPos(1, 3.2, 0) setSize(0.02, 6, 6) setMass(0))
 
-        graph time setTimeout(100, block(
-            if (graph events isKeyDown(KEY_KEY_A),
+        graph->time setTimeout(100, block(
+            if (graph->events isKeyDown(KEY_KEY_A),
                 topObj node setVisible(false)
             )
-            if (graph events isKeyDown(KEY_KEY_S),
+            if (graph->events isKeyDown(KEY_KEY_S),
                 topObj node setVisible(true)
             )
-            if (graph events isKeyDown(KEY_KEY_D),
+            if (graph->events isKeyDown(KEY_KEY_D),
                 botObj node setVisible(false)
             )
-            if (graph events isKeyDown(KEY_KEY_F),
+            if (graph->events isKeyDown(KEY_KEY_F),
                 botObj node setVisible(true)
             )
             100
         ))
     )
 
-    return Props
-)
+} // namespace Glue

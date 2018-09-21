@@ -29,135 +29,105 @@ namespace {
 
 namespace Glue {
 
+    Terrain::Terrain()
+    {
+        worldSizeX = 64;
+        worldSizeY = 64;
+        levelRect =
+            rectf(
+                vector2df(-worldSizeX/2f, -worldSizeY/2f),
+                dimension2df(worldSizeX, worldSizeY)
+            );
+        numTilesX = 4;
+        numTilesY = 4;
 
-    Terrain := Object clone lexicalDo(
-        appendProto(namespace_irr video)
-        appendProto(namespace_irr core)
-        appendProto(namespace_TPS)
-        appendProto(namespace_Custom)
+        tileDimensions = dimension2df(
+            levelRect.getWidth() / numTilesX, levelRect.getHeight() / numTilesY);
+    }
 
-        Styles := Styles GameObjStyles
-
-        Tile := Tile
-
-        graph ::= nil
-        assets ::= nil
-        meshMan ::= nil
-
-        levelRect ::= nil
-        tileDimensions ::= nil
-
-        tileArray ::= nil
-        numTilesX ::= 0
-        numTilesY ::= 0
-
-        tps ::= nil
-        surface ::= nil
-
-        initialSplit ::= 4
-
-        pathMinZ ::= -2.0
-        pathMaxZ ::= 2.0
-        skyCutZ ::= -9.0
-
-        minFitSizeLen ::= 0.5 + 0.01
-
-        minFitSize ::= dimension2df tmp(minFitSizeLen, minFitSizeLen)
-    )
-
-    Terrain init := method(
-        worldSizeX := 64
-        worldSizeY := 64
-        setLevelRect(
-            rectf tmpPosSize(
-                vector2df tmp(-worldSizeX/2, -worldSizeY/2),
-                dimension2df tmp(worldSizeX, worldSizeY)
-            )
-        )
-        setNumTilesX(4)
-        setNumTilesY(4)
-
-        setTileDimensions(dimension2df tmp(
-            levelRect getWidth / numTilesX, levelRect getHeight / numTilesY))
-    )
-
-    Terrain load := method(
-
-        setTileArray(list())
-        tileArray setSize(numTilesX * numTilesY)
+    void Terrain::load()
+    {
+        tileArray.resize(numTilesX * numTilesY);
 
         // The num tiles in meshes and the surface need not be identical.
-        surfaceCols := numTilesX
-        surfaceRows := numTilesY
-        surfaceMin := Vec tmp(levelRect get_UpperLeftCorner get_X, 0, levelRect get_UpperLeftCorner get_Y)
-        surfaceMax := Vec tmp(levelRect get_LowerRightCorner get_X, 0, levelRect get_LowerRightCorner get_Y)
+        surfaceCols = numTilesX;
+        surfaceRows = numTilesY;
+        surfaceMin = Vec(levelRect.UpperLeftCorner.X, 0, levelRect.UpperLeftCorner.Y);
+        surfaceMax = Vec(levelRect.LowerRightCorner.X, 0, levelRect.LowerRightCorner.Y);
 
-        setTps(
-            ThinPlateQuilt tmp(surfaceCols, surfaceRows, surfaceMin, surfaceMax)
-        )
+        tps = new ThinPlateQuilt(surfaceCols, surfaceRows, surfaceMin, surfaceMax);
 
-        controlPointStyle := Styles BallStyle clone setPhysShape("none") setSize(0.5) setIsMouseDraggable(true)
+        for (int i=0; i<100; i++)
+        {
+            float cpx = get_random_float(
+                    levelRect.UpperLeftCorner.X, levelRect.LowerRightCorner.X);
+            float cpy = get_random_float(
+                    levelRect.UpperLeftCorner.Y, levelRect.LowerRightCorner.Y);
 
-        100 repeat(
-            cpx := ScriptUtil get_random_float(
-                    levelRect get_UpperLeftCorner get_X, levelRect get_LowerRightCorner get_X)
-            cpy := ScriptUtil get_random_float(
-                    levelRect get_UpperLeftCorner get_Y, levelRect get_LowerRightCorner get_Y)
+            float h = get_random_float(-11.0, 5.0);
 
-            h := ScriptUtil get_random_float(-11.0, 5.0)
+            tps->addControlPoint(
+                    Vec(cpx, h, cpy)
+            );
 
-            tps addControlPoint(
-                Vec tmp(cpx, h, cpy)
-            )
+            BallStyle controlPointStyle;
+            controlPointStyle
+                    .setPhysShape("none")
+                    .setSize(0.5)
+                    .setIsMouseDraggable(true)
+                    .setPos(cpx, cpy, h);
 
-            graph addNode(controlPointStyle clone setPos(cpx, cpy, h))
-        )
-        tps refresh
+            graph->addNode(controlPointStyle);
+        }
 
-        setSurface(
-            SurfaceQuadTree tmp(levelRect, tps, "Root")
-        )
+        tps->refresh();
+
+        surface = new SurfaceQuadTree(levelRect, tps, "Root");
 
         // Initial grid placement
-        surface split(initialSplit)
+        surface->split(initialSplit);
 
         // Split the grid to fit the path more closely
-        surface fit(minFitSize, list(skyCutZ, pathMinZ, pathMaxZ))
+        surface->fit(minFitSize, {skyCutZ, pathMinZ, pathMaxZ});
 
-        numTilesX repeat(x,
+        for (int x=0; x<numTilesX; x++)
+        {
             //writeln("Loading terrain tile column ", x, " of ", numTilesX)
-            numTilesY repeat(y,
-                offset := 0.1 // this ensures right/bottom tile boundaries are triangulated.
-                tilePos := vector2df tmp(x * tileDimensions get_Width + levelRect get_UpperLeftCorner get_X + offset,
-                                         y * tileDimensions get_Height + levelRect get_UpperLeftCorner get_Y + offset)
-                tileRect := rectf tmpPosSize(tilePos, tileDimensions)
-                tileArray atPut(tileIndex(x,y),
-                    Tile clone  setGraph(graph) setMeshMan(meshMan) setTileRect(tileRect) setSurface(surface) setPathMinZ(pathMinZ) setPathMaxZ(pathMaxZ) setSkyCutZ(skyCutZ) refresh
-                )
-            )
-        )
-    )
+            for (int y=0; y<numTilesY; y++)
+            {
+                Scalar offset = 0.1; // this ensures right/bottom tile boundaries are triangulated.
+                vector2df tilePos(x * tileDimensions get_Width + levelRect get_UpperLeftCorner get_X + offset,
+                                         y * tileDimensions get_Height + levelRect get_UpperLeftCorner get_Y + offset);
+                rectf tileRect(tilePos, tileDimensions);
+                Tile tile;
+                tile
+                    .setGraph(graph)
+                    .setMeshMan(meshMan)
+                    .setTileRect(tileRect)
+                    .setSurface(surface)
+                    .setPathMinZ(pathMinZ)
+                    .setPathMaxZ(pathMaxZ)
+                    .setSkyCutZ(skyCutZ)
+                    .refresh();
+                tileArray[tileIndex(x,y)] = tile;
+            }
+        }
+    }
 
-    Terrain tileIndex := method(x, y,
+    std::size_t Terrain::tileIndex(int x, int y) const
+    {
+        if (x >= numTilesX)
+            throw std::logic_error("x out of bounds");
 
-        if( x >= numTilesX,
-            Exception raise("x out of bounds")
-        )
+        if( y >= numTilesY)
+            throw std::logic_error("y out of bounds");
 
-        if( y >= numTilesY,
-            Exception raise("y out of bounds")
-        )
+        std::size result = y*numTilesX + x;
 
-        result := return y*numTilesX + x
+        if (result >= tileArray.size())
+            throw std::logic_error("tileIndex out of bounds.");
 
-        if( result >= tileArray size,
-            Exception raise("index out of bounds. index=" .. result asString .. " array size=" .. tileArray size asString .. " x=" .. x asString .. " y=" .. y asString)
-        )
-
-        return result
-    )
-
-    return Terrain
-)
+        return result;
+    }
 
 }  // namespace Glue
