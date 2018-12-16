@@ -1,3 +1,7 @@
+#include "Glue/LevelSystem/LevelEditor.hpp"
+
+/* TODO:  Figure out Props in order to make LevelEditor work.
+
 method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
     LevelEditor := Structure clone lexicalDo(
@@ -81,15 +85,13 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
         x := intersection get_X
         y := intersection get_Y
 
-        /*
-        color := SColor tmp(10, 255, 0, 0)
-
-        // Draw horizontal cross-hair at y position
-        driver draw3DLine(vector3df tmp(x-20, y, 0), vector3df tmp(x+20, y, 0), color)
-
-        // Draw vertical cross-hair at x position
-        driver draw3DLine(vector3df tmp(x, y-20, 0), vector3df tmp(x, y+20, 0), color)
-        */
+//        color := SColor tmp(10, 255, 0, 0)
+//
+//        // Draw horizontal cross-hair at y position
+//        driver draw3DLine(vector3df tmp(x-20, y, 0), vector3df tmp(x+20, y, 0), color)
+//
+//        // Draw vertical cross-hair at x position
+//        driver draw3DLine(vector3df tmp(x, y-20, 0), vector3df tmp(x, y+20, 0), color)
 
         terrain highlight(x, y)
     )
@@ -169,3 +171,5 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Structure, Styles,
 
     return LevelEditor
 )
+
+ */

@@ -4,7 +4,7 @@
 
 namespace Glue {
 
-class NodeInteraction : public Interaction
+class NodeInteraction
 {
 private:
     class Impl;

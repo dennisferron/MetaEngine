@@ -1,18 +1,13 @@
 #pragma once
 
-namespace irr { namespace video {
-    class SColor;
-}}
+#include "SColor.h"
+#include "ISceneNode.h"
 
-namespace irr { namespace scene {
-    class ISceneNode;
-}}
+#include "Glue/Irrlicht/ShapeBuilder.hpp"
+#include "Glue/Irrlicht/SceneNodes.hpp"
+#include "Glue/Irrlicht/Assets.hpp"
 
-namespace Glue {
-
-class ShapeBuilder;
-class SceneNodes;
-class Assets;
+namespace Glue { namespace Irrlicht {
 
 class SceneNodeBuilder
 {
@@ -25,7 +20,7 @@ private:
 public:
 
     SceneNodeBuilder(ShapeBuilder* shapeBuilder, SceneNodes* sceneNodes, Assets* assets);
-    ISceneNode* buildSceneNode(GameObjStyle* style) const;
+    irr::scene::ISceneNode* buildSceneNode(GameObjStyle* style) const;
 };
 
-}
+}}

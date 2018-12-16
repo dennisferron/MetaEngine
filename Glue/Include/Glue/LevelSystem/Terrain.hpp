@@ -2,11 +2,13 @@
 
 #include "irrlicht.h"
 
-#include "MeshTools.hpp"
+#include "Glue/MeshTools/MeshTools.hpp"
+#include "Glue/MeshTools/SurfaceQuadTree.hpp"
+#include "Glue/Constants.hpp"
 
 #include <vector>
 
-namespace Glue {
+namespace Glue { namespace LevelSystem {
 
 class Graph;
 class Tile;
@@ -15,9 +17,9 @@ class Terrain
 {
 private:
     Graph* graph;
-    irr::scene::IMeshSceneNodeManager* meshMan;
+    irr::scene::IMeshManipulator* meshMan;
 
-    irr::core::bbox2df levelRect;
+    irr::core::rectf levelRect;
     irr::core::dimension2df tileDimensions;
 
     std::vector<Tile*> tileArray;
@@ -43,4 +45,4 @@ public:
     std::size_t tileIndex(int x, int y) const;
 };
 
-}
+}}

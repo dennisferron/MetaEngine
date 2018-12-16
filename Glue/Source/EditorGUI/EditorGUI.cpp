@@ -1,3 +1,6 @@
+#include "Glue/EditorGUI/EditorGUI.hpp"
+
+/*
 method(namespace_irr,
 
     EditorGUI := Module clone
@@ -7,3 +10,4 @@ method(namespace_irr,
         Toolbar := scripts Toolbar(namespace_irr)
     )
 )
+*/

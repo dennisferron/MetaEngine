@@ -1,12 +1,14 @@
 #pragma once
 
-namespace Glue {
+#include "Glue/Constants.hpp"
 
-    using Scalar = double;
+namespace Glue {
 
     // Constraints have one or two mount points.
     struct MountStyle
     {
+        MountStyle(Scalar x, Scalar y, Scalar z);
+
         // Location (relative to the rigid body)
         Scalar x = 0;
         Scalar y = 0;
@@ -24,7 +26,7 @@ namespace Glue {
         Scalar axisZ = 0;
         Scalar angle = 0;
 
-        MountStyle& setAxis(x, y, z);
+        MountStyle& setAxis(Scalar x, Scalar y, Scalar z);
 
         // Rotation by yaw, pitch, roll (better if your frame of reference is outside the object -?)
         Scalar yaw = 0;

@@ -2,6 +2,11 @@
 
 #include <memory>
 
+namespace Glue {
+    class Node;
+    class TimeInfo;
+}
+
 namespace Glue { namespace Avatar {
 
 class Component

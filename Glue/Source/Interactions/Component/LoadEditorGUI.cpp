@@ -1,4 +1,6 @@
+#include "Glue/Interactions/Component/LoadEditorGUI.hpp"
 
+/*
 method(ComponentInteraction, Model, Irrlicht, EditorGUI, Avatar,
 
     LoadEditorGUI := ComponentInteraction clone lexicalDo(
@@ -22,3 +24,4 @@ method(ComponentInteraction, Model, Irrlicht, EditorGUI, Avatar,
 
     return LoadEditorGUI
 )
+*/

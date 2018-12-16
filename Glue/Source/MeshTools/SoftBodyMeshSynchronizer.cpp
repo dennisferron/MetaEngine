@@ -16,7 +16,7 @@ using namespace irr::core;
 using namespace irr::video;
 using namespace irr::scene;
 
-namespace MetaEngine {
+namespace Glue {
 
 SoftBodyMeshSynchronizer::SoftBodyMeshSynchronizer(btSoftBody* softBody_, irr::scene::IMeshBuffer* meshBuf_)
     : softBody(softBody_), meshBuf(meshBuf_)

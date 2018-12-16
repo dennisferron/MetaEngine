@@ -1,3 +1,6 @@
+#include "Glue/EditorGUI/Component.hpp"
+
+/*
 method(module, namespace_irr,
     Component := Object clone lexicalDo(
         module := module
@@ -19,3 +22,4 @@ method(module, namespace_irr,
         )
     )
 )
+*/

@@ -1,3 +1,6 @@
+#include "Glue/Irrlicht/UserInterface/SceneNodeSelector.hpp"
+
+/*
 
 method(
 
@@ -19,3 +22,4 @@ SceneNodeSelector := Object clone lexicalDo(
 )
 
 )
+*/

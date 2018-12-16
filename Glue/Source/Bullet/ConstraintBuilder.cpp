@@ -1,3 +1,28 @@
+#include "Glue/Bullet/ConstraintBuilder.hpp"
+
+#include "LinearMath/btTransform.h"
+
+namespace Glue { namespace Bullet {
+
+    ConstraintBuilder::ConstraintBuilder()
+    {
+
+    }
+
+    ConstraintObj* ConstraintBuilder::create(LinkStyle* style, btRigidBody& objA, btRigidBody& objB)
+    {
+        throw "Not implemented.";
+    }
+
+    // Utility method
+    btTransform ConstraintBuilder::getFrame(Mount const& mount)
+    {
+        throw "Not implemented.";
+    }
+
+}}
+
+/*
 method(namespace_Bullet, ConstraintStyles,
 
     ConstraintBuilder := Object clone lexicalDo(
@@ -126,3 +151,4 @@ method(namespace_Bullet, ConstraintStyles,
 
     return ConstraintBuilder
 )
+*/

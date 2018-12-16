@@ -2,10 +2,8 @@
 
 #include <memory>
 
-namespace irr { video {
-    class ITexture;
-    class IImage;
-}}
+#include "ITexture.h"
+#include "IImage.h"
 
 namespace Glue { namespace Irrlicht {
 
@@ -21,8 +19,8 @@ public:
     ~Assets();
 
     std::string getPath(std::string const& assetFile) const;
-    ITexture* loadTextureFromFile(std::string const& filename) const;
-    IImage* loadImageFromFile(std::string const& filename) const;
+    irr::video::ITexture* loadTextureFromFile(std::string const& filename) const;
+    irr::video::IImage* loadImageFromFile(std::string const& filename) const;
 };
 
 }}

@@ -8,7 +8,7 @@ namespace irr { namespace video {
     class IVideoDriver;
 }}
 
-namespace MetaEngine {
+namespace Glue {
 
 class IrrlichtBulletDebugDrawer : public btIDebugDraw
 {

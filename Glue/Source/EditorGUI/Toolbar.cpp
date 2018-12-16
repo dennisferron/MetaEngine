@@ -1,3 +1,7 @@
+#include "Glue/EditorGUI/Toolbar.hpp"
+
+/*
+
 method(namespace_irr,
 
     Toolbar := Object clone lexicalDo(
@@ -45,3 +49,5 @@ method(namespace_irr,
 
     return Toolbar
 )
+
+*/

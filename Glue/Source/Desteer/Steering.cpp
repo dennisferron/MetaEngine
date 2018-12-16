@@ -1,4 +1,6 @@
+#include "Glue/Desteer/Steering.hpp"
 
+/*
 method(namespace_desteer, namespace_irr,
 
     Steering := Object clone lexicalDo(
@@ -173,3 +175,4 @@ method(namespace_desteer, namespace_irr,
         )
     )
 )
+*/

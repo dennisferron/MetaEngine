@@ -1,4 +1,6 @@
+#include "Glue/Interactions/Component/BulletTime.hpp"
 
+/*
 method(ComponentInteraction, Model, Bullet,
 
     BulletTime := ComponentInteraction clone lexicalDo(
@@ -32,3 +34,4 @@ method(ComponentInteraction, Model, Bullet,
 
     return BulletTime
 )
+*/

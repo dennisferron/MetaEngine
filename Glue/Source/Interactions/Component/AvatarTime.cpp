@@ -1,3 +1,6 @@
+#include "Glue/Avatar/Avatar.hpp"
+
+/*
 
 method(ComponentInteraction, Model, Avatar,
 
@@ -26,3 +29,5 @@ method(ComponentInteraction, Model, Avatar,
 
     return AvatarTime
 )
+
+*/

@@ -2,6 +2,10 @@
 
 #include <functional>
 
+#include "Glue/Constants.hpp"
+#include "Glue/Styles/LinkStyle.hpp"
+#include "Glue/Bullet/NodeAttribute.hpp"
+
 class btIDebugDraw;
 class btRigidBody;
 

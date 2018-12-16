@@ -1,5 +1,5 @@
 #pragma once
 
-#include "Component/Component.hpp"
+#include "Glue/Interactions/Component/ComponentInteractionModule.hpp"
 #include "Node/Node.hpp"
 #include "Link/Link.hpp"

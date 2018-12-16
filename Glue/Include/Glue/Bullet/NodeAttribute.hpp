@@ -3,10 +3,11 @@
 #include <functional>
 #include <memory>
 
+#include "Glue/Constants.hpp"
+
 class btVector3;
 
 namespace Glue {
-    using Scalar = double;
     class Node;
 }
 
@@ -25,7 +26,6 @@ public:
 
     void setLinearVelocity(Scalar xv, Scalar yv, Scalar zv);
     void setAngularVelocity(Scalar xv, Scalar yv, Scalar zv);
-    void applyTorque(Scalar x, Scalar y, Scalar z);
     btVector3 const& getAngularVelocity() const;
     btVector3 const& getLinearVelocity() const;
     void addChild(Node* otherObj);
@@ -46,7 +46,7 @@ public:
     void fallApart(std::vector<NodeAttribute*> visited,
                    std::vector<NodeAttribute*> removed);
     void structureDoForEachObject(
-                    std::function<NodeAttribute*> code,
+                    std::function<void(NodeAttribute*)> code,
                     std::vector<NodeAttribute*> visited);
 };
 

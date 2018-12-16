@@ -1,3 +1,6 @@
+#include "Glue/Interactions/Node/MotionState.hpp"
+
+/*
 
 method(NodeInteraction, Node, Irrlicht, Bullet,
 
@@ -20,3 +23,5 @@ method(NodeInteraction, Node, Irrlicht, Bullet,
 
     return MotionState
 )
+
+ */

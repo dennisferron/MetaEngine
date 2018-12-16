@@ -1,11 +1,13 @@
 #pragma once
 
-namespace Glue {
-    class NodeStyle;
-}
+#include "Glue/Styles/GameObjStyle.hpp"
+#include "btTransform.h"
 
-namespace Glue { namespace Bullet { namespace ShapeOffsets {
+namespace Glue { namespace Bullet {
 
+class ShapeOffsets
+{
+public:
     btTransform none(NodeStyle const& style);
     btTransform ball(NodeStyle const& style);
     btTransform box(NodeStyle const& style);
@@ -18,5 +20,6 @@ namespace Glue { namespace Bullet { namespace ShapeOffsets {
     btTransform hills(NodeStyle const& style);
     btTransform mesh(NodeStyle const& style);
     btTransform cloth(NodeStyle const& style);
+};
 
-}}}
+}}

@@ -1,4 +1,6 @@
+#include "Glue/Interactions/Node/PlayerPhysics.hpp"
 
+/*
 method(NodeInteraction, Node, Avatar, Bullet, Time, Constants,
 
     PlayerPhysics := NodeInteraction clone lexicalDo(
@@ -69,12 +71,11 @@ method(NodeInteraction, Node, Avatar, Bullet, Time, Constants,
                 ,
 
                     ang := TAU/4 // straight up
-                /* TODO Put these jump angle adjustments back when we have Sense working again:
-                    ang := canJump avgAng + TAU/2 // Apply force opposite the ground
-
+                // TODO Put these jump angle adjustments back when we have Sense working again:
+                  //  ang := canJump avgAng + TAU/2 // Apply force opposite the ground
                     // Adjust the jump angle to be closer to straight up than pure ground angle
-                    ang := (ang + 2*TAU/4)/3
-                */
+                    //ang := (ang + 2*TAU/4)/3
+
 
                     jumpX := jumpVel * (ang cos)
                     jumpY := jumpVel * (ang sin)
@@ -107,3 +108,5 @@ method(NodeInteraction, Node, Avatar, Bullet, Time, Constants,
 
     return PlayerPhysics
 )
+
+ */

@@ -9,16 +9,19 @@
 #include <vector>
 #include <set>
 
-namespace MetaEngine {
+namespace Glue {
 
 class PossibleVertex;
 typedef boost::intrusive_ptr<PossibleVertex> PsblVertPtr;
 
+void intrusive_ptr_add_ref(PossibleVertex const* p);
+void intrusive_ptr_release(PossibleVertex const* p);
+
 class PossibleVertex
 {
 private:
-    friend void ::MetaEngine::intrusive_ptr_add_ref(PossibleVertex const* p);
-    friend void ::MetaEngine::intrusive_ptr_release(PossibleVertex const* p);
+    friend void ::Glue::intrusive_ptr_add_ref(PossibleVertex const* p);
+    friend void ::Glue::intrusive_ptr_release(PossibleVertex const* p);
 
     mutable std::size_t ref_count;
 

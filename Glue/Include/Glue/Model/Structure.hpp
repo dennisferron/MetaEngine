@@ -22,25 +22,32 @@ namespace Glue {
     //      head(leftEye, rightEye) neck  // a head with two eyes on a neck
     //      head(leftEye) rightEye neck  // a head with one eye, attached to another eye and that eye has a neck.
 
-    template <typename T, typename... As>
+    // TODO:  Make this work without needing to be a template.
     class Structure
     {
-    private:
-        T root;
-        std::tuple<As...> attachments;
 
-    public:
-
-        Structure(T& root, As...& attachments);
-
-        friend std::ostream& operator <<(std::ostream& os, Structure<T, As...> const& s) const
-        {
-            return os << s << "(" << attachments << ")";
-        }
-
-        Structure<T, As...> move(Scalar x, Scalar y, Scalar z) const
-        {
-            return Structure(root.move(x,y,z), attachments.move(x,y,z)...);
-        }
     };
+
+//    template <typename T, typename... As>
+//    class Structure
+//    {
+//    private:
+//        T root;
+//        std::tuple<As...> attachments;
+//
+//    public:
+//
+//        Structure(T& root, As&... attachments);
+//
+//        friend std::ostream& operator <<(std::ostream& os, Structure<T, As...> const& s)
+//        {
+//            return os << s << "(" << s.attachments << ")";
+//        }
+//
+//        Structure<T, As...> move(Scalar x, Scalar y, Scalar z) const
+//        {
+//            throw "Not implemented.";
+//            //return Structure(root.move(x,y,z), attachments.move(x,y,z)...);
+//        }
+//    };
 }

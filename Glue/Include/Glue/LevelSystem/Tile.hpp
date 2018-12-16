@@ -1,30 +1,21 @@
 #pragma once
 
-namespace irr {
+#include "IMeshManipulator.h"
+#include "IMesh.h"
+#include "rect.h"
 
-    namespace core {
-        template <typename T>
-        class bbox2d;
-
-        typedef bbox2d<float> bbox2df;
-    }
-
-    namespace scene {
-        class IMeshSceneNodeManager;
-    }
-}
+#include "Glue/Constants.hpp"
+#include "Glue/Model/Graph.hpp"
 
 namespace Glue {
-
-using Scalar = double;
 
 class Tile
 {
 private:
     Graph* graph;
-    irr::scene::IMeshSceneNodeManager;
+    irr::scene::IMeshManipulator* meshMan;
 
-    irr::core::bbox2df tileRect;
+    irr::core::rectf tileRect;
 
     Scalar pathMinZ;
     Scalar pathMaxZ;

@@ -1,58 +1,57 @@
-method(namespace_irr, PredefinedValues,
+#include "Glue/Irrlicht/SceneNodes.hpp"
 
-    SceneNodes := Object clone lexicalDo(
+using namespace irr::core;
 
-        smgr ::= nil
-        assets ::= nil
+namespace Glue { namespace Irrlicht {
 
-        appendProto(namespace_irr)
-        appendProto(namespace_irr core)
-        appendProto(PredefinedValues)
+    SceneNodes::SceneNodes(irr::scene::ISceneManager* smgr, Assets* assets)
+        : smgr(smgr), assets(assets)
+    {
+    }
 
-        irr := namespace_irr
+    irr::video::ITexture* SceneNodes::loadTexture(GameObjStyle* style, std::string const& key)
+    {
+        throw "Implement conversion from string to texture keys enum, or change signature of this function.";
+        //assets->loadTextureFromFile(style->textureMap[key]);
+    }
 
-        loadTexture := method(style, key,
-            assets loadTextureFromFile(style textureMap at(key))
-        )
-
-        skybox := method(style,
-            smgr addSkyBoxSceneNode(
+    irr::scene::ISceneNode* SceneNodes::skybox(GameObjStyle* style)
+    {
+        return smgr->addSkyBoxSceneNode(
                 loadTexture(style, "up"),
                 loadTexture(style, "down"),
                 loadTexture(style, "left"),
                 loadTexture(style, "right"),
                 loadTexture(style, "front"),
                 loadTexture(style, "back"),
-                nil,    // parent
+                nullptr,    // parent
                 0       // id
-            )
-        )
+        );
+    }
 
-        default := method(style, shape,
+    irr::scene::ISceneNode* SceneNodes::default_(GameObjStyle* style, irr::scene::IMesh* shape)
+    {
 
-            sceneNode := smgr addMeshSceneNode(
-                shape,  // mesh
-                nil, // parent
-                0,         // id
-                vector3df tmp(style x, style y, -style z),    // position
-                vector3df tmp,    // rotation
-                vector3df tmp(style dispScaleX, style dispScaleY, style dispScaleZ), // scale
-                false  // alsoAddIfMeshPointerZero
-            )
+      return smgr->addMeshSceneNode(
+              shape,  // mesh
+              nullptr, // parent
+              0,         // id
+              vector3df(style->x, style->y, -style->z),    // position
+              vector3df(0, 0, 0),    // rotation
+              vector3df(style->dispScaleX, style->dispScaleY, style->dispScaleZ), // scale
+              false  // alsoAddIfMeshPointerZero
+        );
+    }
 
-            // Debugging - this creates the boxes and arrows
-            /*
-            sceneNode addChild(
-                irr custom OrientationHelperSceneNode new(
-                    1.0, // size
-                    sceneNode, // parent
-                    smgr, // mgr
-                    0     // id
-                )
-            )
-            */
-
-            return sceneNode
+    // Debugging - this creates the boxes and arrows
+    /*
+    sceneNode addChild(
+        irr custom OrientationHelperSceneNode new(
+            1.0, // size
+            sceneNode, // parent
+            smgr, // mgr
+            0     // id
         )
     )
-)
+    */
+}}

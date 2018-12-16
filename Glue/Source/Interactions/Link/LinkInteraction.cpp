@@ -1,3 +1,6 @@
+#include "Glue/Interactions/Link/LinkInteraction.hpp"
+
+/*
 method(Interaction,
 
     LinkInteraction := Interaction clone lexicalDo(
@@ -6,3 +9,4 @@ method(Interaction,
         )
     )
 )
+*/

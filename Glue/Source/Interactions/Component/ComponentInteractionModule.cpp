@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Component/ComponentInteractionModule.hpp"
+
+/*
+
 method(namespace, Model, Subsystems, Constants,
     ComponentInteractionModule := Module clone lexicalDo(
         scripts := self scripts
@@ -10,3 +14,5 @@ method(namespace, Model, Subsystems, Constants,
         LoadEditorGUI := scripts optionalCall(LoadEditorGUI, ComponentInteraction, Model, Subsystems Irrlicht, Subsystems EditorGUI, Subsystems Avatar  )
     )
 )
+
+*/

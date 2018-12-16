@@ -22,7 +22,7 @@ using namespace irr::scene;
 
 using namespace TPS;
 
-namespace MetaEngine {
+namespace Glue {
 
 irr::scene::IMesh* MeshTools::createHillMesh(SurfaceQuadTree& tree, rectf section, double min_height, double max_height)
 {

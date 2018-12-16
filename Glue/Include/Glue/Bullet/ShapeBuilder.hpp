@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Glue/Styles/GameObjStyle.hpp"
+
 class btRigidBody;
 class btTransform;
 

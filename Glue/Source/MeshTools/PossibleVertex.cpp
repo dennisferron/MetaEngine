@@ -18,7 +18,7 @@ using namespace irr::core;
 using namespace irr::video;
 using namespace irr::scene;
 
-namespace MetaEngine {
+namespace Glue {
 
 void intrusive_ptr_add_ref(PossibleVertex const* p)
 {

@@ -1,10 +1,11 @@
 #pragma once
 
-namespace irr { namespace scene {
-    class IGeometryCreator;
-}}
+#include "IMesh.h"
+#include "IGeometryCreator.h"
 
-namespace Glue {
+#include "Glue/Styles/GameObjStyle.hpp"
+
+namespace Glue { namespace Irrlicht {
 
 class DisplayShapes
 {
@@ -15,20 +16,20 @@ private:
 public:
     DisplayShapes(irr::scene::IGeometryCreator* geometry);
 
-    IMesh* none(GameObjStyle* style) const;
-    IMesh* ball(GameObjStyle* style) const;
-    IMesh* box(GameObjStyle* style) const;
-    IMesh* cyl(GameObjStyle* style) const;
-    IMesh* cylX(GameObjStyle* style) const;
-    IMesh* cylZ(GameObjStyle* style) const;
-    IMesh* cone(GameObjStyle* style) const;
-    IMesh* coneX(GameObjStyle* style) const;
-    IMesh* coneZ(GameObjStyle* style) const;
-    IMesh* hills(GameObjStyle* style) const;
-    IMesh* plane(GameObjStyle* style) const;
-    IMesh* cloth(GameObjStyle* style) const;
-    IMesh* mesh(GameObjStyle* style) const;
-    IMesh* skybox(GameObjStyle* style) const;
+    irr::scene::IMesh* none(GameObjStyle* style) const;
+    irr::scene::IMesh* ball(GameObjStyle* style) const;
+    irr::scene::IMesh* box(GameObjStyle* style) const;
+    irr::scene::IMesh* cyl(GameObjStyle* style) const;
+    irr::scene::IMesh* cylX(GameObjStyle* style) const;
+    irr::scene::IMesh* cylZ(GameObjStyle* style) const;
+    irr::scene::IMesh* cone(GameObjStyle* style) const;
+    irr::scene::IMesh* coneX(GameObjStyle* style) const;
+    irr::scene::IMesh* coneZ(GameObjStyle* style) const;
+    irr::scene::IMesh* hills(GameObjStyle* style) const;
+    irr::scene::IMesh* plane(GameObjStyle* style) const;
+    irr::scene::IMesh* cloth(GameObjStyle* style) const;
+    irr::scene::IMesh* mesh(GameObjStyle* style) const;
+    irr::scene::IMesh* skybox(GameObjStyle* style) const;
 };
 
-}
+}}

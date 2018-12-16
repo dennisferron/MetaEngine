@@ -1,3 +1,7 @@
+#include "Glue/Bullet/Bullet.hpp"
+
+/*
+
 method(namespace_Bullet, namespace_Custom, Constants, PredefinedValues, Styles,
     BulletModule := Module clone
     BulletModule lexicalDo(
@@ -12,3 +16,5 @@ method(namespace_Bullet, namespace_Custom, Constants, PredefinedValues, Styles,
         ShapeOffsets := scripts ShapeOffsets(namespace_Bullet, Constants)
     )
 )
+
+*/

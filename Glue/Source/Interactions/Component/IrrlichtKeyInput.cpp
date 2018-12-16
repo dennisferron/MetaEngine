@@ -1,3 +1,6 @@
+#include "Glue/Interactions/Component/IrrlichtKeyInput.hpp"
+
+/*
 
 method(ComponentInteraction, Model, Irrlicht, Avatar,
 
@@ -20,3 +23,5 @@ method(ComponentInteraction, Model, Irrlicht, Avatar,
 
     return IrrlichtKeyInput
 )
+
+*/

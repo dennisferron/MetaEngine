@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Link/SelectNode.hpp"
+
+/*
+
 method(LinkInteraction, Link, Irrlicht,
 
     SelectNode := LinkInteraction clone lexicalDo(
@@ -27,3 +31,5 @@ method(LinkInteraction, Link, Irrlicht,
 
     return SelectNode
 )
+
+ */

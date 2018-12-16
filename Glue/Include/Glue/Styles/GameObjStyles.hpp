@@ -32,7 +32,7 @@ namespace Glue { namespace GameObjStyles {
     struct CylZStyle : GameObjStyle
     {
         CylZStyle();
-    }
+    };
 
     struct ConeStyle : GameObjStyle
     {

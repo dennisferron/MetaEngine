@@ -3,7 +3,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "irrlicht.h"
 
-namespace MetaEngine {
+namespace Glue {
 
 class KinematicAnimator : public btMotionState, public irr::scene::ISceneNodeAnimator
 {

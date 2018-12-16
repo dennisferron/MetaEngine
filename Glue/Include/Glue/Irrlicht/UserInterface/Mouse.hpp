@@ -1,10 +1,10 @@
 #pragma once
 
-#include <functional>
+#include "vector2d.h"
 
-namespace irr { namespace core {
-    class vector2di;
-}}
+#include "Glue/LevelSystem/Tile.hpp"
+
+#include <functional>
 
 namespace irr { namespace video {
     class ITriangle;
@@ -31,7 +31,7 @@ public:
     irr::video::ITriangle* selectTriangle(Scalar X, Scalar Y);
     void handleMouse(Scalar X, Scalar Y, int button);
     irr::core::vector3df getPlaneIntersection(Scalar X, Scalar Y) const;
-    void dragging(Scalar X, Scalar Y, MouseInput const& mouseInput);
+    void dragging(Scalar X, Scalar Y, irr::SEvent::SMouseInput const& mouseInput);
     void dragToScreenPos(Scalar X, Scalar Y);
     Node* selectNode(Scalar X, Scalar Y);
 };

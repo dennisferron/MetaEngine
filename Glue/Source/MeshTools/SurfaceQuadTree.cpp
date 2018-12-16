@@ -17,7 +17,7 @@ using namespace irr::scene;
 
 using namespace TPS;
 
-namespace MetaEngine {
+namespace Glue {
 
 void SurfaceQuadTree::sweep(std::vector<PsblVertPtr>& triangles, irr::core::rectf const& section, Visitor* visitor)
 {

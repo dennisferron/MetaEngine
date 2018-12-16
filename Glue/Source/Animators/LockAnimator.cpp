@@ -9,7 +9,7 @@ using namespace irr;
 using namespace irr::core;
 using namespace irr::scene;
 
-namespace MetaEngine {
+namespace Glue {
 
 LockAnimator::LockAnimator(btMotionState const& target_, btTransform const& centerOfMassOffset_)
     : stop_rotation(true), target(target_), centerOfMassOffset(centerOfMassOffset_) {}

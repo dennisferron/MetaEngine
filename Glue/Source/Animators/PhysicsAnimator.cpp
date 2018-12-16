@@ -10,7 +10,7 @@ using namespace irr;
 using namespace irr::core;
 using namespace irr::scene;
 
-namespace MetaEngine {
+namespace Glue {
 
 PhysicsAnimator::PhysicsAnimator(btTransform const& trans_, btTransform const& centerOfMassOffset_)
     : trans(trans_), centerOfMassOffset(centerOfMassOffset_), cached_node(0)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Glue/Model/Graph.hpp"
+
 #include <functional>
 
 namespace irr {
@@ -9,8 +11,9 @@ namespace irr {
 namespace Glue { namespace Irrlicht {
 
 using MenuItem = std::function<void()>;
+class MenuPath;
 
-class Menu : public AbstractMenu
+class Menu
 {
 private:
 
@@ -19,7 +22,7 @@ private:
 
 public:
 
-    MenuItem(Graph* engine, MenuPath* path, Menu* parent);
+    Menu(Graph* engine, MenuPath* path, Menu* parent);
     void load();
     Menu& doKey(irr::EKEY_CODE key);
     void draw();

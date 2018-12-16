@@ -13,14 +13,14 @@ class line3df;
 
 }}
 
-namespace MetaEngine { namespace Model {
+namespace Glue { namespace Model {
 
 class Graph;
 
 }}
 
 
-namespace MetaEngine {
+namespace Glue {
 
 class RootModule
 {

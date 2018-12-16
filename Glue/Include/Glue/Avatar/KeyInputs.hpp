@@ -2,6 +2,12 @@
 
 #include <memory>
 
+#include "irrlicht.h"
+
+namespace Glue {
+    class Node;
+}
+
 namespace Glue { namespace Avatar {
 
 class KeyInputs
@@ -13,7 +19,7 @@ private:
 public:
     KeyInputs();
     ~KeyInputs();
-    void update(Node* player, EET_KEY_INPUT_EVENT events);
+    void update(Node* player, irr::IEventReceiver* events);
 };
 
 }}

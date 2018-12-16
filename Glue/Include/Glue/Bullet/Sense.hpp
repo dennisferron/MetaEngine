@@ -1,3 +1,23 @@
+#pragma once
+
+#include <memory>
+
+namespace Glue { namespace Bullet {
+
+    class Sense
+    {
+    private:
+        class Impl;
+        std::unique_ptr<Impl> impl;
+
+    public:
+        Sense();
+        ~Sense();
+    };
+
+}}
+
+/*
 
 method(namespace_Bullet,
 
@@ -180,3 +200,4 @@ method(namespace_Bullet,
 
     return Sense
 )
+*/

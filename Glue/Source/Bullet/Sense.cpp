@@ -1,3 +1,18 @@
+#include "Glue/Bullet/Sense.hpp"
+
+namespace Glue { namespace Bullet {
+
+    class Sense::Impl
+    {
+    };
+
+    Sense::Sense() {}
+
+    Sense::~Sense() {}
+
+}}
+
+/*
 
 method(namespace_Bullet,
 
@@ -180,3 +195,5 @@ method(namespace_Bullet,
 
     return Sense
 )
+
+ */

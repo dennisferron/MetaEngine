@@ -1,4 +1,50 @@
+#include "Glue/Bullet/Component.hpp"
 
+namespace Glue { namespace Bullet {
+
+        class Component::Impl
+        {
+        };
+
+        Component::Component()
+        {}
+
+        Component::~Component()
+        {}
+
+        void Component::setDebugMode(bool debugMode)
+        {}
+
+        void Component::addLink(Link *link)
+        {}
+
+        void Component::setDebugDrawer(btIDebugDraw *drawer)
+        {}
+
+        void Component::setOnTick(std::function<void(TimeInfo)> aBlock)
+        {}
+
+        void Component::setOnPreTick(std::function<void(TimeInfo)> aBlock)
+        {}
+
+        void Component::onPhysics(Scalar timeElapsed)
+        {}
+
+        void Component::onGraphics(Scalar timeElapsed)
+        {}
+
+        void Component::removeConstraint(ConstraintObj *constraint)
+        {}
+
+        ConstraintObj *Component::addConstraint(LinkStyle *style, btRigidBody &attrA, btRigidBody &attrB)
+        {}
+
+        NodeAttribute *Component::addNode(Node *node)
+        {}
+
+}}
+
+/*
 method(module, namespace_Bullet, namespace_Custom,
 
     Component := Object clone lexicalDo(
@@ -181,3 +227,4 @@ method(module, namespace_Bullet, namespace_Custom,
 
     return Component
 )
+*/

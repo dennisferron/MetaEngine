@@ -1,12 +1,12 @@
-namespace irr { namespace scene {
-    class ISceneNode;
-    class IMesh;
-}}
+#pragma once
 
-namespace Glue {
+#include "IMesh.h"
+#include "ISceneNode.h"
 
-class DisplayShapes;
-class GameObjStyle;
+#include "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Irrlicht/DisplayShapes.hpp"
+
+namespace Glue { namespace Irrlicht {
 
 class ShapeBuilder
 {
@@ -20,4 +20,4 @@ public:
     irr::scene::ISceneNode* create(GameObjStyle* style) const;
 };
 
-}
+}}

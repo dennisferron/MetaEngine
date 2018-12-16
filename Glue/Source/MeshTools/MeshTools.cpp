@@ -18,7 +18,7 @@ using namespace irr::core;
 using namespace irr::video;
 using namespace irr::scene;
 
-namespace MetaEngine {
+namespace Glue {
 
 IMesh* MeshTools::createMeshFromSoftBody(btSoftBody* softBody)
 {

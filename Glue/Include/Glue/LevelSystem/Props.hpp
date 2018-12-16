@@ -1,6 +1,15 @@
 #pragma once
 
-namespace Glue::Props {
+#include "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Styles/LinkStyle.hpp"
+#include "Glue/Model/Structure.hpp"
+#include "Glue/Model/Node.hpp"
+#include "Glue/Model/Graph.hpp"
+#include "Glue/LevelSystem/Terrain.hpp"
+#include "Glue/Styles/GameObjStyles.hpp"
+
+namespace Glue {
+    namespace Props {
 
 using NodeStyle = Glue::GameObjStyle;
 using LinkStyle = Glue::LinkStyle;
@@ -15,7 +24,7 @@ struct Tree {
 
     NodeStyle* base;
     LinkStyle* joint;
-    NodeStyle* trunk
+    NodeStyle* trunk;
     NodeStyle* top;
 
     Structure* build();
@@ -70,7 +79,7 @@ struct Cannon {
 
     NodeStyle* hub;
     NodeStyle* barrel;
-    GeneratorStyle* tip;
+    GameObjStyles::GeneratorStyle<GameObjStyles::BallStyle>* tip;
 };
 
 struct Car {
@@ -123,7 +132,7 @@ struct Skybox {
 
 struct Props
 {
-    Terrain* terrain;
+    LevelSystem::Terrain* terrain;
     Skybox* skybox;
 
     Props& loadLevel();
@@ -134,4 +143,4 @@ struct Props
 
 };
 
-}
+}}

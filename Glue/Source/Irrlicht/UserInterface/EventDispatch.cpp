@@ -1,3 +1,6 @@
+#include "Glue/Irrlicht/UserInterface/EventDispatch.hpp"
+
+/*
 
 method(namespace_irr, EnumMap,
 
@@ -36,3 +39,5 @@ EventDispatch addHandler := method(enum, handler,
 return EventDispatch
 
 )
+
+ */

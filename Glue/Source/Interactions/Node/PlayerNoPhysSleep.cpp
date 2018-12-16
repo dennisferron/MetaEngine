@@ -1,3 +1,6 @@
+#include "Glue/Interactions/Node/PlayerNoPhysSleep.hpp"
+
+/*
 
 method(NodeInteraction, Node, Avatar, Bullet,
 
@@ -20,3 +23,5 @@ method(NodeInteraction, Node, Avatar, Bullet,
 
     return PlayerNoPhysSleep
 )
+
+ */

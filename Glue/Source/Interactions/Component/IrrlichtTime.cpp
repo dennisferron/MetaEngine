@@ -1,3 +1,6 @@
+#include "Glue/Interactions/Component/IrrlichtTime.hpp"
+
+/*
 
 method(ComponentInteraction, Model, Irrlicht,
 
@@ -50,3 +53,5 @@ method(ComponentInteraction, Model, Irrlicht,
 
     return IrrlichtTime
 )
+
+ */

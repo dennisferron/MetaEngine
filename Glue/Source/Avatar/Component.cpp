@@ -1,3 +1,33 @@
+#include "Glue/Avatar/Component.hpp"
+
+namespace Glue { namespace Avatar {
+
+    class Component::Impl
+    {
+    };
+
+    Component::Component()
+    {
+    }
+
+    Component::~Component()
+    {
+    }
+
+
+    void Component::attachControl(Node* node)
+    {
+
+    }
+
+    void Component::beforePhysics(TimeInfo const&)
+    {
+
+    }
+
+}}
+
+/*
 method(module,
     Component := Object clone lexicalDo(
 
@@ -24,3 +54,4 @@ method(module,
         )
     )
 )
+*/

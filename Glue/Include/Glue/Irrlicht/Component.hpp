@@ -1,36 +1,30 @@
 #pragma once
 
-namespace irr { namespace video {
-    class SColor;
-    class IVideoDriver;
-    class SExposedVideoData;
-}}
+#include <string>
 
-namespace irr { namespace gui {
-    class IGUIEnvironment;
-}}
+#include "SColor.h"
+#include "IVideoDriver.h"
+#include "SExposedVideoData.h"
+#include "IGUIEnvironment.h"
+#include "ISceneManager.h"
+#include "ISceneCollisionManager.h"
+#include "IMeshManipulator.h"
+#include "IrrlichtDevice.h"
+#include "ITimer.h"
 
-namespace irr { namespace scene {
-    class ISceneManager;
-    class ISceneCollisionManager;
-    class IMeshManipulator;
-}}
+#include "Glue/Irrlicht/UserInterface/EventDispatch.hpp"
+#include "Glue/Irrlicht/UserInterface/GuiEvents.hpp"
+#include "Glue/Irrlicht/UserInterface/Keyboard.hpp"
+#include "Glue/Irrlicht/UserInterface/Menu.hpp"
+#include "Glue/Irrlicht/UserInterface/Mouse.hpp"
+#include "Glue/Irrlicht/UserInterface/MouseDragLinkAttribute.hpp"
+#include "Glue/Irrlicht/UserInterface/SceneNodeSelector.hpp"
 
-namespace irr {
-    class IrrlichtDevice;
-    class ITimer;
-}
+#include "Glue/Irrlicht/Assets.hpp"
+#include "Glue/Irrlicht/Camera.hpp"
+#include "Glue/Irrlicht/SceneNodeBuilder.hpp"
 
-namespace Glue {
-
-class Event;
-class EventDispatch;
-class Keyboard;
-class Mouse;
-class GuiEvents;
-class Assets;
-class SceneNodeBuilder;
-class Camera;
+namespace Glue { namespace Irrlicht {
 
 class Component
 {
@@ -84,4 +78,4 @@ public:
     void removeObj(Node* obj);
 };
 
-}
+}}

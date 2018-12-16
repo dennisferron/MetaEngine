@@ -1,30 +1,25 @@
 #pragma once
 
+#include "ISceneNode.h"
+
+#include "Glue/Model/Domain.hpp"
+#include "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Styles/LinkStyle.hpp"
+#include "Glue/Styles/ConstraintStyle.hpp"
+#include "Glue/Model/Domain.hpp"
+#include "Glue/Model/Interaction.hpp"
+#include "Glue/Model/Node.hpp"
+#include "Glue/Model/Link.hpp"
+#include "Glue/Model/Structure.hpp"
+
 #include <vector>
 #include <string>
 
-namespace MetaEngine {
+namespace Glue {
 
-class RootModule;
-
-}
-
-namespace MetaEngine { namespace Styles {
-
-class GameObjStyle;  // Todo: rename to NodeStyle
-using NodeStyle = GameObjStyle;
-class LinkStyle;    // Todo:  investigate if can merge with ConstraintStyle
-class ConstraintStyle;
-
-}}
-
-namespace MetaEngine {
-
-class Component;
-class Domain;
-class Interaction;
-class Node;
-class Link;
+class Component;  // TODO:  Make this ComponentBase
+class Constraint;  // TODO:  Is this returned from Graph::addConstraint?
+//class Structure;  // TODO:  Or should this also manage Constraint's?
 
 class Graph
 {
@@ -52,7 +47,7 @@ private:
     void removeConstraint(Constraint* constraint);
     void addConstraint(ConstraintStyle const& style, Node* objA, Node* objB);
 
-    Node* nodeToGameObj(irr::Scene::ISceneNode* node) const;
+    Node* nodeToGameObj(irr::scene::ISceneNode* node) const;
 
     void removeObj(Node* obj);
 

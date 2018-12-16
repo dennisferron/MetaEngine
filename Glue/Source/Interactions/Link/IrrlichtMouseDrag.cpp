@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Link/IrrlichtMouseDrag.hpp"
+
+/*
+
 method(LinkInteraction, MouseDragLinkAttribute, IrrlichtNodeAttribute,
 
     IrrlichtMouseDrag := LinkInteraction clone lexicalDo(
@@ -27,3 +31,5 @@ method(LinkInteraction, MouseDragLinkAttribute, IrrlichtNodeAttribute,
 
     return IrrlichtMouseDrag
 )
+
+*/

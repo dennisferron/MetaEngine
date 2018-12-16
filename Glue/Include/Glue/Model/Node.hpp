@@ -19,7 +19,7 @@ class Node
 private:
     Graph* graph;
     GameObjStyle const* style;
-    Domain domain;
+    Domain* domain;
 
     // This list is shared among all Node clones
     static std::vector<Interaction*> possibleInteractions;
@@ -31,13 +31,15 @@ public:
 
     Node& setGraph(Graph* value);
     static void registerInteraction(Interaction* interaction);
-    Node& addAttribute(NodeAttribute* attr, Interation* expectedInteraction);
+    Node& addAttribute(NodeAttribute* attr, Interaction* expectedInteraction);
 
+    /*
     template <typename T>
     T* findAttribute() const
     {
         return domain->findObject<T>(DomainObjects::node);
     )
+    */
 };
 
 }

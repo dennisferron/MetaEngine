@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace Glue { namespace EditorGUI {
 
 class Component

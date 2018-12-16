@@ -1,3 +1,6 @@
+#include "Glue/Interactions/Node/AddScriptObjAnim.hpp"
+
+/*
 
 method(NodeInteraction, Node, IrrlichtNodeAttribute, ScriptObjAnimator,
 
@@ -25,3 +28,4 @@ method(NodeInteraction, Node, IrrlichtNodeAttribute, ScriptObjAnimator,
 
     return AddScriptObjAnim
 )
+*/

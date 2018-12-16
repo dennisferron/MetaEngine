@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Link/Link.hpp"
+
+/*
+
 method(namespace, Model, Subsystems, Constants, Styles,
 
     LinkInteractionModule := Module clone lexicalDo(
@@ -10,3 +14,5 @@ method(namespace, Model, Subsystems, Constants, Styles,
         IrrlichtMouseDrag := scripts IrrlichtMouseDrag(LinkInteraction, Subsystems Irrlicht UserInterface MouseDragLinkAttribute, Subsystems Irrlicht NodeAttribute)
     )
 )
+
+*/

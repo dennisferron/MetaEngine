@@ -2,9 +2,10 @@
 
 #include <functional>
 
+#include "Glue/Constants.hpp"
+
 namespace Glue {
     class Node;
-    using Scalar = double;
 }
 
 namespace Glue { namespace Desteer {

@@ -1,3 +1,6 @@
+#include "Glue/Avatar/Avatar.hpp"
+
+/*
 method(namespace_Bullet, namespace_irr, namespace_Custom, Styles, PredefinedValues,
     Avatar := Module clone
     Avatar lexicalDo(
@@ -9,3 +12,4 @@ method(namespace_Bullet, namespace_irr, namespace_Custom, Styles, PredefinedValu
         Component := scripts Component(Avatar)
     )
 )
+*/

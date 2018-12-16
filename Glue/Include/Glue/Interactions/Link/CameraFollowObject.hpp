@@ -1,3 +1,4 @@
+/*
 method(LinkInteraction, Link, Irrlicht, Avatar, Styles,
 
     // TODO:  Make this allow following any node using a generic position attribute.
@@ -28,3 +29,4 @@ method(LinkInteraction, Link, Irrlicht, Avatar, Styles,
 
     return CameraFollowObject
 )
+*/

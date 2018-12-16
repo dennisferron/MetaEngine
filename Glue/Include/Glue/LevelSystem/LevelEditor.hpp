@@ -1,28 +1,24 @@
 #pragma once
 
-#include "Graph.hpp"
-#include "Terrain.hpp"
+#include "Glue/Model/Graph.hpp"
+#include "Glue/LevelSystem/Terrain.hpp"
+
+#include "ISceneNode.h"
+#include "IVideoDriver.h"
+#include "ISceneCollisionManager.h"
+#include "IGUIEnvironment.h"
+#include "ICursorControl.h"
+#include "IGUIButton.h"
+#include "SColor.h"
+
+#include "Glue/EditorGUI/Toolbar.hpp"
 
 #include <string>
 
-virtual ISceneNode * getSceneNodeAndCollisionPointFromRay
-(core::line3df ray, core::vector3df &outCollisionPoint, core::triangle3df &outTriangle, s32 idBitMask=0, ISceneNode *collisionRootNode=0, bool noDebugObjects=false
+//virtual irr::scene::ISceneNode * getSceneNodeAndCollisionPointFromRay
+//(core::line3df ray, core::vector3df &outCollisionPoint, core::triangle3df &outTriangle, s32 idBitMask=0, ISceneNode *collisionRootNode=0, bool noDebugObjects=false
 
-namespace irr { namespace video {
-    class IVideoDriver;
-}}
-
-namespace irr { namespace scene {
-    class ISceneCollisionManager;
-}}
-
-namespace irr { namespace gui {
-    class IGUIEnvironment;
-    class ICursorControl;
-    class IGUIButton;
-}}
-
-namespace Glue {
+namespace Glue { namespace LevelSystem {
 
 using SColor = irr::video::SColor;
 using EKEY_CODE = irr::EKEY_CODE;
@@ -36,14 +32,14 @@ private:
     irr::gui::ICursorControl* cursor;
     Terrain* terrain;
     irr::scene::ISceneCollisionManager* collMan;
-    Toolbar* toolBar;
+    EditorGUI::Toolbar* toolBar;
 
     irr::gui::IGUIButton* inOutButton;
     std::string zEquation;
     irr::gui::IGUISpinBox* radiusKnob;
 
     irr::core::triangle3df* hitTriangle;
-    ISceneNode* selectedSceneNode;
+    irr::scene::ISceneNode* selectedSceneNode;
     irr::core::vector3df* collisionPoint;
 
 public:
@@ -58,4 +54,4 @@ public:
     void selectNode(int X, int Y);
 };
 
-}
+}}

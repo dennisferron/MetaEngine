@@ -3,7 +3,7 @@
 #include "btBulletDynamicsCommon.h"
 #include "irrlicht.h"
 
-namespace MetaEngine {
+namespace Glue {
 
 class GearConstraint : public btTypedConstraint, public irr::scene::ISceneNodeAnimator
 {

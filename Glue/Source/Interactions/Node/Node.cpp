@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Node/Node.hpp"
+
+/*
+
 method(namespace, Model, Subsystems, Constants,
 
   NodeInteractionModule := Module clone lexicalDo(
@@ -10,3 +14,5 @@ method(namespace, Model, Subsystems, Constants,
     PlayerPhysics := scripts optionalCall(PlayerPhysics, NodeInteraction, Model Node, Subsystems Avatar,  Subsystems Bullet,   Subsystems Time,  Constants  )
   )
 )
+
+ */

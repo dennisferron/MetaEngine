@@ -1,8 +1,8 @@
-#include "Glue/Props.hpp"
+#include "Glue/LevelSystem/Props.hpp"
 #include "irrlicht.h"
-#include "Glue/MeshTools.hpp"
+#include "Glue/MeshTools/MeshTools.hpp"
 #include "ThinPlateSpline/ThinPlateQuilt.hpp"
-#include "Glue/GameObjStyles.hpp"
+#include "Glue/Styles/GameObjStyles.hpp"
 
 using namespace std;
 using namespace boost;
@@ -14,6 +14,8 @@ using namespace irr::scene;
 
 using namespace TPS;
 
+/* TODO:  Figure out Styles and Structure and then implement Props.
+
 namespace Glue {
 
     Stage::Stage()
@@ -23,88 +25,87 @@ namespace Glue {
         graph->addNode(BoxStyle().setPos(0, -5.01, 0).setSize(100, 10, 20).setMass(0).setTexture("Media/testpattern.png"));
     }
 
-    ::Tree := method(
-
-        base := ConeStyle clone do(
-            setPos(0, 0.5, 0)
-            setLength(1.1)
-            setRadius(1)
-            setPitch(0)
+    Tree::Tree()
+    {
+        ConeStyle base;
+        base
+            .setPos(0, 0.5, 0)
+            .setLength(1.1)
+            .setRadius(1)
+            .setPitch(0)
 
             // Don't allow the base to tip or twist
-            setAngularFactor(0,0,0)
+            .setAngularFactor(0,0,0)
 
             // Don't allow base to move except to fall to the ground
             //setLinearFactor(0,1,0)
-            setLinearFactor(1,1,0)
+            .setLinearFactor(1,1,0)
 
-            setAlternateTextureWrap(true)
-            setTexture("Media/palmbark.png")
-        )
+            .setAlternateTextureWrap(true)
+            .setTexture("Media/palmbark.png");
 
-        joint := Generic6DOFStyle clone do(
-            setMountA(
-                MountStyle clone do(
-                    setPos(0, 0.3, 0)
-                )
+
+        Generic6DOFStyle joint;
+        joint
+            .setMountA(
+                MountStyle(0, 0.3, 0)
             )
 
-            setMountB(
-                MountStyle clone do(
-                    setPos(0, -0.3, 0)
-                )
+            .setMountB(
+                MountStyle(0, -0.3, 0)
             )
 
-            setDisableLinkedBodyCollisions(true)
-            setLinRange(0, 0, 0, 0, 0, 0)
-            setAngRange(0, 0, 0, 0, 0, 0)
-        )
+            .setDisableLinkedBodyCollisions(true)
+            .setLinRange(0, 0, 0, 0, 0, 0)
+            .setAngRange(0, 0, 0, 0, 0, 0);
 
-        trunk := CylStyle clone do(
-            setLength(0.8)
-            setRadius(0.4)
-            setTexture("Media/palmbark.png")
-        )
+        CylStyle trunk;
+        trunk
+            .setLength(0.8)
+            .setRadius(0.4)
+            .setTexture("Media/palmbark.png");
 
-        top := CylStyle clone do(
-            setRadius(2.5)
-            setLength(0.4)
-            setColor(0, 255, 0)
-            setTexture("Media/palmtop.png")
-            setAlternateTextureWrap(true)
-        )
+        CylStyle top;
+        top
+            .setRadius(2.5)
+            .setLength(0.4)
+            .setColor(0, 255, 0)
+            .setTexture("Media/palmtop.png")
+            .setAlternateTextureWrap(true);
+    }
 
-        treeStructure := Structure build(
-            base
-            joint
-            trunk setPos(0, 1.0, 0)
-            joint
-            trunk setPos(0, 1.5, 0)
-            joint
-            trunk setPos(0, 2.0, 0)
-            joint
-            trunk setPos(0, 2.5, 0)
-            joint
-            trunk setPos(0, 3.0, 0)
-            joint
-            trunk setPos(0, 3.5, 0)
-            joint
-            trunk setPos(0, 4.0, 0)
-            joint
+    Tree::build()
+    {
+        Structure treeStructure(
+            base,
+            joint,
+            trunk setPos(0, 1.0, 0),
+            joint,
+            trunk setPos(0, 1.5, 0),
+            joint,
+            trunk setPos(0, 2.0, 0),
+            joint,
+            trunk setPos(0, 2.5, 0),
+            joint,
+            trunk setPos(0, 3.0, 0),
+            joint,
+            trunk setPos(0, 3.5, 0),
+            joint,
+            trunk setPos(0, 4.0, 0),
+            joint,
             top setPos(0, 4.5, 0)
-        )
+        );
 
-        tree := graph->addStructure(treeStructure)
+        build = graph->addStructure(treeStructure)
 
         // TODO:  Replace the line above with the code below
         // when I'm finished with changes to style/structure mechanics.
         //tree := GameObject clone with(treeStructure)
         //graph->addGameObject(tree)
+    }
 
-        return tree
-    )
-
-    ::Snake := method(
+    Snake::Snake()
+    {
         segmentStyle := CylXStyle clone do(
             setLength(1)
             setRadius(0.5)
@@ -214,30 +215,26 @@ namespace Glue {
         setMotors(leftStache, 0)
         setMotors(rightStache, 0)
 
-        /*
-            block
-            (
-                //v = -v
-                //constraint enableAngularMotor(true, v, 5)
-                500
-            )
+//            block
+//            (
+//                //v = -v
+//                //constraint enableAngularMotor(true, v, 5)
+//                500
+//            )
         )
-        */
 
-        /*
-        motor := constraint getRotationalLimitMotor(0)
-        motor set_m_enableMotor(true)
-        motor set_m_loLimit(0)
-        motor set_m_hiLimit(0)
-        motor set_m_maxMotorForce(5)
-        motor set_m_maxLimitForce(5)
-        motor set_m_targetVelocity(1)
-        */
+//        motor := constraint getRotationalLimitMotor(0)
+//        motor set_m_enableMotor(true)
+//        motor set_m_loLimit(0)
+//        motor set_m_hiLimit(0)
+//        motor set_m_maxMotorForce(5)
+//        motor set_m_maxLimitForce(5)
+//        motor set_m_targetVelocity(1)
 
-    )
+    }
 
-    ::Robot := method(
-
+    Robot::Robot()
+    {
         shoulderBall := BallStyle clone do(
             setRadius(0.75)
             setPos(9, 2, 0)
@@ -564,25 +561,23 @@ namespace Glue {
             )
         )
 
-    /*
-        state := true
 
-        graph->time setTimeout(2100,
-            block(
-                state = state not
-                foreArmObj1 steering setBehaviorFlag(EBF_PURSUIT, state)
-                foreArmObj2 steering setBehaviorFlag(EBF_PURSUIT, state not)
-                return 3000
-            )
-        )
-    */
-
-        return robot
-    )
+//        state := true
+//
+//        graph->time setTimeout(2100,
+//            block(
+//                state = state not
+//                foreArmObj1 steering setBehaviorFlag(EBF_PURSUIT, state)
+//                foreArmObj2 steering setBehaviorFlag(EBF_PURSUIT, state not)
+//                return 3000
+//            )
+//        )
 
 
+    }
 
-    Cannon::Cannon := method(
+    Cannon::Cannon()
+    {
 
         hub := BallStyle clone do(
             setPos(0, -15, 0)
@@ -644,10 +639,11 @@ namespace Glue {
                 1500
             )
         )
-    )
+    }
 
 
-    Car::Car := method(
+    Car::Car()
+    {
 
         leftWheel := CylZStyle clone do(
             setPos(2, -5, 0)
@@ -714,11 +710,10 @@ namespace Glue {
             a objB rigidBody setLinearFactor(btVector3 tmp(1,1,0))
             a objB rigidBody setAngularFactor(btVector3 tmp(0,0,1))
         )
+    }
 
-    )
-
-    Elevator::Elevator := method(x, y,
-
+    Elevator::Elevator(Scalar x, Scalar y)
+    {
         elevatorStyle := CylXStyle clone do(
             setIsKinematic(true)
             setPos(x, y, 0)
@@ -768,26 +763,25 @@ namespace Glue {
         //graph->player elevator := elevator
         //graph->elevator := elevator
 
-        /*
-        graph->time setTimeout(1.0/60,
-            block(
-                velE := elevator getLinearVelocity
-                velP := graph->player getLinearVelocity
-                //graph->player setLinearVelocity(velE + velP)
-                1.0/60
-            )
-        )
-        */
-    )
+//        graph->time setTimeout(1.0/60,
+//            block(
+//                velE := elevator getLinearVelocity
+//                velP := graph->player getLinearVelocity
+//                //graph->player setLinearVelocity(velE + velP)
+//                1.0/60
+//            )
+//        )
+    }
 
-    Box::Box := method(
+    Box::Box()
+    {
         box := graph->addNode(BoxStyle clone do( setPos(-7, 0, 0) setMass(100) setSize(5, 3, 1) ))
         box rigidBody setLinearFactor(btVector3 tmp(1,1,0))
         box rigidBody setAngularFactor(btVector3 tmp(0,0,1))
-    )
+    }
 
-    Dwarf::Dwarf := method(
-
+    Dwarf::Dwarf()
+    {
         smgr := graph->smgr
 
         //fsStr := irrFsStr newFromCStr(WayUpDir("Media/dwarf.x"))
@@ -795,21 +789,17 @@ namespace Glue {
         mesh := smgr getMeshFromPath(fsStr)
         fsStr delete
 
-        /*
-
-        anode := smgr addAnimatedMeshSceneNode(
-            mesh,                   // IAnimatedMesh * mesh
-            nil,                    // ISceneNode * 	parent = 0,
-            -1,                     // s32 	id = -1,
-            vector3df tmp(0, 0, 0), // const core::vector3df & 	position = core::vector3df(0, 0, 0),
-            vector3df tmp(0, 0, 0), // const core::vector3df & 	rotation = core::vector3df(0, 0, 0),
-            vector3df tmp(0.1f, 0.1f, 0.1f),    // const core::vector3df & 	scale = core::vector3df(1.0f, 1.0f, 1.0f),
-            false // bool 	alsoAddIfMeshPointerZero = false
-        )
-
-        anode setPosition(vector3df tmp(0, 0, 0))
-
-        */
+//        anode := smgr addAnimatedMeshSceneNode(
+//            mesh,                   // IAnimatedMesh * mesh
+//            nil,                    // ISceneNode * 	parent = 0,
+//            -1,                     // s32 	id = -1,
+//            vector3df tmp(0, 0, 0), // const core::vector3df & 	position = core::vector3df(0, 0, 0),
+//            vector3df tmp(0, 0, 0), // const core::vector3df & 	rotation = core::vector3df(0, 0, 0),
+//            vector3df tmp(0.1f, 0.1f, 0.1f),    // const core::vector3df & 	scale = core::vector3df(1.0f, 1.0f, 1.0f),
+//            false // bool 	alsoAddIfMeshPointerZero = false
+//        )
+//
+//        anode setPosition(vector3df tmp(0, 0, 0))
 
         meshBuf := mesh getMeshBuffer(0)  // frame 0
 
@@ -853,11 +843,10 @@ namespace Glue {
         style setScale(10) setMass(0) setPos(11, 6, 7)
         obj := GameObject create(style, graph, mesh, meshShape)
         graph->objList append(obj)
-    )
+    }
 
-
-    Props loadL3DTMesh := method(
-
+    Props::loadL3DTMesh()
+    {
         smgr := graph->smgr
 
         //fsStr := irrFsStr newFromCStr(WayUpDir("Media/dwarf.x"))
@@ -865,76 +854,69 @@ namespace Glue {
         mesh := smgr getMeshFromPath(fsStr)
         fsStr delete
 
-        /*
-
-        anode := smgr addAnimatedMeshSceneNode(
-            mesh,                   // IAnimatedMesh * mesh
-            nil,                    // ISceneNode * 	parent = 0,
-            -1,                     // s32 	id = -1,
-            vector3df tmp(0, 0, 0), // const core::vector3df & 	position = core::vector3df(0, 0, 0),
-            vector3df tmp(0, 0, 0), // const core::vector3df & 	rotation = core::vector3df(0, 0, 0),
-            vector3df tmp(0.1f, 0.1f, 0.1f),    // const core::vector3df & 	scale = core::vector3df(1.0f, 1.0f, 1.0f),
-            false // bool 	alsoAddIfMeshPointerZero = false
-        )
-
-        anode setPosition(vector3df tmp(0, 0, 0))
-
-        */
-
-        /*
-
-        meshBuf := mesh getMeshBuffer(0)  // frame 0
-
-        if (meshBuf getVertexType != EVT_STANDARD, Exception raise("The mesh's vertex data not in the standard format."))
-
-        bulletMesh := btIndexedMesh tmp
-
-        bulletMesh set_m_numTriangles(meshBuf getIndexCount / 3)
-
-        triangleIndexBase := meshBuf getIndices_nc
-        triangleIndexBaseCasted := triangleIndexBase unsafe_ptr_cast
-
-        bulletMesh set_m_triangleIndexBase(triangleIndexBaseCasted)
-
-        vertexBase := meshBuf getVertices_nc
-        vertexBaseCasted := vertexBase unsafe_ptr_cast
-        bulletMesh set_m_vertexBase(vertexBaseCasted)
-
-        indexSize := 2 // 16 bits, 2 bytes
-        bulletMesh set_m_triangleIndexStride(3 * indexSize)
-        bulletMesh set_m_numVertices(meshBuf getVertexCount)
-        bulletMesh set_m_vertexStride(S3DVertex get_class get_size)
-
-        // This will be set when the bullet mesh buf is added to the triangle index vertex array object
-        //bulletMesh set_m_indexType(PHY_SHORT)
-
-        // This defaults to whatever bullet is built with (floats or doubles).  For Irrlicht I'm sure we want only floats.
-        bulletMesh set_m_vertexType(PHY_FLOAT)
-
-        // Cant' figure out how to set the indexType properly here, and a comment indicates this constructor is only for backwards compatibility.
-        // Best to use the default constructor and addIndexedMesh where you can specify the index type.
-        //meshInterface := btTriangleIndexVertexArray new(numTriangles, indices unsafe_ptr_cast, indexStride, numVertices, vertices unsafe_ptr_cast, vertexStride)
-
-        meshInterface := btTriangleIndexVertexArray new()
-        meshInterface addIndexedMesh(bulletMesh, PHY_SHORT)
-
-        meshShape := btBvhTriangleMeshShape new(meshInterface, true, true)
-        */
+//        anode := smgr addAnimatedMeshSceneNode(
+//            mesh,                   // IAnimatedMesh * mesh
+//            nil,                    // ISceneNode * 	parent = 0,
+//            -1,                     // s32 	id = -1,
+//            vector3df tmp(0, 0, 0), // const core::vector3df & 	position = core::vector3df(0, 0, 0),
+//            vector3df tmp(0, 0, 0), // const core::vector3df & 	rotation = core::vector3df(0, 0, 0),
+//            vector3df tmp(0.1f, 0.1f, 0.1f),    // const core::vector3df & 	scale = core::vector3df(1.0f, 1.0f, 1.0f),
+//            false // bool 	alsoAddIfMeshPointerZero = false
+//        )
+//
+//        anode setPosition(vector3df tmp(0, 0, 0))
+//
+//        meshBuf := mesh getMeshBuffer(0)  // frame 0
+//
+//        if (meshBuf getVertexType != EVT_STANDARD, Exception raise("The mesh's vertex data not in the standard format."))
+//
+//        bulletMesh := btIndexedMesh tmp
+//
+//        bulletMesh set_m_numTriangles(meshBuf getIndexCount / 3)
+//
+//        triangleIndexBase := meshBuf getIndices_nc
+//        triangleIndexBaseCasted := triangleIndexBase unsafe_ptr_cast
+//
+//        bulletMesh set_m_triangleIndexBase(triangleIndexBaseCasted)
+//
+//        vertexBase := meshBuf getVertices_nc
+//        vertexBaseCasted := vertexBase unsafe_ptr_cast
+//        bulletMesh set_m_vertexBase(vertexBaseCasted)
+//
+//        indexSize := 2 // 16 bits, 2 bytes
+//        bulletMesh set_m_triangleIndexStride(3 * indexSize)
+//        bulletMesh set_m_numVertices(meshBuf getVertexCount)
+//        bulletMesh set_m_vertexStride(S3DVertex get_class get_size)
+//
+//        // This will be set when the bullet mesh buf is added to the triangle index vertex array object
+//        //bulletMesh set_m_indexType(PHY_SHORT)
+//
+//        // This defaults to whatever bullet is built with (floats or doubles).  For Irrlicht I'm sure we want only floats.
+//        bulletMesh set_m_vertexType(PHY_FLOAT)
+//
+//        // Cant' figure out how to set the indexType properly here, and a comment indicates this constructor is only for backwards compatibility.
+//        // Best to use the default constructor and addIndexedMesh where you can specify the index type.
+//        //meshInterface := btTriangleIndexVertexArray new(numTriangles, indices unsafe_ptr_cast, indexStride, numVertices, vertices unsafe_ptr_cast, vertexStride)
+//
+//        meshInterface := btTriangleIndexVertexArray new()
+//        meshInterface addIndexedMesh(bulletMesh, PHY_SHORT)
+//
+//        meshShape := btBvhTriangleMeshShape new(meshInterface, true, true)
 
         style := GameObjStyle clone
         style setScale(0.01) setMass(0) setPos(-26, -30, 0)
         //obj := GameObject create(style, graph, mesh, meshShape)
         obj := GameObject createClone(style, graph, mesh)
         graph->objList append(obj)
-    )
+    }
 
-
-    Props loadLevel := method(
+    Props::loadLevel()
+    {
         terrain := Terrain clone setEngine(graph) load("Media/beach-heightmap.png")
-    )
+    }
 
-    Props loadLevelOld := method(
-
+    Props::loadLevelOld()
+    {
         //graph->editor terrain getTile(0,0)
 
         fsStr1 := irrFsStr tmpFromCStr(WayUpDir("Media/beach-heightmap.png"))
@@ -998,10 +980,10 @@ namespace Glue {
                 loadTile(x, y, 100, 100, 1.0, 1.0)
             )
         )
-    )
+    }
 
-    Props loadSkybox := method(
-
+    Props::loadSkybox()
+    {
         back := "irrlicht2_bk.jpg"
         front := "irrlicht2_ft.jpg"
         up := "irrlicht2_up.jpg"
@@ -1019,51 +1001,48 @@ namespace Glue {
         )
 
         skybox := graph->addNode(style)
+    }
 
-    )
-
-    Props testSoftBody := method(
-
+    Props::testSoftBody()
+    {
         // Set gravity to make the cloth "fall up"
         graph->softBodyWorldInfo set_m_gravity(btVector3 tmp(0, -9.8, 0))
 
-        /*
-        cloth := graph->addNode(ClothStyle clone setDispShape("ball") setRadius(3) setPos(6, 4, 0) setMargin(0.2) setXTiles(8) setZTiles(8) setTexture("Media/irrlicht2_dn.jpg"))
-
-        // We want the ground to be plastic rather than elastic so set the softbody damping coefficient
-
-        // Get the softbody
-        softBody := cloth softBody
-
-        // m_cfg is the Config object of the softbody
-        // Using ref_ instead of get_ so we can change the settings.
-        config := softBody ref_m_cfg
-
-        // kDP is the damping coefficient in a range 0 to 1.0
-        config set_kDP(0.001)
-
-        config set_kDF(1)
-        config set_kPR(25)
-
-        // I read that kLST sets the spring strength.
-        // It's not a property of the config but rather a material property.
-        // (Softbody has array of materials.)
-
-
-        graph->time setTimeout(6000, block(
-            writeln("removing cloth")
-            graph->dynamicsWorld removeSoftBody(cloth rigidBody)
-            cloth node setVisible(false)
-            6000
-        ))
-
-        graph->time setTimeout(9000, block(
-            writeln("adding cloth")
-            graph->dynamicsWorld addSoftBody(cloth rigidBody, cloth style collisionGroup, cloth style collisionMask)
-            cloth node setVisible(true)
-            6000
-        ))
-        */
+//        cloth := graph->addNode(ClothStyle clone setDispShape("ball") setRadius(3) setPos(6, 4, 0) setMargin(0.2) setXTiles(8) setZTiles(8) setTexture("Media/irrlicht2_dn.jpg"))
+//
+//        // We want the ground to be plastic rather than elastic so set the softbody damping coefficient
+//
+//        // Get the softbody
+//        softBody := cloth softBody
+//
+//        // m_cfg is the Config object of the softbody
+//        // Using ref_ instead of get_ so we can change the settings.
+//        config := softBody ref_m_cfg
+//
+//        // kDP is the damping coefficient in a range 0 to 1.0
+//        config set_kDP(0.001)
+//
+//        config set_kDF(1)
+//        config set_kPR(25)
+//
+//        // I read that kLST sets the spring strength.
+//        // It's not a property of the config but rather a material property.
+//        // (Softbody has array of materials.)
+//
+//
+//        graph->time setTimeout(6000, block(
+//            writeln("removing cloth")
+//            graph->dynamicsWorld removeSoftBody(cloth rigidBody)
+//            cloth node setVisible(false)
+//            6000
+//        ))
+//
+//        graph->time setTimeout(9000, block(
+//            writeln("adding cloth")
+//            graph->dynamicsWorld addSoftBody(cloth rigidBody, cloth style collisionGroup, cloth style collisionMask)
+//            cloth node setVisible(true)
+//            6000
+//        ))
 
         //cloth node setVisible(false)
 
@@ -1095,6 +1074,8 @@ namespace Glue {
             )
             100
         ))
-    )
+    }
 
 } // namespace Glue
+
+*/

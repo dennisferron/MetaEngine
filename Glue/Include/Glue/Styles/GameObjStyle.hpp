@@ -5,6 +5,7 @@
 #include "irrlicht.h"
 
 #include <experimental/optional>
+#include <map>
 
 namespace std {
     template <typename T>
@@ -21,7 +22,7 @@ namespace Glue {
     {
         none,
         box,
-        ball
+        ball,
         cyl,
         cylX,
         cylZ,
@@ -151,7 +152,7 @@ namespace Glue {
         GameObjStyle& setDamping(Scalar lin, Scalar ang);
 
         static constexpr ShortBitMask DefaultCollisionGroup = ShortBitMask(-1) ^ Constants::CameraFilter;
-        static constexpr ShortBitMask DefaultCollisionMask = Constants::AllFilter;
+        static constexpr ShortBitMask DefaultCollisionMask = ShortBitMask(-1);
 
         // Collision properties
         ShortBitMask collisionGroup;
@@ -242,6 +243,8 @@ namespace Glue {
         // this field breaks the property of GameObjStyles that they describe 3D objects rather
         // than contain pieces of them (and that propery is desirable e.g. for things like
         // serialization of game objects).
-        IMesh mesh;
+        IMesh* mesh;
     };
+
+    using NodeStyle = GameObjStyle;
 }

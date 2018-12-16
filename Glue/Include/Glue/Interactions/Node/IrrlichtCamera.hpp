@@ -1,12 +1,8 @@
 #pragma once
 
-namespace Glue { namespace Irrlicht {
-    class Component;
-}}
-
-namespace Glue { namespace Avatar {
-    class Camera;
-}}
+#include "Glue/Irrlicht/Component.hpp"
+#include "Glue/Avatar/Camera.hpp"
+#include "Glue/Model/Time.hpp"
 
 namespace Glue {
 

@@ -3,13 +3,13 @@
 #pragma once
 
 #include "irrlicht.h"
-#include "Glue/PossibleVertex.hpp"
+#include "Glue/MeshTools/PossibleVertex.hpp"
 
 #include <map>
 #include <vector>
 #include <set>
 
-namespace MetaEngine {
+namespace Glue {
 
 class LinkSplitter
 {

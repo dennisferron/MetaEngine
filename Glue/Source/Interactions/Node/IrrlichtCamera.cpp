@@ -1,4 +1,6 @@
+#include "Glue/Interactions/Node/IrrlichtCamera.hpp"
 
+/*
 method(NodeInteraction, Node, Irrlicht, Avatar, Time,
 
     IrrlichtCamera := NodeInteraction clone lexicalDo(
@@ -29,3 +31,4 @@ method(NodeInteraction, Node, Irrlicht, Avatar, Time,
 
     return IrrlichtCamera
 )
+*/

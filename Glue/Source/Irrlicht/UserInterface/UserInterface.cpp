@@ -1,3 +1,7 @@
+#include "Glue/Irrlicht/UserInterface/UserInterface.hpp"
+
+/*
+
 method(namespace, SharedTypes, PredefinedValues, Constants, ConstraintStyles,
     IrrlichtUserInterfaceModule := Module clone lexicalDo(
         scripts := self scripts
@@ -10,3 +14,4 @@ method(namespace, SharedTypes, PredefinedValues, Constants, ConstraintStyles,
         SceneNodeSelector := scripts SceneNodeSelector
     )
 )
+*/

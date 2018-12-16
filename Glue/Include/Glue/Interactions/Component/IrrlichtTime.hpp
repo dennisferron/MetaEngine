@@ -1,12 +1,7 @@
 #pragma once
 
-namespace Glue {
-    class Time;
-}
-
-namespace Glue { namespace Irrlicht {
-    Component;
-}}
+#include "Glue/Model/Time.hpp"
+#include "Glue/Irrlicht/Component.hpp"
 
 namespace Glue {
 

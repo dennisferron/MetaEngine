@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Glue/Styles/LinkStyle.hpp"
+
 namespace Glue { namespace Bullet {
     class Mount;
 }}

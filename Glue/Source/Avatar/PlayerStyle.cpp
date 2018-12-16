@@ -1,3 +1,17 @@
+#include "Glue/Avatar/PlayerStyle.hpp"
+
+namespace Glue
+{
+    namespace Avatar
+    {
+        PlayerStyle::PlayerStyle()
+        {
+
+        }
+    }
+}
+
+/*
 method(Styles,
 
     PlayerStyle := Styles CylZStyle clone do(
@@ -20,3 +34,4 @@ method(Styles,
         setGravity(0, -0.3, 0)
     )
 )
+*/

@@ -1,3 +1,26 @@
+#include "Glue/Avatar/KeyInputs.hpp"
+
+namespace Glue { namespace Avatar {
+
+    class KeyInputs::Impl
+    {
+    };
+
+    KeyInputs::KeyInputs()
+    {
+    }
+
+    KeyInputs::~KeyInputs()
+    {
+    }
+
+    void KeyInputs::update(Node* player, irr::IEventReceiver* events)
+    {
+    }
+
+}}
+
+/*
 method(namespace_irr, namespace_Custom, PredefinedValues,
 
     KeyInputs := Object clone lexicalDo(
@@ -49,3 +72,4 @@ method(namespace_irr, namespace_Custom, PredefinedValues,
         )
     )
 )
+*/

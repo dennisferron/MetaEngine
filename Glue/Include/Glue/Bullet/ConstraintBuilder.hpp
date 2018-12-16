@@ -1,11 +1,10 @@
 #pragma once
 
+#include "Glue/Styles/LinkStyle.hpp"
+#include "Glue/Bullet/ConstraintObj.hpp"
+
 class btTransform;
 class btRigidBody;
-
-namespace Glue { namespace Bullet {
-    class ConstraintObj;
-}}
 
 namespace Glue { namespace Bullet {
 

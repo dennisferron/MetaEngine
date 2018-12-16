@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Glue/Bullet/NodeAttribute.hpp"
+#include "Glue/Irrlicht/NodeAttribute.hpp"
+
 namespace Glue {
 
 class MotionState

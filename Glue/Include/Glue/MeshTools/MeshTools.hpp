@@ -3,8 +3,8 @@
 #pragma once
 
 #include "irrlicht.h"
-#include "Glue/SurfaceQuadTree.hpp"
-#include "Glue/LinkSplitter.hpp"
+#include "Glue/MeshTools/SurfaceQuadTree.hpp"
+#include "Glue/MeshTools/LinkSplitter.hpp"
 
 #include <map>
 #include <vector>
@@ -17,7 +17,7 @@ namespace irr { namespace video {
     class SColor;
 }}
 
-namespace MetaEngine {
+namespace Glue {
 
 class MeshTools
 {

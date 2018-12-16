@@ -4,7 +4,7 @@
 
 namespace Glue { namespace Avatar {
 
-struct PlayerStyle : public CylZStyle
+struct PlayerStyle : public GameObjStyles::CylZStyle
 {
     PlayerStyle();
 };

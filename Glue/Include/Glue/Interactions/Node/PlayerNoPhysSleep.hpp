@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Glue/Bullet/NodeAttribute.hpp"
+#include "Glue/Avatar/NodeAttribute.hpp"
+
 namespace Glue {
 
 class PlayerNoPhysSleep
 {
 public:
-    PlayerNoPhysSleep(Bullet::Node* physRep, Avatar::Node* playerRep);
+    PlayerNoPhysSleep(Bullet::NodeAttribute* physRep, Avatar::NodeAttribute* playerRep);
 };
 
 }

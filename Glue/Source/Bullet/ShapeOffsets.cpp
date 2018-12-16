@@ -1,3 +1,23 @@
+#include "Glue/Bullet/ShapeOffsets.hpp"
+
+namespace Glue { namespace Bullet {
+
+    btTransform ShapeOffsets::none(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::ball(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::box(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::cyl(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::cylX(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::cylZ(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::cone(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::coneX(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::coneZ(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::hills(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::mesh(NodeStyle const& style) { throw "Not implemented"; }
+    btTransform ShapeOffsets::cloth(NodeStyle const& style) { throw "Not implemented"; }
+
+}}
+
+/*
 method(namespace_Bullet, Constants,
     ShapeOffsets := Object clone lexicalDo(
         appendProto(namespace_Bullet)
@@ -96,3 +116,4 @@ method(namespace_Bullet, Constants,
 
     return ShapeOffsets
 )
+*/

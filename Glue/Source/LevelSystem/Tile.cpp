@@ -1,8 +1,8 @@
 // Copyright 2008-2013, 2018 Dennis Ferron
 
-#include "Glue/Tile.hpp"
+#include "Glue/LevelSystem/Tile.hpp"
 #include "irrlicht.h"
-#include "Glue/MeshTools.hpp"
+#include "Glue/MeshTools/MeshTools.hpp"
 
 using namespace std;
 using namespace boost;

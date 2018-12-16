@@ -1,16 +1,8 @@
 #pragma once
 
-namespace Glue { namespace Irrlicht {
-    Component;
-}}
-
-namespace Glue { namespace EditorGUI {
-    Component;
-}}
-
-namespace Glue { namespace Avatar {
-    Component;
-}}
+#include "Glue/Irrlicht/Component.hpp"
+#include "Glue/EditorGUI/Component.hpp"
+#include "Glue/Avatar/Component.hpp"
 
 namespace Glue {
 

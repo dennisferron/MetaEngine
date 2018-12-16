@@ -1,5 +1,7 @@
 #pragma once
 
+#include "btVector3.h"
+
 #include <memory>
 
 namespace Glue {

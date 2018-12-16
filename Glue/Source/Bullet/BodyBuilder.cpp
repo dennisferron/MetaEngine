@@ -1,3 +1,31 @@
+#include "Glue/Bullet/BodyBuilder.hpp"
+
+namespace Glue { namespace Bullet {
+
+    class BodyBuilder::Impl
+    {
+
+    };
+
+    BodyBuilder::BodyBuilder()
+    {
+
+    }
+
+    BodyBuilder::~BodyBuilder()
+    {
+
+    }
+
+    btRigidBody* BodyBuilder::buildBody(NodeStyle* style) const
+    {
+        throw "Not implemented.";
+    }
+
+}}
+
+
+/*
 method(namespace_Bullet, namespace_Custom,
 
     BodyBuilder := Object clone lexicalDo(
@@ -102,3 +130,4 @@ method(namespace_Bullet, namespace_Custom,
         )
     )
 )
+*/

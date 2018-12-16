@@ -2,6 +2,10 @@
 
 #include <memory>
 
+#include "Glue/Styles/GameObjStyle.hpp"
+
+class btRigidBody;
+
 namespace Glue { namespace Bullet {
 
 class BodyBuilder

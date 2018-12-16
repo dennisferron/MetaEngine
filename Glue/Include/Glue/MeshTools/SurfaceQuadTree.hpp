@@ -8,7 +8,7 @@
 #include "PossibleVertex.hpp"
 #include <vector>
 
-namespace MetaEngine {
+namespace Glue {
 
 class SurfaceQuadTree;
 typedef boost::intrusive_ptr<SurfaceQuadTree> QuadTreePtr;

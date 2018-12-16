@@ -1,9 +1,9 @@
 
-#include "Glue/Terrain.hpp"
+#include "Glue/LevelSystem/Terrain.hpp"
 #include "irrlicht.h"
-#include "Glue/MeshTools.hpp"
+#include "Glue/MeshTools/MeshTools.hpp"
 #include "ThinPlateSpline/ThinPlateQuilt.hpp"
-#include "Glue/GameObjStyles.hpp"
+#include "Glue/Styles/GameObjStyles.hpp"
 
 using namespace std;
 using namespace boost;

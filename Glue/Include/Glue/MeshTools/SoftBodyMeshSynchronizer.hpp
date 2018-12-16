@@ -6,7 +6,7 @@ namespace irr { namespace scene { class IMeshBuffer; } }
 
 class btSoftBody;
 
-namespace MetaEngine {
+namespace Glue {
 
 class SoftBodyMeshSynchronizer
 {

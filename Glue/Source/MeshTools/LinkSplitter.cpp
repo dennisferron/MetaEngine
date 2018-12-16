@@ -18,7 +18,7 @@ using namespace irr::core;
 using namespace irr::video;
 using namespace irr::scene;
 
-namespace MetaEngine {
+namespace Glue {
 
 LinkSplitter::LinkSplitter(IMeshBuffer* oldMeshBuf_, float zCut_)
     : oldMeshBuf(oldMeshBuf_), zCut(zCut_), existingVertices(oldMeshBuf_->getVertexCount())

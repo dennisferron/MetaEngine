@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Irrlicht/UserInterface/UserInterface.hpp"
+#include "Glue/Irrlicht/UserInterface/UserInterface.hpp"
 
 #include "Camera.hpp"
 

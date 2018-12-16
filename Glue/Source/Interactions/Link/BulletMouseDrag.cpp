@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Link/BulletMouseDrag.hpp"
+
+/*
+
 method(LinkInteraction, Node, MouseDragLinkAttribute, LinkStyles, BulletComponent,
 
     BulletMouseDrag := LinkInteraction clone lexicalDo(
@@ -34,3 +38,4 @@ method(LinkInteraction, Node, MouseDragLinkAttribute, LinkStyles, BulletComponen
 
     return BulletMouseDrag
 )
+*/

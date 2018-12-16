@@ -2,16 +2,12 @@
 
 #include <functional>
 
-namespace irr { namespace video {
-    class ITexture;
-}}
+#include "IMesh.h"
+#include "ITexture.h"
+#include "ISceneNode.h"
+#include "ISceneNodeAnimator.h"
 
-namespace irr { namespace scene {
-    class ISceneNode;
-    class ISceneNodeAnimator;
-}}
-
-namespace Glue {
+namespace Glue { namespace Irrlicht {
 
 class Node;
 class GameObjStyle;
@@ -48,4 +44,4 @@ public:
     ~NodeAttribute();
 };
 
-}
+}}

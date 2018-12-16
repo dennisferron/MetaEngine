@@ -1,3 +1,7 @@
+#include "Glue/Irrlicht/Assets.hpp"
+
+/*
+
 method(irr_core,
 
     Assets := Object clone lexicalDo(
@@ -28,3 +32,4 @@ method(irr_core,
         )
     )
 )
+*/

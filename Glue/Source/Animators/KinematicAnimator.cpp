@@ -10,7 +10,7 @@ using namespace irr;
 using namespace irr::core;
 using namespace irr::scene;
 
-namespace MetaEngine {
+namespace Glue {
 
 KinematicAnimator::KinematicAnimator(btTransform const& trans_, btTransform const& centerOfMassOffset_)
     : init(false), trans(trans_), centerOfMassOffset(centerOfMassOffset_), cached_node(NULL)

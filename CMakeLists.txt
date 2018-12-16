@@ -9,6 +9,8 @@ include_directories(Glue/Include)
 include_directories(ThinPlateSpline/Include)
 include_directories(irrlicht/include)
 include_directories(bullet3/src)
+include_directories(bullet3/src/BulletDynamics/Dynamics)
+include_directories(bullet3/src/LinearMath)
 
 add_executable(MetaEngine
         Finagle/Include/Finagle/MethodCallTarget.hpp
@@ -39,7 +41,6 @@ add_executable(MetaEngine
         Glue/Include/Glue/Bullet/Sense.hpp
         Glue/Include/Glue/Bullet/ShapeBuilder.hpp
         Glue/Include/Glue/Bullet/ShapeOffsets.hpp
-        Glue/Include/Glue/Demo/Demo.hpp
         Glue/Include/Glue/Desteer/Desteer.hpp
         Glue/Include/Glue/Desteer/Steering.hpp
         Glue/Include/Glue/EditorGUI/Component.hpp
@@ -47,7 +48,7 @@ add_executable(MetaEngine
         Glue/Include/Glue/EditorGUI/Toolbar.hpp
         Glue/Include/Glue/Interactions/Component/AvatarTime.hpp
         Glue/Include/Glue/Interactions/Component/BulletTime.hpp
-        Glue/Include/Glue/Interactions/Component/Component.hpp
+        Glue/Include/Glue/Interactions/Component/ComponentInteractionModule.hpp
         Glue/Include/Glue/Interactions/Component/ComponentInteraction.hpp
         Glue/Include/Glue/Interactions/Component/DebugDrawer.hpp
         Glue/Include/Glue/Interactions/Component/IrrlichtBulletDebugDrawer.hpp
@@ -141,7 +142,6 @@ add_executable(MetaEngine
         Glue/Source/Bullet/Sense.cpp
         Glue/Source/Bullet/ShapeBuilder.cpp
         Glue/Source/Bullet/ShapeOffsets.cpp
-        Glue/Source/Demo/Demo.cpp
         Glue/Source/Desteer/Desteer.cpp
         Glue/Source/Desteer/Steering.cpp
         Glue/Source/EditorGUI/Component.cpp
@@ -149,7 +149,7 @@ add_executable(MetaEngine
         Glue/Source/EditorGUI/Toolbar.cpp
         Glue/Source/Interactions/Component/AvatarTime.cpp
         Glue/Source/Interactions/Component/BulletTime.cpp
-        Glue/Source/Interactions/Component/Component.cpp
+        Glue/Source/Interactions/Component/ComponentInteractionModule.cpp
         Glue/Source/Interactions/Component/ComponentInteraction.cpp
         Glue/Source/Interactions/Component/DebugDrawer.cpp
         Glue/Source/Interactions/Component/IrrlichtBulletDebugDrawer.cpp

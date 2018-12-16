@@ -2,15 +2,13 @@
 
 #include <functional>
 
-namespace Glue { namespace Irrlicht {
-    class Node;
-}}
+#include "Glue/Irrlicht/NodeAttribute.hpp"
 
 namespace Glue {
 
 struct MouseDragLinkAttribute
 {
-    std::function<void(Node*)> onDrag;
+    std::function<void(Irrlicht::NodeAttribute*)> onDrag;
 };
 
 }

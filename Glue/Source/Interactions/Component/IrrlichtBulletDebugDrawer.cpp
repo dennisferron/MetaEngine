@@ -1,6 +1,6 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "Glue/IrrlichtBulletDebugDrawer.hpp"
+#include "Glue/Interactions/Component/IrrlichtBulletDebugDrawer.hpp"
 #include "irrlicht.h"
 
 #include <iostream>
@@ -9,7 +9,7 @@ using namespace irr;
 using namespace irr::core;
 using namespace irr::video;
 
-namespace MetaEngine {
+namespace Glue {
 
 IrrlichtBulletDebugDrawer::IrrlichtBulletDebugDrawer(IVideoDriver* driver_) :
     driver(driver_), debugMode(btIDebugDraw::DBG_DrawConstraints | btIDebugDraw::DBG_DrawConstraintLimits | btIDebugDraw::DBG_DrawWireframe)

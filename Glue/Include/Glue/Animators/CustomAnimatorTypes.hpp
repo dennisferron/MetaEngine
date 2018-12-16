@@ -1,6 +1,6 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-namespace MetaEngine {
+namespace Glue {
 
 enum CUSTOM_ESCENE_NODE_ANIMATOR_TYPE
 {

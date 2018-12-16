@@ -1,3 +1,7 @@
+#include "Glue/Irrlicht/ShapeBuilder.hpp"
+
+/*
+
 method(namespace_irr, namespace_Custom, PredefinedValues,
 
     ShapeBuilder := Object clone lexicalDo(
@@ -55,3 +59,5 @@ method(namespace_irr, namespace_Custom, PredefinedValues,
         )
     )
 )
+
+*/

@@ -1,14 +1,11 @@
 #pragma once
 
-namespace irr { namespace video {
-    class SColor;
-}}
+#include "Glue/Constants.hpp"
+#include "SColor.h"
+#include "IrrlichtDevice.h"
+#include "ICameraSceneNode.h"
 
-namespace irr {
-    class IrrlichtDevice;
-}
-
-namespace Glue {
+namespace Glue { namespace Irrlicht {
 
 class Camera
 {
@@ -34,4 +31,4 @@ public:
     void draw();
 };
 
-}
+}}

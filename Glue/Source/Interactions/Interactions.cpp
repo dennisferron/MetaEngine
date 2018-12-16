@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Interactions.hpp"
+
+/*
+
 method(namespace, Model, Subsystems, Constants, Styles,
 
     InteractionModule := Module clone lexicalDo(
@@ -7,3 +11,5 @@ method(namespace, Model, Subsystems, Constants, Styles,
         Link := scripts Link requiredConfig( namespace, Model, Subsystems, Constants, Styles )
     )
 )
+
+ */

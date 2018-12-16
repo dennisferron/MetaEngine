@@ -1,12 +1,7 @@
 #pragma once
 
-namespace Glue {
-    class Time;
-}
-
-namespace Glue { namespace Avatar {
-    Component;
-}}
+#include "Glue/Model/Time.hpp"
+#include "Glue/Avatar/Component.hpp"
 
 namespace Glue {
 

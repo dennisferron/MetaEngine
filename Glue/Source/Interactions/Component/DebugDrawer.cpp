@@ -1,3 +1,7 @@
+#include "Glue/Interactions/Component/DebugDrawer.hpp"
+
+/*
+
 method(ComponentInteraction, Model, Bullet, Irrlicht, namespace_Custom,
 
     DebugDrawer := ComponentInteraction clone lexicalDo(
@@ -25,3 +29,4 @@ method(ComponentInteraction, Model, Bullet, Irrlicht, namespace_Custom,
     return DebugDrawer
 )
 
+*/
