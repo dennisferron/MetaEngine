@@ -11,7 +11,7 @@
 namespace irr
 {
 
-static io::path getExamapleMediaPath()
+static io::path getExampleMediaPath()
 {
 #if defined (_IRR_IPHONE_PLATFORM_) || defined (_IRR_ANDROID_PLATFORM_) || defined (_IRR_OSX_PLATFORM_)
 	return io::path("media/");
