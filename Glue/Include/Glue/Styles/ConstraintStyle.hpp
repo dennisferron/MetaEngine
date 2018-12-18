@@ -42,7 +42,7 @@ namespace Glue {
 
         // Mount styles.  If the constraint is mounted "to the world" then set mountA to nil.
         std::optional<MountStyle> mountA;
-        MountStyle mountB;
+        std::optional<MountStyle> mountB;
 
         JointTypes jointType;
 

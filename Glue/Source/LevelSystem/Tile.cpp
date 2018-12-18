@@ -18,17 +18,21 @@ Tile& Tile::refresh()
 {
     Scalar tolerance = 0.05;
 
-    auto splitForWalkway = MeshTools::createHillMesh(surface, tileRect, pathMinZ-tolerance, pathMaxZ+tolerance);
+    throw "TODO: move surface to a constructor parameter so that it cannot be null here.";
+    auto splitForWalkway = MeshTools::createHillMesh(*surface, tileRect, pathMinZ-tolerance, pathMaxZ+tolerance);
 
     struct TileStyle : GameObjStyle
     {
         TileStyle() : GameObjStyle(ObjShapes::none)
         {
-            setGameObjType("static");
-            setDispShape("mesh");
-            setMass(0);
+            physShape = ObjShapes::mesh;
+            dispShape = ObjShapes::mesh;
+            gameObjType = GameObjTypes::static_;
+            mass = 0;
             setPos(0, 0, 0);
-            setIsMouseDraggable(false);
+
+            // Since it's static it's already not mouseDraggable
+            //setIsMouseDraggable(false);
 
             // For debugging
             //setWireframe(true);
@@ -46,57 +50,69 @@ Tile& Tile::refresh()
         s,  // resolutionS
         t,  // resolutionT
         1,  // axis
-        vector3df(-tileRect.getWidth/2.0f, walkwayDepth/2.0f, (walkwayDepth/2.0f)/repeatAmt)  // offset
+        vector3df(-tileRect.getWidth()/2.0f, walkwayDepth/2.0f, (walkwayDepth/2.0f)/repeatAmt)  // offset
     );
 
     auto walkStyle = TileStyle()
-            .setTexture("Media/boardwalk.png")
-            .setPhysShape("mesh")
-            .setMesh(splitForWalkway);
+            .setTextureFile("Media/boardwalk.png");
+            //.setPhysShape("mesh")
+            //.setMesh(splitForWalkway);
+    walkStyle.physShape = ObjShapes::mesh;
+    walkStyle.mesh = splitForWalkway;
 
-    setWalkwayGameObj(graph->addNode(walkStyle));
-    walkwayGameObj->addAttribute(self);
+    walkwayGameObj = graph->addNode(walkStyle);
+
+    throw "Need to be able to add Tile as a node attribute of walkwayGameObj";
+    //walkwayGameObj->addAttribute(this);
 
     repeatAmt = 1.0f/2.0f;
 
     s = repeatAmt / tileRect.getWidth();
     t = repeatAmt / tileRect.getHeight();
 
-    splitBackFromSky = MeshTools::createHillMesh(surface, tileRect, skyCutZ-tolerance, pathMinZ+tolerance)
-
-    meshMan makePlanarTextureMapping(
-        splitBackFromSky getMeshBuffer(0),    // buffer
-        s,  // resolutionS
-        t,  // resolutionT
-        2,  // axis
-        vector3df(0, 0, 0)  // offset
-    )
-
-    backStyle = TileStyle()
-            .setTexture("Media/mountaintop.jpg")
-            .setMesh(splitBackFromSky)
-            .setPhysShape("none");
-
-    setBackGameObj(graph->addNode(backStyle))
-    backGameObj->addAttribute(self)
-
-    splitFront = MeshTools::createHillMesh(surface, tileRect, pathMaxZ-tolerance, 1000000);
+    auto splitBackFromSky = MeshTools::createHillMesh(*surface, tileRect, skyCutZ-tolerance, pathMinZ+tolerance);
 
     meshMan->makePlanarTextureMapping(
-        splitFront getMeshBuffer(0),    // buffer
+        splitBackFromSky->getMeshBuffer(0),    // buffer
         s,  // resolutionS
         t,  // resolutionT
         2,  // axis
         vector3df(0, 0, 0)  // offset
-    )
+    );
 
-    foreStyle = TileStyle()
-            .setTexture("Media/irrlicht2_dn.jpg")
-            .setMesh(splitFront)
-            .setPhysShape("none");
+    auto backStyle = TileStyle();
+            //.setTexture("Media/mountaintop.jpg")
+            //.setMesh(splitBackFromSky)
+            //.setPhysShape("none");
 
-    setForeGameObj(graph->addNode(foreStyle));
-    foreGameObj->addAttribute(self)
+    backStyle.textureFile = "Media/mountaintop.jpg";
+    backStyle.mesh = splitBackFromSky;
+    backStyle.physShape = ObjShapes::none;
+
+    backGameObj = graph->addNode(backStyle);
+
+    throw "Need to be able to add Tile as a node attribute";
+    //backGameObj->addAttribute(self)
+
+    auto splitFront = MeshTools::createHillMesh(*surface, tileRect, pathMaxZ-tolerance, 1000000);
+
+    meshMan->makePlanarTextureMapping(
+        splitFront->getMeshBuffer(0),    // buffer
+        s,  // resolutionS
+        t,  // resolutionT
+        2,  // axis
+        vector3df(0, 0, 0)  // offset
+    );
+
+    auto foreStyle = TileStyle();
+    foreStyle.textureFile = "Media/irrlicht2_dn.jpg";
+    foreStyle.mesh = splitFront;
+    foreStyle.physShape = ObjShapes::none;
+
+    foreGameObj = graph->addNode(foreStyle);
+
+    throw "Need to be able to add Tile as a node attribute";
+    //foreGameObj->addAttribute(self);
 
     return *this;
 }

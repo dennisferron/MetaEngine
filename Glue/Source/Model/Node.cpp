@@ -1,4 +1,6 @@
-#include "Model/Node.cpp"
+#include "Glue/Model/Node.hpp"
+
+#include <vector>
 
 namespace Glue {
 
@@ -10,7 +12,8 @@ Node::Node(GameObjStyle const* style) :
     style(style),
     domain()
 {
-    domain.setSite(this);
+    throw "TODO: implement domain.setSite";
+    //domain.setSite(this);
 }
 
 Node::~Node()
@@ -19,9 +22,10 @@ Node::~Node()
 
 Node& Node::setGraph(Graph* value)
 {
-    graph = value;
-    for (auto& c : components)
-        domain.addObject("component", c);
+    throw "TODO:  implement domain.addObject";
+//    graph = value;
+//    for (auto& c : components)
+//        domain.addObject("component", c);
 }
 
 void Node::registerInteraction(Interaction* interaction)
@@ -29,9 +33,10 @@ void Node::registerInteraction(Interaction* interaction)
     possibleInteractions.push_back(interaction);
 }
 
-Node& addAttribute(NodeAttribute* attr, Interation* expectedInteraction)
+Node& Node::addAttribute(NodeAttribute* attr, Interaction* expectedInteraction)
 {
-    domain.addObject("node", attr, expectedInteraction);
+    throw "TODO: implement domain.addObject";
+    //domain.addObject("node", attr, expectedInteraction);
 }
 
 } // namespace Glue

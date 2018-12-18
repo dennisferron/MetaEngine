@@ -1,4 +1,4 @@
-#include "Model/Graph.hpp"
+#include "Glue/Model/Graph.hpp"
 
 namespace Glue {
 
@@ -6,7 +6,8 @@ std::vector<Interaction*> Graph::possibleInteractions;
 
 Graph::Graph()
 {
-    domain.setSite(this);
+    throw "TODO: implement domain setSite for Graph";
+    //domain.setSite(this);
 
     // I assume the code below was moved...somewhere?
 
@@ -32,26 +33,30 @@ Graph::~Graph()
 
 Node* Graph::addNode(NodeStyle const& style)
 {
-    Node* node = new Node(style);
+    throw "TODO:  memory management for style, should it be passed by value or by pointer?";
+    Node* node = new Node(&style);
     node->setGraph(this);
 
-    for (auto c : components)
-        c->addNode(node);
+    throw "TODO:  base class for components having addNode";
+    //for (auto c : components)
+    //    c->addNode(node);
 
     return node;
 }
 
 Link* Graph::addLink(LinkStyle const& style, Node* fromNode, Node* toNode)
 {
-    Link* link = new Link(style);
-    link->setFromNode(fromNode);
-    link->setToNode(toNode);
-    link->setGraph(this);
+    throw "TODO:  memory management for style, should it be passed by value or by pointer?";
+    //Link* link = new Link(&style);
+    //link->setFromNode(fromNode);
+    //link->setToNode(toNode);
+    //link->setGraph(this);
 
-    for (auto c : components)
-        c->addLink(link);
+    throw "TODO:  base class for components having addLink";
+    //for (auto c : components)
+    //    c->addLink(link);
 
-    return link;
+    //return link;
 }
 
 void Graph::removeLink(Link* link) const
@@ -67,7 +72,8 @@ void Graph::registerInteraction(Interaction* interaction)
 void Graph::addComponent(Component* newComp, Interaction* expectedInteraction)
 {
     components.push_back(newComp);
-    domain.addObject("component", newComp, expectedInteraction);
+    throw "TODO:  implement domain.addObject here";
+    //domain.addObject("component", newComp, expectedInteraction);
 }
 
 // Deprecated?  Not sure...
@@ -86,23 +92,27 @@ void Graph::createCamera(Node* lockObj)
 
 void Graph::removeConstraint(Constraint* constraint)
 {
-    bltComp->removeConstraint(constraint);
+    throw "TODO:  should this be in bullet component?";
+    //bltComp->removeConstraint(constraint);
 }
 
 void Graph::addConstraint(ConstraintStyle const& style, Node* objA, Node* objB)
 {
-    bltComp->addConstraint(style, objA, objB);
+    throw "TODO:  should this be in bullet component?";
+    //bltComp->addConstraint(style, objA, objB);
 }
 
-Node* Graph::nodeToGameObj(irr::Scene::ISceneNode* node) const
+Node* Graph::nodeToGameObj(irr::scene::ISceneNode* node) const
 {
-    return irrComp nodeToGameObj(node);
+    throw "TODO:  should this be in irrlicht component?";
+    //return irrComp nodeToGameObj(node);
 }
 
 void Graph::removeObj(Node* obj)
 {
-    objList.remove(obj);
-    irrComp.removeObj(obj);
+    throw "TODO:  should this be in irrlicht component?";
+    //objList.remove(obj);
+    //irrComp.removeObj(obj);
 }
 
 Structure* Graph::addStructure(Structure* structure, Structure* leftHandSide)

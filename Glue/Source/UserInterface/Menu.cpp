@@ -1,11 +1,12 @@
 
 #include "Glue/UserInterface/Menu.hpp"
+#include "Glue/Model/Graph.hpp"
 #include "irrlicht.h"
 
 #include <functional>
 #include <vector>
 
-#include "MainWindow.hpp"
+#include "Glue/UserInterface/MainWindow.hpp"
 
 namespace Glue {
 
@@ -19,8 +20,9 @@ class AbstractMenu::Impl
 private:
 
     AbstractMenu* self;
+    Graph* graph;
     MainWindow* window;
-    MenuPath path;
+    MenuPath* path;
     AbstractMenu* parent;
     std::vector<AbstractMenu*> items;
     int lineH = 50;
@@ -30,7 +32,7 @@ private:
 
 public:
 
-    Impl(AbstractMenu* self, Graph* graph, MenuPath const& path, AbstractMenu* parent=nullptr);
+    Impl(AbstractMenu* self, Graph* graph, MenuPath* path, AbstractMenu* parent=nullptr);
     void load();
     AbstractMenu* doKey(EKEY_CODE key);
     void draw();
@@ -56,7 +58,7 @@ void AbstractMenu::draw()
     impl->draw();
 }
 
-AbstractMenu::Impl::Impl(AbstractMenu* self, Graph* graph, MenuPath const& path, AbstractMenu* parent)
+AbstractMenu::Impl::Impl(AbstractMenu* self, Graph* graph, MenuPath* path, AbstractMenu* parent)
     : self(self), graph(graph), path(path), parent(parent)
 {
     load();
@@ -72,26 +74,28 @@ void AbstractMenu::Impl::load()
 AbstractMenu* AbstractMenu::Impl::doKey(EKEY_CODE key)
 {
     if (items.size() == 0)
-        return owner;
+        return parent;
 
     switch (key)
     {
-    case KEY_ESCAPE:
-    case KEY_BACK:
-        if (parent != nil)
+        case irr::KEY_ESCAPE:
+    case irr::KEY_BACK:
+        if (parent != nullptr)
             return parent->load();
-    case KEY_DOWN:
+    case irr::KEY_DOWN:
         ++selectedLine;
         if (selectedLine >= items.size())
             selectedLine = 0;
-        return owner;
-    case KEY_UP:
+        return self;
+    case irr::KEY_UP:
         --selectedLine;
         if (selectedLine < 0)
             selectedLine = items.size() - 1;
-        return owner;
-    case KEY_RETURN:
+        return self;
+    case irr::KEY_RETURN:
         // TODO:  Execute menu item at selected line.
+        default:
+        return self;
     };
 }
 
@@ -105,16 +109,16 @@ void AbstractMenu::Impl::draw()
     Scalar left = borderX;
     Scalar right = window->windowSizeX() - borderX;
 
-    recti pos(left, top, right, bottom);
+    irr::core::recti pos(left, top, right, bottom);
 
     SColor colorLeftUp(200, 30, 60, 30);
     SColor colorRightUp(200, 30, 90, 60);
     SColor colorLeftDown(200, 50, 50, 90);
     SColor colorRightDown(200, 60, 30, 90);
 
-    const core::rect< s32 >* clip = nullptr;
+    const irr::core::rect< irr::s32 >* clip = nullptr;
 
-    drawBorder(
+    self->drawBorder(
         pos,
         colorLeftUp,
         colorRightUp,
@@ -123,17 +127,17 @@ void AbstractMenu::Impl::draw()
         clip
     );
 
-    Scalar lineY = (window->windowSizeY - lineH * items.size()) / 2;
+    Scalar lineY = (window->windowSizeY() - lineH * items.size()) / 2;
     for (int i=0; i<items.size(); ++i)
     {
         auto item = items[i];
         std::string str = "TODO: Get name string from menu path";
-        recti position(0, lineY, engine windowSizeX, lineY + lineH);
+        irr::core::recti position(0, lineY, window->windowSizeX(), lineY + lineH);
         SColor color = (i == selectedLine) ? selectedColor : regularColor;
         bool hcenter = true;
         bool vcenter = true;
 
-        drawText(
+        self->drawText(
             str,
             position,
             color,

@@ -37,10 +37,10 @@ namespace Glue { namespace Bullet {
         {}
 
         ConstraintObj *Component::addConstraint(LinkStyle *style, btRigidBody &attrA, btRigidBody &attrB)
-        {}
+        { throw "Not implemented."; }
 
         NodeAttribute *Component::addNode(Node *node)
-        {}
+        { throw "Not implemented."; }
 
 }}
 

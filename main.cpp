@@ -38,7 +38,7 @@ using namespace gui;
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision/Gimpact/btGImpactCollisionAlgorithm.h"
 
-#include "Glue/MeshTools.hpp"
+#include "Glue/MeshTools/MeshTools.hpp"
 
 #include <iostream>
 

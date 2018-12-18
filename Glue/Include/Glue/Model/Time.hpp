@@ -78,6 +78,7 @@ private:
 
 public:
 
+    Time();
     Time& setDeviceTimer(ITimer* value);
 	void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action);
     RelTime elapsed() const;

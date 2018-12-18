@@ -1,4 +1,6 @@
-#include "Model/Link.hpp"
+#include "Glue/Model/Link.hpp"
+#include "Glue/Model/Node.hpp"
+#include "Glue/Model/Graph.hpp"
 
 namespace Glue {
 
@@ -11,7 +13,8 @@ Link::Link(LinkStyle* newStyle) :
     domain(),
     graph(nullptr)
 {
-    domain.setSite(this);
+    throw "TODO: Implement domain.setSite for this";
+    //domain.setSite(this);
 }
 
 void Link::registerInteraction(Interaction* interaction)
@@ -22,7 +25,8 @@ void Link::registerInteraction(Interaction* interaction)
 Link& Link::setStyle(LinkStyle* value, Interaction* expectedInteraction)
 {
     style = value;
-    domain.addObject("style", value, expectedInteraction);
+    throw "TODO:  implement domain.addObject for this";
+    //domain.addObject("style", value, expectedInteraction);
     return *this;
 }
 
@@ -58,19 +62,22 @@ Link& Link::setGraph(Graph* value)
 
     // TODO:  Notify and remove old components from the domain.
 
-    domain.merge("component", graph->domain, "component");
+    throw "TODO:  Implement domain merge for component here";
+    //domain.merge("component", graph->domain, "component");
     return *this;
 }
 
 Link& Link::addAttribute(Attribute* attr, Interaction* expectedInteraction)
 {
-    domain.addObject("link", attr, expectedInteraction);
+    throw "TODO:  implement domain.addObject for attribute here";
+    //domain.addObject("link", attr, expectedInteraction);
     return *this;
 }
 
 Attribute* Link::findAttribute(Attribute* attr)
 {
-    return domain.findObject("link", attr);
+    throw "TODO:  implement domain.findObject";
+    //return domain.findObject("link", attr);
 }
 
 } // namespace Glue

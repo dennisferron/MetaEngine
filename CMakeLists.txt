@@ -3,6 +3,13 @@ project(MetaEngine)
 
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_MODULE_PATH
+        ${CMAKE_MODULE_PATH}
+        ${CMAKE_SOURCE_DIR}/cmake
+)
+
+include(UseBoost)
+
 include_directories(Finagle/Include)
 include_directories(Finagle/Test)
 include_directories(Glue/Include)

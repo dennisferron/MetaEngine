@@ -1,9 +1,9 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "Glue/MeshTools.hpp"
+#include "Glue/MeshTools/MeshTools.hpp"
 #include "irrlicht.h"
 #include "BulletSoftBody/btSoftBodyHelpers.h"
-#include "Glue/SurfaceQuadTree.hpp"
+#include "Glue/MeshTools/SurfaceQuadTree.hpp"
 #include "boost/intrusive_ptr.hpp"
 
 #include <iostream>

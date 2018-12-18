@@ -6,12 +6,12 @@
 #include "Glue/MeshTools/SurfaceQuadTree.hpp"
 #include "Glue/Constants.hpp"
 
+#include "Glue/Model/Graph.hpp"
+#include "Glue/LevelSystem/Tile.hpp"
+
 #include <vector>
 
 namespace Glue { namespace LevelSystem {
-
-class Graph;
-class Tile;
 
 class Terrain
 {

@@ -86,10 +86,10 @@ public:
   /// @param regularization Amount of "relaxation", 0.0 = exact interpolation
   /// @param subsampling_factor 1.0 = use all points, 0.5 = use 1/2 of the points etc.
   TPS_Morpher(
-    std::auto_ptr<std::vector<Coord_Diff> > p_samples,
+    std::unique_ptr<std::vector<Coord_Diff> > p_samples,
     double regularization,
     double subsampling_factor = 1.0 )
-      : samples( p_samples )
+      : samples( std::move(p_samples) )
   {
     assert( samples->size() >= 3 );
     unsigned p = samples->size();
@@ -236,9 +236,9 @@ public:
 
   /// Takes away the ownership of 'samples' from the morpher.
   /// After this, calling other functions becomes illegal.
-  std::auto_ptr<std::vector<Coord_Diff> > grab_samples()
+  std::unique_ptr<std::vector<Coord_Diff> > grab_samples()
   {
-    return samples;
+    return std::move( samples );
   }
 
 private:
@@ -251,6 +251,6 @@ private:
       : r2 * log(r2) * 0.217147241; // = 1/(2*log(10))
   }
 
-  std::auto_ptr<std::vector<Coord_Diff> > samples;
+  std::unique_ptr<std::vector<Coord_Diff> > samples;
   Matrix mtx_l, mtx_v, mtx_orig_k;
 };

@@ -1,6 +1,5 @@
-#pragma once
 
-#include "Model/Time.hpp"
+#include "Glue/Model/Time.hpp"
 
 namespace Glue {
 
@@ -19,14 +18,14 @@ void Time::_processTimeoutEvents()
 
     try
     {
-        for (auto iter = timeout_events.begin(); iter < timeout_events.end(); ++iter)
+        for (auto iter = timeout_events.begin(); iter != timeout_events.end(); ++iter)
         {
             TimeoutEvent evt(*iter);
 
             if (evt.atTime <= currentTime)
             {
-                erase_to = iter + 1;
-                RelTime result = evt.action(currentTime - fromTime);
+                erase_to = iter;  // multiset does not define iter+1 so can only set iter here
+                RelTime result = evt.action(currentTime - lastTime);
                 if (result > 0)
                     setTimeout(result, evt.action);
             }
@@ -59,6 +58,7 @@ void Time::_processTimeoutEvents()
 Time& Time::setDeviceTimer(ITimer* value)
 {
     deviceTimer = value;
+    return *this;
 }
 
 void Time::setTimeout(RelTime delay, std::function<RelTime(RelTime)> action)
@@ -71,7 +71,7 @@ void Time::setTimeout(RelTime delay, std::function<RelTime(RelTime)> action)
 
 RelTime Time::elapsed() const
 {
-    retur currentTime - lastTime;
+    return currentTime - lastTime;
 }
 
 void Time::runLoop()

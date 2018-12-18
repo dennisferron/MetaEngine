@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Glue/Styles/ConstraintStyles.hpp"
 
 using namespace Glue::Constants;
@@ -25,12 +23,14 @@ SliderStyle& SliderStyle::setLinRange(Scalar lower, Scalar upper)
 {
     lowerLinLimit = lower;
     upperLinLimit = upper;
+    return *this;
 }
 
 SliderStyle& SliderStyle::setAngRange(Scalar lower, Scalar upper)
 {
     lowerAngLimit = lower;
     upperAngLimit = upper;
+    return *this;
 }
 
 ConeTwistStyle::ConeTwistStyle()
@@ -59,6 +59,7 @@ HingeStyle& HingeStyle::setAngRange(Scalar lower, Scalar upper)
 {
     lowerAngLimit = lower;
     upperAngLimit = upper;
+    return *this;
 }
 
 GearStyle::GearStyle()
@@ -108,6 +109,8 @@ Generic6DOFStyle& Generic6DOFStyle::setLinRange(Scalar lowerX, Scalar upperX, Sc
 
     lowerLinLimitZ = lowerZ;
     upperLinLimitZ = upperZ;
+
+    return *this;
 }
 
 Generic6DOFStyle& Generic6DOFStyle::setAngRange(Scalar lowerX, Scalar upperX, Scalar lowerY, Scalar upperY, Scalar lowerZ, Scalar upperZ)
@@ -120,6 +123,8 @@ Generic6DOFStyle& Generic6DOFStyle::setAngRange(Scalar lowerX, Scalar upperX, Sc
 
     lowerAngLimitZ = lowerZ;
     upperAngLimitZ = upperZ;
+
+    return *this;
 }
 
 SpringProperty::SpringProperty()
@@ -142,10 +147,8 @@ Generic6DOFSpringStyle::Generic6DOFSpringStyle()
 DisableCollisionStyle::DisableCollisionStyle()
     : Generic6DOFStyle(JointTypes::disableCollision)
 {
-    // TODO:  Which is the right syntax?
     disableLinkedBodyCollisions = true;
-    disableLinkedBodyCollisions(true);
-    
+
     setLinRange(1,0, 1,0, 1,0);
     setAngRange(1,0, 1,0, 1,0);
     debugDrawSize = 0;

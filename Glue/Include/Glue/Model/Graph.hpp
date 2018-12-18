@@ -30,6 +30,8 @@ private:
     // possible interactions shared among all instances
     static std::vector<Interaction*> possibleInteractions;
 
+public:
+
     Node* addNode(NodeStyle const& style);
     Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
     void removeLink(Link* link) const;

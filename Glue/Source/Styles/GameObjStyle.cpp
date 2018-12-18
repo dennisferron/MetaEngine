@@ -50,7 +50,7 @@ GameObjStyle::GameObjStyle(ObjShapes dispShape, ObjShapes physShape)
 
     // Collision properties
     ShortBitMask collisionGroup = DefaultCollisionGroup; //DefaultFilter
-    ShortBitmask collisionMask = DefaultCollisionMask;
+    ShortBitMask collisionMask = DefaultCollisionMask;
     CollisionResponseTags collisionResponseTag = CollisionResponseTags::none;
 
 
@@ -68,7 +68,7 @@ GameObjStyle::GameObjStyle(ObjShapes dispShape, ObjShapes physShape)
     color = SColor(255, 255, 255, 255);
 
     // Set to a file name to load the texture.
-    texture = nullptr;
+    textureFile = "";
 
     // Change the way TCoords wrap for e.g. cylinder or cone
     alternateTextureWrap = false;
@@ -165,6 +165,7 @@ GameObjStyle& GameObjStyle::setDamping(Scalar lin, Scalar ang)
 {
     linDamping = lin;
     angDamping = ang;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setSize(Scalar sz)
@@ -172,6 +173,7 @@ GameObjStyle& GameObjStyle::setSize(Scalar sz)
     this->xSize = sz;
     this->ySize = sz;
     this->zSize = sz;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setSize(Scalar xSize, Scalar ySize, Scalar zSize)
@@ -179,29 +181,34 @@ GameObjStyle& GameObjStyle::setSize(Scalar xSize, Scalar ySize, Scalar zSize)
     this->xSize = xSize;
     this->ySize = ySize;
     this->zSize = zSize;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setShape(ObjShapes s)
 {
     physShape = s;
     dispShape = s;
+    return *this;
 }
 
 // Note:  This method puts alpha last as opposed to SColor which has it first.
 GameObjStyle& GameObjStyle::setColor(IntColor r, IntColor g, IntColor b, IntColor a)
 {
     color = SColor(a, r, g, b);
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setColor(SColor c)
 {
     color = c;
+    return *this;
 }
 
-GameObjStyle& GameObjStyle::setTexture(ITexture* value)
+GameObjStyle& GameObjStyle::setTextureFile(std::string value)
 {
-    texture = value;
-    textureMap["primary"] = value;
+    textureFile = value;
+    textureMap[TextureKeys::primary] = value;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setAxis(Scalar x, Scalar y, Scalar z)
@@ -209,6 +216,7 @@ GameObjStyle& GameObjStyle::setAxis(Scalar x, Scalar y, Scalar z)
     axisX = x;
     axisY = y;
     axisZ = z;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setLinearFactor(Scalar x, Scalar y, Scalar z)
@@ -216,6 +224,7 @@ GameObjStyle& GameObjStyle::setLinearFactor(Scalar x, Scalar y, Scalar z)
     linFactorX = x;
     linFactorY = y;
     linFactorZ = z;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setAngularFactor(Scalar x, Scalar y, Scalar z)
@@ -223,6 +232,7 @@ GameObjStyle& GameObjStyle::setAngularFactor(Scalar x, Scalar y, Scalar z)
     angFactorX = x;
     angFactorY = y;
     angFactorZ = z;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setDispScale(Scalar x, Scalar y, Scalar z)
@@ -230,6 +240,7 @@ GameObjStyle& GameObjStyle::setDispScale(Scalar x, Scalar y, Scalar z)
     dispScaleX = x;
     dispScaleY = y;
     dispScaleZ = z;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setPhysScale(Scalar x, Scalar y, Scalar z)
@@ -237,12 +248,14 @@ GameObjStyle& GameObjStyle::setPhysScale(Scalar x, Scalar y, Scalar z)
     physScaleX = x;
     physScaleY = y;
     physScaleZ = z;
+    return *this;
 }
 
 GameObjStyle& GameObjStyle::setScale(Scalar x, Scalar y, Scalar z)
 {
     setDispScale(x, y, z);
     setPhysScale(x, y, z);
+    return *this;
 }
 
 bool GameObjStyle::isMouseDraggable() const

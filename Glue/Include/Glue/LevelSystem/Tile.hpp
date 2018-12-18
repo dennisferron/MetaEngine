@@ -7,11 +7,13 @@
 #include "Glue/Constants.hpp"
 #include "Glue/Model/Graph.hpp"
 
+#include "Glue/MeshTools/SurfaceQuadTree.hpp"
+
 namespace Glue {
 
 class Tile
 {
-private:
+public:
     Graph* graph;
     irr::scene::IMeshManipulator* meshMan;
 
@@ -25,7 +27,7 @@ private:
     Node* walkwayGameObj;
     Node* foreGameObj;
 
-    IMesh* surface;
+    SurfaceQuadTree* surface;
 
 public:
     Tile& refresh();

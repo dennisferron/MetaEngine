@@ -1,6 +1,6 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "Glue/PossibleVertex.hpp"
+#include "Glue/MeshTools/PossibleVertex.hpp"
 #include "irrlicht.h"
 #include "BulletSoftBody/btSoftBodyHelpers.h"
 

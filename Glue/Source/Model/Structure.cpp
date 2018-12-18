@@ -1,4 +1,4 @@
-#include "Model/Structure.hpp"
+#include "Glue/Model/Structure.hpp"
 
 // This looks hard to convert.  Saving it for last.
 

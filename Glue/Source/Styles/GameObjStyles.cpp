@@ -73,7 +73,7 @@ PlaneStyle::PlaneStyle()
     gameObjType = GameObjTypes::static_;
     margin = 0.1;
     mass = 0;
-    setSize(1.0f, 0.0f, 1.0f)
+    setSize(1.0f, 0.0f, 1.0f);
     xTiles = 15;
     zTiles = 15;
     xTextureRepeat = 1;
@@ -81,8 +81,10 @@ PlaneStyle::PlaneStyle()
 }
 
 WallStyle::WallStyle()
-    : GameObjStyle(ObjShapes::mesh)
 {
+    // TODO: Not sure about this one:
+    //dispShape = ObjShapes::mesh;
+
     setColor(200, 60, 240);
     mass = 0;
     radius = 10;

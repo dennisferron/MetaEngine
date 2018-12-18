@@ -1,6 +1,6 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "Glue/SurfaceQuadTree.hpp"
+#include "Glue/MeshTools/SurfaceQuadTree.hpp"
 
 #include <iostream>
 #include <stdexcept>

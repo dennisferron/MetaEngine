@@ -6,6 +6,7 @@
 
 #include <experimental/optional>
 #include <map>
+#include <string>
 
 namespace std {
     template <typename T>
@@ -181,11 +182,11 @@ namespace Glue {
         // Map of texture name keys to texture files
         // Generalizes style texture to include more than one in a style,
         // e.g. for things like skybox.
-        std::map<TextureKeys, ITexture*> textureMap;
+        std::map<TextureKeys, std::string> textureMap;
 
         // Set to a file name to load the texture.
-        ITexture* texture;
-        GameObjStyle& setTexture(ITexture* value);
+        std::string textureFile;
+        GameObjStyle& setTextureFile(std::string value);
 
         // Change the way TCoords wrap for e.g. cylinder or cone
         bool alternateTextureWrap = false;

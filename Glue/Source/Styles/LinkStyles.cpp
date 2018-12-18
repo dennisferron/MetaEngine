@@ -8,7 +8,7 @@ LookAtStyle::LookAtStyle()
 }
 
 MouseDragStyle::MouseDragStyle()
-    : LinkStyle(JointType::mouseDrag)
+    : LinkStyle(LinkTypes::mouseDrag)
 {
 }
 

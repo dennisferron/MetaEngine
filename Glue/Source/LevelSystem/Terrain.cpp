@@ -5,6 +5,10 @@
 #include "ThinPlateSpline/ThinPlateQuilt.hpp"
 #include "Glue/Styles/GameObjStyles.hpp"
 
+#include <boost/random/linear_congruential.hpp>
+#include <boost/random/uniform_real.hpp>
+#include <boost/random/variate_generator.hpp>
+
 using namespace std;
 using namespace boost;
 
@@ -27,15 +31,15 @@ namespace {
     }
 }
 
-namespace Glue {
+namespace Glue { namespace LevelSystem {
 
     Terrain::Terrain()
     {
-        worldSizeX = 64;
-        worldSizeY = 64;
+        int worldSizeX = 64;
+        int worldSizeY = 64;
         levelRect =
             rectf(
-                vector2df(-worldSizeX/2f, -worldSizeY/2f),
+                vector2df(-worldSizeX/2.0f, -worldSizeY/2.0f),
                 dimension2df(worldSizeX, worldSizeY)
             );
         numTilesX = 4;
@@ -50,10 +54,10 @@ namespace Glue {
         tileArray.resize(numTilesX * numTilesY);
 
         // The num tiles in meshes and the surface need not be identical.
-        surfaceCols = numTilesX;
-        surfaceRows = numTilesY;
-        surfaceMin = Vec(levelRect.UpperLeftCorner.X, 0, levelRect.UpperLeftCorner.Y);
-        surfaceMax = Vec(levelRect.LowerRightCorner.X, 0, levelRect.LowerRightCorner.Y);
+        int surfaceCols = numTilesX;
+        int surfaceRows = numTilesY;
+        auto surfaceMin = Vec(levelRect.UpperLeftCorner.X, 0, levelRect.UpperLeftCorner.Y);
+        auto surfaceMax = Vec(levelRect.LowerRightCorner.X, 0, levelRect.LowerRightCorner.Y);
 
         tps = new ThinPlateQuilt(surfaceCols, surfaceRows, surfaceMin, surfaceMax);
 
@@ -70,19 +74,20 @@ namespace Glue {
                     Vec(cpx, h, cpy)
             );
 
-            BallStyle controlPointStyle;
+            GameObjStyles::BallStyle controlPointStyle;
             controlPointStyle
-                    .setPhysShape("none")
+                    //.setPhysShape("none")
                     .setSize(0.5)
-                    .setIsMouseDraggable(true)
+                    //.setIsMouseDraggable(true)
                     .setPos(cpx, cpy, h);
+            controlPointStyle.physShape = ObjShapes::none;
 
             graph->addNode(controlPointStyle);
         }
 
         tps->refresh();
 
-        surface = new SurfaceQuadTree(levelRect, tps, "Root");
+        surface = new SurfaceQuadTree(levelRect, *tps, "Root");
 
         // Initial grid placement
         surface->split(initialSplit);
@@ -96,19 +101,19 @@ namespace Glue {
             for (int y=0; y<numTilesY; y++)
             {
                 Scalar offset = 0.1; // this ensures right/bottom tile boundaries are triangulated.
-                vector2df tilePos(x * tileDimensions get_Width + levelRect get_UpperLeftCorner get_X + offset,
-                                         y * tileDimensions get_Height + levelRect get_UpperLeftCorner get_Y + offset);
+                vector2df tilePos(
+                        x * tileDimensions.Width + levelRect.UpperLeftCorner.X + offset,
+                        y * tileDimensions.Height + levelRect.UpperLeftCorner.Y + offset);
                 rectf tileRect(tilePos, tileDimensions);
-                Tile tile;
-                tile
-                    .setGraph(graph)
-                    .setMeshMan(meshMan)
-                    .setTileRect(tileRect)
-                    .setSurface(surface)
-                    .setPathMinZ(pathMinZ)
-                    .setPathMaxZ(pathMaxZ)
-                    .setSkyCutZ(skyCutZ)
-                    .refresh();
+                Tile* tile = new Tile;
+                tile->graph = graph;
+                tile->meshMan = meshMan;
+                tile->tileRect = tileRect;
+                tile->surface = surface;
+                tile->pathMinZ = pathMinZ;
+                tile->pathMaxZ = pathMaxZ;
+                tile->skyCutZ = skyCutZ;
+                tile->refresh();
                 tileArray[tileIndex(x,y)] = tile;
             }
         }
@@ -122,7 +127,7 @@ namespace Glue {
         if( y >= numTilesY)
             throw std::logic_error("y out of bounds");
 
-        std::size result = y*numTilesX + x;
+        std::size_t result = y*numTilesX + x;
 
         if (result >= tileArray.size())
             throw std::logic_error("tileIndex out of bounds.");
@@ -130,4 +135,4 @@ namespace Glue {
         return result;
     }
 
-}  // namespace Glue
+}}  // namespace Glue

@@ -16,7 +16,7 @@ class NodeAttribute
 
 class Node
 {
-private:
+public:
     Graph* graph;
     GameObjStyle const* style;
     Domain* domain;
