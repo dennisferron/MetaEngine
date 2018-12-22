@@ -9,6 +9,7 @@ set(CMAKE_MODULE_PATH
 )
 
 include(UseBoost)
+include(UseBullet)
 
 include_directories(Finagle/Include)
 include_directories(Finagle/Test)
