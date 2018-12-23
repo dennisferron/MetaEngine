@@ -3,6 +3,7 @@
 #include "Glue/Model/Graph.hpp"
 
 #include <functional>
+#include <memory>
 
 namespace irr {
     enum EKEY_CODE;

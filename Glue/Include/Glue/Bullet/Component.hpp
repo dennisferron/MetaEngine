@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 
 #include "Glue/Constants.hpp"
 #include "Glue/Styles/LinkStyle.hpp"

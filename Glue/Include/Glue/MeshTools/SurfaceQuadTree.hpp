@@ -7,6 +7,7 @@
 #include "ThinPlateSpline/ThinPlateQuilt.hpp"
 #include "PossibleVertex.hpp"
 #include <vector>
+#include <memory>
 
 namespace Glue {
 

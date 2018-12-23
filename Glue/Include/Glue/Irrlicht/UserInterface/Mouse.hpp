@@ -5,6 +5,7 @@
 #include "Glue/LevelSystem/Tile.hpp"
 
 #include <functional>
+#include <memory>
 
 namespace irr { namespace video {
     class ITriangle;
