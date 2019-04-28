@@ -4,14 +4,9 @@
 
 #include "irrlicht.h"
 
-#include <experimental/optional>
+#include <optional>
 #include <map>
 #include <string>
-
-namespace std {
-    template <typename T>
-    using optional = std::experimental::optional<T>;
-}
 
 namespace Glue {
 

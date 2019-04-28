@@ -31,7 +31,7 @@ if(Bullet_FOUND)
             bullet3/cmake-build-debug/src/BulletCollision
             bullet3/cmake-build-debug/src/BulletDynamics
             bullet3/cmake-build-debug/src/BulletSoftBody
-            bullet3/cmake-build-debug/lib
+            #bullet3/cmake-build-debug/lib
     )
     link_libraries(
             ${BULLET_LIBRARIES}
