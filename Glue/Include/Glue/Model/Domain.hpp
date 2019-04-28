@@ -23,10 +23,11 @@ private:
 
 public:
 
-    Domain& merge(Subdomain targetSubdomain, Domain* sourceDomain, Subdomain sourceSubdomain);
-    Domain& addObject(Subdomain subdomain, Object* newObj, Interaction* expectedInteraction);
-    void checkInteraction(Interaction* expectedInteraction, Subdomain subdomain, Object* newObj);
-    Object* findObject(Subdomain subdomain, Type* objProto);
+    Domain();
+    Domain& merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sourceSubdomain);
+    Domain& addObject(Domain* subdomain, Object* newObj, Interaction* expectedInteraction);
+    void checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj);
+    Object* findObject(Domain* subdomain, Type* objProto);
 };
 
 }

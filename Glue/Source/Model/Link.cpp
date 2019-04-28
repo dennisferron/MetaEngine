@@ -35,11 +35,11 @@ Link& Link::setFromNode(Node* value)
     fromNode = value;
 
     // TODO:  Notify and remove old node value from domain.
-
+    /*
     // TODO:  What does this do?
     if (fromNode != nullptr)
         domain.merge("fromNode", fromNode->domain, "node");
-
+    */
     return *this;
 }
 
@@ -48,11 +48,11 @@ Link& Link::setToNode(Node* value)
     toNode = value;
 
     // TODO:  Notify and remove old node value from domain.
-
+/*
     // TODO:  What does this do?
     if (toNode != nullptr)
         domain.merge("toNode", toNode->domain, "node");
-
+*/
     return *this;
 }
 
