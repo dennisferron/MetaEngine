@@ -248,3 +248,13 @@ add_executable(MetaEngine
         ThinPlateSpline/Source/ThinPlateQuilt.cpp
         ThinPlateSpline/Source/ThinPlateSpline.cpp
         main.cpp)
+
+target_link_libraries( MetaEngine PUBLIC
+        Irrlicht
+        LinearMath
+        Bullet3Common
+        BulletInverseDynamics
+        BulletCollision
+        BulletDynamics
+        BulletSoftBody
+)

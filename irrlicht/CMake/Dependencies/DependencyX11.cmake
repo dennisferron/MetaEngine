@@ -59,8 +59,8 @@ if ((UNIX) OR ((APPLE) AND (IRRLICHT_ENABLE_X11_SUPPORT)))
 			${IRRLICHT_DEPENDENCY_LIBRARIES}
 			${X11_Xxf86vm_LIB}
 		)
-	else ()
-		MESSAGE(WARNING "X11 xf86vm library is missing. Not all tools and examples may compile correctly...")
+#	else ()
+#		MESSAGE(WARNING "X11 xf86vm library is missing. Not all tools and examples may compile correctly...")
 	endif ()
 	
 	# only tools need this
@@ -77,8 +77,8 @@ if ((UNIX) OR ((APPLE) AND (IRRLICHT_ENABLE_X11_SUPPORT)))
 			${IRRLICHT_DEPENDENCY_LIBRARIES}
 			${X11_Xft_LIB}
 		)
-	else ()
-		MESSAGE(WARNING "X11 Xft library is missing. Not all tools and examples may compile correctly...")
+	#else ()
+	#	MESSAGE(WARNING "X11 Xft library is missing. Not all tools and examples may compile correctly...")
 	endif ()
 	
 endif ()
