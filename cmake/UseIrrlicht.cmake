@@ -3,20 +3,15 @@ find_package(Irrlicht REQUIRED
     NO_MODULE
     PATHS irrlicht/cmake-build-debug)
 
-if(Bullet_FOUND)
+if(Irrlicht_FOUND)
 
-#    message(STATUS "Found Bullet")
-#    get_cmake_property(_variableNames VARIABLES)
-#    list (SORT _variableNames)
-#    foreach (_variableName ${_variableNames})
-#        message(STATUS "${_variableName}=${${_variableName}}")
-#    endforeach()
+    message(STATUS "Found Irrlicht")
 
     include_directories(${Irrlicht_INCLUDE_DIRS})
 
     add_definitions     ( ${Irrlicht_DEFINITIONS} )
     include_directories ( ${Irrlicht_INCLUDE_DIRS} )
-    #link_directories    ( ${Irrlicht_LIBRARY_DIRS} )
+    link_directories    ( ${Irrlicht_LIBRARY_DIRS} )
 
     link_directories(
             irrlicht/cmake-build-debug/

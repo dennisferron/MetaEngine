@@ -7,6 +7,7 @@
 #include <optional>
 #include <map>
 #include <string>
+#include <functional>
 
 namespace Glue {
 

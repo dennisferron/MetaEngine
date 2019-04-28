@@ -1,16 +1,20 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.13)
 project(MetaEngine)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_MODULE_PATH
-        ${CMAKE_MODULE_PATH}
+list(APPEND CMAKE_MODULE_PATH
         ${CMAKE_SOURCE_DIR}/cmake
 )
 
 include(UseBoost)
-include(UseBullet)
-include(UseIrrlicht)
+
+#include(UseBullet)
+add_subdirectory(bullet3)
+
+#include(UseIrrlicht)
+add_subdirectory(irrlicht)
+
 
 include_directories(Finagle/Include)
 include_directories(Finagle/Test)

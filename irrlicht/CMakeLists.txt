@@ -19,19 +19,17 @@
 # 3. This notice may not be removed or altered from any source distribution.
 #
 
-cmake_minimum_required(VERSION 2.6)
-cmake_policy(VERSION 2.6)
+cmake_minimum_required(VERSION 3.13)
 
 PROJECT(Irrlicht)
 
-SET(CMAKE_MODULE_PATH 
-	${CMAKE_MODULE_PATH} 
-	${CMAKE_SOURCE_DIR}/CMake
-	${CMAKE_SOURCE_DIR}/CMake/Dependencies
-	${CMAKE_SOURCE_DIR}/CMake/Compiler
-	${CMAKE_SOURCE_DIR}/CMake/OperatingSystems
-	${CMAKE_SOURCE_DIR}/CMake/Options
-	${CMAKE_SOURCE_DIR}/CMake/Packages
+list(APPEND CMAKE_MODULE_PATH
+	${CMAKE_CURRENT_SOURCE_DIR}/CMake
+	${CMAKE_CURRENT_SOURCE_DIR}/CMake/Dependencies
+	${CMAKE_CURRENT_SOURCE_DIR}/CMake/Compiler
+	${CMAKE_CURRENT_SOURCE_DIR}/CMake/OperatingSystems
+	${CMAKE_CURRENT_SOURCE_DIR}/CMake/Options
+	${CMAKE_CURRENT_SOURCE_DIR}/CMake/Packages
 )
 
 # Contains the version information...
@@ -54,8 +52,6 @@ INCLUDE(OptionProfiling)
 INCLUDE(OptionDirectX9)
 INCLUDE(OptionX11Support)
 INCLUDE(OptionStaticLib)
-INCLUDE(OptionBuildExamples)
-INCLUDE(OptionBuildTools)
 INCLUDE(OptionInstallMediaFiles)
 
 # Generic definitions for all compilers and operating systems...
@@ -107,33 +103,5 @@ INSTALL(FILES ${IRRLICHT_PUBLIC_HEADER_FILES} DESTINATION "includes/Irrlicht")
 
 if (IRRLICHT_INSTALL_MEDIA_FILES)
 	INSTALL(DIRECTORY ${IRRLICHT_MEDIA_DIR} DESTINATION  ".")
-endif ()
-
-if (IRRLICHT_BUILD_EXAMPLES OR IRRLICHT_BUILD_TOOLS)
-	SET(IRRLICHT_LIB_FILE $<TARGET_LINKER_FILE_NAME:Irrlicht>)
-	SET(IRRLICHT_SHARED_FILE $<TARGET_FILE_NAME:Irrlicht>)
-
-	SET(ZZZ_EXAMPLE_SINGLE_COMPILE OFF CACHE BOOL "(Do not set!) If this is enabled, cmake assumes that an example should be compiled for itself (This variable is set automatically, so do not set!).")
-	mark_as_advanced(FORCE ZZZ_EXAMPLE_SINGLE_COMPILE)
-	SET(IRRLICHT_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include/" CACHE PATH "The include directory for Irrlicht headers.")
-	mark_as_advanced(FORCE IRRLICHT_INCLUDE_DIR)
-	SET(IRRLICHT_LIBRARY     "${CMAKE_CURRENT_BINARY_DIR}/${IRRLICHT_LIB_FILE}" CACHE FILEPATH "The path to the irrlicht library.")
-	mark_as_advanced(FORCE IRRLICHT_LIBRARY)
-	if (NOT IRRLICHT_STATIC_LIBRARY)
-		SET(IRRLICHT_SHARED_BIN  "${CMAKE_CURRENT_BINARY_DIR}/${IRRLICHT_SHARED_FILE}" CACHE FILEPATH "The path to the irrlicht shared library.")
-		mark_as_advanced(FORCE IRRLICHT_SHARED_BIN)
-	endif ()
-
-	if (IRRLICHT_BUILD_EXAMPLES)
-		ADD_SUBDIRECTORY(examples)
-	endif ()
-	
-	if (IRRLICHT_BUILD_TOOLS)
-		ADD_SUBDIRECTORY(tools)
-	endif ()
-	
-	if 	(ZZZ_EXAMPLE_SINGLE_COMPILE)
-		message(SEND_ERROR "The variable ZZZ_EXAMPLE_SINGLE_COMPILE must not be set when compiling the irrlicht library!")
-	endif ()
 endif ()
 
