@@ -42,6 +42,8 @@ using namespace gui;
 
 #include <iostream>
 
+#include "Glue/Startup.hpp"
+
 /*
 This is the main method. We can use void main() on every platform.
 On Windows platforms, we could also use the WinMain method
@@ -51,6 +53,8 @@ we use main().
 */
 int main(int argc, char** argv)
 {
+    Glue::RootModule rootModule;
+
     btBroadphaseInterface* broadphase = new btDbvtBroadphase();
     btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
     btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);

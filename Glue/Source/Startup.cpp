@@ -1,5 +1,13 @@
 #include "Glue/Startup.hpp"
 
+namespace Glue {
+
+    RootModule::RootModule()
+    {
+    }
+
+}
+
 //writeln("Engine startup")
 //
 //LM_Protos := namespace
