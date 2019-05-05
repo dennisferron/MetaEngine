@@ -2,6 +2,7 @@
 #include "Glue/Model/Graph.hpp"
 #include "Glue/Irrlicht/Irrlicht.hpp"
 #include "Glue/Bullet/Bullet.hpp"
+#include "Glue/Avatar/Avatar.hpp"
 
 #include <iostream>
 #include <optional>
@@ -11,11 +12,13 @@ namespace Glue {
     struct Startup::Impl
     {
         Graph graph;
-        std::optional<Irrlicht::Component> irrComp;
-        std::optional<Bullet::Component> bltComp;
+        Avatar::Component* avatarComp;
+        Bullet::Component* bltComp;
+        Irrlicht::Component* irrComp;
     };
 
     Startup::Startup()
+        : impl(new Startup::Impl())
     {
         std::cout << "Engine startup\n";
     }
@@ -27,7 +30,9 @@ namespace Glue {
 
     void Startup::add_components()
     {
-
+        impl->avatarComp = new Avatar::Component();
+        impl->bltComp = new Bullet::Component();
+        impl->irrComp = new Irrlicht::Component();
     }
 
 }

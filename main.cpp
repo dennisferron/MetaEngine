@@ -214,7 +214,7 @@ int main(int argc, char** argv)
 
         driver->endScene();
 
-        if (num_frames > 200)
+        if (num_frames > 1000)
             break;
     }
 
