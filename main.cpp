@@ -1,3 +1,6 @@
+
+$ NOT BUILD
+
 /*
 The program will show how to use the
 basics of the VideoDriver, the GUIEnvironment and the
@@ -145,7 +148,7 @@ int main(int argc, char** argv)
     By the way, that cool Quake 2 model called sydney was modelled
     by Brian Collins.
     */
-    IAnimatedMesh* mesh = smgr->getMesh("../../irrlicht/media/sydney.md2");
+    IAnimatedMesh* mesh = smgr->getMesh("media/sydney.md2");
     IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode( mesh );
 
     /*
@@ -160,7 +163,7 @@ int main(int argc, char** argv)
     {
         node->setMaterialFlag(EMF_LIGHTING, false);
         node->setFrameLoop(0, 310);
-        node->setMaterialTexture( 0, driver->getTexture("../../irrlicht/media/sydney.bmp") );
+        node->setMaterialTexture( 0, driver->getTexture("media/sydney.bmp") );
     }
 
     /*
@@ -179,6 +182,8 @@ int main(int argc, char** argv)
     */
     while(device->run())
     {
+        ++num_frames;
+
         /*
         Anything can be drawn between a beginScene() and an endScene()
         call. The beginScene clears the screen with a color and also the
@@ -209,6 +214,9 @@ int main(int argc, char** argv)
         guienv->drawAll();
 
         driver->endScene();
+
+        if (num_frames > 200)
+            break;
     }
 
     /*
@@ -222,8 +230,8 @@ int main(int argc, char** argv)
     for more information.
     */
     device->drop();
-    device->drop();
-    device->drop();
+//    device->drop();
+//    device->drop();
 
     dynamicsWorld->removeRigidBody(fallRigidBody);
     delete fallRigidBody->getMotionState();
