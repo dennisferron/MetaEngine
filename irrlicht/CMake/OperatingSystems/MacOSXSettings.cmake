@@ -24,25 +24,6 @@ if (APPLE)
     SET(CMAKE_MACOSX_RPATH 0)
     SET(CMAKE_MACOSX_BUNDLE_BUNDLE_NAME "IrrlichtExample")
 
-    SET(OS_INCLUDE_DIRS /Developer/Headers/FlatCarbon )
-
-    FIND_LIBRARY(CARBON_LIBRARY Carbon)
-    MARK_AS_ADVANCED(CARBON_LIBRARY)
-
-    FIND_LIBRARY(COCOA_LIBRARY COCOA)
-    MARK_AS_ADVANCED(COCOA_LIBRARY)
-
-    if (COCOA_FOUND)
-        MESSAGE(STATUS "Cocoa Correctly Found:")
-        MESSAGE(STATUS " * Include-Dir: ${COCOA_INCLUDE_DIR}")
-        MESSAGE(STATUS " * Libraries: ${COCOA_LIBRARIES}")
-        INCLUDE_DIRECTORIES(${COCOA_INCLUDE_DIR})
-
-    else ()
-        MESSAGE(STATUS "COCOA environment missing")
-
-    endif ()
-
     #cocoa
     #carbon
     #opengl
@@ -50,7 +31,34 @@ if (APPLE)
     #CoreFoundation
     #Foundation
 
-    list(APPEND OS_DEPDENDENT_LIBRARIES ${CARBON_LIBRARY} ${APP_SERVICES_LIBRARY})
+        #[[ For some reason, FIND_LIBRARY malfunctions for some of these
+        and puts a different framework in some of the variables.
+
+            FIND_LIBRARY(COCOA_LIBRARY Cocoa)
+    FIND_LIBRARY(CARBON_LIBRARY Carbon)
+    FIND_LIBRARY(IOKIT_LIBRARY IOKit)
+    FIND_LIBRARY(FOUNDATION_LIBRARY Foundation)
+    FIND_LIBRARY(COREFOUNDATION_LIBRARY CoreFoundation)
+
+    list(APPEND OS_DEPENDENT_LIBRARIES
+            ${COCOA_LIBRARY}
+            ${CARBON_LIBRARY}
+            ${IOKIT_LIBRARY}
+            ${FOUNDATION_LIBRARY}
+            ${COREFOUNDATION_LIBRARY}
+            /System/Library/Frameworks/IOKit.framework
+            /System/Library/Frameworks/Foundation.framework
+            )
+]]
+
+        # Full path gets turned into "-framework foo"
+    list(APPEND OS_DEPENDENT_LIBRARIES
+            /System/Library/Frameworks/Cocoa.framework
+            /System/Library/Frameworks/Carbon.framework
+            /System/Library/Frameworks/IOKit.framework
+            /System/Library/Frameworks/CoreFoundation.framework
+            /System/Library/Frameworks/Foundation.framework
+        )
 
     SET(OS_SOURCE_FILES
             #source/Irrlicht/MacOSX/CIrrDeviceMacOSX.mm
