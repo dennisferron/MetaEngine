@@ -1,5 +1,16 @@
 #include "Glue/Irrlicht/Component.hpp"
 
+namespace Glue::Irrlicht
+{
+    Component::Component()
+    {
+    }
+
+    Component::~Component()
+    {
+    }
+}
+
 //method(module, namespace_irr, namespace_Custom, MainWindow, PredefinedValues, ScriptUtil,
 //
 //    Component := Object clone lexicalDo(

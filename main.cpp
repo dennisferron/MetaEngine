@@ -53,7 +53,9 @@ we use main().
 */
 int main(int argc, char** argv)
 {
-    Glue::RootModule rootModule;
+    Glue::Startup startup;
+
+    startup.add_components();
 
     btBroadphaseInterface* broadphase = new btDbvtBroadphase();
     btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -222,8 +224,8 @@ int main(int argc, char** argv)
     for more information.
     */
     device->drop();
-    device->drop();
-    device->drop();
+    //device->drop();
+    //device->drop();
 
     dynamicsWorld->removeRigidBody(fallRigidBody);
     delete fallRigidBody->getMotionState();
