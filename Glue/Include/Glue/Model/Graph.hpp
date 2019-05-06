@@ -36,7 +36,7 @@ public:
     Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
     void removeLink(Link* link) const;
     void registerInteraction(Interaction* interaction);
-    void addComponent(Component* newComp, Interaction* expectedInteraction);
+    void addComponent(Component* newComp);
 
     Graph();
 

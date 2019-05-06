@@ -1,11 +1,14 @@
 #pragma once
 
-#include <functional>
-#include <memory>
+#include "Glue/Model/Component.hpp"
 
 #include "Glue/Constants.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
 #include "Glue/Bullet/NodeAttribute.hpp"
+
+#include <functional>
+#include <memory>
+
 
 class btIDebugDraw;
 class btRigidBody;
@@ -21,7 +24,7 @@ namespace Glue { namespace Bullet {
 
 namespace Glue { namespace Bullet {
 
-class BulletComponent
+class BulletComponent : public Component
 {
 private:
     class Impl;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Glue/Model/Component.hpp"
 #include "Glue/Model/Graph.hpp"
 #include "Glue/Model/Node.hpp"
 
@@ -12,7 +13,7 @@ namespace irr::scene {
 
 namespace Glue::Irrlicht {
 
-class IrrlichtComponent
+class IrrlichtComponent : public Component
 {
 private:
     struct Impl;

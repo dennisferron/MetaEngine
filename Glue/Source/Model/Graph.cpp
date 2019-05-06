@@ -69,10 +69,10 @@ void Graph::registerInteraction(Interaction* interaction)
     possibleInteractions.push_back(interaction);
 }
 
-void Graph::addComponent(Component* newComp, Interaction* expectedInteraction)
+void Graph::addComponent(Component* newComp)
 {
     components.push_back(newComp);
-    throw "TODO:  implement domain.addObject here";
+    //throw "TODO:  implement domain.addObject here";
     //domain.addObject("component", newComp, expectedInteraction);
 }
 

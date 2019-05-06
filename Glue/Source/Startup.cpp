@@ -31,8 +31,13 @@ namespace Glue {
     void Startup::add_components()
     {
         impl->avatarComp = new Avatar::AvatarComponent();
+        impl->graph.addComponent(impl->avatarComp);
+
         impl->bltComp = new Bullet::BulletComponent();
+        impl->graph.addComponent(impl->bltComp);
+
         impl->irrComp = new Irrlicht::IrrlichtComponent();
+        impl->graph.addComponent(impl->irrComp);
     }
 
 }
