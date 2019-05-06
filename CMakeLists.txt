@@ -39,13 +39,13 @@ add_executable(MetaEngine
         Glue/Include/Glue/Animators/PhysicsAnimator.hpp
         Glue/Include/Glue/Avatar/Avatar.hpp
         Glue/Include/Glue/Avatar/Camera.hpp
-        Glue/Include/Glue/Avatar/Component.hpp
+        Glue/Include/Glue/Avatar/AvatarComponent.hpp
         Glue/Include/Glue/Avatar/KeyInputs.hpp
         Glue/Include/Glue/Avatar/NodeAttribute.hpp
         Glue/Include/Glue/Avatar/PlayerStyle.hpp
         Glue/Include/Glue/Bullet/BodyBuilder.hpp
         Glue/Include/Glue/Bullet/Bullet.hpp
-        Glue/Include/Glue/Bullet/Component.hpp
+        Glue/Include/Glue/Bullet/BulletComponent.hpp
         Glue/Include/Glue/Bullet/ConstraintBuilder.hpp
         Glue/Include/Glue/Bullet/ConstraintObj.hpp
         Glue/Include/Glue/Bullet/NodeAttribute.hpp
@@ -56,7 +56,7 @@ add_executable(MetaEngine
         Glue/Include/Glue/Bullet/ShapeOffsets.hpp
         Glue/Include/Glue/Desteer/Desteer.hpp
         Glue/Include/Glue/Desteer/Steering.hpp
-        Glue/Include/Glue/EditorGUI/Component.hpp
+        Glue/Include/Glue/EditorGUI/EditorGUIComponent.hpp
         Glue/Include/Glue/EditorGUI/EditorGUI.hpp
         Glue/Include/Glue/EditorGUI/Toolbar.hpp
         Glue/Include/Glue/Interactions/Component/AvatarTime.hpp
@@ -92,7 +92,7 @@ add_executable(MetaEngine
         Glue/Include/Glue/Irrlicht/UserInterface/UserInterface.hpp
         Glue/Include/Glue/Irrlicht/Assets.hpp
         Glue/Include/Glue/Irrlicht/Camera.hpp
-        Glue/Include/Glue/Irrlicht/Component.hpp
+        Glue/Include/Glue/Irrlicht/IrrlichtComponent.hpp
         Glue/Include/Glue/Irrlicht/DisplayShapes.hpp
         Glue/Include/Glue/Irrlicht/Irrlicht.hpp
         Glue/Include/Glue/Irrlicht/NodeAttribute.hpp
@@ -109,6 +109,7 @@ add_executable(MetaEngine
         Glue/Include/Glue/MeshTools/PossibleVertex.hpp
         Glue/Include/Glue/MeshTools/SoftBodyMeshSynchronizer.hpp
         Glue/Include/Glue/MeshTools/SurfaceQuadTree.hpp
+        Glue/Include/Glue/Model/Component.hpp
         Glue/Include/Glue/Model/Domain.hpp
         Glue/Include/Glue/Model/Graph.hpp
         Glue/Include/Glue/Model/Interaction.hpp
@@ -141,13 +142,13 @@ add_executable(MetaEngine
         Glue/Source/Animators/ScriptObjAnimator.cpp
         Glue/Source/Avatar/Avatar.cpp
         Glue/Source/Avatar/Camera.cpp
-        Glue/Source/Avatar/Component.cpp
+        Glue/Source/Avatar/AvatarComponent.cpp
         Glue/Source/Avatar/KeyInputs.cpp
         Glue/Source/Avatar/NodeAttribute.cpp
         Glue/Source/Avatar/PlayerStyle.cpp
         Glue/Source/Bullet/BodyBuilder.cpp
         Glue/Source/Bullet/Bullet.cpp
-        Glue/Source/Bullet/Component.cpp
+        Glue/Source/Bullet/BulletComponent.cpp
         Glue/Source/Bullet/ConstraintBuilder.cpp
         Glue/Source/Bullet/ConstraintObj.cpp
         Glue/Source/Bullet/NodeAttribute.cpp
@@ -157,7 +158,7 @@ add_executable(MetaEngine
         Glue/Source/Bullet/ShapeOffsets.cpp
         Glue/Source/Desteer/Desteer.cpp
         Glue/Source/Desteer/Steering.cpp
-        Glue/Source/EditorGUI/Component.cpp
+        Glue/Source/EditorGUI/IrrlichtComponent.cpp
         Glue/Source/EditorGUI/EditorGUI.cpp
         Glue/Source/EditorGUI/Toolbar.cpp
         Glue/Source/Interactions/Component/AvatarTime.cpp
@@ -193,7 +194,7 @@ add_executable(MetaEngine
         Glue/Source/Irrlicht/UserInterface/UserInterface.cpp
         Glue/Source/Irrlicht/Assets.cpp
         Glue/Source/Irrlicht/Camera.cpp
-        Glue/Source/Irrlicht/Component.cpp
+        Glue/Source/Irrlicht/EditorGUIComponent.cpp
         Glue/Source/Irrlicht/DisplayShapes.cpp
         Glue/Source/Irrlicht/Irrlicht.cpp
         Glue/Source/Irrlicht/NodeAttribute.cpp
@@ -211,6 +212,7 @@ add_executable(MetaEngine
         Glue/Source/MeshTools/PossibleVertex.cpp
         Glue/Source/MeshTools/SoftBodyMeshSynchronizer.cpp
         Glue/Source/MeshTools/SurfaceQuadTree.cpp
+        Glue/Source/Model/Component.cpp
         Glue/Source/Model/Domain.cpp
         Glue/Source/Model/Graph.cpp
         Glue/Source/Model/Interaction.cpp

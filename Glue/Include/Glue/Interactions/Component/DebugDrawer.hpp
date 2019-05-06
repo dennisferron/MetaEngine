@@ -1,11 +1,11 @@
 #pragma once
 
 namespace Glue { namespace Bullet {
-    class Component;
+    class BulletComponent;
 }}
 
 namespace Glue { namespace Irrlicht {
-    class Component;
+    class IrrlichtComponent;
 }}
 
 namespace Glue {
@@ -13,13 +13,13 @@ namespace Glue {
 class DebugDrawer
 {
 private:
-    Bullet::Component* physComp;
-    Irrlicht::Component* dispComp;
+    Bullet::BulletComponent* physComp;
+    Irrlicht::IrrlichtComponent* dispComp;
 
 public:
     DebugDrawer(
-        Bullet::Component* physComp,
-        Irrlicht::Component* dispComp
+        Bullet::BulletComponent* physComp,
+        Irrlicht::IrrlichtComponent* dispComp
     );
 };
 

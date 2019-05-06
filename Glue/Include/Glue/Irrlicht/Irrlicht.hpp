@@ -11,6 +11,6 @@
 #include "SceneNodes.hpp"
 #include "SceneNodeBuilder.hpp"
 
-#include "Component.hpp"
+#include "IrrlichtComponent.hpp"
 
 #include "NodeAttribute.hpp"

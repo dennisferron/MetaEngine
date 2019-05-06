@@ -21,15 +21,15 @@ namespace Glue { namespace Bullet {
 
 namespace Glue { namespace Bullet {
 
-class Component
+class BulletComponent
 {
 private:
     class Impl;
     std::unique_ptr<Impl> impl;
 
 public:
-    Component();
-    ~Component();
+    BulletComponent();
+    ~BulletComponent();
 
     void setDebugMode(bool debugMode);
     void addLink(Link* link);

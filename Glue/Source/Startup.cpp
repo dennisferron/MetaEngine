@@ -12,9 +12,9 @@ namespace Glue {
     struct Startup::Impl
     {
         Graph graph;
-        Avatar::Component* avatarComp;
-        Bullet::Component* bltComp;
-        Irrlicht::Component* irrComp;
+        Avatar::AvatarComponent* avatarComp;
+        Bullet::BulletComponent* bltComp;
+        Irrlicht::IrrlichtComponent* irrComp;
     };
 
     Startup::Startup()
@@ -30,9 +30,9 @@ namespace Glue {
 
     void Startup::add_components()
     {
-        impl->avatarComp = new Avatar::Component();
-        impl->bltComp = new Bullet::Component();
-        impl->irrComp = new Irrlicht::Component();
+        impl->avatarComp = new Avatar::AvatarComponent();
+        impl->bltComp = new Bullet::BulletComponent();
+        impl->irrComp = new Irrlicht::IrrlichtComponent();
     }
 
 }

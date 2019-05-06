@@ -11,13 +11,13 @@
 #include "Glue/Model/Node.hpp"
 #include "Glue/Model/Link.hpp"
 #include "Glue/Model/Structure.hpp"
+#include "Glue/Model/Component.hpp"
 
 #include <vector>
 #include <string>
 
 namespace Glue {
 
-class Component;  // TODO:  Make this ComponentBase
 class Constraint;  // TODO:  Is this returned from Graph::addConstraint?
 //class Structure;  // TODO:  Or should this also manage Constraint's?
 

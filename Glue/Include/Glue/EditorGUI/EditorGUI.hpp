@@ -1,4 +1,4 @@
 #pragma once
 
-#include "Component.hpp"
+#include "EditorGUIComponent.hpp"
 #include "Toolbar.hpp"

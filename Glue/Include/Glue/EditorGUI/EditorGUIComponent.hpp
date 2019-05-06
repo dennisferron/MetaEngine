@@ -4,7 +4,7 @@
 
 namespace Glue { namespace EditorGUI {
 
-class Component
+class EditorGUIComponent
 {
 private:
     class Impl;
@@ -12,8 +12,8 @@ private:
 
 public:
 
-    Component();
-    ~Component();
+    EditorGUIComponent();
+    ~EditorGUIComponent();
 };
 
 }}

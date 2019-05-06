@@ -53,9 +53,16 @@ we use main().
 */
 int main(int argc, char** argv)
 {
-    Glue::Startup startup;
-
-    startup.add_components();
+    try
+    {
+        Glue::Startup startup;
+        startup.add_components();
+    }
+    catch (char const* msg)
+    {
+        std::cerr << "Caught exception: " << msg;
+        return -1;
+    }
 
     btBroadphaseInterface* broadphase = new btDbvtBroadphase();
     btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();

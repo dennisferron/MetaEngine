@@ -1,4 +1,4 @@
-#include "Glue/EditorGUI/Component.hpp"
+#include "Glue/EditorGUI/EditorGUIComponent.hpp"
 
 /*
 method(module, namespace_irr,

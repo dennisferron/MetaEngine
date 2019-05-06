@@ -6,7 +6,7 @@ std::vector<Interaction*> Graph::possibleInteractions;
 
 Graph::Graph()
 {
-    throw "TODO: implement domain setSite for Graph";
+    //throw "TODO: implement domain setSite for Graph";
     //domain.setSite(this);
 
     // I assume the code below was moved...somewhere?

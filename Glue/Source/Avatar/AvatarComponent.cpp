@@ -1,26 +1,26 @@
-#include "Glue/Avatar/Component.hpp"
+#include "Glue/Avatar/AvatarComponent.hpp"
 
 namespace Glue { namespace Avatar {
 
-    class Component::Impl
+    class AvatarComponent::Impl
     {
     };
 
-    Component::Component()
+    AvatarComponent::AvatarComponent()
     {
     }
 
-    Component::~Component()
+    AvatarComponent::~AvatarComponent()
     {
     }
 
 
-    void Component::attachControl(Node* node)
+    void AvatarComponent::attachControl(Node* node)
     {
 
     }
 
-    void Component::beforePhysics(TimeInfo const&)
+    void AvatarComponent::beforePhysics(TimeInfo const&)
     {
 
     }

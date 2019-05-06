@@ -6,7 +6,7 @@ namespace Glue { namespace Irrlicht {
 }}
 
 namespace Glue { namespace Bullet {
-    class Component;
+    class BulletComponent;
     class ConstraintAttribute;
 }}
 
@@ -20,14 +20,14 @@ class BulletMouseDrag
 {
 private:
     Irrlicht::MouseDragLinkAttribute* mouseAttr;
-    Bullet::Component* bulletComp;
+    Bullet::BulletComponent* bulletComp;
     Node* toNode;
 
 public:
 
     BulletMouseDrag(
         Irrlicht::MouseDragLinkAttribute* mouseAttr,
-        Bullet::Component* bulletComp,
+        Bullet::BulletComponent* bulletComp,
         Node* toNode
     );
     ~BulletMouseDrag();

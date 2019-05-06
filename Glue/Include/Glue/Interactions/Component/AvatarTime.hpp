@@ -1,19 +1,19 @@
 #pragma once
 
 #include "Glue/Model/Time.hpp"
-#include "Glue/Avatar/Component.hpp"
+#include "Glue/Avatar/AvatarComponent.hpp"
 
 namespace Glue {
 
 class AvatarTime
 {
 private:
-    Avatar::Component* avComp;
+    Avatar::AvatarComponent* avComp;
     Time* time;
 
 public:
     AvatarTime(
-        Avatar::Component* avComp,
+        Avatar::AvatarComponent* avComp,
         Time* time
     );
     ~AvatarTime();

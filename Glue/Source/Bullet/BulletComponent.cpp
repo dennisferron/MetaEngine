@@ -1,45 +1,45 @@
-#include "Glue/Bullet/Component.hpp"
+#include "Glue/Bullet/BulletComponent.hpp"
 
 namespace Glue { namespace Bullet {
 
-        class Component::Impl
+        class BulletComponent::Impl
         {
         };
 
-        Component::Component()
+        BulletComponent::BulletComponent()
         {}
 
-        Component::~Component()
+        BulletComponent::~BulletComponent()
         {}
 
-        void Component::setDebugMode(bool debugMode)
+        void BulletComponent::setDebugMode(bool debugMode)
         {}
 
-        void Component::addLink(Link *link)
+        void BulletComponent::addLink(Link *link)
         {}
 
-        void Component::setDebugDrawer(btIDebugDraw *drawer)
+        void BulletComponent::setDebugDrawer(btIDebugDraw *drawer)
         {}
 
-        void Component::setOnTick(std::function<void(TimeInfo)> aBlock)
+        void BulletComponent::setOnTick(std::function<void(TimeInfo)> aBlock)
         {}
 
-        void Component::setOnPreTick(std::function<void(TimeInfo)> aBlock)
+        void BulletComponent::setOnPreTick(std::function<void(TimeInfo)> aBlock)
         {}
 
-        void Component::onPhysics(Scalar timeElapsed)
+        void BulletComponent::onPhysics(Scalar timeElapsed)
         {}
 
-        void Component::onGraphics(Scalar timeElapsed)
+        void BulletComponent::onGraphics(Scalar timeElapsed)
         {}
 
-        void Component::removeConstraint(ConstraintObj *constraint)
+        void BulletComponent::removeConstraint(ConstraintObj *constraint)
         {}
 
-        ConstraintObj *Component::addConstraint(LinkStyle *style, btRigidBody &attrA, btRigidBody &attrB)
+        ConstraintObj *BulletComponent::addConstraint(LinkStyle *style, btRigidBody &attrA, btRigidBody &attrB)
         { throw "Not implemented."; }
 
-        NodeAttribute *Component::addNode(Node *node)
+        NodeAttribute *BulletComponent::addNode(Node *node)
         { throw "Not implemented."; }
 
 }}

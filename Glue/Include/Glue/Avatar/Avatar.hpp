@@ -4,4 +4,4 @@
 #include "NodeAttribute.hpp"
 #include "KeyInputs.hpp"
 #include "PlayerStyle.hpp"
-#include "Component.hpp"
+#include "AvatarComponent.hpp"
