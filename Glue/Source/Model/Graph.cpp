@@ -72,8 +72,7 @@ void Graph::registerInteraction(Interaction* interaction)
 void Graph::addComponent(Component* newComp)
 {
     components.push_back(newComp);
-    //throw "TODO:  implement domain.addObject here";
-    //domain.addObject("component", newComp, expectedInteraction);
+    domain.addObject("component", newComp);
 }
 
 // Deprecated?  Not sure...

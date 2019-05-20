@@ -21,7 +21,7 @@ Domain& Domain::merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sou
 //        )
 }
 
-Domain& Domain::addObject(Domain* subdomain, Object* newObj, Interaction* expectedInteraction)
+Domain& Domain::addObject(char const* subdomain, void* newObj)
 {
     throw "Not implemented";
 
@@ -52,9 +52,9 @@ Domain& Domain::addObject(Domain* subdomain, Object* newObj, Interaction* expect
 //        )
 }
 
-void Domain::checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj)
-{
-    throw "Not implemented";
+//void Domain::checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj)
+//{
+//    throw "Not implemented";
 
 //        checkInteraction := method(expectedInteraction, subdomain, newObj,
 //            //writeln("site possibleInteractions is ", site possibleInteractions)
@@ -84,7 +84,7 @@ void Domain::checkInteraction(Interaction* expectedInteraction, Domain* subdomai
 //                )
 //            )
 //        )
-}
+//}
 
 Object* Domain::findObject(Domain* subdomain, Type* objProto)
 {

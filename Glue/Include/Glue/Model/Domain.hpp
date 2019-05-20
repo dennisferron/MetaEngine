@@ -25,8 +25,8 @@ public:
 
     Domain();
     Domain& merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sourceSubdomain);
-    Domain& addObject(Domain* subdomain, Object* newObj, Interaction* expectedInteraction);
-    void checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj);
+    Domain& addObject(char const* subdomain, void* newObj);
+    //void checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj);
     Object* findObject(Domain* subdomain, Type* objProto);
 };
 
