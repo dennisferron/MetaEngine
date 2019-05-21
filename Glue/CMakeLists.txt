@@ -218,7 +218,7 @@ add_library(Glue
 
 # Note:  Order libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
 #  I'm less sure about the order of the rest of the Bullet libraries.
-target_link_libraries( Glue
+target_link_libraries( Glue PUBLIC
         ThinPlateSpline
         Irrlicht
         Bullet3Common
