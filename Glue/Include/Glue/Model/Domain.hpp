@@ -3,20 +3,19 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <set>
 
 namespace Glue {
 
-class Object;
+using Object = void;
 class Type;
 class Interaction;
 class Site;
 
-using Subdomain = std::string;
-
 class Domain
 {
 private:
-    std::map<Subdomain, Object*> activeObjects;
+    std::map<std::string, std::set<void*>> activeObjects;
     std::vector<Interaction*> activeInteractions;
 
     Site* site;

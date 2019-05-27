@@ -23,7 +23,9 @@ Domain& Domain::merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sou
 
 Domain& Domain::addObject(char const* subdomain, void* newObj)
 {
-    throw "Not implemented";
+    activeObjects[subdomain].insert(newObj);
+
+    throw "Todo: check interactions";
 
 //        addObject := method(subdomain, newObj, expectedInteraction,
 //
