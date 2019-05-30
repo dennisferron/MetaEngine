@@ -5,9 +5,10 @@
 #include <string>
 #include <vector>
 
+#include "Glue/Model/Domain.hpp"
+
 namespace Glue {
 
-class Domain;
 class Referent;
 
 class Interactor

@@ -2,58 +2,6 @@
 
 namespace Glue {
 
-Domain::Domain() :
-    site(nullptr)
-{
-}
-
-Domain& Domain::merge(Domain* targetSubdomain, Domain* sourceDomain, Domain* sourceSubdomain)
-{
-    throw "Not implemented";
-//    if(sourceDomain->activeObjects.hasKey(sourceSubdomain),
-//                sourceDomain activeObjects at(sourceSubdomain) foreach(obj,
-//                    self addObject(targetSubdomain, obj)
-//                )
-//            ,
-//                Exception raise("Missing source subdomain merging target " .. targetSubdomain .. " with source " .. sourceSubdomain)
-//            )
-//            self
-//        )
-}
-
-Domain& Domain::addObject(char const* subdomain, void* newObj)
-{
-    activeObjects[subdomain].insert(newObj);
-
-    throw "Todo: check interactions";
-
-//        addObject := method(subdomain, newObj, expectedInteraction,
-//
-//            activeObjects hasKey(
-//                subdomain
-//            ) ifFalse(
-//                activeObjects atPut(subdomain, list())
-//            )
-//
-//            activeObjects at(subdomain) append(newObj)
-//
-//            if( expectedInteraction != nil,
-//                checkInteraction(expectedInteraction, subdomain, newObj)
-//            )
-//
-//            // Activate new interactions if the interaction is triggerred.
-//            activeInteractions appendSeq(
-//                site possibleInteractions select(i,
-//                    if(i hasOneTrigger(subdomain, newObj) and i isFullyTriggeredBy(activeObjects) ,
-//                        i clone setSite(site) with(activeObjects)
-//                    )
-//                )
-//            )
-//
-//            self
-//        )
-}
-
 //void Domain::checkInteraction(Interaction* expectedInteraction, Domain* subdomain, Object* newObj)
 //{
 //    throw "Not implemented";
@@ -87,18 +35,6 @@ Domain& Domain::addObject(char const* subdomain, void* newObj)
 //            )
 //        )
 //}
-
-Object* Domain::findObject(Domain* subdomain, Type* objProto)
-{
-    throw "Not implemented";
-
-//        findObject := method(subdomain, objProto,
-//            activeObjects at(subdomain) foreach(obj,
-//                if(obj hasProto(objProto), return obj)
-//            )
-//            nil
-//        )
-}
 
 }
 
