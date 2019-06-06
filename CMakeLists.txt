@@ -26,4 +26,4 @@ target_link_libraries( MetaEngine PUBLIC
         Glue
 )
 
-#set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)

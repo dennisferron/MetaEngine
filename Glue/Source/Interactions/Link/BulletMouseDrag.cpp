@@ -31,6 +31,7 @@ method(LinkInteraction, Node, MouseDragLinkAttribute, LinkStyles, BulletComponen
 
         leave := method(
             mouseAttr setOnDrag(nil)
+            // Here, "site" refers to the Link object which "has" link attributes.
             site removeAttribute(constraintAttr)
             setConstraintAttr(nil)
         )

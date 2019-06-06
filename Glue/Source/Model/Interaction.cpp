@@ -25,7 +25,14 @@ Interaction := Object clone lexicalDo(
     module := module
 
     subdomains ::= nil
+
+    // Each site is either a Node, Link, or Component.
+    // The sites have subdomains (e.g. "fromNode")
+    // (referenced via "referent" which is just a map<string, ???>)
+    // but if you need to add other attributes from an interaction
+    // then you use "site" to refer to the root Node, Link or Component.
     site ::= nil
+
     referent ::= nil
 
     mapSubdomains := method(

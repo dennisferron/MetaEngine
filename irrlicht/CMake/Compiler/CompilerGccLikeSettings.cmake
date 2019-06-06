@@ -34,9 +34,10 @@ elseif ("x${CMAKE_CXX_COMPILER_ID}" STREQUAL "xIntel")
 	endif ()
 endif ()
 
+#[[
 if (GCC_LIKE_COMPILER)
 	SET (CMAKE_CXX_FLAGS
-		"${CMAKE_CXX_FLAGS} -Wall -pipe -fno-exceptions -fno-rtti -fstrict-aliasing -std=c++17"
+		"${CMAKE_CXX_FLAGS} -Wall -pipe -fno-exceptions -fno-rtti -fstrict-aliasing -std=c++17 -Dscope_leaked_out"
 	)
 	SET (CMAKE_CXX_FLAGS_RELEASE
 		"${CMAKE_CXX_FLAGS_RELEASE} -fexpensive-optimizations -O3 -std=c++17"
@@ -69,4 +70,5 @@ if (GCC_LIKE_COMPILER)
 		mark_as_advanced(CMAKE_CL_64)
 	endif()
 endif ()
+]]
 
