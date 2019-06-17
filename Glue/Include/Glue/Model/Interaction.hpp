@@ -25,19 +25,18 @@ class Interaction
 {
 private:
 
-    std::vector<Domain*> subdomains;
+    std::vector<std::string> subdomains;
     Domain* site;
     Referent* referent;
 
 public:
 
-    // I think the subdomains (keys) correspond to slot names.
-    std::map<Domain*, Referent*> mapSubdomains();
+    std::map<std::string, Referent*> mapSubdomains();
 
-    bool hasOneTrigger(Domain* subdomain, Object* newObj) const;
+    bool hasOneTrigger(std::string subdomain, Object* newObj) const;
     bool isFullyTriggeredBy(std::vector<Object*> const& activeObjects) const;
 
-    std::vector<Object*> getTriggers();
+    //std::vector<Object*> getTriggers();
 
     Interaction(std::vector<Object*> const& activeObjects);
 };
