@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Glue/Model/Object.hpp"
+
 #include <string>
 #include <map>
 #include <vector>
@@ -7,7 +9,6 @@
 
 namespace Glue {
 
-using Object = void;
 class Type;
 class Interaction;
 class Site;
@@ -16,7 +17,7 @@ template <typename Site>
 class Domain
 {
 private:
-    std::map<std::string, std::set<void*>> activeObjects;
+    std::map<std::string, std::set<Object*>> activeObjects;
     std::vector<Interaction*> activeInteractions;
 
     Site* site;

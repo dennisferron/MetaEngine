@@ -1,22 +1,19 @@
 #pragma once
 
+#include "Glue/Model/Object.hpp"
+
 namespace Glue {
 
-// This seems to be the referent for an interaction; it returns true if
-// all of the conjunctand of the interaction are available and then calls
-// it with a filled-in set of member fields.  I can't do much with it until
-// or unless I make a base class for all the kinds of interaction subdomain,
-// or else I could add logic relational programming.
+struct Trigger
+{
+    std::string findProto;
+    std::string withSlot;
+    bool triggeredBy(Object const* obj) const
+    {
+        return obj->hasProto(findProto));
+    }
+};
 
-// TODO:  Finish converting this all to C++
-
-//struct Trigger
-//{
-//    findProto ::= nil
-//    withSlot ::= ""
-//    triggeredBy := method(r, r hasProto(findProto))
-//};
-//
 //class Referent
 //{
 //private:

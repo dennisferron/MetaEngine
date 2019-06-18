@@ -214,7 +214,7 @@ add_library(Glue
         Source/UserInterface/UserInterfaceRepresentation.cpp
         Source/Glue.cpp
         Source/Startup.cpp
-        )
+        Include/Glue/Model/Object.hpp)
 
 # Note:  Order libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
 #  I'm less sure about the order of the rest of the Bullet libraries.
