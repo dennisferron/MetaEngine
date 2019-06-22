@@ -10,11 +10,18 @@
 
 namespace Glue {
 
+    class Domain;
+
 // Proto for interactions, provides the setTrigger method for clones to
 // use to call out the combination of attributes which trigger them.
 // When the triggering combination of attributes is added to a GameObject clone,
 // a clone of the interaction is made, the trigger slots are set with the
 // attributes that triggerred it, and then the activate method is called.
+
+// TODO:  Possibly these should be templates so that we'd have:
+// possibleInteractions : vector< InteractionRule<Component> >
+// activeInteractions : vector< InteractionInstance<Component> >
+// _OR_ maybe we don't need 3 different types (ComponentInteraction, NodeInteraction, LinkInteraction)
 
     class InteractionRule
     {
@@ -42,7 +49,8 @@ namespace Glue {
 
         std::map<std::string, Referent*> mapSubdomains();
 
-        Interaction(Domain* site,  std::vector<Object*> const& activeObjects);
+        virtual void setSite(Domain* site);
+        virtual void setSlot(Object* obj) = 0;
     };
 
 }

@@ -77,3 +77,20 @@ Referent
 
     fillSlots := method(target /* the interaction */, objs /* activeObjects[subdomain] */,
 	foreach trigger find it in the subdomain objs and set the slot on the target
+
+
+Site
+
+	Domain has a site, when the interaction is created it calls setSite(site) on the interaction
+	Graph|Link|Node has a Domain, calls setSite(self) on the domain.  So site is either Graph, Link, or Node
+		TODO: Should we just make Graph|Link|Node be instances of Domain?
+	site is used in BulletMouseDrag LinkInteraction to remove the link constraint attribute on leave (but is it ever added?)
+	site is used in IrrlichtCamera NodeAttribute to add irrComp camera on enter (but does not remove it on leave!)
+		The trigger for IrrlichtCamera is irrlicht component and avatar camera, so basically it translates avatar camera into specific implementation
+		However it also nabs the Time component so that time beforeGraphics will update the irrlicht camera. This could have been a separate interaction.
+		There is no implementation for leave.
+	site is used in Domain to get possibleInteractions to activate in addObject
+	
+		
+
+

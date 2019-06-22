@@ -29,7 +29,7 @@ private:
 
     bool hasOneTrigger(Object* obj) const
     {
-        for (auto const &t : triggers)
+        for (Trigger const& t : triggers)
         {
             if (t.triggeredBy(obj))
                 return true;
@@ -37,12 +37,12 @@ private:
         return false;
     }
 
-    bool isFullyTriggeredBy(std::vector<Object*> activeObjs) const
+    bool isFullyTriggeredBy(std::vector<Object*> const& activeObjs) const
     {
-        for (auto const &t : triggers)
+        for (Trigger const& t : triggers)
         {
             bool is_triggered = false;
-            for (auto const& obj : activeObjs)
+            for (Object* obj : activeObjs)
             {
                 if (t.triggeredBy(obj))
                 {
@@ -57,24 +57,22 @@ private:
         return true;
     }
 
-    fillSlots := method(target, objs,
-        if( objs == nil ,
-            Exception raise("Referent fillSlots, objs list cannot be nil!")
-        )
-        triggers foreach(t,
-            foundObj := false
-            objs foreach(obj,
-                if(t triggeredBy(obj),
-                    target setSlot(t withSlot, obj)
-                    foundObj = true
-                )
-            )
-            if(foundObj not,
-                Exception raise("Error, failed to find an object for interaction slot " .. t withSlot)
-            )
-        )
-        return target
-    )
+    void fillSlots(Object* target, std::vector<Object*> const& activeObjs) const
+    {
+        for (Trigger const& t : triggers)
+        {
+            bool foundObj = false;
+            for (Object* obj : activeObjs)
+            {
+                if (t.triggeredBy(obj))
+                {
+                    target->setSlot(obj);
+                }
+            }
+            if (!foundObj)
+                throw std::logic_error("No object found for one of the interaction slots");
+        }
+    }
 };
 
 }

@@ -1,18 +1,15 @@
 #pragma once
 
-#include "Domain.hpp"
+#include "Glue/Model/Node.hpp"
+#include "Glue/Model/Domain.hpp"
+#include "Glue/Styles/LinkStyle.hpp"
+#include "Glue/Interactions/Link/LinkInteraction.hpp"
 
 #include <vector>
 
 namespace Glue {
 
-class Graph;
-class LinkStyle;
-class Node;
-class Interaction;
-class Attribute;
-
-class Link
+class Link : public Domain
 {
 private:
     LinkStyle* style;
@@ -24,7 +21,7 @@ private:
 public:
 
     // This list is shared among all Link clones
-    static std::vector<Interaction*> possibleInteractions;
+    static std::vector<LinkInteraction*> possibleInteractions;
 
     static void registerInteraction(Interaction* interaction);
 
@@ -34,9 +31,9 @@ public:
     Link& setFromNode(Node* value);
     Link& setToNode(Node* value);
     Link& setGraph(Graph* value);
-    Link& addAttribute(Attribute* attr, Interaction* expectedInteraction);
+    Link& addAttribute(Object* attr, Interaction* expectedInteraction);
 
-    Attribute* findAttribute(Attribute* attr);
+    Object* findAttribute(Object* attr);
 };
 
 }

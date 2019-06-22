@@ -12,6 +12,7 @@
 #include "Glue/Model/Link.hpp"
 #include "Glue/Model/Structure.hpp"
 #include "Glue/Model/Component.hpp"
+#include "Glue/Interactions/Component/ComponentInteraction.hpp"
 
 #include <vector>
 #include <string>
@@ -21,21 +22,21 @@ namespace Glue {
 class Constraint;  // TODO:  Is this returned from Graph::addConstraint?
 //class Structure;  // TODO:  Or should this also manage Constraint's?
 
-class Graph
+class Graph : public Domain
 {
 private:
+    // TODO: Is this just dupe of Domain::activeObjects?
     std::vector<Component*> components;
-	Domain domain;
 
     // possible interactions shared among all instances
-    static std::vector<Interaction*> possibleInteractions;
+    static std::vector<ComponentInteraction*> possibleInteractions;
 
 public:
 
     Node* addNode(NodeStyle const& style);
     Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
     void removeLink(Link* link) const;
-    void registerInteraction(Interaction* interaction);
+    static void registerInteraction(ComponentInteraction* interaction);
     void addComponent(Component* newComp);
 
     Graph();

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Domain.hpp"
+#include "Glue/Model/Domain.hpp"
+#include "Glue/Interactions/Node/NodeInteraction.hpp"
 
 #include <vector>
 
@@ -21,8 +22,10 @@ public:
     GameObjStyle const* style;
     Domain* domain;
 
-    // This list is shared among all Node clones
-    static std::vector<Interaction*> possibleInteractions;
+    // This list is shared among all Link clones
+    static std::vector<NodeInteraction*> possibleInteractions;
+
+    static void registerInteraction(NodeInteraction* interaction);
 
 public:
 
@@ -30,8 +33,7 @@ public:
     ~Node();
 
     Node& setGraph(Graph* value);
-    static void registerInteraction(Interaction* interaction);
-    Node& addAttribute(NodeAttribute* attr, Interaction* expectedInteraction);
+    Node& addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteraction);
 
     /*
     template <typename T>

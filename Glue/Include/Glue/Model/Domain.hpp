@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Glue/Model/Object.hpp"
+#include "Glue/Model/Interaction.hpp"
 
 #include <string>
 #include <map>
@@ -9,22 +10,18 @@
 
 namespace Glue {
 
-class Type;
-class Interaction;
-class Site;
-
-template <typename Site>
 class Domain
 {
 private:
     std::map<std::string, std::set<Object*>> activeObjects;
-    std::vector<Interaction*> activeInteractions;
+    std::vector<InteractionInstance> activeInteractions;
 
-    Site* site;
+    // Instead of 1:1 relationship site:domain, just make sites derive from Domain.
+    //Site* site;
 
 public:
 
-    Domain() : site(nullptr)
+    Domain()
     {
     }
 

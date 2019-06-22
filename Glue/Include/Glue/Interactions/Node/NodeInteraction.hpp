@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include <memory>
 
 namespace Glue {
@@ -12,6 +13,7 @@ private:
 
 public:
     NodeInteraction();
+
 };
 
 }
