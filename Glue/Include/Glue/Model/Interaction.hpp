@@ -6,39 +6,43 @@
 #include <vector>
 
 #include "Glue/Model/Domain.hpp"
+#include "Glue/Model/Referent.hpp"
 
 namespace Glue {
-
-class Referent;
-
-class Interactor
-{
-    virtual ~Interactor() = 0;
-};
 
 // Proto for interactions, provides the setTrigger method for clones to
 // use to call out the combination of attributes which trigger them.
 // When the triggering combination of attributes is added to a GameObject clone,
 // a clone of the interaction is made, the trigger slots are set with the
 // attributes that triggerred it, and then the activate method is called.
-class Interaction
-{
-private:
 
-    std::vector<std::string> subdomains;
-    Domain* site;
-    Referent* referent;
+    class InteractionRule
+    {
+    private:
 
-public:
+        std::vector<std::string> subdomains;
+        std::map<std::string, Referent> referent;
 
-    std::map<std::string, Referent*> mapSubdomains();
+    public:
 
-    bool hasOneTrigger(std::string subdomain, Object* newObj) const;
-    bool isFullyTriggeredBy(std::vector<Object*> const& activeObjects) const;
+        virtual std::map<std::string, Referent> mapSubdomains() const = 0;
 
-    //std::vector<Object*> getTriggers();
+        bool hasOneTrigger(std::string subdomain, Object* newObj) const;
+        bool isFullyTriggeredBy(std::vector<Object*> const& activeObjects) const;
+    };
 
-    Interaction(std::vector<Object*> const& activeObjects);
-};
+    class InteractionInstance
+    {
+    private:
+
+        std::vector<std::string> subdomains;
+        Domain* site;
+
+    public:
+
+        std::map<std::string, Referent*> mapSubdomains();
+
+        Interaction(Domain* site,  std::vector<Object*> const& activeObjects);
+    };
 
 }
