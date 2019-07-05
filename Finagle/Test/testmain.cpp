@@ -1,15 +1,3 @@
-#include "Finagle/Finagle.hpp"
-
-namespace fngl {
-
-void test_it();
-
-}
-
-using namespace fngl;
-
-int main(int, char**)
-{
-    test_it();
-    return 0;
-}
+#define BOOST_TEST_MAIN
+#define BOOST_TEST_MODULE module1
+#include <boost/test/included/unit_test.hpp>

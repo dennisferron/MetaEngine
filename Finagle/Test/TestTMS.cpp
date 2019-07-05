@@ -1,3 +1,19 @@
+#include <boost/test/unit_test.hpp>
+
+#include <string>
+
+BOOST_AUTO_TEST_SUITE(ComponentsTests)
+
+    BOOST_AUTO_TEST_CASE(test_example)
+    {
+        BOOST_CHECK_EQUAL(1, 1);
+    }
+
+BOOST_AUTO_TEST_SUITE_END()
+
+
+
+
 //#include <functional>
 //#include <stdexcept>
 //#include <string>
