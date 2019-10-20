@@ -5,7 +5,7 @@ add_executable(UnitTests_Finagle
         Test/testmain.cpp
         Test/TestEngineRules.cpp
         Test/TestTMS.cpp
-        )
+        Include/Finagle/Finagle.hpp)
 
 #[[
 target_link_libraries( UnitTests_Finagle PUBLIC
