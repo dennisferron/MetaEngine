@@ -1,6 +1,11 @@
 #include <vector>
 #include <iostream>
 
+template <typename T>
+struct symbol
+{
+    int id;
+};
 
 struct NodeStyle
 {
@@ -22,7 +27,7 @@ class NodeInteraction
 {
 private:
 public:
-    ~NodeInteraction() = 0;
+    virtual ~NodeInteraction() = 0;
 };
 
 NodeInteraction::~NodeInteraction() {}
