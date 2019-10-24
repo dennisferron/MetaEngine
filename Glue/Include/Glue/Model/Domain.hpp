@@ -46,10 +46,10 @@ public:
         }
     }
 
-    Domain& addObject(char const* subdomain, void* newObj)
+    Domain& addObject(std::string subdomain, Object* newObj)
     {
         activeObjects[subdomain].insert(newObj);
-
+        return *this;
 
 //            // Activate new interactions if the interaction is triggerred.
 //            activeInteractions appendSeq(

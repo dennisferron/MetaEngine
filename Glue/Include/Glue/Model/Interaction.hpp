@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "Glue/Model/Domain.hpp"
 #include "Glue/Model/Referent.hpp"

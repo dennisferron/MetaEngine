@@ -31,6 +31,8 @@ private:
     // possible interactions shared among all instances
     static std::vector<ComponentInteraction*> possibleInteractions;
 
+    Domain domain;
+
 public:
 
     Node* addNode(NodeStyle const& style);

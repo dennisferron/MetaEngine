@@ -1,10 +1,12 @@
-#include <vector>
-#include <iostream>
+#pragma once
 
-template <typename T>
-struct symbol
+class IIrrNodeAttribute
 {
-    int id;
+};
+
+class IIrrComponent
+{
+
 };
 
 struct NodeStyle
@@ -62,9 +64,9 @@ class NodeList
 {
 private:
     std::vector<
-        std::unique_ptr<
+    std::unique_ptr<
             PossibleInteraction<NodeInteraction>
-        >
+    >
     > possible_interactions;
 
     std::vector<Node> nodes;
@@ -137,7 +139,7 @@ private:
 
 public:
     AddMotionStateAnimator(SceneNode* node, RigidBody* body)
-        : node(node), body(body), motion_anim()
+            : node(node), body(body), motion_anim()
     {
         node->add_animator(&motion_anim);
         body->set_motion_state(&motion_anim);
@@ -152,12 +154,12 @@ public:
     static auto create_rule()
     {
         return make_interaction(
-            IrrComp::node_attribute,
-            PhysComp::node_attribute,
-            [](SceneNode* node, RigidBody* body)
-            {
-                return new AddMotionStateAnimator(node, body);
-            }
+                IrrComp::node_attribute,
+                PhysComp::node_attribute,
+                [](SceneNode* node, RigidBody* body)
+                {
+                    return new AddMotionStateAnimator(node, body);
+                }
         );
     }
 };
@@ -177,14 +179,3 @@ public:
         auto iter_bool = nodes.emplace(node_id, style);
     }
 };
-
-
-void do_test()
-{
-    BallStyle a_ball;
-    BoxStyle a_box;
-
-    Engine engine;
-    Node& n0 = engine.add_node(a_ball);
-    Node& n1 = engine.add_node(a_box);
-}

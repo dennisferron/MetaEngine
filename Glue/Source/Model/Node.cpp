@@ -5,14 +5,14 @@
 namespace Glue {
 
 // This list is shared among all Node clones
-std::vector<Interaction*> Node::possibleInteractions;
+std::vector<NodeInteraction*> Node::possibleInteractions;
 
 Node::Node(GameObjStyle const* style) :
     graph(nullptr),
     style(style),
     domain()
 {
-    throw "TODO: implement domain.setSite";
+    throw std::logic_error("TODO: implement domain.setSite");
     //domain.setSite(this);
 }
 
@@ -28,12 +28,12 @@ Node& Node::setGraph(Graph* value)
 //        domain.addObject("component", c);
 }
 
-void Node::registerInteraction(Interaction* interaction)
+void Node::registerInteraction(NodeInteraction* interaction)
 {
     possibleInteractions.push_back(interaction);
 }
 
-Node& Node::addAttribute(NodeAttribute* attr, Interaction* expectedInteraction)
+Node& Node::addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteraction)
 {
     throw "TODO: implement domain.addObject";
     //domain.addObject("node", attr, expectedInteraction);

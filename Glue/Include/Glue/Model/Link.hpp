@@ -23,15 +23,15 @@ public:
     // This list is shared among all Link clones
     static std::vector<LinkInteraction*> possibleInteractions;
 
-    static void registerInteraction(Interaction* interaction);
+    static void registerInteraction(LinkInteraction* interaction);
 
     Link(LinkStyle* newStyle);
 
-    Link& setStyle(LinkStyle* value, Interaction* expectedInteraction);
+    Link& setStyle(LinkStyle* value, LinkInteraction* expectedInteraction);
     Link& setFromNode(Node* value);
     Link& setToNode(Node* value);
     Link& setGraph(Graph* value);
-    Link& addAttribute(Object* attr, Interaction* expectedInteraction);
+    Link& addAttribute(Object* attr, LinkInteraction* expectedInteraction);
 
     Object* findAttribute(Object* attr);
 };

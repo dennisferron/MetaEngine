@@ -2,7 +2,7 @@
 
 namespace Glue {
 
-std::vector<Interaction*> Graph::possibleInteractions;
+//std::vector<Interaction*> Graph::possibleInteractions;
 
 Graph::Graph()
 {
@@ -64,7 +64,7 @@ void Graph::removeLink(Link* link) const
     // TODO:  Notify components to remove link attributes
 }
 
-void Graph::registerInteraction(Interaction* interaction)
+void Graph::registerInteraction(ComponentInteraction* interaction)
 {
     possibleInteractions.push_back(interaction);
 }

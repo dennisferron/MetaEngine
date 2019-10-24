@@ -5,7 +5,7 @@ add_executable(UnitTests
         TestMain.cpp
         Example.cpp
         ComponentsTests.cpp
-        )
+        MockComponents.hpp)
 
 target_link_libraries( UnitTests PUBLIC
         Glue

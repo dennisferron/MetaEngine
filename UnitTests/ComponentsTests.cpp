@@ -1,5 +1,6 @@
-#include <boost/test/unit_test.hpp>
+#include "boost/test/unit_test.hpp"
 #include "Glue/Model/Graph.hpp"
+#include "MockComponents.hpp"
 
 #include <string>
 

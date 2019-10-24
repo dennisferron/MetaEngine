@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Glue/Model/Object.hpp"
+
 namespace Glue {
 
-class LinkInteraction
+class LinkInteraction : public Object
 {
 };
 

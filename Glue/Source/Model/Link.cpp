@@ -4,7 +4,7 @@
 
 namespace Glue {
 
-std::vector<Interaction*> Link::possibleInteractions;
+std::vector<LinkInteraction*> Link::possibleInteractions;
 
 Link::Link(LinkStyle* newStyle) :
     style(newStyle),
@@ -17,12 +17,12 @@ Link::Link(LinkStyle* newStyle) :
     //domain.setSite(this);
 }
 
-void Link::registerInteraction(Interaction* interaction)
+void Link::registerInteraction(LinkInteraction* interaction)
 {
     possibleInteractions.push_back(interaction);
 }
 
-Link& Link::setStyle(LinkStyle* value, Interaction* expectedInteraction)
+Link& Link::setStyle(LinkStyle* value, LinkInteraction* expectedInteraction)
 {
     style = value;
     throw "TODO:  implement domain.addObject for this";
@@ -67,14 +67,14 @@ Link& Link::setGraph(Graph* value)
     return *this;
 }
 
-Link& Link::addAttribute(Attribute* attr, Interaction* expectedInteraction)
+Link& Link::addAttribute(Object* attr, LinkInteraction* expectedInteraction)
 {
     throw "TODO:  implement domain.addObject for attribute here";
-    //domain.addObject("link", attr, expectedInteraction);
+    domain.addObject("link", attr/*, expectedInteraction*/);
     return *this;
 }
 
-Attribute* Link::findAttribute(Attribute* attr)
+LinkAttribute* Link::findAttribute(LinkAttribute* attr)
 {
     throw "TODO:  implement domain.findObject";
     //return domain.findObject("link", attr);
