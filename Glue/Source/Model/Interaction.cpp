@@ -1,5 +1,9 @@
 // TODO:  Figure out Referent and Domain, then we can do Interaction.
 
+#include <Glue/Model/Interaction.hpp>
+
+Glue::InteractionInstance::~InteractionInstance() {}
+
 /*
 
 #include "Model/Interaction.hpp"

@@ -2,7 +2,7 @@
 
 namespace Glue {
 
-//std::vector<Interaction*> Graph::possibleInteractions;
+std::vector<ComponentInteraction*> Graph::possibleInteractions;
 
 Graph::Graph()
 {

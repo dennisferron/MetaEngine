@@ -1,5 +1,11 @@
 #pragma once
 
+#include <memory>
+
+class NodeAttribute
+{
+};
+
 class IIrrNodeAttribute
 {
 };
@@ -38,16 +44,16 @@ class Node
 {
 private:
     std::unique_ptr<NodeStyle> style;
-    std::map< Identity , std::unique_ptr<NodeInteraction const> > interactions;
+    std::vector< std::unique_ptr<NodeInteraction const> > interactions;
 
 public:
 
-    template <typename T>
-    Node(T const& style) : comp(this), std::make_unique<T>(style)
-    {
-    }
+//    template <typename T>
+//    Node(T const& style) : std::make_unique<T>(style)
+//    {
+//    }
 
-    void add_attribute(NodeAttribute* attr, PossibleInteractions*);
+    //void add_attribute(NodeAttribute* attr, PossibleInteractions*);
     //void add_interaction(NodeInteraction const* interaction);
 };
 
@@ -151,17 +157,17 @@ public:
         body->unset_motion_state(&motion_anim);
     }
 
-    static auto create_rule()
-    {
-        return make_interaction(
-                IrrComp::node_attribute,
-                PhysComp::node_attribute,
-                [](SceneNode* node, RigidBody* body)
-                {
-                    return new AddMotionStateAnimator(node, body);
-                }
-        );
-    }
+//    static auto create_rule()
+//    {
+//        return make_interaction(
+//                IrrComp::node_attribute,
+//                PhysComp::node_attribute,
+//                [](SceneNode* node, RigidBody* body)
+//                {
+//                    return new AddMotionStateAnimator(node, body);
+//                }
+//        );
+//    }
 };
 
 class Engine
@@ -173,9 +179,9 @@ private:
 
 public:
 
-    template <typename T>
-    Node& add_node(T const& style)
-    {
-        auto iter_bool = nodes.emplace(node_id, style);
-    }
+//    template <typename T>
+//    Node& add_node(T const& style)
+//    {
+//        //auto iter_bool = nodes.emplace(node_id, style);
+//    }
 };

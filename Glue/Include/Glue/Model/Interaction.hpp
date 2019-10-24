@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 
-#include "Glue/Model/Domain.hpp"
+//#include "Glue/Model/Domain.hpp"
 #include "Glue/Model/Referent.hpp"
 
 namespace Glue {
@@ -47,6 +47,7 @@ namespace Glue {
         Domain* site;
 
     public:
+        virtual ~InteractionInstance() = 0;
 
         std::map<std::string, Referent*> mapSubdomains();
 

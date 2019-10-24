@@ -8,7 +8,10 @@ namespace Glue {
     class Object
     {
     public:
-        virtual bool hasProto(std::string proto) const = 0;
+        bool hasProto(std::string proto) const
+        {
+            throw std::logic_error("Not implemented");
+        }
 
         template <typename T>
         void setSlot(T const&)

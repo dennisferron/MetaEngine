@@ -74,7 +74,7 @@ Link& Link::addAttribute(Object* attr, LinkInteraction* expectedInteraction)
     return *this;
 }
 
-LinkAttribute* Link::findAttribute(LinkAttribute* attr)
+Object* Link::findAttribute(Object* attr)
 {
     throw "TODO:  implement domain.findObject";
     //return domain.findObject("link", attr);
