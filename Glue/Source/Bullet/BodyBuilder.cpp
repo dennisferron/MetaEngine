@@ -17,7 +17,7 @@ namespace Glue { namespace Bullet {
 
     }
 
-    btRigidBody* BodyBuilder::buildBody(NodeStyle* style) const
+    btRigidBody* BodyBuilder::buildBody(NodeStyle style) const
     {
         throw "Not implemented.";
     }

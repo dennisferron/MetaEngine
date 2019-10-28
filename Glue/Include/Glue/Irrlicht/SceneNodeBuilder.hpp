@@ -20,7 +20,7 @@ private:
 public:
 
     SceneNodeBuilder(ShapeBuilder* shapeBuilder, SceneNodes* sceneNodes, Assets* assets);
-    irr::scene::ISceneNode* buildSceneNode(GameObjStyle* style) const;
+    irr::scene::ISceneNode* buildSceneNode(GameObjStyle style) const;
 };
 
 }}

@@ -1,8 +1,11 @@
 #include "Glue/Model/Graph.hpp"
 
+#include "Glue/Bullet/BulletComponent.hpp"
+#include "Glue/Irrlicht/IrrlichtComponent.hpp"
+
 namespace Glue {
 
-std::vector<ComponentInteraction*> Graph::possibleInteractions;
+//std::vector<ComponentInteraction*> Graph::possibleInteractions;
 
 Graph::Graph()
 {
@@ -66,13 +69,13 @@ void Graph::removeLink(Link* link) const
 
 void Graph::registerInteraction(ComponentInteraction* interaction)
 {
-    possibleInteractions.push_back(interaction);
+    //possibleInteractions.push_back(interaction);
 }
 
 void Graph::addComponent(Component* newComp)
 {
-    components.push_back(newComp);
-    domain.addObject("component", newComp);
+    //components.push_back(newComp);
+    //domain.addObject("component", newComp);
 }
 
 // Deprecated?  Not sure...

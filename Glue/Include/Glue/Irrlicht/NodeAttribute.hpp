@@ -7,16 +7,17 @@
 #include "ISceneNode.h"
 #include "ISceneNodeAnimator.h"
 
+#include "Glue/Styles/GameObjStyle.hpp"
+
 namespace Glue { namespace Irrlicht {
 
 class Node;
-class GameObjStyle;
 
 class NodeAttribute
 {
 private:
 
-    GameObjStyle* style;
+    GameObjStyle style;
     irr::video::ITexture* texture;
     irr::scene::ISceneNode* sceneNode;
     irr::scene::ISceneNodeAnimator* motionState;

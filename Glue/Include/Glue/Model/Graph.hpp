@@ -2,7 +2,6 @@
 
 #include "ISceneNode.h"
 
-#include "Glue/Model/Domain.hpp"
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
 #include "Glue/Styles/ConstraintStyle.hpp"
@@ -16,23 +15,15 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace Glue {
 
 class Constraint;  // TODO:  Is this returned from Graph::addConstraint?
 //class Structure;  // TODO:  Or should this also manage Constraint's?
 
-class Graph : public Domain
+class Graph
 {
-private:
-    // TODO: Is this just dupe of Domain::activeObjects?
-    std::vector<Component*> components;
-
-    // possible interactions shared among all instances
-    static std::vector<ComponentInteraction*> possibleInteractions;
-
-    Domain domain;
-
 public:
 
     Node* addNode(NodeStyle const& style);

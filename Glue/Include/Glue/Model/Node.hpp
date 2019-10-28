@@ -2,13 +2,13 @@
 
 #include "Glue/Model/Domain.hpp"
 #include "Glue/Interactions/Node/NodeInteraction.hpp"
+#include "Glue/Styles/GameObjStyle.hpp"
 
 #include <vector>
 
 namespace Glue {
 
 class Graph;
-class GameObjStyle;
 class Interaction;
 
 class NodeAttribute

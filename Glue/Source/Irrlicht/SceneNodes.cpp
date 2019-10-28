@@ -9,13 +9,13 @@ namespace Glue { namespace Irrlicht {
     {
     }
 
-    irr::video::ITexture* SceneNodes::loadTexture(GameObjStyle* style, std::string const& key)
+    irr::video::ITexture* SceneNodes::loadTexture(GameObjStyle style, std::string const& key)
     {
         throw "Implement conversion from string to texture keys enum, or change signature of this function.";
         //assets->loadTextureFromFile(style->textureMap[key]);
     }
 
-    irr::scene::ISceneNode* SceneNodes::skybox(GameObjStyle* style)
+    irr::scene::ISceneNode* SceneNodes::skybox(GameObjStyle style)
     {
         return smgr->addSkyBoxSceneNode(
                 loadTexture(style, "up"),
@@ -29,7 +29,7 @@ namespace Glue { namespace Irrlicht {
         );
     }
 
-    irr::scene::ISceneNode* SceneNodes::default_(GameObjStyle* style, irr::scene::IMesh* shape)
+    irr::scene::ISceneNode* SceneNodes::default_(GameObjStyle style, irr::scene::IMesh* shape)
     {
 
       return smgr->addMeshSceneNode(

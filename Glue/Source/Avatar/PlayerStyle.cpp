@@ -4,9 +4,9 @@ namespace Glue
 {
     namespace Avatar
     {
-        PlayerStyle::PlayerStyle()
+        GameObjStyle PlayerStyle()
         {
-
+            return { GameObjStyles::CylZStyle, {} };
         }
     }
 }

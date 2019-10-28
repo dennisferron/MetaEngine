@@ -22,10 +22,10 @@ struct Stage {
 struct Tree {
     Tree();
 
-    NodeStyle* base;
+    NodeStyle base;
     LinkStyle* joint;
-    NodeStyle* trunk;
-    NodeStyle* top;
+    NodeStyle trunk;
+    NodeStyle top;
 
     Structure* build();
 };
@@ -33,13 +33,13 @@ struct Tree {
 struct Snake {
     Snake();
 
-    NodeStyle* segmentStyle;
+    NodeStyle segmentStyle;
     LinkStyle* jointStyle;
     LinkStyle* leftJointStyle;
     LinkStyle* rightJointStyle;
-    NodeStyle* headStyle;
+    NodeStyle headStyle;
     LinkStyle* noseHeadJoint;
-    NodeStyle* noseStyle;
+    NodeStyle noseStyle;
 
     Structure* build();
     static Node* configure(Graph* graph, Structure* snake);
@@ -49,24 +49,24 @@ struct Snake {
 struct Robot {
     Robot();
 
-    NodeStyle* shoulderBall;
+    NodeStyle shoulderBall;
     LinkStyle* shoulderToUpperArm;
-    NodeStyle* upperArm;
+    NodeStyle upperArm;
     LinkStyle* upperArmToElbow;
-    NodeStyle* elbowBall;
+    NodeStyle elbowBall;
     LinkStyle* elbowToForeArm;
-    NodeStyle* foreArm;
-    NodeStyle* torso;
+    NodeStyle foreArm;
+    NodeStyle torso;
     LinkStyle* torsoToLeftShoulder;
     LinkStyle* torsoToRightShoulder;
     LinkStyle* torsoToBase;
-    NodeStyle* base;
-    NodeStyle* head;
+    NodeStyle base;
+    NodeStyle head;
     LinkStyle* headToTorso;
     LinkStyle* leftAxle;
     LinkStyle* rightAxle;
-    NodeStyle* leftWheel;
-    NodeStyle* rightWheel;
+    NodeStyle leftWheel;
+    NodeStyle rightWheel;
 
     Structure* build();
     Node* configure(Graph* graph, Structure* robotStructure);
@@ -77,22 +77,23 @@ struct Cannon {
     Structure* build();
     static Node* configure(Graph* graph, Structure* cannon);
 
-    NodeStyle* hub;
-    NodeStyle* barrel;
-    GameObjStyles::GeneratorStyle<GameObjStyles::BallStyle>* tip;
+    NodeStyle hub;
+    NodeStyle barrel;
+    // GameObjStyles::GeneratorStyle<GameObjStyles::BallStyle> tip;
+    GameObjStyle tip;
 };
 
 struct Car {
 
-    NodeStyle* leftWheel;
+    NodeStyle leftWheel;
     LinkStyle* leftAxle;
-    NodeStyle* rightWheel;
+    NodeStyle rightWheel;
     LinkStyle* rightAxle;
 
-    NodeStyle* carBody;
+    NodeStyle carBody;
 
     LinkStyle* gearAxle;
-    NodeStyle* gearSlotStyle;
+    NodeStyle gearSlotStyle;
 
     Structure* build();
     static Node* configure(Graph* graph, Structure* car);
@@ -102,7 +103,7 @@ struct Elevator {
 
     Elevator(Scalar x, Scalar y);
 
-    NodeStyle* elevatorStyle;
+    NodeStyle elevatorStyle;
 
     Structure* build();
     static Node* configure(Graph* graph, Structure* elevator);
@@ -112,21 +113,21 @@ struct Elevator {
 
 struct Box {
     Box();
-    NodeStyle* style;
-    static Node* configure(Graph* graph, NodeStyle* style);
+    NodeStyle style;
+    static Node* configure(Graph* graph, NodeStyle style);
     Structure* build();
 };
 
 struct Dwarf {
     Dwarf();
-    NodeStyle* style;
+    NodeStyle style;
     static Node* configure(Graph* graph, Structure* dwarf);
     Node* loadL3DTMesh();
 };
 
 struct Skybox {
     Skybox();
-    NodeStyle* style;
+    NodeStyle style;
     static Node* configure(Graph* graph, Structure* skybox);
 };
 

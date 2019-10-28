@@ -9,20 +9,20 @@ namespace Glue { namespace Bullet {
     class DisplayShapes
     {
     public:
-        btCollisionShape* none(GameObjStyle* style) const;
-        btCollisionShape* ball(GameObjStyle* style) const;
-        btCollisionShape* box(GameObjStyle* style) const;
-        btCollisionShape* cyl(GameObjStyle* style) const;
-        btCollisionShape* cylX(GameObjStyle* style) const;
-        btCollisionShape* cylZ(GameObjStyle* style) const;
-        btCollisionShape* cone(GameObjStyle* style) const;
-        btCollisionShape* coneX(GameObjStyle* style) const;
-        btCollisionShape* coneZ(GameObjStyle* style) const;
-        btCollisionShape* hills(GameObjStyle* style) const;
-        btCollisionShape* plane(GameObjStyle* style) const;
-        btCollisionShape* cloth(GameObjStyle* style) const;
-        btCollisionShape* mesh(GameObjStyle* style) const;
-        btCollisionShape* skybox(GameObjStyle* style) const;
+        btCollisionShape* none(GameObjStyle style) const;
+        btCollisionShape* ball(GameObjStyle style) const;
+        btCollisionShape* box(GameObjStyle style) const;
+        btCollisionShape* cyl(GameObjStyle style) const;
+        btCollisionShape* cylX(GameObjStyle style) const;
+        btCollisionShape* cylZ(GameObjStyle style) const;
+        btCollisionShape* cone(GameObjStyle style) const;
+        btCollisionShape* coneX(GameObjStyle style) const;
+        btCollisionShape* coneZ(GameObjStyle style) const;
+        btCollisionShape* hills(GameObjStyle style) const;
+        btCollisionShape* plane(GameObjStyle style) const;
+        btCollisionShape* cloth(GameObjStyle style) const;
+        btCollisionShape* mesh(GameObjStyle style) const;
+        btCollisionShape* skybox(GameObjStyle style) const;
     };
 
 }}

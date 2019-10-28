@@ -24,8 +24,8 @@ public:
         ShapeOffsets* shapeOffsets
     );
 
-    btRigidBody create(NodeStyle* style) const;
-    btTransform getOffset(NodeStyle* style) const;
+    btRigidBody create(NodeStyle style) const;
+    btTransform getOffset(NodeStyle style) const;
 };
 
 }}

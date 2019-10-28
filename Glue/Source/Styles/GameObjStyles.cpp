@@ -3,58 +3,58 @@
 
 namespace Glue { namespace GameObjStyles {
 
-EmptyStyle::EmptyStyle()
-    : GameObjStyle(ObjShapes::none)
-{
-}
+//EmptyStyle::EmptyStyle()
+//    : GameObjStyle(ObjShapes::none)
+//{
+//}
+//
+//BoxStyle::BoxStyle()
+//    : GameObjStyle(ObjShapes::box)
+//{
+//}
+//
+//BallStyle::BallStyle()
+//    : GameObjStyle(ObjShapes::ball)
+//{
+//}
+//
+//CylStyle::CylStyle()
+//    : GameObjStyle(ObjShapes::cyl)
+//{
+//}
+//
+//CylXStyle::CylXStyle()
+//    : GameObjStyle(ObjShapes::cylX)
+//{
+//}
+//
+//CylZStyle::CylZStyle()
+//    : GameObjStyle(ObjShapes::cylZ)
+//{
+//}
+//
+//ConeStyle::ConeStyle()
+//    : GameObjStyle(ObjShapes::cone)
+//{
+//}
+//
+//ConeXStyle::ConeXStyle()
+//    : GameObjStyle(ObjShapes::coneX)
+//{
+//}
+//
+//ConeZStyle::ConeZStyle()
+//    : GameObjStyle(ObjShapes::coneZ)
+//{
+//}
+//
+//SkyboxStyle::SkyboxStyle()
+//    : GameObjStyle(ObjShapes::skybox, ObjShapes::none)
+//{
+//}
 
-BoxStyle::BoxStyle()
-    : GameObjStyle(ObjShapes::box)
-{
-}
-
-BallStyle::BallStyle()
-    : GameObjStyle(ObjShapes::ball)
-{
-}
-
-CylStyle::CylStyle()
-    : GameObjStyle(ObjShapes::cyl)
-{
-}
-
-CylXStyle::CylXStyle()
-    : GameObjStyle(ObjShapes::cylX)
-{
-}
-
-CylZStyle::CylZStyle()
-    : GameObjStyle(ObjShapes::cylZ)
-{
-}
-
-ConeStyle::ConeStyle()
-    : GameObjStyle(ObjShapes::cone)
-{
-}
-
-ConeXStyle::ConeXStyle()
-    : GameObjStyle(ObjShapes::coneX)
-{
-}
-
-ConeZStyle::ConeZStyle()
-    : GameObjStyle(ObjShapes::coneZ)
-{
-}
-
-SkyboxStyle::SkyboxStyle()
-    : GameObjStyle(ObjShapes::skybox, ObjShapes::none)
-{
-}
-
-HillStyle::HillStyle()
-    : GameObjStyle(ObjShapes::hills)
+HillStyle_t::HillStyle_t()
+    : GameObjStyleBase(ObjShapes::hills)
 {
     gameObjType = GameObjTypes::static_;
     mass = 0;
@@ -67,8 +67,8 @@ HillStyle::HillStyle()
     zTextureRepeat = 1;
 }
 
-PlaneStyle::PlaneStyle()
-    : GameObjStyle(ObjShapes::plane, ObjShapes::mesh)
+PlaneStyle_t::PlaneStyle_t()
+    : GameObjStyleBase(ObjShapes::plane, ObjShapes::mesh)
 {
     gameObjType = GameObjTypes::static_;
     margin = 0.1;
@@ -80,20 +80,20 @@ PlaneStyle::PlaneStyle()
     zTextureRepeat = 1;
 }
 
-WallStyle::WallStyle()
-{
-    // TODO: Not sure about this one:
-    //dispShape = ObjShapes::mesh;
+//WallStyle::WallStyle()
+//{
+//    // TODO: Not sure about this one:
+//    //dispShape = ObjShapes::mesh;
+//
+//    setColor(200, 60, 240);
+//    mass = 0;
+//    radius = 10;
+//    length = 1000;
+//}
 
-    setColor(200, 60, 240);
-    mass = 0;
-    radius = 10;
-    length = 1000;
-}
-
-ClothStyle::ClothStyle()
-{
-    gameObjType = GameObjTypes::soft;
-}
+//ClothStyle::ClothStyle()
+//{
+//    gameObjType = GameObjTypes::soft;
+//}
 
 }}

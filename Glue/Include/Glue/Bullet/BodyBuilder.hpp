@@ -18,7 +18,7 @@ public:
     BodyBuilder();
     ~BodyBuilder();
 
-    btRigidBody* buildBody(NodeStyle* style) const;
+    btRigidBody* buildBody(NodeStyle style) const;
 };
 
 }}

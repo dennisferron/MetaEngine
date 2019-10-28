@@ -12,6 +12,36 @@ using namespace irr::core;
 using namespace irr::video;
 using namespace irr::scene;
 
+namespace
+{
+    using namespace Glue;
+    using namespace Glue::GameObjStyles;
+
+    GameObjStyle TileStyle()
+    {
+        HillStyle_t result;
+
+        result.physShape = ObjShapes::mesh;
+        result.dispShape = ObjShapes::mesh;
+        result.gameObjType = GameObjTypes::static_;
+        result.mass = 0;
+        result.setPos(0, 0, 0);
+
+        // Since it's static it's already not mouseDraggable
+        //setIsMouseDraggable(false);
+
+        // For debugging
+        //setWireframe(true);
+
+        return GameObjStyle( HillStyle, result );
+    }
+
+    GameObjStyle WalkStyle()
+    {
+        return TileStyle();
+    }
+}
+
 namespace Glue {
 
 Tile& Tile::refresh()
@@ -20,24 +50,6 @@ Tile& Tile::refresh()
 
     throw "TODO: move surface to a constructor parameter so that it cannot be null here.";
     auto splitForWalkway = MeshTools::createHillMesh(*surface, tileRect, pathMinZ-tolerance, pathMaxZ+tolerance);
-
-    struct TileStyle : GameObjStyle
-    {
-        TileStyle() : GameObjStyle(ObjShapes::none)
-        {
-            physShape = ObjShapes::mesh;
-            dispShape = ObjShapes::mesh;
-            gameObjType = GameObjTypes::static_;
-            mass = 0;
-            setPos(0, 0, 0);
-
-            // Since it's static it's already not mouseDraggable
-            //setIsMouseDraggable(false);
-
-            // For debugging
-            //setWireframe(true);
-        }
-    };
 
     // Temporary
     float walkwayDepth = 4.0f;
@@ -53,12 +65,13 @@ Tile& Tile::refresh()
         vector3df(-tileRect.getWidth()/2.0f, walkwayDepth/2.0f, (walkwayDepth/2.0f)/repeatAmt)  // offset
     );
 
-    auto walkStyle = TileStyle()
-            .setTextureFile("Media/boardwalk.png");
+    auto walkStyle = WalkStyle();
+
+    walkStyle->setTextureFile("Media/boardwalk.png");
             //.setPhysShape("mesh")
             //.setMesh(splitForWalkway);
-    walkStyle.physShape = ObjShapes::mesh;
-    walkStyle.mesh = splitForWalkway;
+    walkStyle->physShape = ObjShapes::mesh;
+    walkStyle->mesh = splitForWalkway;
 
     walkwayGameObj = graph->addNode(walkStyle);
 
@@ -85,9 +98,9 @@ Tile& Tile::refresh()
             //.setMesh(splitBackFromSky)
             //.setPhysShape("none");
 
-    backStyle.textureFile = "Media/mountaintop.jpg";
-    backStyle.mesh = splitBackFromSky;
-    backStyle.physShape = ObjShapes::none;
+    backStyle->textureFile = "Media/mountaintop.jpg";
+    backStyle->mesh = splitBackFromSky;
+    backStyle->physShape = ObjShapes::none;
 
     backGameObj = graph->addNode(backStyle);
 
@@ -105,9 +118,9 @@ Tile& Tile::refresh()
     );
 
     auto foreStyle = TileStyle();
-    foreStyle.textureFile = "Media/irrlicht2_dn.jpg";
-    foreStyle.mesh = splitFront;
-    foreStyle.physShape = ObjShapes::none;
+    foreStyle->textureFile = "Media/irrlicht2_dn.jpg";
+    foreStyle->mesh = splitFront;
+    foreStyle->physShape = ObjShapes::none;
 
     foreGameObj = graph->addNode(foreStyle);
 

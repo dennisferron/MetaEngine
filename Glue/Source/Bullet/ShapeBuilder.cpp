@@ -14,12 +14,12 @@ ShapeBuilder::ShapeBuilder(
 
 }
 
-btRigidBody ShapeBuilder::create(NodeStyle* style) const
+btRigidBody ShapeBuilder::create(NodeStyle style) const
 {
     throw "not implemented";
 }
 
-btTransform ShapeBuilder::getOffset(NodeStyle* style) const
+btTransform ShapeBuilder::getOffset(NodeStyle style) const
 {
     throw "not implemented";
 }

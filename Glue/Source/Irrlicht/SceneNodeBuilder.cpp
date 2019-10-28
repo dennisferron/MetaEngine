@@ -9,7 +9,7 @@ SceneNodeBuilder::SceneNodeBuilder(ShapeBuilder* shapeBuilder, SceneNodes* scene
 {
 }
 
-ISceneNode* SceneNodeBuilder::buildSceneNode(GameObjStyle* style) const
+ISceneNode* SceneNodeBuilder::buildSceneNode(GameObjStyle style) const
 {
     throw "Find replacement for hasSlot and perform on sceneNodes";
 

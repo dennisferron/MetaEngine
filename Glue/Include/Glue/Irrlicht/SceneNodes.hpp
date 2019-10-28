@@ -22,9 +22,9 @@ public:
 
     SceneNodes(irr::scene::ISceneManager* smgr, Assets* assets);
 
-    irr::video::ITexture* loadTexture(GameObjStyle* style, std::string const& key);
-    irr::scene::ISceneNode* skybox(GameObjStyle* style);
-    irr::scene::ISceneNode* default_(GameObjStyle* style, irr::scene::IMesh* shape);
+    irr::video::ITexture* loadTexture(GameObjStyle style, std::string const& key);
+    irr::scene::ISceneNode* skybox(GameObjStyle style);
+    irr::scene::ISceneNode* default_(GameObjStyle style, irr::scene::IMesh* shape);
 };
 
 }}

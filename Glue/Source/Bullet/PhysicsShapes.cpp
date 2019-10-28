@@ -10,20 +10,20 @@ namespace {
 
 namespace Glue { namespace Bullet {
 
-        btCollisionShape* DisplayShapes::none(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::ball(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::box(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cyl(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cylX(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cylZ(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cone(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::coneX(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::coneZ(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::hills(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::plane(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cloth(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::mesh(GameObjStyle* style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::skybox(GameObjStyle* style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::none(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::ball(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::box(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::cyl(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::cylX(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::cylZ(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::cone(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::coneX(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::coneZ(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::hills(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::plane(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::cloth(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::mesh(GameObjStyle style) const { throw "Not implemented."; }
+        btCollisionShape* DisplayShapes::skybox(GameObjStyle style) const { throw "Not implemented."; }
 
 }}
 

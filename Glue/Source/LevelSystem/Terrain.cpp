@@ -74,13 +74,13 @@ namespace Glue { namespace LevelSystem {
                     Vec(cpx, h, cpy)
             );
 
-            GameObjStyles::BallStyle controlPointStyle;
+            /*GameObjStyles::BallStyle*/ NodeStyle controlPointStyle;
             controlPointStyle
                     //.setPhysShape("none")
-                    .setSize(0.5)
+                    ->setSize(0.5)
                     //.setIsMouseDraggable(true)
                     .setPos(cpx, cpy, h);
-            controlPointStyle.physShape = ObjShapes::none;
+            controlPointStyle->physShape = ObjShapes::none;
 
             graph->addNode(controlPointStyle);
         }
