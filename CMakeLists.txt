@@ -16,6 +16,7 @@ add_subdirectory(irrlicht)
 add_subdirectory(ThinPlateSpline)
 add_subdirectory(Glue)
 add_subdirectory(UnitTests)
+add_subdirectory(sqlite)
 
 add_executable(MetaEngine
         main.cpp)

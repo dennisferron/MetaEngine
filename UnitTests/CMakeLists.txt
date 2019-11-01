@@ -3,7 +3,7 @@ include_directories(${Boost_INCLUDE_DIR})
 
 add_executable(UnitTests
         TestMain.cpp
-        Example.cpp
+        DatabaseTests.cpp
         ComponentsTests.cpp
         MockComponents.hpp)
 

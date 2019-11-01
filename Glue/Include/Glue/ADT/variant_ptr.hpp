@@ -132,4 +132,17 @@ namespace Glue
             return ptr->value_ptr();
         }
     };
+
+    /*
+    // Visitor from https://pabloariasal.github.io/2018/06/26/std-variant/
+    template<typename ...Ts>
+    struct Visitor : Ts...
+    {
+        Visitor(const Ts&... args) : Ts(args)...
+        {
+        }
+
+        using Ts::operator()...;
+    }
+    */
 }
