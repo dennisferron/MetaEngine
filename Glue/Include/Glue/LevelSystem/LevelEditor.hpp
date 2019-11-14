@@ -12,13 +12,14 @@
 #include "SColor.h"
 
 #include "Glue/EditorGUI/Toolbar.hpp"
+#include "Glue/LevelSystem/Terrain.hpp"
 
 #include <string>
 
 //virtual irr::scene::ISceneNode * getSceneNodeAndCollisionPointFromRay
 //(core::line3df ray, core::vector3df &outCollisionPoint, core::triangle3df &outTriangle, s32 idBitMask=0, ISceneNode *collisionRootNode=0, bool noDebugObjects=false
 
-namespace Glue { namespace LevelSystem {
+namespace Glue {
 
 using SColor = irr::video::SColor;
 using EKEY_CODE = irr::EKEY_CODE;
@@ -54,4 +55,4 @@ public:
     void selectNode(int X, int Y);
 };
 
-}}
+}

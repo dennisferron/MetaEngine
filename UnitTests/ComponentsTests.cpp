@@ -1,36 +1,19 @@
 #include "boost/test/unit_test.hpp"
 #include "Glue/Model/Graph.hpp"
 #include "MockComponents.hpp"
+#include "Glue/LevelSystem/LevelSystem.hpp"
 
 #include <string>
 
 using namespace Glue;
 
-namespace {
-
-    struct MockComponent1 : Glue::Component
-    {
-        std::string name = "Component One";
-    };
-
-    struct MockComponent2 : Glue::Component
-    {
-        std::string name = "Component Two";
-    };
-
-}
-
 BOOST_AUTO_TEST_SUITE(ComponentsTests)
 
-BOOST_AUTO_TEST_CASE(test_graph)
-    {
-        Graph graph;
-
-        MockComponent1 mc1;
-        graph.addComponent(&mc1);
-
-        MockComponent2 mc2;
-        graph.addComponent(&mc2);
-    }
+BOOST_AUTO_TEST_CASE(test_level_system)
+{
+    std::string conn_str = R"(C:\Users\dferr\MetaEngine\Data\Props.sqlite)";
+    sqlite3* db = LevelSystem::open_db(conn_str);
+    LevelSystem lvl_sys(db);
+}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -227,6 +227,7 @@ target_link_libraries( Glue PUBLIC
         BulletDynamics
         BulletCollision
         LinearMath
+        sqlite
 )
 
 target_include_directories(Glue PUBLIC Include)

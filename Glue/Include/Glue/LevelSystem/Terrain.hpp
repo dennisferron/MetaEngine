@@ -11,7 +11,7 @@
 
 #include <vector>
 
-namespace Glue { namespace LevelSystem {
+namespace Glue {
 
 class Terrain
 {
@@ -45,4 +45,4 @@ public:
     std::size_t tileIndex(int x, int y) const;
 };
 
-}}
+}

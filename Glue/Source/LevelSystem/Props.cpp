@@ -4,6 +4,10 @@
 #include "ThinPlateSpline/ThinPlateQuilt.hpp"
 #include "Glue/Styles/GameObjStyles.hpp"
 
+#include <stdexcept>
+#include <functional>
+#include <map>
+
 using namespace std;
 using namespace boost;
 
@@ -13,6 +17,88 @@ using namespace irr::video;
 using namespace irr::scene;
 
 using namespace TPS;
+
+namespace
+{
+    sqlite3_stmt* prepare(sqlite3* db, std::string sql)
+    {
+        sqlite3_stmt *stmt = nullptr;
+
+        int ret = sqlite3_prepare_v2(
+                db,
+                sql.c_str(),
+                static_cast<int>(sql.size()),
+                &stmt,
+                nullptr);
+
+        if (ret != SQLITE_OK)
+        {
+            throw std::runtime_error("Error building prepared statement.");
+        }
+
+        return stmt;
+    }
+
+    template <typename K, typename T>
+    std::map<K,T> execute_map(sqlite3_stmt* stmt, std::function<std::pair<K,T>(sqlite3_stmt*)> read_row)
+    {
+        std::map<K,T> result;
+
+        while (true)
+        {
+            switch (sqlite3_step(stmt))
+            {
+                case SQLITE_ROW:
+                    result.insert(
+                        read_row(stmt));
+                    break;
+                case SQLITE_DONE:
+                    return result;
+                default:
+                    throw std::runtime_error("Error executing sqlite statement");
+            }
+        }
+    }
+
+    int column_index(sqlite3_stmt* stmt, std::string col_name)
+    {
+        int num_cols = sqlite3_column_count(stmt);
+
+        for (int i=0; i<num_cols; i++)
+        {
+            std::string col_i_name = sqlite3_column_name(stmt, i);
+            if (col_i_name == col_name)
+                return i;
+        }
+
+        throw std::runtime_error("No column named " + col_name + " in result set.");
+    }
+}
+
+namespace Glue {
+
+    Props::Props(sqlite3* db)
+    {
+        std::string sql = "select name, body from NodeStyles";
+
+        sqlite3_stmt* stmt = prepare(db, sql);
+
+        int const name_col = column_index(stmt, "name");
+        int const body_col = column_index(stmt, "body");
+
+        auto read_row = [=](sqlite3_stmt* stmt)
+        {
+            std::string name = (char*)sqlite3_column_text(stmt, name_col);
+            std::string body = (char*)sqlite3_column_text(stmt, body_col);
+            return std::make_pair(name, body);
+        };
+
+        auto result = execute_map<std::string, std::string>(stmt, read_row);
+
+        sqlite3_finalize(stmt);
+    }
+
+}
 
 /* TODO:  Figure out Styles and Structure and then implement Props.
 

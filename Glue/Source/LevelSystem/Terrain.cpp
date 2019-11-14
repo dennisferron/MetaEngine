@@ -31,7 +31,7 @@ namespace {
     }
 }
 
-namespace Glue { namespace LevelSystem {
+namespace Glue {
 
     Terrain::Terrain()
     {
@@ -135,4 +135,4 @@ namespace Glue { namespace LevelSystem {
         return result;
     }
 
-}}  // namespace Glue
+}  // namespace Glue

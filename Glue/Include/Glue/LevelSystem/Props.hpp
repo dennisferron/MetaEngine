@@ -8,140 +8,174 @@
 #include "Glue/LevelSystem/Terrain.hpp"
 #include "Glue/Styles/GameObjStyles.hpp"
 
+#include "sqlite3.h"
+
 namespace Glue {
-    namespace Props {
 
-using NodeStyle = Glue::GameObjStyle;
-using LinkStyle = Glue::LinkStyle;
+    class Props
+    {
+    public:
+        Props(sqlite3* db);
 
-struct Stage {
-    Stage();
-    Structure* build();
-};
+        using NodeStyle = Glue::GameObjStyle;
+        using LinkStyle = Glue::LinkStyle;
 
-struct Tree {
-    Tree();
+        struct Stage
+        {
+            Stage();
 
-    NodeStyle base;
-    LinkStyle* joint;
-    NodeStyle trunk;
-    NodeStyle top;
+            Structure *build();
+        };
 
-    Structure* build();
-};
+        struct Tree
+        {
+            Tree();
 
-struct Snake {
-    Snake();
+            NodeStyle base;
+            LinkStyle *joint;
+            NodeStyle trunk;
+            NodeStyle top;
 
-    NodeStyle segmentStyle;
-    LinkStyle* jointStyle;
-    LinkStyle* leftJointStyle;
-    LinkStyle* rightJointStyle;
-    NodeStyle headStyle;
-    LinkStyle* noseHeadJoint;
-    NodeStyle noseStyle;
+            Structure *build();
+        };
 
-    Structure* build();
-    static Node* configure(Graph* graph, Structure* snake);
-    static void setMotors(Node* segment, int count);
-};
+        struct Snake
+        {
+            Snake();
 
-struct Robot {
-    Robot();
+            NodeStyle segmentStyle;
+            LinkStyle *jointStyle;
+            LinkStyle *leftJointStyle;
+            LinkStyle *rightJointStyle;
+            NodeStyle headStyle;
+            LinkStyle *noseHeadJoint;
+            NodeStyle noseStyle;
 
-    NodeStyle shoulderBall;
-    LinkStyle* shoulderToUpperArm;
-    NodeStyle upperArm;
-    LinkStyle* upperArmToElbow;
-    NodeStyle elbowBall;
-    LinkStyle* elbowToForeArm;
-    NodeStyle foreArm;
-    NodeStyle torso;
-    LinkStyle* torsoToLeftShoulder;
-    LinkStyle* torsoToRightShoulder;
-    LinkStyle* torsoToBase;
-    NodeStyle base;
-    NodeStyle head;
-    LinkStyle* headToTorso;
-    LinkStyle* leftAxle;
-    LinkStyle* rightAxle;
-    NodeStyle leftWheel;
-    NodeStyle rightWheel;
+            Structure *build();
 
-    Structure* build();
-    Node* configure(Graph* graph, Structure* robotStructure);
-};
+            static Node *configure(Graph *graph, Structure *snake);
 
-struct Cannon {
-    Cannon();
-    Structure* build();
-    static Node* configure(Graph* graph, Structure* cannon);
+            static void setMotors(Node *segment, int count);
+        };
 
-    NodeStyle hub;
-    NodeStyle barrel;
-    // GameObjStyles::GeneratorStyle<GameObjStyles::BallStyle> tip;
-    GameObjStyle tip;
-};
+        struct Robot
+        {
+            Robot();
 
-struct Car {
+            NodeStyle shoulderBall;
+            LinkStyle *shoulderToUpperArm;
+            NodeStyle upperArm;
+            LinkStyle *upperArmToElbow;
+            NodeStyle elbowBall;
+            LinkStyle *elbowToForeArm;
+            NodeStyle foreArm;
+            NodeStyle torso;
+            LinkStyle *torsoToLeftShoulder;
+            LinkStyle *torsoToRightShoulder;
+            LinkStyle *torsoToBase;
+            NodeStyle base;
+            NodeStyle head;
+            LinkStyle *headToTorso;
+            LinkStyle *leftAxle;
+            LinkStyle *rightAxle;
+            NodeStyle leftWheel;
+            NodeStyle rightWheel;
 
-    NodeStyle leftWheel;
-    LinkStyle* leftAxle;
-    NodeStyle rightWheel;
-    LinkStyle* rightAxle;
+            Structure *build();
 
-    NodeStyle carBody;
+            Node *configure(Graph *graph, Structure *robotStructure);
+        };
 
-    LinkStyle* gearAxle;
-    NodeStyle gearSlotStyle;
+        struct Cannon
+        {
+            Cannon();
 
-    Structure* build();
-    static Node* configure(Graph* graph, Structure* car);
-};
+            Structure *build();
 
-struct Elevator {
+            static Node *configure(Graph *graph, Structure *cannon);
 
-    Elevator(Scalar x, Scalar y);
+            NodeStyle hub;
+            NodeStyle barrel;
+            // GameObjStyles::GeneratorStyle<GameObjStyles::BallStyle> tip;
+            GameObjStyle tip;
+        };
 
-    NodeStyle elevatorStyle;
+        struct Car
+        {
 
-    Structure* build();
-    static Node* configure(Graph* graph, Structure* elevator);
+            NodeStyle leftWheel;
+            LinkStyle *leftAxle;
+            NodeStyle rightWheel;
+            LinkStyle *rightAxle;
 
-    LinkStyle* standOnElevator;
-};
+            NodeStyle carBody;
 
-struct Box {
-    Box();
-    NodeStyle style;
-    static Node* configure(Graph* graph, NodeStyle style);
-    Structure* build();
-};
+            LinkStyle *gearAxle;
+            NodeStyle gearSlotStyle;
 
-struct Dwarf {
-    Dwarf();
-    NodeStyle style;
-    static Node* configure(Graph* graph, Structure* dwarf);
-    Node* loadL3DTMesh();
-};
+            Structure *build();
 
-struct Skybox {
-    Skybox();
-    NodeStyle style;
-    static Node* configure(Graph* graph, Structure* skybox);
-};
+            static Node *configure(Graph *graph, Structure *car);
+        };
 
-struct Props
-{
-    LevelSystem::Terrain* terrain;
-    Skybox* skybox;
+        struct Elevator
+        {
 
-    Props& loadLevel();
-    Props& loadLevelOld();
-    Props& loadSkybox();
+            Elevator(Scalar x, Scalar y);
 
-    Props& testSoftBody(Graph* graph);
+            NodeStyle elevatorStyle;
 
-};
+            Structure *build();
 
-}}
+            static Node *configure(Graph *graph, Structure *elevator);
+
+            LinkStyle *standOnElevator;
+        };
+
+        struct Box
+        {
+            Box();
+
+            NodeStyle style;
+
+            static Node *configure(Graph *graph, NodeStyle style);
+
+            Structure *build();
+        };
+
+        struct Dwarf
+        {
+            Dwarf();
+
+            NodeStyle style;
+
+            static Node *configure(Graph *graph, Structure *dwarf);
+
+            Node *loadL3DTMesh();
+        };
+
+        struct Skybox
+        {
+            Skybox();
+
+            NodeStyle style;
+
+            static Node *configure(Graph *graph, Structure *skybox);
+        };
+
+        struct TestProps
+        {
+            Terrain *terrain;
+            Skybox *skybox;
+
+            void loadLevel();
+
+            void loadLevelOld();
+
+            void loadSkybox();
+
+            void testSoftBody(Graph *graph);
+
+        };
+    };
+}
