@@ -6,7 +6,8 @@ namespace Glue
     {
         GameObjStyle PlayerStyle()
         {
-            return { GameObjStyles::CylZStyle, {} };
+            // TODO:  Define style in database.
+            return GameObjStyles::CylZStyle();
         }
     }
 }

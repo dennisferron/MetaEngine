@@ -75,6 +75,10 @@ namespace
     }
 }
 
+namespace Glue::GameObjStyles {
+    extern std::map<std::string, GameObjStyle> predefined_styles;
+}
+
 namespace Glue {
 
     Props::Props(sqlite3* db)
@@ -90,10 +94,10 @@ namespace Glue {
         {
             std::string name = (char*)sqlite3_column_text(stmt, name_col);
             std::string body = (char*)sqlite3_column_text(stmt, body_col);
-            return std::make_pair(name, body);
+            return std::make_pair(name, GameObjStyle());
         };
 
-        auto result = execute_map<std::string, std::string>(stmt, read_row);
+        GameObjStyles::predefined_styles = execute_map<std::string, GameObjStyle>(stmt, read_row);
 
         sqlite3_finalize(stmt);
     }

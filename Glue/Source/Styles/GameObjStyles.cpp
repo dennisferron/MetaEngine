@@ -1,8 +1,84 @@
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Styles/GameObjStyles.hpp"
 
-namespace Glue { namespace GameObjStyles {
+#include <string>
 
+using namespace std;
+
+namespace Glue::GameObjStyles {
+
+    map<string, GameObjStyle> predefined_styles;
+
+    GameObjStyle EmptyStyle()
+    {
+        return predefined_styles["Empty"];
+    }
+
+    GameObjStyle BoxStyle()
+    {
+        return predefined_styles["Box"];
+    }
+
+    GameObjStyle BallStyle()
+    {
+        return predefined_styles["Ball"];
+    }
+
+    GameObjStyle CylStyle()
+    {
+        return predefined_styles["Cyl"];
+    }
+
+    GameObjStyle CylXStyle()
+    {
+        return predefined_styles["CylX"];
+    }
+
+    GameObjStyle CylZStyle()
+    {
+        return predefined_styles["CylZ"];
+    }
+
+    GameObjStyle ConeStyle()
+    {
+        return predefined_styles["Cone"];
+    }
+
+    GameObjStyle ConeXStyle()
+    {
+        return predefined_styles["ConeX"];
+    }
+
+    GameObjStyle ConeZStyle()
+    {
+        return predefined_styles["ConeZ"];
+    }
+
+    GameObjStyle SkyboxStyle()
+    {
+        return predefined_styles["Skybox"];
+    }
+
+    GameObjStyle HillStyle()
+    {
+        return predefined_styles["Hill"];
+    }
+
+    GameObjStyle PlaneStyle()
+    {
+        return predefined_styles["Plane"];
+    }
+
+    GameObjStyle WallStyle()
+    {
+        return predefined_styles["Wall"];
+    }
+
+    GameObjStyle ClothStyle()
+    {
+        return predefined_styles["Cloth"];
+    }
+}
 //EmptyStyle::EmptyStyle()
 //    : GameObjStyle(ObjShapes::none)
 //{
@@ -53,32 +129,32 @@ namespace Glue { namespace GameObjStyles {
 //{
 //}
 
-HillStyle_t::HillStyle_t()
-    : GameObjStyleBase(ObjShapes::hills)
-{
-    gameObjType = GameObjTypes::static_;
-    mass = 0;
-    setSize(1.0, 2.0, 1.0);
-    xTiles = 15;
-    zTiles = 15;
-    xHills = 2;
-    zHills = 1;
-    xTextureRepeat = 1;
-    zTextureRepeat = 1;
-}
-
-PlaneStyle_t::PlaneStyle_t()
-    : GameObjStyleBase(ObjShapes::plane, ObjShapes::mesh)
-{
-    gameObjType = GameObjTypes::static_;
-    margin = 0.1;
-    mass = 0;
-    setSize(1.0f, 0.0f, 1.0f);
-    xTiles = 15;
-    zTiles = 15;
-    xTextureRepeat = 1;
-    zTextureRepeat = 1;
-}
+//HillStyle_t::HillStyle_t()
+//    : GameObjStyleBase(ObjShapes::hills)
+//{
+//    gameObjType = GameObjTypes::static_;
+//    mass = 0;
+//    setSize(1.0, 2.0, 1.0);
+//    xTiles = 15;
+//    zTiles = 15;
+//    xHills = 2;
+//    zHills = 1;
+//    xTextureRepeat = 1;
+//    zTextureRepeat = 1;
+//}
+//
+//PlaneStyle_t::PlaneStyle_t()
+//    : GameObjStyleBase(ObjShapes::plane, ObjShapes::mesh)
+//{
+//    gameObjType = GameObjTypes::static_;
+//    margin = 0.1;
+//    mass = 0;
+//    setSize(1.0f, 0.0f, 1.0f);
+//    xTiles = 15;
+//    zTiles = 15;
+//    xTextureRepeat = 1;
+//    zTextureRepeat = 1;
+//}
 
 //WallStyle::WallStyle()
 //{
@@ -96,4 +172,3 @@ PlaneStyle_t::PlaneStyle_t()
 //    gameObjType = GameObjTypes::soft;
 //}
 
-}}

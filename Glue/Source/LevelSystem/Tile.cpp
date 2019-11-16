@@ -3,6 +3,7 @@
 #include "Glue/LevelSystem/Tile.hpp"
 #include "irrlicht.h"
 #include "Glue/MeshTools/MeshTools.hpp"
+#include "Glue/Styles/GameObjStyles.hpp"
 
 using namespace std;
 using namespace boost;
@@ -19,7 +20,7 @@ namespace
 
     GameObjStyle TileStyle()
     {
-        HillStyle_t result;
+        GameObjStyle result = HillStyle();
 
         result.physShape = ObjShapes::mesh;
         result.dispShape = ObjShapes::mesh;
@@ -33,7 +34,7 @@ namespace
         // For debugging
         //setWireframe(true);
 
-        return GameObjStyle( HillStyle, result );
+        return result;
     }
 
     GameObjStyle WalkStyle()
@@ -67,11 +68,11 @@ Tile& Tile::refresh()
 
     auto walkStyle = WalkStyle();
 
-    walkStyle->setTextureFile("Media/boardwalk.png");
+    walkStyle.setTextureFile("Media/boardwalk.png");
             //.setPhysShape("mesh")
             //.setMesh(splitForWalkway);
-    walkStyle->physShape = ObjShapes::mesh;
-    walkStyle->mesh = splitForWalkway;
+    walkStyle.physShape = ObjShapes::mesh;
+    walkStyle.mesh = splitForWalkway;
 
     walkwayGameObj = graph->addNode(walkStyle);
 
@@ -98,9 +99,9 @@ Tile& Tile::refresh()
             //.setMesh(splitBackFromSky)
             //.setPhysShape("none");
 
-    backStyle->textureFile = "Media/mountaintop.jpg";
-    backStyle->mesh = splitBackFromSky;
-    backStyle->physShape = ObjShapes::none;
+    backStyle.textureFile = "Media/mountaintop.jpg";
+    backStyle.mesh = splitBackFromSky;
+    backStyle.physShape = ObjShapes::none;
 
     backGameObj = graph->addNode(backStyle);
 
@@ -118,9 +119,9 @@ Tile& Tile::refresh()
     );
 
     auto foreStyle = TileStyle();
-    foreStyle->textureFile = "Media/irrlicht2_dn.jpg";
-    foreStyle->mesh = splitFront;
-    foreStyle->physShape = ObjShapes::none;
+    foreStyle.textureFile = "Media/irrlicht2_dn.jpg";
+    foreStyle.mesh = splitFront;
+    foreStyle.physShape = ObjShapes::none;
 
     foreGameObj = graph->addNode(foreStyle);
 

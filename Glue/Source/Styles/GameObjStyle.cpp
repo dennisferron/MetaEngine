@@ -2,12 +2,21 @@
 
 namespace Glue {
 
-    GameObjStyleBase::GameObjStyleBase(ObjShapes shape)
-    : GameObjStyleBase(shape, shape)
+    GameObjStyle::GameObjStyle()
+    {
+    }
+
+    GameObjStyle::GameObjStyle(std::string proto_name)
+            : proto_name(proto_name)
+    {
+    }
+
+    GameObjStyle::GameObjStyle(ObjShapes shape)
+    : GameObjStyle(shape, shape)
 {
 }
 
-    GameObjStyleBase::GameObjStyleBase(ObjShapes dispShape, ObjShapes physShape)
+    GameObjStyle::GameObjStyle(ObjShapes dispShape, ObjShapes physShape)
     :   dispShape(dispShape),
         physShape(physShape),
         gameObjType(GameObjTypes::rigid)
@@ -116,149 +125,149 @@ namespace Glue {
     // If set to an Irrlicht mesh, display shape will use this mesh instead of the dispshape name.
     // (And if physShape name is "mesh", then physShape will be built from this mesh object.)
     // I will probably remove this field in a future version of the engine, because
-    // this field breaks the property of GameObjStyleBases that they describe 3D objects rather
+    // this field breaks the property of GameObjStyles that they describe 3D objects rather
     // than contain pieces of them (and that propery is desirable e.g. for things like
     // serialization of game objects).
     mesh = nullptr;
 }
 
 // Set x,y,z all at once
-GameObjStyleBase& GameObjStyleBase::setPos(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setPos(Scalar x, Scalar y, Scalar z)
 {
     this->x = x;
     this->y = y;
     this->z = z;
-    return *this;
+
 }
 
-std::tuple<Scalar, Scalar, Scalar> GameObjStyleBase::getPos() const
+std::tuple<Scalar, Scalar, Scalar> GameObjStyle::getPos() const
 {
     return std::make_tuple(x, y, z);
 }
 
 // Set xv, yv, zv all at once
-GameObjStyleBase& GameObjStyleBase::setVel(Scalar xv, Scalar yv, Scalar zv)
+void GameObjStyle::setVel(Scalar xv, Scalar yv, Scalar zv)
 {
     this->xv = xv;
     this->yv = yv;
     this->zv = zv;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setGravityType(GravityType gravityType)
+void GameObjStyle::setGravityType(GravityType gravityType)
 {
     this->gravityType = gravityType;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setGravity(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setGravity(Scalar x, Scalar y, Scalar z)
 {
     gravityType = GravityType::custom;
     gravityX = x;
     gravityY = y;
     gravityZ = z;
-    return *this;
+
 }
 
 
-GameObjStyleBase& GameObjStyleBase::setDamping(Scalar lin, Scalar ang)
+void GameObjStyle::setDamping(Scalar lin, Scalar ang)
 {
     linDamping = lin;
     angDamping = ang;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setSize(Scalar sz)
+void GameObjStyle::setSize(Scalar sz)
 {
     this->xSize = sz;
     this->ySize = sz;
     this->zSize = sz;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setSize(Scalar xSize, Scalar ySize, Scalar zSize)
+void GameObjStyle::setSize(Scalar xSize, Scalar ySize, Scalar zSize)
 {
     this->xSize = xSize;
     this->ySize = ySize;
     this->zSize = zSize;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setShape(ObjShapes s)
+void GameObjStyle::setShape(ObjShapes s)
 {
     physShape = s;
     dispShape = s;
-    return *this;
+
 }
 
 // Note:  This method puts alpha last as opposed to SColor which has it first.
-GameObjStyleBase& GameObjStyleBase::setColor(IntColor r, IntColor g, IntColor b, IntColor a)
+void GameObjStyle::setColor(IntColor r, IntColor g, IntColor b, IntColor a)
 {
     color = SColor(a, r, g, b);
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setColor(SColor c)
+void GameObjStyle::setColor(SColor c)
 {
     color = c;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setTextureFile(std::string value)
+void GameObjStyle::setTextureFile(std::string value)
 {
     textureFile = value;
     textureMap[TextureKeys::primary] = value;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setAxis(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setAxis(Scalar x, Scalar y, Scalar z)
 {
     axisX = x;
     axisY = y;
     axisZ = z;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setLinearFactor(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setLinearFactor(Scalar x, Scalar y, Scalar z)
 {
     linFactorX = x;
     linFactorY = y;
     linFactorZ = z;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setAngularFactor(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setAngularFactor(Scalar x, Scalar y, Scalar z)
 {
     angFactorX = x;
     angFactorY = y;
     angFactorZ = z;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setDispScale(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setDispScale(Scalar x, Scalar y, Scalar z)
 {
     dispScaleX = x;
     dispScaleY = y;
     dispScaleZ = z;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setPhysScale(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setPhysScale(Scalar x, Scalar y, Scalar z)
 {
     physScaleX = x;
     physScaleY = y;
     physScaleZ = z;
-    return *this;
+
 }
 
-GameObjStyleBase& GameObjStyleBase::setScale(Scalar x, Scalar y, Scalar z)
+void GameObjStyle::setScale(Scalar x, Scalar y, Scalar z)
 {
     setDispScale(x, y, z);
     setPhysScale(x, y, z);
-    return *this;
+
 }
 
-bool GameObjStyleBase::isMouseDraggable() const
+bool GameObjStyle::isMouseDraggable() const
 {
     return mesh != 0;
 }

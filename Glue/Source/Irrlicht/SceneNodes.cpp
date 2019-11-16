@@ -12,7 +12,7 @@ namespace Glue { namespace Irrlicht {
     irr::video::ITexture* SceneNodes::loadTexture(GameObjStyle style, std::string const& key)
     {
         throw "Implement conversion from string to texture keys enum, or change signature of this function.";
-        //assets->loadTextureFromFile(style->textureMap[key]);
+        //assets->loadTextureFromFile(style.textureMap[key]);
     }
 
     irr::scene::ISceneNode* SceneNodes::skybox(GameObjStyle style)
@@ -36,9 +36,9 @@ namespace Glue { namespace Irrlicht {
               shape,  // mesh
               nullptr, // parent
               0,         // id
-              vector3df(style->x, style->y, -style->z),    // position
+              vector3df(style.x, style.y, -style.z),    // position
               vector3df(0, 0, 0),    // rotation
-              vector3df(style->dispScaleX, style->dispScaleY, style->dispScaleZ), // scale
+              vector3df(style.dispScaleX, style.dispScaleY, style.dispScaleZ), // scale
               false  // alsoAddIfMeshPointerZero
         );
     }

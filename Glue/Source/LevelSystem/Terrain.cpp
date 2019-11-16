@@ -75,12 +75,11 @@ namespace Glue {
             );
 
             /*GameObjStyles::BallStyle*/ NodeStyle controlPointStyle;
-            controlPointStyle
                     //.setPhysShape("none")
-                    ->setSize(0.5)
+            controlPointStyle.setSize(0.5);
                     //.setIsMouseDraggable(true)
-                    .setPos(cpx, cpy, h);
-            controlPointStyle->physShape = ObjShapes::none;
+            controlPointStyle.setPos(cpx, cpy, h);
+            controlPointStyle.physShape = ObjShapes::none;
 
             graph->addNode(controlPointStyle);
         }
