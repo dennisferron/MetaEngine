@@ -135,7 +135,7 @@ add_library(Glue
         Source/Bullet/ShapeOffsets.cpp
         Source/Desteer/Desteer.cpp
         Source/Desteer/Steering.cpp
-        Source/EditorGUI/IrrlichtComponent.cpp
+        Source/EditorGUI/EditorGUIComponent.cpp
         Source/EditorGUI/EditorGUI.cpp
         Source/EditorGUI/Toolbar.cpp
         Source/Interactions/Component/AvatarTime.cpp
@@ -171,7 +171,7 @@ add_library(Glue
         Source/Irrlicht/UserInterface/UserInterface.cpp
         Source/Irrlicht/Assets.cpp
         Source/Irrlicht/Camera.cpp
-        Source/Irrlicht/EditorGUIComponent.cpp
+        Source/Irrlicht/IrrlichtComponent.cpp
         Source/Irrlicht/DisplayShapes.cpp
         Source/Irrlicht/Irrlicht.cpp
         Source/Irrlicht/NodeAttribute.cpp
@@ -214,9 +214,11 @@ add_library(Glue
         Source/UserInterface/UserInterfaceRepresentation.cpp
         Source/Glue.cpp
         Source/Startup.cpp
-        Include/Glue/Model/Object.hpp Include/Glue/ModelImpl/GraphImpl.hpp Source/ModelImpl/GraphImpl.cpp Include/Glue/ADT/variant_ptr.hpp)
+        Include/Glue/Model/Object.hpp
+        Include/Glue/ADT/variant_ptr.hpp
+)
 
-# Note:  Order libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
+# Note:  Order of libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
 #  I'm less sure about the order of the rest of the Bullet libraries.
 target_link_libraries( Glue PUBLIC
         ThinPlateSpline

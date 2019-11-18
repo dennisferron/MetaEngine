@@ -3,6 +3,7 @@
 namespace Glue {
 
     GameObjStyle::GameObjStyle()
+        : GameObjStyle(ObjShapes::ball, ObjShapes::ball)
     {
     }
 

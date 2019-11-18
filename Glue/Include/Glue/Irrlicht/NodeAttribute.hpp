@@ -9,40 +9,43 @@
 
 #include "Glue/Styles/GameObjStyle.hpp"
 
-namespace Glue { namespace Irrlicht {
+namespace Glue::Irrlicht {
 
-class Node;
+    class Node;
 
-class NodeAttribute
-{
-private:
+    class NodeAttribute
+    {
+    private:
 
-    GameObjStyle style;
-    irr::video::ITexture* texture;
-    irr::scene::ISceneNode* sceneNode;
-    irr::scene::ISceneNodeAnimator* motionState;
-    irr::scene::IMesh* dispShape;
-    int flagBits;
-    bool isMouseDraggable;
+        GameObjStyle style;
+        irr::video::ITexture *texture;
+        irr::scene::ISceneNode *sceneNode;
+        irr::scene::ISceneNodeAnimator *motionState;
+        irr::scene::IMesh *dispShape;
+        int flagBits;
+        bool isMouseDraggable;
 
-    NodeAttribute& setFlagBit(int pos, bool state);
+        NodeAttribute &setFlagBit(int pos, bool state);
 
-public:
+    public:
 
-    NodeAttribute& setMotionState(irr::scene::ISceneNodeAnimator* value);
-    NodeAttribute& setDispShape(irr::scene::IMesh* value);
-    NodeAttribute& setIsMouseDraggable(bool state=true);
+        NodeAttribute &setMotionState(irr::scene::ISceneNodeAnimator *value);
 
-    void addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim);
-    void addChild(NodeAttribute* otherObj);
+        NodeAttribute &setDispShape(irr::scene::IMesh *value);
 
-    irr::core::vector3df getPos() const;
+        NodeAttribute &setIsMouseDraggable(bool state = true);
 
-    void triggerAllGenerators(std::function<void(Node*)> onTrigger);
+        void addKinematicAnimator(irr::scene::ISceneNodeAnimator *anim);
 
-    void lockTo(Node* otherObj);
+        void addChild(NodeAttribute *otherObj);
 
-    ~NodeAttribute();
-};
+        irr::core::vector3df getPos() const;
 
-}}
+        void triggerAllGenerators(std::function<void(Node *)> onTrigger);
+
+        void lockTo(Node *otherObj);
+
+        ~NodeAttribute();
+    };
+
+}

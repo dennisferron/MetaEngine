@@ -67,6 +67,11 @@ namespace Glue::Irrlicht {
     IrrlichtComponent::~IrrlichtComponent()
     {
     }
+
+    void IrrlichtComponent::addNode(Glue::Node* node)
+    {
+
+    }
 }
 
 //method(module, namespace_irr, namespace_Custom, MainWindow, PredefinedValues, ScriptUtil,

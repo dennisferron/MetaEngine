@@ -17,6 +17,8 @@ class NodeAttribute
 
 class Node
 {
+
+
 public:
     Graph* graph;
     GameObjStyle const* style;

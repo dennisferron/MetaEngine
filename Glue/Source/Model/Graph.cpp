@@ -36,11 +36,14 @@ Graph::~Graph()
 
 Node* Graph::addNode(NodeStyle const& style)
 {
-    throw "TODO:  memory management for style, should it be passed by value or by pointer?";
     Node* node = new Node(&style);
     node->setGraph(this);
 
-    throw "TODO:  base class for components having addNode";
+    nodes.push_back(node);
+
+    blt_cmp.addNode(node);
+    irr_cmp.addNode(node);
+
     //for (auto c : components)
     //    c->addNode(node);
 
