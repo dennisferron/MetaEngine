@@ -13,7 +13,7 @@ namespace Glue::Irrlicht {
 
     class Node;
 
-    class NodeAttribute
+    class IrrlichtAttribute
     {
     private:
 
@@ -25,15 +25,15 @@ namespace Glue::Irrlicht {
         int flagBits;
         bool isMouseDraggable;
 
-        NodeAttribute &setFlagBit(int pos, bool state);
+        void setFlagBit(int pos, bool state);
 
     public:
 
-        NodeAttribute &setMotionState(irr::scene::ISceneNodeAnimator *value);
+        void setMotionState(irr::scene::ISceneNodeAnimator *value);
 
-        NodeAttribute &setDispShape(irr::scene::IMesh *value);
+        void setDispShape(irr::scene::IMesh *value);
 
-        NodeAttribute &setIsMouseDraggable(bool state = true);
+        void setIsMouseDraggable(bool state = true);
 
         void addKinematicAnimator(irr::scene::ISceneNodeAnimator *anim);
 
@@ -45,7 +45,7 @@ namespace Glue::Irrlicht {
 
         void lockTo(Node *otherObj);
 
-        ~NodeAttribute();
+        ~IrrlichtAttribute();
     };
 
 }

@@ -4,7 +4,7 @@
 
 #include "Glue/Constants.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Bullet/NodeAttribute.hpp"
+#include "Glue/Bullet/BulletAttribute.hpp"
 
 #include <functional>
 #include <memory>
@@ -43,7 +43,7 @@ public:
     void onGraphics(Scalar timeElapsed);
     void removeConstraint(ConstraintObj* constraint);
     ConstraintObj* addConstraint(LinkStyle* style, btRigidBody& attrA, btRigidBody& attrB);
-    NodeAttribute* addNode(Node* node);
+    BulletAttribute* addNode(Node* node);
 };
 
 }}

@@ -39,7 +39,7 @@ namespace Glue { namespace Bullet {
         ConstraintObj *BulletComponent::addConstraint(LinkStyle *style, btRigidBody &attrA, btRigidBody &attrB)
         { throw "Not implemented."; }
 
-        NodeAttribute *BulletComponent::addNode(Node *node)
+        BulletAttribute *BulletComponent::addNode(Node *node)
         { throw "Not implemented."; }
 
 }}
@@ -50,7 +50,7 @@ method(module, namespace_Bullet, namespace_Custom,
     Component := Object clone lexicalDo(
 
         module := module
-        NodeAttribute := module NodeAttribute
+        BulletAttribute := module BulletAttribute
 
         appendProto(namespace_Custom)
         appendProto(namespace_Bullet)
@@ -74,8 +74,8 @@ method(module, namespace_Bullet, namespace_Custom,
 
         addLink := method(link,
             if( link style jointType != "none" and module ConstraintBuilder hasSlot(link style jointType),
-                attrA := link fromNode ?findAttribute(NodeAttribute)
-                attrB := link toNode ?findAttribute(NodeAttribute)
+                attrA := link fromNode ?findAttribute(BulletAttribute)
+                attrB := link toNode ?findAttribute(BulletAttribute)
 
                 if( attrA == nil and attrB == nil,
                     writeln("Link style " .. (
@@ -220,7 +220,7 @@ method(module, namespace_Bullet, namespace_Custom,
             body := result body
             motionState := result anim
             node addAttribute(
-                NodeAttribute clone setStyle(style) setRigidBody(body) setMotionState(motionState)
+                BulletAttribute clone setStyle(style) setRigidBody(body) setMotionState(motionState)
             )
         )
     )

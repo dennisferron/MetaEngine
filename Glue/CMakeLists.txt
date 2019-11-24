@@ -18,14 +18,14 @@ add_library(Glue
         Include/Glue/Avatar/Camera.hpp
         Include/Glue/Avatar/AvatarComponent.hpp
         Include/Glue/Avatar/KeyInputs.hpp
-        Include/Glue/Avatar/NodeAttribute.hpp
+        Include/Glue/Avatar/AvatarNodeAttribute.hpp
         Include/Glue/Avatar/PlayerStyle.hpp
         Include/Glue/Bullet/BodyBuilder.hpp
         Include/Glue/Bullet/Bullet.hpp
         Include/Glue/Bullet/BulletComponent.hpp
         Include/Glue/Bullet/ConstraintBuilder.hpp
         Include/Glue/Bullet/ConstraintObj.hpp
-        Include/Glue/Bullet/NodeAttribute.hpp
+        Include/Glue/Bullet/BulletNodeAttribute.hpp
         Include/Glue/Bullet/PhysicsConstraints.hpp
         Include/Glue/Bullet/PhysicsShapes.hpp
         Include/Glue/Bullet/Sense.hpp
@@ -72,7 +72,7 @@ add_library(Glue
         Include/Glue/Irrlicht/IrrlichtComponent.hpp
         Include/Glue/Irrlicht/DisplayShapes.hpp
         Include/Glue/Irrlicht/Irrlicht.hpp
-        Include/Glue/Irrlicht/NodeAttribute.hpp
+        Include/Glue/Irrlicht/IrrlichtNodeAttribute.hpp
         Include/Glue/Irrlicht/SceneNodeBuilder.hpp
         Include/Glue/Irrlicht/SceneNodes.hpp
         Include/Glue/Irrlicht/ShapeBuilder.hpp
@@ -174,7 +174,7 @@ add_library(Glue
         Source/Irrlicht/IrrlichtComponent.cpp
         Source/Irrlicht/DisplayShapes.cpp
         Source/Irrlicht/Irrlicht.cpp
-        Source/Irrlicht/NodeAttribute.cpp
+        Source/Irrlicht/IrrlichtNodeAttribute.cpp
         Source/Irrlicht/SceneNodeBuilder.cpp
         Source/Irrlicht/SceneNodes.cpp
         Source/Irrlicht/ShapeBuilder.cpp

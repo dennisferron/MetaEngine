@@ -1,41 +1,41 @@
-#include "Glue/Bullet/NodeAttribute.hpp"
+#include "Glue/Bullet/BulletAttribute.hpp"
 
 #include <vector>
 #include <functional>
 
 namespace Glue { namespace Bullet {
 
-class NodeAttribute::Impl
+class BulletAttribute::Impl
 {
 };
 
-    NodeAttribute::NodeAttribute(Node* node) {}
-        NodeAttribute::~NodeAttribute() {}
+    BulletAttribute::BulletAttribute(Node* node) {}
+        BulletAttribute::~BulletAttribute() {}
 
-    void NodeAttribute::setLinearVelocity(Scalar xv, Scalar yv, Scalar zv) {}
-    void NodeAttribute::setAngularVelocity(Scalar xv, Scalar yv, Scalar zv) {}
-    btVector3 const& NodeAttribute::getAngularVelocity() const { throw "not implemented"; }
-    btVector3 const& NodeAttribute::getLinearVelocity() const { throw "not implemented"; }
-    void NodeAttribute::addChild(Node* otherObj) {}
-    void NodeAttribute::disableSleepState() {}
-    Scalar NodeAttribute::getRotZ() { throw "not implemented"; }
-    btVector3 const& NodeAttribute::getPos() { throw "not implemented"; }
-    void NodeAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger) {}
-    void NodeAttribute::lockTo(Node* otherObj) {}
-    void NodeAttribute::applyForceTowards(btVector3 const& targetPos, Scalar scalar, Scalar maxForce) {}
-    void NodeAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
+    void BulletAttribute::setLinearVelocity(Scalar xv, Scalar yv, Scalar zv) {}
+    void BulletAttribute::setAngularVelocity(Scalar xv, Scalar yv, Scalar zv) {}
+    btVector3 const& BulletAttribute::getAngularVelocity() const { throw "not implemented"; }
+    btVector3 const& BulletAttribute::getLinearVelocity() const { throw "not implemented"; }
+    void BulletAttribute::addChild(Node* otherObj) {}
+    void BulletAttribute::disableSleepState() {}
+    Scalar BulletAttribute::getRotZ() { throw "not implemented"; }
+    btVector3 const& BulletAttribute::getPos() { throw "not implemented"; }
+    void BulletAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger) {}
+    void BulletAttribute::lockTo(Node* otherObj) {}
+    void BulletAttribute::applyForceTowards(btVector3 const& targetPos, Scalar scalar, Scalar maxForce) {}
+    void BulletAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
                           Scalar scalar, Scalar maxForce, Scalar maxVerticalForce) {}
-    void NodeAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
+    void BulletAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
                           Scalar scalar, Scalar maxForce) {}
-    void NodeAttribute::applyCentralForce(Scalar x, Scalar y, Scalar z) {}
-    void NodeAttribute::applyCentralImpulse(Scalar x, Scalar y, Scalar z) {}
-    void NodeAttribute::applyTorque(Scalar x, Scalar y, Scalar z) {}
-    void NodeAttribute::applyTorqueImpulse(Scalar x, Scalar y, Scalar z) {}
-    void NodeAttribute::fallApart(std::vector<NodeAttribute*> visited,
-                   std::vector<NodeAttribute*> removed) {}
-    void NodeAttribute::structureDoForEachObject(
-            std::function<void(NodeAttribute*)> code,
-            std::vector<NodeAttribute*> visited) {}
+    void BulletAttribute::applyCentralForce(Scalar x, Scalar y, Scalar z) {}
+    void BulletAttribute::applyCentralImpulse(Scalar x, Scalar y, Scalar z) {}
+    void BulletAttribute::applyTorque(Scalar x, Scalar y, Scalar z) {}
+    void BulletAttribute::applyTorqueImpulse(Scalar x, Scalar y, Scalar z) {}
+    void BulletAttribute::fallApart(std::vector<BulletAttribute*> visited,
+                   std::vector<BulletAttribute*> removed) {}
+    void BulletAttribute::structureDoForEachObject(
+            std::function<void(BulletAttribute*)> code,
+            std::vector<BulletAttribute*> visited) {}
 
 }}
 
@@ -43,7 +43,7 @@ class NodeAttribute::Impl
 
 method(namespace_Bullet, namespace_Custom,
 
-    NodeAttribute := Object clone lexicalDo(
+    BulletAttribute := Object clone lexicalDo(
         appendProto(namespace_Bullet)
         appendProto(namespace_Custom)
 

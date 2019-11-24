@@ -2,8 +2,8 @@
 
 #include <memory>
 
-namespace Glue {
-    class Attribute;
+namespace Glue::Irrlicht {
+    class IrrlichtAttribute;
 }
 
 namespace Glue { namespace Irrlicht {
@@ -18,8 +18,8 @@ public:
     SceneNodeSelector();
     ~SceneNodeSelector();
 
-    void select(Attribute* attr);
-    void deselect(Attribute* attr);
+    void select(IrrlichtAttribute* attr);
+    void deselect(IrrlichtAttribute* attr);
 };
 
 }}

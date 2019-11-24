@@ -13,4 +13,4 @@
 
 #include "IrrlichtComponent.hpp"
 
-#include "NodeAttribute.hpp"
+#include "IrrlichtAttribute.hpp"

@@ -2,7 +2,7 @@
 
 namespace Glue { namespace Irrlicht {
     class MouseDragLinkAttribute;
-    class NodeAttribute;
+    class IrrlichtAttribute;
 }}
 
 namespace Glue {
@@ -11,13 +11,13 @@ class IrrlichtMouseDrag
 {
 private:
     Irrlicht::MouseDragLinkAttribute* mouseAttr;
-    Irrlicht::NodeAttribute* irrAttr;
+    Irrlicht::IrrlichtAttribute* irrAttr;
 
 public:
 
     IrrlichtMouseDrag(
         Irrlicht::MouseDragLinkAttribute* mouseAttr,
-        Irrlicht::NodeAttribute* irrAttr);
+        Irrlicht::IrrlichtAttribute* irrAttr);
     ~IrrlichtMouseDrag();
 };
 

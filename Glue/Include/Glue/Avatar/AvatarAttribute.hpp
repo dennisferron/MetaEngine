@@ -4,15 +4,15 @@
 
 namespace Glue { namespace Avatar {
 
-class NodeAttribute
+class AvatarAttribute
 {
 private:
     class Impl;
     std::unique_ptr<Impl> impl;
 
 public:
-    NodeAttribute();
-    ~NodeAttribute();
+    AvatarAttribute();
+    ~AvatarAttribute();
 
     bool canJump();
     void dive();

@@ -1,7 +1,7 @@
 #pragma once
 
 namespace Glue { namespace Irrlicht {
-    class NodeAttribute;
+    class IrrlichtAttribute;
 }}
 
 namespace Glue {
@@ -9,7 +9,7 @@ namespace Glue {
 class AddScriptObjAnim
 {
 public:
-    AddScriptObjAnim(Irrlicht::NodeAttribute* dispAttr);
+    AddScriptObjAnim(Irrlicht::IrrlichtAttribute* dispAttr);
     void enter();
 };
 

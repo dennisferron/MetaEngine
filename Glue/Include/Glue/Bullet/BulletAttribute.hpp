@@ -13,7 +13,7 @@ namespace Glue {
 
 namespace Glue { namespace Bullet {
 
-class NodeAttribute
+class BulletAttribute
 {
 private:
     class Impl;
@@ -21,8 +21,8 @@ private:
 
 public:
 
-    NodeAttribute(Node* node);
-    ~NodeAttribute();
+    BulletAttribute(Node* node);
+    ~BulletAttribute();
 
     void setLinearVelocity(Scalar xv, Scalar yv, Scalar zv);
     void setAngularVelocity(Scalar xv, Scalar yv, Scalar zv);
@@ -43,11 +43,11 @@ public:
     void applyCentralImpulse(Scalar x, Scalar y, Scalar z);
     void applyTorque(Scalar x, Scalar y, Scalar z);
     void applyTorqueImpulse(Scalar x, Scalar y, Scalar z);
-    void fallApart(std::vector<NodeAttribute*> visited,
-                   std::vector<NodeAttribute*> removed);
+    void fallApart(std::vector<BulletAttribute*> visited,
+                   std::vector<BulletAttribute*> removed);
     void structureDoForEachObject(
-                    std::function<void(NodeAttribute*)> code,
-                    std::vector<NodeAttribute*> visited);
+                    std::function<void(BulletAttribute*)> code,
+                    std::vector<BulletAttribute*> visited);
 };
 
 }}

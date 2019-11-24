@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Glue/Bullet/NodeAttribute.hpp"
-#include "Glue/Irrlicht/NodeAttribute.hpp"
+#include "Glue/Bullet/BulletAttribute.hpp"
+#include "Glue/Irrlicht/IrrlichtAttribute.hpp"
 
 namespace Glue {
 
 class MotionState
 {
 public:
-    MotionState(Bullet::NodeAttribute* physRep, Irrlicht::NodeAttribute* dispRep);
+    MotionState(Bullet::BulletAttribute* physRep, Irrlicht::IrrlichtAttribute* dispRep);
 };
 
 }

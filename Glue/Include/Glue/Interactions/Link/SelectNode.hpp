@@ -1,7 +1,7 @@
 #pragma once
 
 namespace Glue { namespace Irrlicht {
-    class NodeAttribute;
+    class IrrlichtAttribute;
     class SceneNodeSelector;
 }}
 
@@ -11,12 +11,12 @@ class SelectNode
 {
 private:
     Irrlicht::SceneNodeSelector* selector;
-    Irrlicht::NodeAttribute* dispAttr;
+    Irrlicht::IrrlichtAttribute* dispAttr;
 
 public:
 
     SelectNode(Irrlicht::SceneNodeSelector* selector,
-               Irrlicht::NodeAttribute* dispAttr);
+               Irrlicht::IrrlichtAttribute* dispAttr);
     ~SelectNode();
 };
 

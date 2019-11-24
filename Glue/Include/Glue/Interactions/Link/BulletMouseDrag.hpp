@@ -2,7 +2,7 @@
 
 namespace Glue { namespace Irrlicht {
     class MouseDragLinkAttribute;
-    class NodeAttribute;
+    class IrrlichtAttribute;
 }}
 
 namespace Glue { namespace Bullet {

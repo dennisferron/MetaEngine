@@ -1,61 +1,61 @@
-#include "Glue/Irrlicht/NodeAttribute.hpp"
+#include "Glue/Irrlicht/IrrlichtAttribute.hpp"
 
 namespace Glue { namespace Irrlicht {
 
-        NodeAttribute& NodeAttribute::setFlagBit(int pos, bool state)
+        IrrlichtAttribute& IrrlichtAttribute::setFlagBit(int pos, bool state)
         {
             throw "Not implemented";
         }
 
-        NodeAttribute& NodeAttribute::setMotionState(irr::scene::ISceneNodeAnimator* value)
-        {
-            throw "Not implemented";
-
-        }
-
-        NodeAttribute& NodeAttribute::setDispShape(irr::scene::IMesh* value)
+        IrrlichtAttribute& IrrlichtAttribute::setMotionState(irr::scene::ISceneNodeAnimator* value)
         {
             throw "Not implemented";
 
         }
 
-        NodeAttribute& NodeAttribute::setIsMouseDraggable(bool state)
+        IrrlichtAttribute& IrrlichtAttribute::setDispShape(irr::scene::IMesh* value)
         {
             throw "Not implemented";
 
         }
 
-        void NodeAttribute::addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim)
+        IrrlichtAttribute& IrrlichtAttribute::setIsMouseDraggable(bool state)
         {
             throw "Not implemented";
 
         }
 
-        void NodeAttribute::addChild(NodeAttribute* otherObj)
-        {
-
-            throw "Not implemented";
-        }
-
-        irr::core::vector3df NodeAttribute::getPos() const
+        void IrrlichtAttribute::addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim)
         {
             throw "Not implemented";
 
         }
 
-        void NodeAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger)
+        void IrrlichtAttribute::addChild(IrrlichtAttribute* otherObj)
+        {
+
+            throw "Not implemented";
+        }
+
+        irr::core::vector3df IrrlichtAttribute::getPos() const
         {
             throw "Not implemented";
 
         }
 
-        void NodeAttribute::lockTo(Node* otherObj)
+        void IrrlichtAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger)
         {
             throw "Not implemented";
 
         }
 
-        NodeAttribute::~NodeAttribute()
+        void IrrlichtAttribute::lockTo(Node* otherObj)
+        {
+            throw "Not implemented";
+
+        }
+
+        IrrlichtAttribute::~IrrlichtAttribute()
         {
         }
 

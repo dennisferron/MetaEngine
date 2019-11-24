@@ -1,38 +1,38 @@
-#include "Glue/Avatar/NodeAttribute.hpp"
+#include "Glue/Avatar/AvatarAttribute.hpp"
 
 namespace Glue { namespace Avatar {
 
 
-    class NodeAttribute::Impl
+    class AvatarAttribute::Impl
     {
     };
 
-    NodeAttribute::NodeAttribute()
+    AvatarAttribute::AvatarAttribute()
     {
     }
 
-    NodeAttribute::~NodeAttribute()
+    AvatarAttribute::~AvatarAttribute()
     {
     }
 
-    bool NodeAttribute::canJump()
+    bool AvatarAttribute::canJump()
     {
         return true;
     }
 
-    void NodeAttribute::dive()
+    void AvatarAttribute::dive()
     {
     }
 
-    void NodeAttribute::jump()
+    void AvatarAttribute::jump()
     {
     }
 
-    void NodeAttribute::right()
+    void AvatarAttribute::right()
     {
     }
 
-    void NodeAttribute::left()
+    void AvatarAttribute::left()
     {
     }
 
@@ -42,7 +42,7 @@ namespace Glue { namespace Avatar {
 //
 //method(namespace_Bullet, namespace_irr, namespace_Custom,
 //
-//    NodeAttribute := Object clone lexicalDo(
+//    AvatarAttribute := Object clone lexicalDo(
 //
 //        appendProto(namespace_Bullet)
 //        appendProto(namespace_irr)
