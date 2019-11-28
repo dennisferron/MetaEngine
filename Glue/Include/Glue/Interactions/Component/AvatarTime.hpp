@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Glue/Model/Time.hpp"
+#include "Glue/Model/TimeComponent.hpp"
 #include "Glue/Avatar/AvatarComponent.hpp"
 
 namespace Glue {
@@ -9,12 +9,12 @@ class AvatarTime
 {
 private:
     Avatar::AvatarComponent* avComp;
-    Time* time;
+    TimeComponent* time;
 
 public:
     AvatarTime(
-        Avatar::AvatarComponent* avComp,
-        Time* time
+            Avatar::AvatarComponent* avComp,
+            TimeComponent* time
     );
     ~AvatarTime();
 };

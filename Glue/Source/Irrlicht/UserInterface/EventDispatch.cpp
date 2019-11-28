@@ -1,5 +1,14 @@
 #include "Glue/Irrlicht/UserInterface/EventDispatch.hpp"
 
+namespace Glue::Irrlicht {
+
+    struct EventDispatch::Impl
+    {
+    };
+
+
+}
+
 /*
 
 method(namespace_irr, EnumMap,

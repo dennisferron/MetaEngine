@@ -21,6 +21,7 @@
 #include "Glue/Bullet/BulletComponent.hpp"
 #include "Glue/EditorGUI/EditorGUIComponent.hpp"
 #include "Glue/Irrlicht/IrrlichtComponent.hpp"
+#include "Glue/Model/TimeComponent.hpp"
 
 #include <vector>
 #include <string>
@@ -34,12 +35,22 @@ namespace Glue {
     class Graph
     {
     private:
-        Bullet::BulletComponent blt_cmp;
-        Irrlicht::IrrlichtComponent irr_cmp;
+        Avatar::AvatarComponent* avatar_cmp;
+        Bullet::BulletComponent* blt_cmp;
+        Irrlicht::IrrlichtComponent* irr_cmp;
+        TimeComponent* time_cmp;
 
         std::vector<Node*> nodes;
 
     public:
+
+        Graph(
+                Avatar::AvatarComponent* avatar_cmp,
+                Bullet::BulletComponent* blt_cmp,
+                Irrlicht::IrrlichtComponent* irr_cmp,
+                TimeComponent* time_cmp);
+
+        ~Graph();
 
         Node *addNode(NodeStyle const &style);
 
@@ -51,14 +62,10 @@ namespace Glue {
 
         void addComponent(Component *newComp);
 
-        Graph();
-
         // Deprecated?  Not sure...
         void playSound(std::string const &file);
 
         void createCamera(Node *lockObj);
-
-        ~Graph();
 
         void removeConstraint(Constraint *constraint);
 

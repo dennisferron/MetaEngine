@@ -22,39 +22,43 @@
 #include "Glue/Irrlicht/Camera.hpp"
 #include "Glue/Irrlicht/SceneNodeBuilder.hpp"
 
+using namespace irr;
+using namespace irr::core;
+using namespace irr::video;
+
 namespace Glue::Irrlicht {
 
     struct IrrlichtComponent::Impl
     {
         std::string mediaPath;
 
-        Event* events;
-        EventDispatch* eventDispatch;
-        Keyboard* keyboard;
-        Mouse* mouse;
-        GuiEvents* guiEvents;
+        Event* events = nullptr;
+        EventDispatch* eventDispatch = nullptr;
+        Keyboard* keyboard = nullptr;
+        Mouse* mouse = nullptr;
+        GuiEvents* guiEvents = nullptr;
 
-        irr::IrrlichtDevice* device;
-        irr::video::IVideoDriver* driver;
-        irr::scene::ISceneManager* smgr;
-        irr::video::SExposedVideoData* videoData;
-        Assets* assets;
+        irr::IrrlichtDevice* device = nullptr;
+        irr::video::IVideoDriver* driver = nullptr;
+        irr::scene::ISceneManager* smgr = nullptr;
+        irr::video::SExposedVideoData* videoData = nullptr;
+        Assets* assets = nullptr;
 
-        void* sound;
-        irr::gui::IGUIEnvironment* gui;
-        irr::scene::ISceneCollisionManager* collMan;
-        irr::scene::IMeshManipulator* meshMan;
+        void* sound = nullptr;
+        irr::gui::IGUIEnvironment* gui = nullptr;
+        irr::scene::ISceneCollisionManager* collMan = nullptr;
+        irr::scene::IMeshManipulator* meshMan = nullptr;
 
-        SceneNodeBuilder* sceneNodeBuilder;
+        SceneNodeBuilder* sceneNodeBuilder = nullptr;
 
         // window title
         std::string title;
 
-        irr::ITimer* deviceTimer;
+        irr::ITimer* deviceTimer = nullptr;
         long frames;
         irr::video::SColor backColor;
 
-        Camera* camera;
+        Camera* camera = nullptr;
 
         Graph* graph;
     };
@@ -62,10 +66,100 @@ namespace Glue::Irrlicht {
     IrrlichtComponent::IrrlichtComponent() :
         impl(new IrrlichtComponent::Impl())
     {
+        // TODO:  Connect with event dispatch from UserInterface component.
+
+//            setEventDispatch(UserInterface EventDispatch clone)
+//            setEvents(eventDispatch eventReceiver)
+
+        // TODO:  Configure GuiEvents
+//            setGuiEvents(UserInterface GuiEvents clone)
+//            eventDispatch addHandler(EET_GUI_EVENT,
+//                block(event,
+//                    guiEvents handle(event)
+//                )
+//            )
+
+        u32 MainWindow_sizeX = 800;
+        u32 MainWindow_sizeY = 600;
+        auto windowSize = dimension2du(MainWindow_sizeX, MainWindow_sizeY);
+        auto deviceType =  EDT_OPENGL; // or EDT_BURNINGSVIDEO, EDT_SOFTWARE, EDT_NULL
+        impl->device = createDevice(deviceType, windowSize, 16, false, false, false, nullptr /* events */);
+
+        if (!impl->device)
+            throw std::runtime_error("Failed to create irrlicht device");
+
+        impl->deviceTimer = impl->device->getTimer();
+        impl->driver = impl->device->getVideoDriver();
+
+        //            setAssets(module Assets clone setAssetPath(mediaPath) setDriver(driver))
+
+        impl->smgr = impl->device->getSceneManager();
+
+        impl->camera = new Camera(impl->smgr, impl->driver);
+        camera->createNode();
+
+        //            shapeBuilder := module ShapeBuilder clone setDisplayShapes(
+//                module DisplayShapes clone setGeometry(
+//                    smgr getGeometryCreator
+//                )
+//            )
+//
+//            sceneNodes := module SceneNodes clone setSmgr(smgr)
+//            setSceneNodeBuilder(
+//                module SceneNodeBuilder clone setAssets(assets) setShapeBuilder(shapeBuilder) setSceneNodes(
+//                    sceneNodes setAssets(assets)
+//                )
+//            )
+//
+//            setVideoData(SExposedVideoData tmp)
+//
+//            //if( CppFunc hasSlot("createIrrKlangDevice"),
+//            //	setSound(CppFunc createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS, nil, IRR_KLANG_VERSION))
+//            //)
+//
+//            smgr addLightSceneNode(
+//                nil, // parent
+//                vector3df tmpWithXYZ(0, 500, -50), // position
+//                SColorf tmpWithRGBA(1,1,1,1), // color
+//                200, // radius
+//                0 // id
+//            )
+//
+//            smgr setAmbientLight(SColorf tmpWithRGBA(0.2, 0.2, 0.2, 0.2))
+//
+//            setGui(device getGUIEnvironment)
+//
+//            setCollMan(smgr getSceneCollisionManager)
+//            setMeshMan(smgr getMeshManipulator)
+//
+//            setTitle(ScriptUtil get_string(driver getName wchar_to_string) .. "  FPS: ")
+//
+//            setKeyboard(module UserInterface Keyboard clone)
+//            eventDispatch addHandler(EET_KEY_INPUT_EVENT,
+//                block(event,
+//                    keyboard handle(event)
+//                )
+//            )
+//
+//            setMouse(module UserInterface Mouse clone)
+//            mouse setGui(gui)
+//            mouse setCollMan(collMan)
+//            mouse setDriver(driver)
+//            mouse setIrrComp(self)
+//            eventDispatch addHandler(EET_MOUSE_INPUT_EVENT,
+//                block(event,
+//                    mouse handle(event)
+//                )
+//            )
     }
 
     IrrlichtComponent::~IrrlichtComponent()
     {
+    }
+
+    irr::ITimer* IrrlichtComponent::get_deviceTimer()
+    {
+        return impl->deviceTimer;
     }
 
     void IrrlichtComponent::addNode(Glue::Node* node)

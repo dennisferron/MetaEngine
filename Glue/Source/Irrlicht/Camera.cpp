@@ -1,5 +1,11 @@
 #include "Glue/Irrlicht/Camera.hpp"
 
+namespace Glue::Irrlicht {
+
+    Camera(
+            irr::scene::ISceneManager* smgr,
+    irr::IrrlichtDevice* driver);
+
 //
 //
 //method(namespace_irr, Constants,
@@ -109,3 +115,6 @@
 //return Camera
 //
 //)
+
+
+}

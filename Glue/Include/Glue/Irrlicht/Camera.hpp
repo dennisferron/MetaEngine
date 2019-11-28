@@ -26,6 +26,9 @@ private:
     Scalar distZ;
 
 public:
+    Camera(
+        irr::scene::ISceneManager* smgr,
+        irr::IrrlichtDevice* driver);
     void createNode();
     void update();
     void draw();

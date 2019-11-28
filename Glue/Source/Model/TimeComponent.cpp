@@ -1,17 +1,17 @@
 
-#include "Glue/Model/Time.hpp"
+#include "Glue/Model/TimeComponent.hpp"
 
 namespace Glue {
 
-Time::Time() :
-	deviceTimer(nullptr),
+TimeComponent::TimeComponent(irr::ITimer* timer) :
+	deviceTimer(timer),
 	currentTime(0),
 	lastTime(0),
     shouldRun(true)
 {
 }
 
-void Time::_processTimeoutEvents()
+void TimeComponent::_processTimeoutEvents()
 {
     auto erase_to = timeout_events.begin();
     std::vector<TimeoutEvent> new_events;
@@ -55,13 +55,7 @@ void Time::_processTimeoutEvents()
     }
 }
 
-Time& Time::setDeviceTimer(ITimer* value)
-{
-    deviceTimer = value;
-    return *this;
-}
-
-void Time::setTimeout(RelTime delay, std::function<RelTime(RelTime)> action)
+void TimeComponent::setTimeout(RelTime delay, std::function<RelTime(RelTime)> action)
 {
     AbsTime fromTime = currentTime;
     AbsTime atTime = fromTime + delay;
@@ -69,12 +63,12 @@ void Time::setTimeout(RelTime delay, std::function<RelTime(RelTime)> action)
     timeout_events.insert(evt);
 }
 
-RelTime Time::elapsed() const
+RelTime TimeComponent::elapsed() const
 {
     return currentTime - lastTime;
 }
 
-void Time::runLoop()
+void TimeComponent::runLoop()
 {
     while(shouldRun)
     {
@@ -99,14 +93,14 @@ void Time::runLoop()
     }
 }
 
-void Time::doEvents(EventWhen when, EventWhat what) const
+void TimeComponent::doEvents(EventWhen when, EventWhat what) const
 {
     for (auto const& ee : engine_events)
         if (ee.when == when && ee.what == what)
             ee.action(TimeInfo {currentTime - lastTime, currentTime, lastTime});
 }
 
-void Time::add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action)
+void TimeComponent::add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action)
 {
     engine_events.push_back(EngineEvent {when, what, action});
 }

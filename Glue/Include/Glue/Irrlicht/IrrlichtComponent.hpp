@@ -3,12 +3,11 @@
 #include "Glue/Model/Component.hpp"
 #include "Glue/Model/Node.hpp"
 
+#include "ITimer.h"
+#include "ISceneNode.h"
+
 #include <memory>
 #include <string>
-
-namespace irr::scene {
-    class ISceneNode;
-}
 
 namespace Glue::Irrlicht {
 
@@ -24,6 +23,8 @@ public:
     ~IrrlichtComponent();
 
     IrrlichtComponent& setGraph(Graph* value);
+
+    irr::ITimer* get_deviceTimer();
 
     void addNode(Node* node);
     void playSound(std::string const& file);

@@ -2,7 +2,7 @@
 
 #include "Glue/Irrlicht/IrrlichtComponent.hpp"
 #include "Glue/Avatar/Camera.hpp"
-#include "Glue/Model/Time.hpp"
+#include "Glue/Model/TimeComponent.hpp"
 
 namespace Glue {
 
@@ -10,11 +10,11 @@ class IrrlichtCamera
 {
 private:
     Irrlicht::IrrlichtComponent* irrComp;
-    Time* time;
+    TimeComponent* time;
     Avatar::Camera* avatarCamera;
 
 public:
-    IrrlichtCamera(Irrlicht::IrrlichtComponent* irrComp, Time* time, Avatar::Camera* avatarCamera);
+    IrrlichtCamera(Irrlicht::IrrlichtComponent* irrComp, TimeComponent* time, Avatar::Camera* avatarCamera);
     void enter();
 };
 

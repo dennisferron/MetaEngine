@@ -55,8 +55,7 @@ int main(int argc, char** argv)
 {
     try
     {
-        Glue::Startup startup;
-        startup.add_components();
+        Glue::do_startup();
     }
     catch (char const* msg)
     {

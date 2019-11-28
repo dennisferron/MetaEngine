@@ -10,8 +10,6 @@
 
 namespace Glue {
 
-using ITimer = irr::ITimer;
-
 enum class EventWhen
 {
     before,
@@ -60,14 +58,14 @@ struct TimeoutEvent
     }
 };
 
-class Time
+class TimeComponent
 {
 private:
 
     std::multiset<TimeoutEvent> timeout_events;
     std::vector<EngineEvent> engine_events;
 
-	ITimer* deviceTimer = nullptr;
+	irr::ITimer* deviceTimer = nullptr;
 	AbsTime currentTime = 0;
 	AbsTime lastTime = 0;
 
@@ -78,8 +76,7 @@ private:
 
 public:
 
-    Time();
-    Time& setDeviceTimer(ITimer* value);
+    TimeComponent(irr::ITimer* value);
 	void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action);
     RelTime elapsed() const;
     void runLoop();

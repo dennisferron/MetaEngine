@@ -9,59 +9,22 @@
 
 namespace Glue {
 
-    struct Startup::Impl
+    void do_startup()
     {
-        Graph graph;
-        Avatar::AvatarComponent* avatarComp;
-        Bullet::BulletComponent* bltComp;
-        Irrlicht::IrrlichtComponent* irrComp;
-    };
+        auto avatar_cmp = new Avatar::AvatarComponent();
+        auto blt_cmp = new Bullet::BulletComponent();
+        auto irr_cmp = new Irrlicht::IrrlichtComponent();
 
-    Startup::Startup()
-        : impl(new Startup::Impl())
-    {
-        std::cout << "Engine startup\n";
-    }
+        irr::ITimer* device_timer = irr_cmp->get_deviceTimer();
+        auto time_cmp = new TimeComponent(device_timer);
 
-    Startup::~Startup()
-    {
+        auto graph = new Graph(avatar_cmp, blt_cmp, irr_cmp, time_cmp);
 
-    }
-
-    void Startup::add_components()
-    {
-        impl->avatarComp = new Avatar::AvatarComponent();
-        impl->graph.addComponent(impl->avatarComp);
-
-        impl->bltComp = new Bullet::BulletComponent();
-        impl->graph.addComponent(impl->bltComp);
-
-        impl->irrComp = new Irrlicht::IrrlichtComponent();
-        impl->graph.addComponent(impl->irrComp);
+        time_cmp->runLoop();
     }
 
 }
 
-//graph addComponent(
-//    irrComp := RootModule Irrlicht Component clone
-//)
-//irrComp setGraph(graph)
-//
-//graph addComponent(
-//    bltComp := RootModule Bullet Component clone
-//)
-//
-//avatarComp := RootModule Avatar Component clone
-//graph addComponent(
-//    avatarComp
-//)
-//
-//editorGUI := RootModule EditorGUI Component clone
-//graph addComponent(
-//    editorGUI
-//    , RootModule Interactions Component LoadEditorGUI
-//)
-//
 //time := RootModule Model Time clone
 //graph addComponent(time)
 //

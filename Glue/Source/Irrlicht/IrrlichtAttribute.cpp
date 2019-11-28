@@ -2,24 +2,24 @@
 
 namespace Glue { namespace Irrlicht {
 
-        IrrlichtAttribute& IrrlichtAttribute::setFlagBit(int pos, bool state)
+        void IrrlichtAttribute::setFlagBit(int pos, bool state)
         {
             throw "Not implemented";
         }
 
-        IrrlichtAttribute& IrrlichtAttribute::setMotionState(irr::scene::ISceneNodeAnimator* value)
-        {
-            throw "Not implemented";
-
-        }
-
-        IrrlichtAttribute& IrrlichtAttribute::setDispShape(irr::scene::IMesh* value)
+        void IrrlichtAttribute::setMotionState(irr::scene::ISceneNodeAnimator* value)
         {
             throw "Not implemented";
 
         }
 
-        IrrlichtAttribute& IrrlichtAttribute::setIsMouseDraggable(bool state)
+        void IrrlichtAttribute::setDispShape(irr::scene::IMesh* value)
+        {
+            throw "Not implemented";
+
+        }
+
+        void IrrlichtAttribute::setIsMouseDraggable(bool state)
         {
             throw "Not implemented";
 

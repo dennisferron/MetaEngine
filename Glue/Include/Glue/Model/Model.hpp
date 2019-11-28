@@ -5,6 +5,6 @@
 #include "Link.hpp"
 #include "Domain.hpp"
 #include "Interaction.hpp"
-#include "Time.hpp"
+#include "TimeComponent.hpp"
 #include "Structure.hpp"
 #include "Referent.hpp"

@@ -37,7 +37,7 @@ namespace Glue::Irrlicht {
 
         void addKinematicAnimator(irr::scene::ISceneNodeAnimator *anim);
 
-        void addChild(NodeAttribute *otherObj);
+        void addChild(IrrlichtAttribute *otherObj);
 
         irr::core::vector3df getPos() const;
 
