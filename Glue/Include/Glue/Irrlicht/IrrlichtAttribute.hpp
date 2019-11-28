@@ -45,6 +45,8 @@ namespace Glue::Irrlicht {
 
         void lockTo(Node *otherObj);
 
+        irr::scene::ISceneNode* getSceneNode() const { return sceneNode; }
+
         ~IrrlichtAttribute();
     };
 

@@ -96,7 +96,7 @@ namespace Glue::Irrlicht {
         impl->smgr = impl->device->getSceneManager();
 
         impl->camera = new Camera(impl->smgr, impl->driver);
-        camera->createNode();
+        impl->camera->createNode();
 
         //            shapeBuilder := module ShapeBuilder clone setDisplayShapes(
 //                module DisplayShapes clone setGeometry(

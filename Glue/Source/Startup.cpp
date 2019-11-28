@@ -20,7 +20,7 @@ namespace Glue {
 
         auto graph = new Graph(avatar_cmp, blt_cmp, irr_cmp, time_cmp);
 
-        time_cmp->runLoop();
+        //time_cmp->runLoop();
     }
 
 }
