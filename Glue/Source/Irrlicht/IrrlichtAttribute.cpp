@@ -1,63 +1,74 @@
 #include "Glue/Irrlicht/IrrlichtAttribute.hpp"
 
-namespace Glue { namespace Irrlicht {
+namespace Glue::Irrlicht
+{
 
-        void IrrlichtAttribute::setFlagBit(int pos, bool state)
-        {
-            throw "Not implemented";
-        }
+    IrrlichtAttribute::IrrlichtAttribute(NodeStyle const& style, irr::scene::ISceneNode *sceneNode) :
+        style(style),
+        texture(nullptr), // TODO:  Set inside constructor or make helper method
+        sceneNode(sceneNode),
+        motionState(nullptr),
+        dispShape(style.mesh), // TODO:  Does mesh belong in style?
+        flagBits(0),  // TODO:  How do we get flagbits, what happened to FlagBits_of_ISceneNode?
+        isMouseDraggable(true)
+    {
+    }
 
-        void IrrlichtAttribute::setMotionState(irr::scene::ISceneNodeAnimator* value)
-        {
-            throw "Not implemented";
+    IrrlichtAttribute::~IrrlichtAttribute()
+    {
+    }
 
-        }
+    void IrrlichtAttribute::setFlagBit(int pos, bool state)
+    {
+        throw "Not implemented";
+    }
 
-        void IrrlichtAttribute::setDispShape(irr::scene::IMesh* value)
-        {
-            throw "Not implemented";
+    void IrrlichtAttribute::setMotionState(irr::scene::ISceneNodeAnimator *value)
+    {
+        throw "Not implemented";
 
-        }
+    }
 
-        void IrrlichtAttribute::setIsMouseDraggable(bool state)
-        {
-            throw "Not implemented";
+    void IrrlichtAttribute::setDispShape(irr::scene::IMesh *value)
+    {
+        throw "Not implemented";
 
-        }
+    }
 
-        void IrrlichtAttribute::addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim)
-        {
-            throw "Not implemented";
+    void IrrlichtAttribute::setIsMouseDraggable(bool state)
+    {
+        isMouseDraggable = state;
+    }
 
-        }
+    void IrrlichtAttribute::addKinematicAnimator(irr::scene::ISceneNodeAnimator *anim)
+    {
+        throw "Not implemented";
 
-        void IrrlichtAttribute::addChild(IrrlichtAttribute* otherObj)
-        {
+    }
 
-            throw "Not implemented";
-        }
+    void IrrlichtAttribute::addChild(IrrlichtAttribute *otherObj)
+    {
 
-        irr::core::vector3df IrrlichtAttribute::getPos() const
-        {
-            throw "Not implemented";
+        throw "Not implemented";
+    }
 
-        }
+    irr::core::vector3df IrrlichtAttribute::getPos() const
+    {
+        throw "Not implemented";
 
-        void IrrlichtAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger)
-        {
-            throw "Not implemented";
+    }
 
-        }
+    void IrrlichtAttribute::triggerAllGenerators(std::function<void(Node *)> onTrigger)
+    {
+        throw "Not implemented";
 
-        void IrrlichtAttribute::lockTo(Node* otherObj)
-        {
-            throw "Not implemented";
+    }
 
-        }
+    void IrrlichtAttribute::lockTo(Node *otherObj)
+    {
+        throw "Not implemented";
 
-        IrrlichtAttribute::~IrrlichtAttribute()
-        {
-        }
+    }
 
 //        style ::= nil
 //        texture ::= nil
@@ -150,4 +161,4 @@ namespace Glue { namespace Irrlicht {
 //    )
 //)
 
-}}
+}

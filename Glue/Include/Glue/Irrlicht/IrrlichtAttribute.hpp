@@ -28,6 +28,8 @@ namespace Glue::Irrlicht {
         void setFlagBit(int pos, bool state);
 
     public:
+        IrrlichtAttribute(NodeStyle const& style, irr::scene::ISceneNode *sceneNode);
+        ~IrrlichtAttribute();
 
         void setMotionState(irr::scene::ISceneNodeAnimator *value);
 
@@ -46,8 +48,6 @@ namespace Glue::Irrlicht {
         void lockTo(Node *otherObj);
 
         irr::scene::ISceneNode* getSceneNode() const { return sceneNode; }
-
-        ~IrrlichtAttribute();
     };
 
 }

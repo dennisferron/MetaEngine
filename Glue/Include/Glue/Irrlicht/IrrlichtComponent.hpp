@@ -3,6 +3,8 @@
 #include "Glue/Model/Component.hpp"
 #include "Glue/Model/Node.hpp"
 
+#include "Glue/Irrlicht/IrrlichtAttribute.hpp"
+
 #include "ITimer.h"
 #include "ISceneNode.h"
 
@@ -22,11 +24,9 @@ public:
     IrrlichtComponent();
     ~IrrlichtComponent();
 
-    IrrlichtComponent& setGraph(Graph* value);
-
     irr::ITimer* get_deviceTimer();
 
-    void addNode(Node* node);
+    IrrlichtAttribute* addNode(Glue::Node* node);
     void playSound(std::string const& file);
     void beforeGraphics();
     void onGraphics(Scalar timeElapsed);
@@ -34,6 +34,7 @@ public:
     bool shouldRun() const;
     Node* nodeToGameObj(irr::scene::ISceneNode*);
     void removeObj(Node* obj);
+    void setGraph(Graph* graph);
 };
 
 }

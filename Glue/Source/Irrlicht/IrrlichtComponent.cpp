@@ -26,7 +26,8 @@ using namespace irr;
 using namespace irr::core;
 using namespace irr::video;
 
-namespace Glue::Irrlicht {
+namespace Glue::Irrlicht
+{
 
     struct IrrlichtComponent::Impl
     {
@@ -41,7 +42,7 @@ namespace Glue::Irrlicht {
         irr::IrrlichtDevice* device = nullptr;
         irr::video::IVideoDriver* driver = nullptr;
         irr::scene::ISceneManager* smgr = nullptr;
-        irr::video::SExposedVideoData* videoData = nullptr;
+        irr::video::SExposedVideoData videoData;
         Assets* assets = nullptr;
 
         void* sound = nullptr;
@@ -52,7 +53,7 @@ namespace Glue::Irrlicht {
         SceneNodeBuilder* sceneNodeBuilder = nullptr;
 
         // window title
-        std::string title;
+        std::wstring title;
 
         irr::ITimer* deviceTimer = nullptr;
         long frames;
@@ -60,11 +61,11 @@ namespace Glue::Irrlicht {
 
         Camera* camera = nullptr;
 
-        Graph* graph;
+        Graph* graph = nullptr;
     };
 
     IrrlichtComponent::IrrlichtComponent() :
-        impl(new IrrlichtComponent::Impl())
+            impl(new IrrlichtComponent::Impl())
     {
         // TODO:  Connect with event dispatch from UserInterface component.
 
@@ -82,7 +83,7 @@ namespace Glue::Irrlicht {
         u32 MainWindow_sizeX = 800;
         u32 MainWindow_sizeY = 600;
         auto windowSize = dimension2du(MainWindow_sizeX, MainWindow_sizeY);
-        auto deviceType =  EDT_OPENGL; // or EDT_BURNINGSVIDEO, EDT_SOFTWARE, EDT_NULL
+        auto deviceType = EDT_OPENGL; // or EDT_BURNINGSVIDEO, EDT_SOFTWARE, EDT_NULL
         impl->device = createDevice(deviceType, windowSize, 16, false, false, false, nullptr /* events */);
 
         if (!impl->device)
@@ -110,30 +111,28 @@ namespace Glue::Irrlicht {
 //                    sceneNodes setAssets(assets)
 //                )
 //            )
-//
-//            setVideoData(SExposedVideoData tmp)
-//
+
 //            //if( CppFunc hasSlot("createIrrKlangDevice"),
 //            //	setSound(CppFunc createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS, nil, IRR_KLANG_VERSION))
 //            //)
-//
-//            smgr addLightSceneNode(
-//                nil, // parent
-//                vector3df tmpWithXYZ(0, 500, -50), // position
-//                SColorf tmpWithRGBA(1,1,1,1), // color
-//                200, // radius
-//                0 // id
-//            )
-//
-//            smgr setAmbientLight(SColorf tmpWithRGBA(0.2, 0.2, 0.2, 0.2))
-//
-//            setGui(device getGUIEnvironment)
-//
-//            setCollMan(smgr getSceneCollisionManager)
-//            setMeshMan(smgr getMeshManipulator)
-//
-//            setTitle(ScriptUtil get_string(driver getName wchar_to_string) .. "  FPS: ")
-//
+
+        impl->smgr->addLightSceneNode(
+                nullptr, // parent
+                vector3df(0, 500, -50), // position
+                SColorf(1, 1, 1, 1), // color
+                200, // radius
+                0 // id
+        );
+
+        impl->smgr->setAmbientLight(SColorf(0.2, 0.2, 0.2, 0.2));
+
+        impl->gui = impl->device->getGUIEnvironment();
+
+        impl->collMan = impl->smgr->getSceneCollisionManager();
+        impl->meshMan = impl->smgr->getMeshManipulator();
+
+        impl->title = impl->driver->getName();
+
 //            setKeyboard(module UserInterface Keyboard clone)
 //            eventDispatch addHandler(EET_KEY_INPUT_EVENT,
 //                block(event,
@@ -155,6 +154,7 @@ namespace Glue::Irrlicht {
 
     IrrlichtComponent::~IrrlichtComponent()
     {
+        impl->device->drop();
     }
 
     irr::ITimer* IrrlichtComponent::get_deviceTimer()
@@ -162,188 +162,47 @@ namespace Glue::Irrlicht {
         return impl->deviceTimer;
     }
 
-    void IrrlichtComponent::addNode(Glue::Node* node)
+    IrrlichtAttribute* IrrlichtComponent::addNode(Glue::Node* node)
     {
+        auto sceneNode = impl->sceneNodeBuilder->buildSceneNode(node->style);
 
+        if (sceneNode)
+        {
+            auto nodeAttr = new IrrlichtAttribute(node->style, sceneNode);
+            node->addAttribute(nodeAttr);
+            return nodeAttr;
+        } else
+        {
+            return nullptr;
+        }
     }
-}
 
-//method(module, namespace_irr, namespace_Custom, MainWindow, PredefinedValues, ScriptUtil,
-//
-//    Component := Object clone lexicalDo(
-//
-//        // Don't be confused, self here refers to the context
-//        // outside the lexicalDo, not to Component.  If you said 'self'
-//        // inside a method in Component, then self would be Component.
-//        module := module
-//
-//        appendProto(PredefinedValues)
-//        appendProto(namespace_irr)
-//        appendProto(namespace_irr core)
-//        appendProto(namespace_irr custom)
-//        appendProto(namespace_irr video)
-//        appendProto(namespace_Custom)
-//
-//        SColor := namespace_irr video SColor
-//
-//        // Configuration args aren't visible after lexicalDo finishes,
-//        // so we must store them in the proto for the init method to use them.
-//        namespace_irr := namespace_irr
-//        MainWindow := MainWindow
-//        UserInterface := module UserInterface
-//        ScriptUtil := ScriptUtil
-//
-//        writeln("Engine io_vm get script path")
-//        mediaPath := method(io_vm get_path("assets"))
-//
-//        events ::= nil
-//        eventDispatch ::= nil
-//        keyboard ::= nil
-//        mouse ::= nil
-//        guiEvents ::= nil
-//
-//        device ::= nil
-//        driver ::= nil
-//        smgr   ::= nil
-//        videoData ::= nil
-//        assets ::= nil
-//
-//        sound ::= nil
-//        gui ::= nil
-//        collMan ::= nil
-//        meshMan ::= nil
-//
-//        sceneNodeBuilder ::= nil
-//
-//        // window title
-//        title ::= nil
-//
-//        deviceTimer ::= nil
-//        frames := 0
-//        backColor := SColor tmpWithARGB(255,0,8,16)
-//
-//        camera ::= nil
-//
-//        graph := nil
-//        setGraph := method(value,
-//            updateSlot("graph", value)
-//            mouse setGraph(value)
-//        )
-//
-//        init := method(
-//
-//            setEventDispatch(UserInterface EventDispatch clone)
-//            setEvents(eventDispatch eventReceiver)
-//
-//            setGuiEvents(UserInterface GuiEvents clone)
-//            eventDispatch addHandler(EET_GUI_EVENT,
-//                block(event,
-//                    guiEvents handle(event)
-//                )
-//            )
-//
-//            windowSize := dimension2du tmp(MainWindow sizeX, MainWindow sizeY)
-//            deviceType := list(EDT_OPENGL, EDT_BURNINGSVIDEO, EDT_SOFTWARE, EDT_NULL) at(0)
-//            setDevice(namespace_irr createDevice(deviceType, windowSize, 16, false, false, false, events))
-//
-//            if (device == nil,
-//                Exception raise("Failed to create irrlicht device")
-//            )
-//
-//            setDeviceTimer(device getTimer)
-//
-//            setDriver(device getVideoDriver)
-//
-//            setAssets(module Assets clone setAssetPath(mediaPath) setDriver(driver))
-//
-//            setSmgr(device getSceneManager)
-//
-//            setCamera(
-//                module Camera clone setSmgr(smgr) setDriver(driver)
-//            )
-//            camera createNode
-//
-//            shapeBuilder := module ShapeBuilder clone setDisplayShapes(
-//                module DisplayShapes clone setGeometry(
-//                    smgr getGeometryCreator
-//                )
-//            )
-//
-//            sceneNodes := module SceneNodes clone setSmgr(smgr)
-//            setSceneNodeBuilder(
-//                module SceneNodeBuilder clone setAssets(assets) setShapeBuilder(shapeBuilder) setSceneNodes(
-//                    sceneNodes setAssets(assets)
-//                )
-//            )
-//
-//            setVideoData(SExposedVideoData tmp)
-//
-//            //if( CppFunc hasSlot("createIrrKlangDevice"),
-//            //	setSound(CppFunc createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS, nil, IRR_KLANG_VERSION))
-//            //)
-//
-//            smgr addLightSceneNode(
-//                nil, // parent
-//                vector3df tmpWithXYZ(0, 500, -50), // position
-//                SColorf tmpWithRGBA(1,1,1,1), // color
-//                200, // radius
-//                0 // id
-//            )
-//
-//            smgr setAmbientLight(SColorf tmpWithRGBA(0.2, 0.2, 0.2, 0.2))
-//
-//            setGui(device getGUIEnvironment)
-//
-//            setCollMan(smgr getSceneCollisionManager)
-//            setMeshMan(smgr getMeshManipulator)
-//
-//            setTitle(ScriptUtil get_string(driver getName wchar_to_string) .. "  FPS: ")
-//
-//            setKeyboard(module UserInterface Keyboard clone)
-//            eventDispatch addHandler(EET_KEY_INPUT_EVENT,
-//                block(event,
-//                    keyboard handle(event)
-//                )
-//            )
-//
-//            setMouse(module UserInterface Mouse clone)
-//            mouse setGui(gui)
-//            mouse setCollMan(collMan)
-//            mouse setDriver(driver)
-//            mouse setIrrComp(self)
-//            eventDispatch addHandler(EET_MOUSE_INPUT_EVENT,
-//                block(event,
-//                    mouse handle(event)
-//                )
-//            )
-//        )
-//
-//        addNode := method(node,
-//            sceneNode := sceneNodeBuilder buildSceneNode(node style)
-//            if( sceneNode != nil,
-//                nodeAttr := module NodeAttribute clone setStyle(node style) setSceneNode(sceneNode)
-//                nodeAttr setFlagBits(FlagBits_of_ISceneNode tmp(nodeAttr sceneNode)) setIsMouseDraggable
-//                node addAttribute(
-//                    nodeAttr
-//                )
-//            )
-//        )
-//
-//        playSound := method(file,
+    void IrrlichtComponent::setGraph(Graph* graph)
+    {
+        impl->graph = graph;
+
+        //if (impl->mouse)
+        //    impl->mouse->setGraph(graph);
+    }
+
+    void IrrlichtComponent::playSound(std::string const& file)
+    {
+        // TODO:  Sound
 //            if(sound != nil,
 //                sound play2D(file, false, false, false, ESM_AUTO_DETECT, false)
 //            )
-//        )
-//
-//        dispose := method(
-//            //objList foreach(obj, obj dispose)
-//            //device drop
-//        )
+    }
+
+    void IrrlichtComponent::beforeGraphics()
+    {
 //
 //        beforeGraphics := method(
 //            driver beginScene(true, true, backColor, videoData, nil)
 //        )
-//
+    }
+
+    void IrrlichtComponent::onGraphics(Scalar timeElapsed)
+    {
 //        onGraphics := method(timeElapsed,
 //
 //            // Keep the camera in sync with the player position
@@ -361,7 +220,10 @@ namespace Glue::Irrlicht {
 //            // !!! If you don't draw the environment at the end none of your GUI elements show up! !!!
 //            gui drawAll
 //        )
-//
+    }
+
+    void IrrlichtComponent::afterGraphics()
+    {
 //        afterGraphics := method(
 //            driver endScene
 //
@@ -370,24 +232,26 @@ namespace Glue::Irrlicht {
 //                device setWindowCaption(title .. (driver getFPS asString))
 //            )
 //        )
-//
-//        shouldRun := method(
-//            return device run
-//        )
-//
-//        nodeToGameObj := method(node,
+    }
+
+    bool IrrlichtComponent::shouldRun() const
+    {
+        return impl->device->run();
+    }
+
+    Node* IrrlichtComponent::nodeToGameObj(irr::scene::ISceneNode*)
+    {
+        throw std::logic_error("Not implemented: nodeToGameObj");
 //            anim := ScriptObjAnimator findIn(node)
 //            if(anim == nil,
 //                nil
 //            ,
 //                anim getScriptObj
 //            )
-//        )
-//
-//        removeObj := method(obj,
-//            if(obj != nil,
-//                obj dispose
-//            )
-//        )
-//    )
-//)
+    }
+
+    void IrrlichtComponent::removeObj(Node* obj)
+    {
+        throw std::logic_error("TODO: decide whether to use IrrlichtAttribute destructor only for this");
+    }
+}

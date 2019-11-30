@@ -3,16 +3,17 @@
 #include "Glue/Bullet/BulletComponent.hpp"
 #include "Glue/Irrlicht/IrrlichtComponent.hpp"
 
-namespace Glue {
+namespace Glue
+{
 
 //std::vector<ComponentInteraction*> Graph::possibleInteractions;
 
     Graph::Graph(
-            Avatar::AvatarComponent *avatar_cmp,
-            Bullet::BulletComponent *blt_cmp,
-            Irrlicht::IrrlichtComponent *irr_cmp,
+            Avatar::AvatarComponent* avatar_cmp,
+            Bullet::BulletComponent* blt_cmp,
+            Irrlicht::IrrlichtComponent* irr_cmp,
             TimeComponent* time_cmp
-        ) :
+    ) :
             avatar_cmp(avatar_cmp),
             blt_cmp(blt_cmp),
             irr_cmp(irr_cmp),
@@ -44,9 +45,9 @@ namespace Glue {
     {
     }
 
-    Node *Graph::addNode(NodeStyle const &style)
+    Node* Graph::addNode(NodeStyle const& style)
     {
-        Node *node = new Node(&style);
+        Node* node = new Node(style);
         node->setGraph(this);
 
         nodes.push_back(node);
@@ -60,7 +61,7 @@ namespace Glue {
         return node;
     }
 
-    Link *Graph::addLink(LinkStyle const &style, Node *fromNode, Node *toNode)
+    Link* Graph::addLink(LinkStyle const& style, Node* fromNode, Node* toNode)
     {
         throw "TODO:  memory management for style, should it be passed by value or by pointer?";
         //Link* link = new Link(&style);
@@ -75,62 +76,62 @@ namespace Glue {
         //return link;
     }
 
-    void Graph::removeLink(Link *link) const
+    void Graph::removeLink(Link* link) const
     {
         // TODO:  Notify components to remove link attributes
     }
 
-    void Graph::registerInteraction(ComponentInteraction *interaction)
+    void Graph::registerInteraction(ComponentInteraction* interaction)
     {
         //possibleInteractions.push_back(interaction);
     }
 
-    void Graph::addComponent(Component *newComp)
+    void Graph::addComponent(Component* newComp)
     {
         //components.push_back(newComp);
         //domain.addObject("component", newComp);
     }
 
 // Deprecated?  Not sure...
-    void Graph::playSound(std::string const &file)
+    void Graph::playSound(std::string const& file)
     {
 //    if(sound != nil,
 //        sound play2D(file, false, false, false, ESM_AUTO_DETECT, false)
 //    )
     }
 
-    void Graph::createCamera(Node *lockObj)
+    void Graph::createCamera(Node* lockObj)
     {
         // TODO:  Check that this is done using the interaction now?
         //Graph createCamera := method(lockObj, irrComp createCamera(lockObj))
     }
 
-    void Graph::removeConstraint(Constraint *constraint)
+    void Graph::removeConstraint(Constraint* constraint)
     {
         throw "TODO:  should this be in bullet component?";
         //bltComp->removeConstraint(constraint);
     }
 
-    void Graph::addConstraint(ConstraintStyle const &style, Node *objA, Node *objB)
+    void Graph::addConstraint(ConstraintStyle const& style, Node* objA, Node* objB)
     {
         throw "TODO:  should this be in bullet component?";
         //bltComp->addConstraint(style, objA, objB);
     }
 
-    Node *Graph::nodeToGameObj(irr::scene::ISceneNode *node) const
+    Node* Graph::nodeToGameObj(irr::scene::ISceneNode* node) const
     {
         throw "TODO:  should this be in irrlicht component?";
         //return irrComp nodeToGameObj(node);
     }
 
-    void Graph::removeObj(Node *obj)
+    void Graph::removeObj(Node* obj)
     {
         throw "TODO:  should this be in irrlicht component?";
         //objList.remove(obj);
         //irrComp.removeObj(obj);
     }
 
-    Structure *Graph::addStructure(Structure *structure, Structure *leftHandSide)
+    Structure* Graph::addStructure(Structure* structure, Structure* leftHandSide)
     {
         // TODO: Implement structure
         throw "Not implemented";

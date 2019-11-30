@@ -7,7 +7,7 @@ namespace Glue {
 // This list is shared among all Node clones
 std::vector<NodeInteraction*> Node::possibleInteractions;
 
-Node::Node(GameObjStyle const* style) :
+Node::Node(GameObjStyle const& style) :
     graph(nullptr),
     style(style),
     domain()
@@ -38,5 +38,10 @@ Node& Node::addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteracti
     throw "TODO: implement domain.addObject";
     //domain.addObject("node", attr, expectedInteraction);
 }
+
+    void Node::addAttribute(Glue::Irrlicht::IrrlichtAttribute* attr)
+    {
+        irrlicht_attribute = attr;
+    }
 
 } // namespace Glue
