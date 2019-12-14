@@ -1,63 +1,61 @@
 #include "Glue/Irrlicht/ShapeBuilder.hpp"
 
-/*
+using namespace irr::scene;
 
-method(namespace_irr, namespace_Custom, PredefinedValues,
+namespace Glue::Irrlicht {
 
-    ShapeBuilder := Object clone lexicalDo(
+    void ShapeBuilder::changeTextureWrap(irr::scene::IMesh* mesh) const
+    {
+        auto buf = mesh->getMeshBuffer(0);
 
-        appendProto(namespace_irr)
-        appendProto(namespace_irr core)
-        appendProto(PredefinedValues)
+        if (buf->getVertexCount() == 0)
+            return;
 
-        displayShapes ::= nil
+        auto pos = buf->getPosition(0);
+        float minX = pos.X;
+        float maxX = pos.X;
+        float minZ = pos.Z;
+        float maxZ = pos.Z;
 
-        create := method(style,
+        // Find the extents so we can scale our texture coords to 0..1
+        for(int i=1; i < buf->getVertexCount(); i++)
+        {
+            pos = buf->getPosition(i);
+            if (pos.X < minX) minX = pos.X;
+            if (pos.Z < minZ) minZ = pos.Z;
+            if (pos.X > maxX) maxX = pos.X;
+            if (pos.Z > maxZ) maxZ = pos.Z;
+        }
 
-            dispShape := displayShapes perform(style dispShape, style)
+        auto scaleX = 1.0/(maxX - minX);
+        auto scaleZ = 1.0/(maxZ - minZ);
 
-            if (dispShape != nil and style alternateTextureWrap == true,
-                changeTextureWrap(dispShape)
-            )
+        for(int i=0; i < buf->getVertexCount(); i++)
+        {
+            pos = buf->getPosition(i);
+            auto tcoords = buf->getTCoords(i);
+            tcoords.X = (float)( (pos.X - minX) * scaleX );
+            tcoords.Y = (float)( (pos.Z - minZ) * scaleZ );
+        }
 
-            if (dispShape != nil and style onTextureWrap != nil,
-                style onTextureWrap call(dispShape)
-            )
+        buf->setDirty(EBT_VERTEX);
+    }
 
-            return dispShape
-        )
+    ShapeBuilder::ShapeBuilder(DisplayShapes* displayShapes)
+        : displayShapes(displayShapes)
+    {
+    }
+    
+    irr::scene::IMesh* ShapeBuilder::create(GameObjStyle style) const
+    {
+        auto dispShape = displayShapes->create(style);
 
-        changeTextureWrap := method(mesh,
+        if (dispShape != nullptr && style.alternateTextureWrap == true)
+            changeTextureWrap(dispShape);
 
-            buf := mesh getMeshBuffer(0)
+        if (dispShape != nullptr && style.onTextureWrap != nullptr)
+            style.onTextureWrap(dispShape);
 
-            minX := nil
-            maxX := nil
-            minZ := nil
-            maxZ := nil
-
-            // Find the extents so we can scale our texture coords to 0..1
-            for(i, 0, buf getVertexCount - 1,
-                pos := buf getPosition_c(i)
-                if (minX == nil or pos get_X < minX, minX = pos get_X)
-                if (minZ == nil or pos get_Z < minZ, minZ = pos get_Z)
-                if (maxX == nil or pos get_X > maxX, maxX = pos get_X)
-                if (maxZ == nil or pos get_Z > maxZ, maxZ = pos get_Z)
-            )
-
-            scaleX := 1/(maxX - minX)
-            scaleZ := 1/(maxZ - minZ)
-
-            for(i, 0, buf getVertexCount - 1,
-                pos := buf getPosition_c(i)
-                tcoords := buf getTCoords_nc(i)
-                tcoords set_X( (pos get_X - minX) * scaleX )
-                tcoords set_Y( (pos get_Z - minZ) * scaleZ )
-            )
-
-            buf setDirty(EBT_VERTEX)
-        )
-    )
-)
-
-*/
+        return dispShape;
+    }
+}

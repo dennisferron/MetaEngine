@@ -9,27 +9,27 @@ namespace Glue { namespace Irrlicht {
 
 class DisplayShapes
 {
+public:
+    DisplayShapes(irr::scene::IGeometryCreator* geometry);
+    irr::scene::IMesh* create(GameObjStyle const& style) const;
+
 private:
 
     irr::scene::IGeometryCreator* geometry;
 
-public:
-    DisplayShapes(irr::scene::IGeometryCreator* geometry);
-
-    irr::scene::IMesh* none(GameObjStyle style) const;
-    irr::scene::IMesh* ball(GameObjStyle style) const;
-    irr::scene::IMesh* box(GameObjStyle style) const;
-    irr::scene::IMesh* cyl(GameObjStyle style) const;
-    irr::scene::IMesh* cylX(GameObjStyle style) const;
-    irr::scene::IMesh* cylZ(GameObjStyle style) const;
-    irr::scene::IMesh* cone(GameObjStyle style) const;
-    irr::scene::IMesh* coneX(GameObjStyle style) const;
-    irr::scene::IMesh* coneZ(GameObjStyle style) const;
-    irr::scene::IMesh* hills(GameObjStyle style) const;
-    irr::scene::IMesh* plane(GameObjStyle style) const;
-    irr::scene::IMesh* cloth(GameObjStyle style) const;
-    irr::scene::IMesh* mesh(GameObjStyle style) const;
-    irr::scene::IMesh* skybox(GameObjStyle style) const;
+    irr::scene::IMesh* none(GameObjStyle const& style) const;
+    irr::scene::IMesh* ball(GameObjStyle const& style) const;
+    irr::scene::IMesh* box(GameObjStyle const& style) const;
+    irr::scene::IMesh* cyl(GameObjStyle const& style) const;
+    irr::scene::IMesh* cylX(GameObjStyle const& style) const;
+    irr::scene::IMesh* cylZ(GameObjStyle const& style) const;
+    irr::scene::IMesh* cone(GameObjStyle const& style) const;
+    irr::scene::IMesh* coneX(GameObjStyle const& style) const;
+    irr::scene::IMesh* coneZ(GameObjStyle const& style) const;
+    irr::scene::IMesh* hills(GameObjStyle const& style) const;
+    irr::scene::IMesh* plane(GameObjStyle const& style) const;
+    irr::scene::IMesh* cloth(GameObjStyle const& style) const;
+    irr::scene::IMesh* mesh(GameObjStyle const& style) const;
 };
 
 }}

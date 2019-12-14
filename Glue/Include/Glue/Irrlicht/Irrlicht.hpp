@@ -8,7 +8,6 @@
 
 #include "DisplayShapes.hpp"
 #include "ShapeBuilder.hpp"
-#include "SceneNodes.hpp"
 #include "SceneNodeBuilder.hpp"
 
 #include "IrrlichtComponent.hpp"

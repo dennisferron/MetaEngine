@@ -17,7 +17,7 @@ private:
 
 public:
     ShapeBuilder(DisplayShapes* displayShapes);
-    irr::scene::ISceneNode* create(GameObjStyle style) const;
+    irr::scene::IMesh* create(GameObjStyle style) const;
 };
 
 }}
