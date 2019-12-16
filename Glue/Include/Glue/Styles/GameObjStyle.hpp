@@ -156,7 +156,7 @@ namespace Glue {
         static constexpr ShortBitMask DefaultCollisionMask = ShortBitMask(-1);
 
         // Collision properties
-        ShortBitMask collisionGroup;
+        std::optional<ShortBitMask> collisionGroup;
         ShortBitMask collisionMask;
         CollisionResponseTags collisionResponseTag;
 

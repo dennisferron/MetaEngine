@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Glue/Styles/GameObjStyle.hpp"
-
-class btRigidBody;
-class btTransform;
+#include "btRigidBody.h"
+#include "btBulletCollisionCommon.h"
 
 namespace Glue { namespace Bullet {
     class PhysicsShapes;
@@ -24,7 +23,7 @@ public:
         ShapeOffsets* shapeOffsets
     );
 
-    btRigidBody create(NodeStyle style) const;
+    btCollisionShape* create(NodeStyle style) const;
     btTransform getOffset(NodeStyle style) const;
 };
 

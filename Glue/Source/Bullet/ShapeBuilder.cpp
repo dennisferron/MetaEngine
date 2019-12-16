@@ -14,7 +14,7 @@ ShapeBuilder::ShapeBuilder(
 
 }
 
-btRigidBody ShapeBuilder::create(NodeStyle style) const
+btCollisionShape* ShapeBuilder::create(NodeStyle style) const
 {
     throw "not implemented";
 }

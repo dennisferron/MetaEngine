@@ -9,6 +9,21 @@
 
 namespace Glue {
 
+    void addPlayer()
+    {
+//addPlayer := method(
+//    RootModule lexicalDo(
+//        avatarCameraNode := graph addNode(Styles GameObjStyles EmptyStyle)
+//        avatarCameraNode addAttribute(Avatar Camera clone)
+//
+//        playerNode := graph addNode(Avatar PlayerStyle)
+//        avatarComp attachControl(playerNode)
+//
+//        graph addLink(Styles LinkStyles LookAtStyle, avatarCameraNode, playerNode)
+//    )
+    }
+
+
     void do_startup()
     {
         auto avatar_cmp = new Avatar::AvatarComponent();
@@ -23,41 +38,6 @@ namespace Glue {
         //time_cmp->runLoop();
     }
 
+
 }
 
-//time := RootModule Model Time clone
-//graph addComponent(time)
-//
-//props := RootModule LevelSystem Props clone
-//props setGraph(graph)
-//
-//writeln("Done adding components to engine.")
-//
-//addPlayer := method(
-//    RootModule lexicalDo(
-//        avatarCameraNode := graph addNode(Styles GameObjStyles EmptyStyle)
-//        avatarCameraNode addAttribute(Avatar Camera clone)
-//
-//        playerNode := graph addNode(Avatar PlayerStyle)
-//        avatarComp attachControl(playerNode)
-//
-//        graph addLink(Styles LinkStyles LookAtStyle, avatarCameraNode, playerNode)
-//    )
-//)
-//
-//)
-//
-//if (loadError != nil,
-//    writeln("error: ", loadError)
-//    writeln("error caughtMessage: ", loadError caughtMessage)
-//    if( loadError caughtMessage != nil,
-//        writeln("line number: ", loadError caughtMessage lineNumber)
-//    )
-//    if( loadError originalCall != nil,
-//        if( loadError originalCall target != nil,
-//            writeln("original call target was ", loadError originalCall target)
-//        )
-//    )
-//    loadError showStack
-//    Exception raise("script loading may have failed")
-//)

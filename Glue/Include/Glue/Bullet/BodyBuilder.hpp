@@ -1,24 +1,22 @@
 #pragma once
 
-#include <memory>
-
 #include "Glue/Styles/GameObjStyle.hpp"
-
-class btRigidBody;
+#include "Glue/Bullet/ShapeBuilder.hpp"
+#include "btDynamicsWorld.h"
+#include "btRigidBody.h"
 
 namespace Glue { namespace Bullet {
 
 class BodyBuilder
 {
 private:
-    class Impl;
-    std::unique_ptr<Impl> impl;
+    btDynamicsWorld* dynamicsWorld;
+    ShapeBuilder* shapeBuilder;
 
 public:
-    BodyBuilder();
-    ~BodyBuilder();
+    BodyBuilder(btDynamicsWorld* dynamicsWorld, ShapeBuilder* shapeBuilder);
 
-    btRigidBody* buildBody(NodeStyle style) const;
+    btRigidBody* buildBody(NodeStyle const& style) const;
 };
 
 }}
