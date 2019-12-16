@@ -74,7 +74,6 @@ add_library(Glue
         Include/Glue/Irrlicht/Irrlicht.hpp
         Include/Glue/Irrlicht/IrrlichtAttribute.hpp
         Include/Glue/Irrlicht/SceneNodeBuilder.hpp
-        Include/Glue/Irrlicht/SceneNodes.hpp
         Include/Glue/Irrlicht/ShapeBuilder.hpp
         Include/Glue/LevelSystem/LevelEditor.hpp
         Include/Glue/LevelSystem/LevelSystem.hpp
@@ -176,7 +175,6 @@ add_library(Glue
         Source/Irrlicht/Irrlicht.cpp
         Source/Irrlicht/IrrlichtAttribute.cpp
         Source/Irrlicht/SceneNodeBuilder.cpp
-        Source/Irrlicht/SceneNodes.cpp
         Source/Irrlicht/ShapeBuilder.cpp
         Source/LevelSystem/LevelEditor.cpp
         Source/LevelSystem/LevelSystem.cpp

@@ -4,23 +4,26 @@
 
 #include "ITexture.h"
 #include "IImage.h"
+#include "IVideoDriver.h"
 
-namespace Glue { namespace Irrlicht {
+namespace Glue::Irrlicht {
 
-class Assets
-{
-private:
-    class Impl;
-    std::unique_ptr<Impl> impl;
+    class Assets
+    {
+    private:
+        std::string assetPath;
+        irr::video::IVideoDriver *driver = nullptr;
 
-public:
+    public:
 
-    Assets();
-    ~Assets();
+        Assets();
 
-    std::string getPath(std::string const& assetFile) const;
-    irr::video::ITexture* loadTextureFromFile(std::string const& filename) const;
-    irr::video::IImage* loadImageFromFile(std::string const& filename) const;
-};
+        ~Assets();
 
-}}
+        irr::io::path getPath(std::string const &assetFile) const;
+
+        irr::video::ITexture *loadTextureFromFile(std::string const &filename) const;
+
+        irr::video::IImage *loadImageFromFile(std::string const &filename) const;
+    };
+}

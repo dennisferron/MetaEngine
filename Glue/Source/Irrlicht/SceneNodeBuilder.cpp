@@ -82,9 +82,9 @@ ISceneNode* SceneNodeBuilder::buildSceneNode(GameObjStyle const& style)
         sceneNode->setMaterialFlag(EMF_LIGHTING, true);
 
         // TODO: Also create material if wire frame
-        if (style.texture != nullptr)
+        if (style.textureFile != "")
         {
-            auto texture = assets->loadTextureFromFile(style.texture);
+            auto texture = assets->loadTextureFromFile(style.textureFile);
             sceneNode->setMaterialTexture(0, texture);
             sceneNode->setMaterialType(EMT_SOLID);
             //sceneNode->setMaterialFlag(EMF_LIGHTING, false);
@@ -93,12 +93,12 @@ ISceneNode* SceneNodeBuilder::buildSceneNode(GameObjStyle const& style)
             auto material = sceneNode->getMaterial(0);
 
             // Does this do any good?
-            material->ColorMaterial = 0;
+            material.ColorMaterial = 0;
 
             // TODO:  Add shininess as a style property
-            material->Shininess = 50;
+            material.Shininess = 50;
 
-            material->SpecularColor = SColor(25, 25, 25, 25);
+            material.SpecularColor = SColor(25, 25, 25, 25);
 
             // Setting one of these (diffuse maybe?) really takes the depth out of lighting
             // and makes a textured rigid body look dull
@@ -108,7 +108,7 @@ ISceneNode* SceneNodeBuilder::buildSceneNode(GameObjStyle const& style)
 
             // TODO:  Share node creation code among game objects.
             // BUG: won't get called without texture file
-            material->Wireframe = style->wireframe;
+            material.Wireframe = style.wireframe;
         }
     }
 

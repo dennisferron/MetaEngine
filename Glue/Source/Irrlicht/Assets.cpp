@@ -1,35 +1,28 @@
 #include "Glue/Irrlicht/Assets.hpp"
 
-/*
 
-method(irr_core,
+namespace Glue::Irrlicht
+{
+    irr::io::path Assets::getPath(std::string const& assetFile) const
+    {
+        std::string narrow_string = assetPath + "/" + assetFile;
+        std::wstring wide_string = std::wstring(narrow_string.begin(), narrow_string.end());
+        const wchar_t* ptr = wide_string.c_str();
+        auto result = irr::io::path(ptr);
+        return result;
+    }
 
-    Assets := Object clone lexicalDo(
+    irr::video::ITexture* Assets::loadTextureFromFile(std::string const& filename) const
+    {
+        irr::io::path fsStr = getPath(filename);
+        irr::video::ITexture* texture = driver->getTexture(fsStr);
+        return texture;
+    }
 
-        appendProto(irr_core)
-
-        assetPath ::= nil
-        driver ::= nil
-
-        getPath := method(assetFile,
-            assetPath .. "/" .. assetFile
-        )
-
-        // Note:  This returns an ITexture, while the other method returns and IImage.
-        loadTextureFromFile := method(filename,
-            path := getPath(filename)
-            fsStr := irrFsStr tmpFromCStr(path)
-            texture := driver getTexture(fsStr)
-            return texture
-        )
-
-        // Note:  This returns an ITexture, while the other method returns and IImage.
-        loadImageFromFile := method(filename,
-            path := getPath(filename)
-            fsStr := irrFsStr tmpFromCStr(path)
-            image := driver createImageFromFileWithPath(fsStr)
-            return image
-        )
-    )
-)
-*/
+    irr::video::IImage* Assets::loadImageFromFile(std::string const& filename) const
+    {
+        irr::io::path fsStr = getPath(filename);
+        irr::video::IImage* image = driver->createImageFromFile(fsStr);
+        return image;
+    }
+}
