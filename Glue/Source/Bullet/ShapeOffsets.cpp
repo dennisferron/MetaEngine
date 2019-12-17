@@ -2,118 +2,98 @@
 
 namespace Glue { namespace Bullet {
 
-    btTransform ShapeOffsets::none(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::ball(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::box(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::cyl(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::cylX(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::cylZ(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::cone(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::coneX(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::coneZ(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::hills(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::mesh(NodeStyle const& style) { throw "Not implemented"; }
-    btTransform ShapeOffsets::cloth(NodeStyle const& style) { throw "Not implemented"; }
+        btTransform get_shape_transform(NodeStyle const& style) const
+        {
+            switch (style.physShape)
+            {
+                case ShapeOffsets::none:
+                {
+                    return btTransform::getIdentity();
+                }
+                case ShapeOffsets::ball:
+                {
+                    return btTransform::getIdentity();
+                }
+                case ShapeOffsets::box:
+                {
+                    return btTransform::getIdentity();
+                }
+                case ShapeOffsets::cyl:
+                {
+                    auto axis = btVector3(0, 1, 0);
+                    float angle = 0;
+                    auto q = btQuaternion(axis, angle);
 
+                    auto v = btVector3(0, -style length/2, 0);
+
+                    return btTransform(q, v);
+                }
+                case ShapeOffsets::cylX:
+                {
+                    auto axis = btVector3(0, 0, 1);
+                    auto angle = TAU/4;
+                    auto q = btQuaternion(axis, angle);
+
+                    auto v = btVector3(style.length/2, 0, 0);
+
+                    return btTransform(q, v);
+                }
+                case ShapeOffsets::cylZ:
+                {
+                    auto axis = btVector3(1, 0, 0);
+                    auto angle = TAU/4;
+                    auto q = btQuaternion(axis, angle);
+
+                    auto v = btVector3(0, 0, -style.length/2);
+
+                    return btTransform(q, v);
+                }
+                case ShapeOffsets::cone:
+                {
+                    auto axis = btVector3(0, 0, 1);
+                    auto angle = 0;
+                    auto q = btQuaternion(axis, angle);
+
+                    auto v = btVector3(0, -style length/2, 0);
+
+                    return btTransform(q, v);
+                }
+                case ShapeOffsets::coneX:
+                {
+                    auto axis = btVector3(0, 0, 1);
+                    auto angle = -TAU/4
+                    auto q = btQuaternion(axis, angle);
+
+                    auto v = btVector3(-style length/2, 0, 0);
+
+                    return btTransform(q, v);
+                }
+                case ShapeOffsets::coneZ:
+                {
+                    auto axis = btVector3(1, 0, 0);
+                    auto angle = TAU/4
+                    auto q = btQuaternion(axis, angle);
+
+                    auto v = btVector3(0, 0, -style length/2);
+                    //auto v = btVector3(0, 0, 0);
+
+                    return btTransform(q, v);
+                }
+                case ShapeOffsets::hills:
+                {
+                    return btTransform::getIdentity();
+                }
+                case ShapeOffsets::mesh:
+                {
+                    return btTransform::getIdentity();
+                }
+                case ShapeOffsets::cloth:
+                {
+                    return btTransform::getIdentity();
+                }
+            }
+        }
+
+ 
 }}
 
-/*
-method(namespace_Bullet, Constants,
-    ShapeOffsets := Object clone lexicalDo(
-        appendProto(namespace_Bullet)
-        appendProto(Constants)
-
-        none := method(
-            namespace_Bullet getIdentityTransform
-        )
-
-        ball := method(
-            namespace_Bullet getIdentityTransform
-        )
-
-        box := method(
-            namespace_Bullet getIdentityTransform
-        )
-
-        cyl := method(style,
-            axis := btVector3 tmp(0, 1, 0)
-            angle := 0
-            q := btQuaternion tmp(axis, angle)
-
-            v := btVector3 tmp(0, -style length/2, 0)
-
-            btTransform tmp(q, v)
-        )
-
-        cylX := method(style,
-            axis := btVector3 tmp(0, 0, 1)
-            angle := TAU/4
-            q := btQuaternion tmp(axis, angle)
-
-            v := btVector3 tmp(style length/2, 0, 0)
-            //v := btVector3 tmp(0, 0, 0)
-
-            btTransform tmp(q, v)
-        )
-
-        cylZ := method(style,
-            axis := btVector3 tmp(1, 0, 0)
-            angle := TAU/4
-            q := btQuaternion tmp(axis, angle)
-
-            v := btVector3 tmp(0, 0, -style length/2)
-            //v := btVector3 tmp(0, 0, 0)
-
-            btTransform tmp(q, v)
-        )
-
-        cone := method(style,
-            axis := btVector3 tmp(0, 0, 1)
-            angle := 0
-            q := btQuaternion tmp(axis, angle)
-
-            v := btVector3 tmp(0, -style length/2, 0)
-
-            btTransform tmp(q, v)
-        )
-
-        coneX := method(style,
-            axis := btVector3 tmp(0, 0, 1)
-            angle := -TAU/4
-            q := btQuaternion tmp(axis, angle)
-
-            v := btVector3 tmp(-style length/2, 0, 0)
-            //v := btVector3 tmp(0, 0, 0)
-
-            btTransform tmp(q, v)
-        )
-
-        coneZ := method(style,
-            axis := btVector3 tmp(1, 0, 0)
-            angle := TAU/4
-            q := btQuaternion tmp(axis, angle)
-
-            v := btVector3 tmp(0, 0, -style length/2)
-            //v := btVector3 tmp(0, 0, 0)
-
-            btTransform tmp(q, v)
-        )
-
-        hills := method(
-            namespace_Bullet getIdentityTransform
-        )
-
-        mesh := method(
-            namespace_Bullet getIdentityTransform
-        )
-
-        cloth := method(
-            namespace_Bullet getIdentityTransform
-        )
-    )
-
-    ShapeOffsets namespace_Bullet := namespace_Bullet
-
-    return ShapeOffsets
-)
-*/
