@@ -1,53 +1,25 @@
 #include "Glue/Bullet/ShapeBuilder.hpp"
+#include "Glue/Bullet/ShapeOffsets.hpp"
+#include "Glue/Bullet/PhysicsShapes.hpp"
 
 #include "btRigidBody.h"
 
-namespace Glue { namespace Bullet {
-
-ShapeBuilder::ShapeBuilder(
-        PhysicsShapes* physicsShapes,
-        ShapeOffsets* shapeOffsets
-)
-    :   physicsShapes(physicsShapes),
-        shapeOffsets(shapeOffsets)
+namespace Glue::Bullet
 {
 
-}
-
-btCollisionShape* ShapeBuilder::create(NodeStyle style) const
+btCollisionShape* ShapeBuilder::create(NodeStyle const& style, irr::scene::IMesh* dispShapeMesh) const
 {
-    throw "not implemented";
+    auto physShape = create_physics_shape(style, dispShapeMesh);
+
+    if (physShape != nullptr && style.margin)
+        physShape->setMargin(*style.margin);
+
+    return physShape;
 }
 
-btTransform ShapeBuilder::getOffset(NodeStyle style) const
+btTransform ShapeBuilder::getOffset(NodeStyle const& style) const
 {
-    throw "not implemented";
+    return get_shape_transform(style);
 }
 
-}}
-
-/*
-method(namespace_Bullet,
-    ShapeBuilder := Object clone lexicalDo(
-        appendProto(namespace_Bullet)
-
-        physicsShapes ::= nil
-        shapeOffsets ::= nil
-
-        create := method(style,
-
-            physShape := physicsShapes perform(style physShape, style, style mesh)
-
-            if (physShape != nil and style margin != style default,
-                physShape setMargin(style margin)
-            )
-
-            return physShape
-        )
-
-        getOffset := method(style,
-            return shapeOffsets perform(style physShape, style)
-        )
-    )
-)
-*/
+}

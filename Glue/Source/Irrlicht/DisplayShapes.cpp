@@ -4,114 +4,11 @@
 
 using namespace irr::core;
 using namespace irr::scene;
+using namespace Glue;
 
-namespace Glue::Irrlicht {
-    
-    irr::scene::IMesh* DisplayShapes::create(GameObjStyle const& style) const
-    {
-        switch (style.dispShape)
-        {
-            case ObjShapes::none: return none(style);
-            case ObjShapes::box: return box(style);
-            case ObjShapes::ball: return ball(style);
-            case ObjShapes::cyl: return cyl(style);
-            case ObjShapes::cylX: return cylX(style);
-            case ObjShapes::cylZ: return cylZ(style);
-            case ObjShapes::cone: return cone(style);
-            case ObjShapes::coneX: return coneX(style);
-            case ObjShapes:: coneZ: return coneZ(style);
-            case ObjShapes::skybox: return none(style);  // Handled by SceneNodeBuilder
-            case ObjShapes::plane: return plane(style);
-            case ObjShapes::mesh: return mesh(style);
-            case ObjShapes::hills: return hills(style);
-            default: throw std::logic_error("Unhandled dispShape");
-        }
-    }
-
-    irr::scene::IMesh* DisplayShapes::none(GameObjStyle const& style) const
-    {
-        return nullptr;
-    }
-
-    irr::scene::IMesh* DisplayShapes::ball(GameObjStyle const& style) const
-    {
-        return geometry->createSphereMesh(
-            style.radius, // radius
-            16, // polyCountX
-            16 // polyCountY
-        );
-    }
-
-    irr::scene::IMesh* DisplayShapes::box(GameObjStyle const& style) const
-    {
-        return geometry->createCubeMesh(
-            vector3df(style.xSize, style.ySize, style.zSize)
-        );
-    }
-
-    irr::scene::IMesh* DisplayShapes::cyl(GameObjStyle const& style) const
-    {
-        return geometry->createCylinderMesh(
-            style.radius, // radius
-            style.length, // length
-            16, // tessellation (number of quads around)
-            style.color, // color
-            style.closeEnds, // closeTop
-            0 // oblique (undocumented)
-        );
-    }
-
-    irr::scene::IMesh* DisplayShapes::cylX(GameObjStyle const& style) const
-    {
-        // Note: it is the shape offset with Bullet that
-        // rotates the mesh to be a cylX or cylZ.
-        return cyl(style);
-    }
-
-    irr::scene::IMesh* DisplayShapes::cylZ(GameObjStyle const& style) const
-    {
-        // Note: it is the shape offset with Bullet that
-        // rotates the mesh to be a cylX or cylZ.
-        return cyl(style);
-    }
-
-    irr::scene::IMesh* DisplayShapes::cone(GameObjStyle const& style) const
-    {
-        return geometry->createConeMesh(
-            style.radius, // radius
-            style.length, // length
-            16, // tessellation (number of quads around)
-            style.color, // colorTop
-            style.color, // colorBottom
-            0 // oblique (undocumented)
-        );
-    }
-
-    irr::scene::IMesh* DisplayShapes::coneX(GameObjStyle const& style) const
-    {
-        return geometry->createConeMesh(
-            style.radius, // radius
-            style.length, // length
-            16, // tessellation (number of quads around)
-            style.color, // colorTop
-            style.color, // colorBottom
-            0 // oblique (undocumented)
-        );
-    }
-
-    irr::scene::IMesh* DisplayShapes::coneZ(GameObjStyle const& style) const
-    {
-        return geometry->createConeMesh(
-            style.radius, // radius
-            style.length, // length
-            16, // tessellation (number of quads around)
-            style.color, // colorTop
-            style.color, // colorBottom
-            0 // oblique (undocumented)
-        );
-    }
-
-    irr::scene::IMesh* DisplayShapes::hills(GameObjStyle const& style) const
+namespace
+{
+    irr::scene::IMesh* create_hills(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
     {
         auto xSize = style.xSize / style.xTiles;
         auto zSize = style.zSize / style.zTiles;
@@ -123,16 +20,16 @@ namespace Glue::Irrlicht {
         auto textureRepeatCount = dimension2df(style.xTextureRepeat, style.zTextureRepeat);
 
         return geometry->createHillPlaneMesh(
-            tileSize,
-            tileCount,
-            material,
-            hillHeight,
-            countHills,
-            textureRepeatCount
+                tileSize,
+                tileCount,
+                material,
+                hillHeight,
+                countHills,
+                textureRepeatCount
         );
     }
 
-    irr::scene::IMesh* DisplayShapes::plane(GameObjStyle const& style) const
+    irr::scene::IMesh* create_plane(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
     {
         auto xSize = style.xSize / style.xTiles;
         auto zSize = style.zSize / style.zTiles;
@@ -142,28 +39,96 @@ namespace Glue::Irrlicht {
         auto textureRepeatCount = dimension2df(style.xTextureRepeat, style.zTextureRepeat);
 
         return geometry->createPlaneMesh(
-            tileSize,
-            tileCount,
-            material,
-            textureRepeatCount
+                tileSize,
+                tileCount,
+                material,
+                textureRepeatCount
         );
     }
 
-    irr::scene::IMesh* DisplayShapes::cloth(GameObjStyle const& style) const
+    irr::scene::IMesh* create_cloth(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
     {
-        auto mesh = plane(style);
+        auto mesh = create_plane(style, geometry);
         mesh->setHardwareMappingHint(EHM_STREAM, EBT_VERTEX);
         auto buf = mesh->getMeshBuffer(0);
         buf->setHardwareMappingHint(EHM_STREAM, EBT_VERTEX);
         return mesh;
     }
 
-    irr::scene::IMesh* DisplayShapes::mesh(GameObjStyle const& style) const
+    irr::scene::IMesh* create_mesh(GameObjStyle const& style)
     {
         // TODO:  Find a way to pass in the mesh without putting an Irrlicht object into a generic style.
         if (!style.mesh)
-            throw std::runtime_error("Style display shape is 'mesh' but style mesh slot is nil.");
+            throw std::runtime_error("Style display shape is 'mesh' but style mesh slot is null.");
 
         return style.mesh;
+    }
+
+    // Note: it is the shape offset with Bullet that
+    // rotates the mesh to be a cylX or cylZ.
+    irr::scene::IMesh* create_cylinder(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    {
+        return geometry->createCylinderMesh(
+                style.radius, // radius
+                style.length, // length
+                16, // tessellation (number of quads around)
+                style.color, // color
+                style.closeEnds, // closeTop
+                0 // oblique (undocumented)
+        );
+    }
+
+    // Note: it is the shape offset with Bullet that
+    // rotates the mesh to be a cylX or cylZ.
+    irr::scene::IMesh* create_cone(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    {
+        return geometry->createConeMesh(
+                style.radius, // radius
+                style.length, // length
+                16, // tessellation (number of quads around)
+                style.color, // colorTop
+                style.color, // colorBottom
+                0 // oblique (undocumented)
+        );
+    }
+
+    irr::scene::IMesh* create_box(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    {
+        return geometry->createCubeMesh(
+                vector3df(style.xSize, style.ySize, style.zSize)
+        );
+    }
+
+    irr::scene::IMesh* create_ball(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    {
+        return geometry->createSphereMesh(
+                style.radius, // radius
+                16, // polyCountX
+                16 // polyCountY
+        );
+    }
+}
+
+namespace Glue::Irrlicht {
+    
+    irr::scene::IMesh* create_display_shape(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    {
+        switch (style.dispShape)
+        {
+            case ObjShapes::none: return nullptr;
+            case ObjShapes::box: return create_box(style, geometry);
+            case ObjShapes::ball: return create_ball(style, geometry);
+            case ObjShapes::cyl: return create_cylinder(style, geometry);
+            case ObjShapes::cylX: return create_cylinder(style, geometry);
+            case ObjShapes::cylZ: return create_cylinder(style, geometry);
+            case ObjShapes::cone: return create_cone(style, geometry);
+            case ObjShapes::coneX: return create_cone(style, geometry);
+            case ObjShapes:: coneZ: return create_cone(style, geometry);
+            case ObjShapes::plane: return create_plane(style, geometry);
+            case ObjShapes::mesh: return create_mesh(style);
+            case ObjShapes::hills: return create_hills(style, geometry);
+            //case ObjShapes::skybox:  throw std::logic_error("Skybox should be handled by SceneNodeBuilder");
+            default: throw std::logic_error("Unhandled dispShape");
+        }
     }
 }

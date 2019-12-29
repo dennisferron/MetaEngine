@@ -27,7 +27,6 @@ namespace Glue {
         cone,
         coneX,
         coneZ,
-        skybox,
         plane,
         mesh,
         hills

@@ -16,7 +16,7 @@ private:
 public:
     BodyBuilder(btDynamicsWorld* dynamicsWorld, ShapeBuilder* shapeBuilder);
 
-    btRigidBody* buildBody(NodeStyle const& style) const;
+    btRigidBody* buildBody(NodeStyle const& style, irr::scene::IMesh* dispShapeMesh) const;
 };
 
 }}

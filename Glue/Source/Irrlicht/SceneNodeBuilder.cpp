@@ -61,21 +61,12 @@ ISceneNode* SceneNodeBuilder::buildSceneNode(GameObjStyle const& style)
 {
     ISceneNode* sceneNode = nullptr;
 
-    switch (style.dispShape)
-    {
-        case ObjShapes::skybox:
-            sceneNode = skybox(style);
-            break;
-        default:
-            auto shape = shapeBuilder->create(style);
+    auto shape = shapeBuilder->create(style);
 
-            if (shape == nullptr)
-                sceneNode == nullptr;
-            else
-                sceneNode = default_sceneNode(style, shape);
-
-            break;
-    }
+    if (shape == nullptr)
+        sceneNode == nullptr;
+    else
+        sceneNode = default_sceneNode(style, shape);
 
     if (sceneNode != nullptr)
     {

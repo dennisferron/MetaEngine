@@ -6,18 +6,19 @@
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Irrlicht/DisplayShapes.hpp"
 
-namespace Glue { namespace Irrlicht {
+namespace Glue::Irrlicht {
 
-class ShapeBuilder
-{
-private:
-    DisplayShapes* displayShapes;
+    class ShapeBuilder
+    {
+    private:
+        irr::scene::IGeometryCreator* geometry;
 
-    void changeTextureWrap(irr::scene::IMesh* mesh) const;
+        void changeTextureWrap(irr::scene::IMesh *mesh) const;
 
-public:
-    ShapeBuilder(DisplayShapes* displayShapes);
-    irr::scene::IMesh* create(GameObjStyle style) const;
-};
+    public:
+        ShapeBuilder(irr::scene::IGeometryCreator* geometry);
 
-}}
+        irr::scene::IMesh *create(GameObjStyle const& style) const;
+    };
+
+}

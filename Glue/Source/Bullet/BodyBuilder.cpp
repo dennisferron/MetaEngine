@@ -9,9 +9,9 @@ namespace Glue::Bullet
     {
     }
 
-    btRigidBody* BodyBuilder::buildBody(NodeStyle const& style) const
+    btRigidBody* BodyBuilder::buildBody(NodeStyle const& style, irr::scene::IMesh* dispShapeMesh) const
     {
-        auto physShape = shapeBuilder->create(style);
+        auto physShape = shapeBuilder->create(style, dispShapeMesh);
         auto shapeOffset = shapeBuilder->getOffset(style);
 
         if (physShape == nullptr)

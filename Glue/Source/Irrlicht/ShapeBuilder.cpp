@@ -41,14 +41,14 @@ namespace Glue::Irrlicht {
         buf->setDirty(EBT_VERTEX);
     }
 
-    ShapeBuilder::ShapeBuilder(DisplayShapes* displayShapes)
-        : displayShapes(displayShapes)
+    ShapeBuilder::ShapeBuilder(irr::scene::IGeometryCreator* geometry)
+        : geometry(geometry)
     {
     }
     
-    irr::scene::IMesh* ShapeBuilder::create(GameObjStyle style) const
+    irr::scene::IMesh* ShapeBuilder::create(GameObjStyle const& style) const
     {
-        auto dispShape = displayShapes->create(style);
+        auto dispShape = create_display_shape(style, geometry);
 
         if (dispShape != nullptr && style.alternateTextureWrap == true)
             changeTextureWrap(dispShape);

@@ -1,6 +1,21 @@
 #include "Glue/Bullet/PhysicsShapes.hpp"
 
-namespace {
+#include "BulletCollision/CollisionShapes/btBoxShape.h"
+#include "BulletCollision/CollisionShapes/btSphereShape.h"
+#include "BulletCollision/CollisionShapes/btCylinderShape.h"
+#include "BulletCollision/CollisionShapes/btConeShape.h"
+#include "BulletCollision/CollisionShapes/btStaticPlaneShape.h"
+#include "BulletCollision/CollisionShapes/btTriangleMeshShape.h"
+#include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
+#include "BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
+#include "BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h"
+
+#include "SColor.h"
+
+using namespace irr::core;
+
+namespace
+{
     bool is_nan(float f)
     {
         throw "Not implemented";
@@ -8,222 +23,200 @@ namespace {
     }
 }
 
-namespace Glue { namespace Bullet {
+namespace Glue::Bullet
+{
 
-        btCollisionShape* DisplayShapes::none(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::ball(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::box(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cyl(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cylX(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cylZ(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cone(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::coneX(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::coneZ(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::hills(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::plane(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::cloth(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::mesh(GameObjStyle style) const { throw "Not implemented."; }
-        btCollisionShape* DisplayShapes::skybox(GameObjStyle style) const { throw "Not implemented."; }
+    btCollisionShape* create_physics_shape(GameObjStyle const& style, irr::scene::IMesh* dispShapeMesh)
+    {
+        switch (style.physShape)
+        {
+            case ObjShapes::none:
+            {
+                return nullptr;
+            }
+            case ObjShapes::box:
+            {
+               return new btBoxShape(btVector3(style.xSize / 2, style.ySize / 2, style.zSize / 2));
+            }
+            case ObjShapes::ball:
+            {
+                return new btSphereShape(style.radius);
+            }
+            case ObjShapes::cyl:
+            {
+                return new btCylinderShape(btVector3(style.radius, style.length/2, style.radius));
+            }
+            case ObjShapes::cylX:
+            {
+                return new btCylinderShapeX(btVector3(style.length/2, style.radius, style.radius));
+            }
+            case ObjShapes::cylZ:
+            {
+                return new btCylinderShapeZ(btVector3(style.radius, style.radius, style.length/2));
+            }
+            case ObjShapes::cone:
+            {
+                return new btConeShape(style.radius, style.length);
+            }
+            case ObjShapes::coneX:
+            {
+                return new btConeShapeX(style.radius, style.length);
+            }
+            case ObjShapes::coneZ:
+            {
+                return new btConeShapeZ(style.radius, style.length);
+            }
+            case ObjShapes::plane:
+            {
+                btVector3 planeNormal(0, 1, 0);
+                btScalar planeConstant = style.y;
+                return new btStaticPlaneShape(
+                        planeNormal,
+                        planeConstant);
+            }
+            case ObjShapes::mesh:
+            {
+                auto meshBuf = dispShapeMesh->getMeshBuffer(0);  // frame 0
 
-}}
+                if (meshBuf->getVertexType() != irr::video::EVT_STANDARD)
+                    throw std::runtime_error("The mesh's vertex data not in the standard format.");
 
-/*
-method(namespace_Bullet, namespace_Custom, PredefinedValues,
+                if (meshBuf->getIndexCount() < 3)
+                    throw std::runtime_error("Cannot create physshape for mesh, the mesh has no triangles.");
 
-    PhysicsShapes := Object clone lexicalDo(
-        appendProto(namespace_Bullet)
-        appendProto(namespace_Custom)
-        appendProto(PredefinedValues)
+                btIndexedMesh bulletMesh;
 
-        none := method(nil)
+                bulletMesh.m_numTriangles = meshBuf->getIndexCount() / 3;
 
-        ball := method(style,
-            btSphereShape new(style radius)
-        )
+                auto triangleIndexBase = reinterpret_cast<const unsigned char*>(meshBuf->getIndices());
+                bulletMesh.m_triangleIndexBase = triangleIndexBase;
 
-        box := method(style,
-            btBoxShape new(btVector3 tmp(style xSize / 2, style ySize / 2, style zSize / 2))
-        )
+                auto vertexBase = reinterpret_cast<const unsigned char*>(meshBuf->getVertices());
+                bulletMesh.m_vertexBase = vertexBase;
 
-        cyl := method(style,
-            btCylinderShape new(btVector3 tmp(style radius, style length/2, style radius))
-        )
+                auto indexSize = 2; // 16 bits, 2 bytes
+                bulletMesh.m_triangleIndexStride = 3 * indexSize;
+                bulletMesh.m_numVertices = meshBuf->getVertexCount();
+                bulletMesh.m_vertexStride = sizeof(irr::video::S3DVertex);
 
-        cylX := method(style,
-            btCylinderShapeX new(btVector3 tmp(style length/2, style radius, style radius))
-        )
+                // This will be set when the bullet mesh buf is added to the triangle index vertex array object
+                //bulletMesh set_m_indexType(PHY_SHORT)
 
-        cylZ := method(style,
-            btCylinderShapeZ new(btVector3 tmp(style radius, style radius, style length/2))
-        )
+                // This defaults to whatever bullet is built with (floats or doubles).  For Irrlicht I'm sure we want only floats.
+                bulletMesh.m_vertexType = PHY_FLOAT;
 
-        cone := method(style,
-            btConeShape new(style radius, style length)
-        )
+                // Cant' figure out how to set the indexType properly here, and a comment indicates this constructor is only for backwards compatibility.
+                // Best to use the default constructor and addIndexedMesh where you can specify the index type.
+                //meshInterface := btTriangleIndexVertexArray new(numTriangles, indices unsafe_ptr_cast, indexStride, numVertices, vertices unsafe_ptr_cast, vertexStride)
 
-        coneX := method(style,
-            btConeShapeX new(style radius, style length)
-        )
+                auto meshInterface = new btTriangleIndexVertexArray();
+                meshInterface->addIndexedMesh(bulletMesh, PHY_SHORT);
 
-        coneZ := method(style,
-            btConeShapeZ new(style radius, style length)
-        )
+                return new btBvhTriangleMeshShape(meshInterface, true, true);
+            }
+            case ObjShapes::hills:
+            {
+                auto xSize = style.xSize / style.xTiles;
+                auto zSize = style.zSize / style.zTiles;
+                auto xTiles = style.xTiles;
+                auto zTiles = style.zTiles;
 
-        hills := method(style, dispShape,
+                // Bullet does not provide a way to scale heightfields on X,Z
+                // so we have to scale the final shape instead - by changing the style.
+                //style.setPhysScaleX(xSize * style.dispScaleX)
+                //style.setPhysScaleZ(zSize * style.dispScaleZ)
+                //style.physScaleX = 1;  // TODO: can't modify const style obj
+                //style.physScaleZ = 1;
 
-            xSize := style xSize / style xTiles
-            zSize := style zSize / style zTiles
-            xTiles := style xTiles
-            zTiles := style zTiles
+                // However, when using float bullet uses the irrlicht mesh height directly
+                // so it doesn't need to be scaled except by the same as the irrlicht obj is scaled
+                //style.physScaleY = style.dispScaleY;  // TODO: can't modify const style obj
 
-            // Bullet does not provide a way to scale heightfields on X,Z
-            // so we have to scale the final shape instead - by changing the style.
-            //style setPhysScaleX(xSize * style dispScaleX)
-            //style setPhysScaleZ(zSize * style dispScaleZ)
-            style setPhysScaleX(1)
-            style setPhysScaleZ(1)
+                auto tileSize = dimension2df(xSize, zSize);
+                auto tileCount = dimension2du(xTiles, zTiles);
+                auto material = nullptr;
+                auto hillHeight = style.ySize;
+                auto countHills = dimension2df(style.xHills, style.zHills);
+                auto textureRepeatCount = dimension2df(style.xTextureRepeat, style.zTextureRepeat);
 
-            // However, when using float bullet uses the irrlicht mesh height directly
-            // so it doesn't need to be scaled except by the same as the irrlicht obj is scaled
-            style setPhysScaleY(style dispScaleY)
+                auto heightStickWidth = style.xTiles;
+                auto heightStickLength = style.zTiles;
 
-            tileSize := dimension2df tmp(xSize, zSize)
-            tileCount := dimension2du tmp(xTiles, zTiles)
-            material := nil
-            hillHeight := style ySize
-            countHills := dimension2df tmp(style xHills, style zHills)
-            textureRepeatCount := dimension2df tmp(style xTextureRepeat, style zTextureRepeat)
+                auto upAxis = 1;  // 0 = X, 1 = Y, 2 = Z
 
-            heightStickWidth := style xTiles
-            heightStickLength := style zTiles
+                auto heightDataType = PHY_FLOAT;
 
-            upAxis := 1  // 0 = X, 1 = Y, 2 = Z
+                // bullet ignores scale when the heightfield type is float!!
+                // (See line 159 in btHeightfieldTerrainShape.cpp)
+                // The correct height will be set by getting it from the mesh directly anyway.
+                auto heightScale = 0.0;
 
-            heightDataType := PHY_FLOAT
+                // I think this changes which diagonal the quad is split on to make triangles - ?
+                auto flipQuadEdges = false;
 
-            // bullet ignores scale when the heightfield type is float!!
-            // (See line 159 in btHeightfieldTerrainShape.cpp)
-            // The correct height will be set by getting it from the mesh directly anyway.
-            heightScale := 0.0
+                auto buf = dispShapeMesh->getMeshBuffer(0);
 
-            // I think this changes which diagonal the quad is split on to make triangles - ?
-            flipQuadEdges := false
+                auto pos = buf->getPosition(0);
+                float minX = pos.X;
+                float maxX = pos.X;
+                float minY = pos.Y;
+                float maxY = pos.Y;
+                float minZ = pos.Z;
+                float maxZ = pos.Z;
 
-            buf := dispShape getMeshBuffer(0)
+                for(int i=1; i < buf->getVertexCount(); i++)
+                {
+                    auto pos = buf->getPosition(i);
+                    if (pos.X < minX) minX = pos.X;
+                    if (pos.Y < minY) minY = pos.Y;
+                    if (pos.Z < minZ) minZ = pos.Z;
+                    if (pos.X > maxX) maxX = pos.X;
+                    if (pos.Y > maxY) maxY = pos.Y;
+                    if (pos.Z > maxZ) maxZ = pos.Z;
+                }
 
-            minX := nil
-            maxX := nil
-            minY := nil
-            maxY := nil
-            minZ := nil
-            maxZ := nil
+                // Irrlicht adds 1 more to X and Z tiles so we have to as well.
+                xTiles += 1;
+                zTiles += 1;
 
-            check_nan := method(f, name, x, y, z,
-                if(ScriptUtil is_nan(f),
-                    writeln(name, " is nan at ", x, ", ", y, ", ", z)
-                )
-            )
+                // Bullet does NOT save the heightfield array!!  So we need to create with new, not tmp.
+                float* heightfieldData = new float[xTiles * zTiles];
 
-            for(i, 0, buf getVertexCount - 1,
-                pos := buf getPosition_c(i)
-                if (minX == nil or pos get_X < minX, minX = pos get_X)
-                if (minY == nil or pos get_Y < minY, minY = pos get_Y)
-                if (minZ == nil or pos get_Z < minZ, minZ = pos get_Z)
+                for(int i=0; i < buf->getVertexCount(); i++)
+                {
+                    auto pos = buf->getPosition(i);
+                    auto xCell = (xTiles-1) * (pos.X - minX) / (maxX - minX);
+                    auto zCell = (zTiles-1) * (pos.Z - minZ) / (maxZ - minZ);
 
-                if (maxX == nil or pos get_X > maxX, maxX = pos get_X)
-                if (maxY == nil or pos get_Y > maxY, maxY = pos get_Y)
-                if (maxZ == nil or pos get_Z > maxZ, maxZ = pos get_Z)
+                    if (xCell < 0 || xCell >= xTiles)
+                        throw std::runtime_error("xCell out of bounds for heightfield");
+                    if (zCell < 0 || zCell >= zTiles)
+                        throw std::runtime_error("zCell out of bounds for heightfield");
 
-                check_nan(pos get_X, "pos X", pos get_X, pos get_Y, pos get_Z)
-                check_nan(pos get_Y, "pos Y", pos get_X, pos get_Y, pos get_Z)
-                check_nan(pos get_Z, "pos Z", pos get_X, pos get_Y, pos get_Z)
-            )
+                    int cellPos = xCell + xTiles * zCell;
 
-            writeln("minX = ", minX, " maxX = ", maxX)
+                    heightfieldData[cellPos] = pos.Y;
+                }
 
-            // Irrlicht adds 1 more to X and Z tiles so we have to as well.
-            xTiles = xTiles + 1
-            zTiles = zTiles + 1
+                auto minHeight = minY;
+                auto maxHeight = maxY;
 
-            // Bullet does NOT save the heightfield array!!  So we need to create with new, not tmp.
-            heightfieldData := NativeArray_of_float new(xTiles * zTiles)
-
-            for(i, 0, buf getVertexCount - 1,
-                pos := buf getPosition_c(i)
-                xCell := (xTiles-1) * (pos get_X - minX) / (maxX - minX)
-                zCell := (zTiles-1) * (pos get_Z - minZ) / (maxZ - minZ)
-
-                if (ScriptUtil is_nan(pos get_Z), writeln("cell ", xCell, ", ", zCell, " is nan!"))
-
-                if (xCell < 0 or xCell >= xTiles, Exception raise("xCell " .. xCell .. " out of bounds for heightfield " .. xTiles .. " by " .. zTiles))
-                if (zCell < 0 or zCell >= zTiles, Exception raise("zCell " .. zCell .. " out of bounds for heightfield " .. xTiles .. " by " .. zTiles))
-
-                cellPos := xCell + xTiles * zCell
-
-                heightfieldData at_put(cellPos, pos get_Y)
-            )
-
-            minHeight := minY
-            maxHeight := maxY
-
-            if (ScriptUtil is_nan(minHeight), Exception raise("Bad irrlicht heightmap"))
-
-            btHeightfieldTerrainShape new(
-                heightStickWidth,
-                heightStickLength,
-                heightfieldData begin_nc,
-                heightScale,
-                minHeight,
-                maxHeight,
-                upAxis,
-                heightDataType,
-                flipQuadEdges
-            )
-        )
-
-        mesh := method(style, dispShape,
-
-            meshBuf := dispShape getMeshBuffer(0)  // frame 0
-
-            if (meshBuf getVertexType != EVT_STANDARD, Exception raise("The mesh's vertex data not in the standard format."))
-            if (meshBuf getIndexCount < 3,
-                writeln("Cannot create physshape for mesh, the mesh has no triangles.")
-                return
-            )
-
-            bulletMesh := btIndexedMesh tmp
-
-            bulletMesh set_m_numTriangles(meshBuf getIndexCount / 3)
-
-            triangleIndexBase := meshBuf getIndices_nc
-            triangleIndexBaseCasted := triangleIndexBase unsafe_ptr_cast
-
-            bulletMesh set_m_triangleIndexBase(triangleIndexBaseCasted)
-
-            vertexBase := meshBuf getVertices_nc
-            vertexBaseCasted := vertexBase unsafe_ptr_cast
-            bulletMesh set_m_vertexBase(vertexBaseCasted)
-
-            indexSize := 2 // 16 bits, 2 bytes
-            bulletMesh set_m_triangleIndexStride(3 * indexSize)
-            bulletMesh set_m_numVertices(meshBuf getVertexCount)
-            bulletMesh set_m_vertexStride(S3DVertex get_class get_size)
-
-            // This will be set when the bullet mesh buf is added to the triangle index vertex array object
-            //bulletMesh set_m_indexType(PHY_SHORT)
-
-            // This defaults to whatever bullet is built with (floats or doubles).  For Irrlicht I'm sure we want only floats.
-            bulletMesh set_m_vertexType(PHY_FLOAT)
-
-            // Cant' figure out how to set the indexType properly here, and a comment indicates this constructor is only for backwards compatibility.
-            // Best to use the default constructor and addIndexedMesh where you can specify the index type.
-            //meshInterface := btTriangleIndexVertexArray new(numTriangles, indices unsafe_ptr_cast, indexStride, numVertices, vertices unsafe_ptr_cast, vertexStride)
-
-            meshInterface := btTriangleIndexVertexArray new()
-            meshInterface addIndexedMesh(bulletMesh, PHY_SHORT)
-
-            return btBvhTriangleMeshShape new(meshInterface, true, true)
-        )
-    )
-)
-*/
+                return new btHeightfieldTerrainShape(
+                        heightStickWidth,
+                        heightStickLength,
+                        heightfieldData,
+                        heightScale,
+                        minHeight,
+                        maxHeight,
+                        upAxis,
+                        heightDataType,
+                        flipQuadEdges
+                );
+            }
+            default:
+            {
+                throw std::logic_error("Unhandled physics shape.");
+            }
+        }
+    }
+}
