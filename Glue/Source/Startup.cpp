@@ -1,39 +1,43 @@
 #include "Glue/Startup.hpp"
 #include "Glue/Model/Graph.hpp"
 #include "Glue/Irrlicht/Irrlicht.hpp"
-#include "Glue/Bullet/Bullet.hpp"
+#include "Glue/Bullet/BulletComponentImpl.hpp"
 #include "Glue/Avatar/Avatar.hpp"
+#include "Glue/Styles/GameObjStyles.hpp"
+#include "Glue/Avatar/PlayerStyle.hpp"
+#include "Glue/Styles/LinkStyles.hpp"
 
 #include <iostream>
 #include <optional>
 
 namespace Glue {
 
-    void addPlayer()
+    void addPlayer(Graph* graph, Glue::Avatar::AvatarComponent* avatarComp)
     {
-//addPlayer := method(
-//    RootModule lexicalDo(
-//        avatarCameraNode := graph addNode(Styles GameObjStyles EmptyStyle)
-//        avatarCameraNode addAttribute(Avatar Camera clone)
-//
-//        playerNode := graph addNode(Avatar PlayerStyle)
-//        avatarComp attachControl(playerNode)
-//
-//        graph addLink(Styles LinkStyles LookAtStyle, avatarCameraNode, playerNode)
-//    )
-    }
+        auto avatarCameraNode = graph->addNode(Glue::GameObjStyles::EmptyStyle());
+        auto avatar_camera = new Glue::Avatar::Camera();
+        avatarCameraNode->addAttribute(avatar_camera);
 
+        auto playerNode = graph->addNode(Glue::Avatar::PlayerStyle());
+        avatarComp->attachControl(playerNode);
+
+        // TODO:
+        graph->addLink( Glue::LinkStyles::LookAtStyle(), avatarCameraNode, playerNode);
+    }
 
     void do_startup()
     {
         auto avatar_cmp = new Avatar::AvatarComponent();
-        auto blt_cmp = new Bullet::BulletComponent();
+        auto shapeBuilder = new Bullet::ShapeBuilder();
+        auto blt_cmp = new Bullet::BulletComponentImpl(shapeBuilder);
         auto irr_cmp = new Irrlicht::IrrlichtComponent();
 
         irr::ITimer* device_timer = irr_cmp->get_deviceTimer();
         auto time_cmp = new TimeComponent(device_timer);
 
         auto graph = new Graph(avatar_cmp, blt_cmp, irr_cmp, time_cmp);
+
+        addPlayer(graph, avatar_cmp);
 
         //time_cmp->runLoop();
     }

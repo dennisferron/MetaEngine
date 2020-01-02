@@ -1,3 +1,13 @@
+#pragma once
+
+#include "Glue/Interactions/Link/LinkInteraction.hpp"
+#include "Glue/Irrlicht/Camera.hpp"
+
+namespace Glue::Interactions::Link {
+
+    class CameraFollowObject
+    {
+        CameraFollowObject(Glue::Irrlicht::Camera* );
 /*
 method(LinkInteraction, Link, Irrlicht, Avatar, Styles,
 
@@ -30,3 +40,7 @@ method(LinkInteraction, Link, Irrlicht, Avatar, Styles,
     return CameraFollowObject
 )
 */
+
+    };
+
+}

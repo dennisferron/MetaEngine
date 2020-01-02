@@ -4,7 +4,7 @@ include_directories(${Boost_INCLUDE_DIR})
 add_executable(UnitTests
         TestMain.cpp
         DatabaseTests.cpp
-        ComponentsTests.cpp
+        BulletComponentTests.cpp
         MockComponents.hpp)
 
 target_link_libraries( UnitTests PUBLIC

@@ -1,13 +1,10 @@
 #pragma once
 
 #include "Glue/Model/Component.hpp"
+#include "Glue/Model/Node.hpp"
+#include "Glue/Model/TimeComponent.hpp"
 
 #include <memory>
-
-namespace Glue {
-    class Node;
-    class TimeInfo;
-}
 
 namespace Glue { namespace Avatar {
 

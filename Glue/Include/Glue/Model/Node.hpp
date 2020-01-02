@@ -5,8 +5,12 @@
 #include "Glue/Styles/GameObjStyle.hpp"
 
 #include "Glue/Irrlicht/IrrlichtAttribute.hpp"
+#include "Glue/Bullet/BulletAttribute.hpp"
 
 #include <vector>
+#include <Glue/Avatar/AvatarComponent.hpp>
+#include <Glue/Avatar/AvatarAttribute.hpp>
+#include <Glue/Avatar/Camera.hpp>
 
 namespace Glue {
 
@@ -32,6 +36,9 @@ public:
 private:
 
     Glue::Irrlicht::IrrlichtAttribute* irrlicht_attribute = nullptr;
+    Glue::Bullet::BulletAttribute* bullet_attribute = nullptr;
+    Glue::Avatar::AvatarAttribute* avatar_attribute = nullptr;
+    Glue::Avatar::Camera* avatar_camera = nullptr;
 
 public:
 
@@ -42,6 +49,9 @@ public:
     Node& addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteraction);
 
     void addAttribute(Glue::Irrlicht::IrrlichtAttribute* attr);
+    void addAttribute(Glue::Bullet::BulletAttribute* attr);
+    void addAttribute(Glue::Avatar::AvatarAttribute* attr);
+    void addAttribute(Glue::Avatar::Camera* attr);
 
     /*
     template <typename T>

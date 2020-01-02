@@ -6,15 +6,12 @@ namespace Glue {
 
 std::vector<LinkInteraction*> Link::possibleInteractions;
 
-Link::Link(LinkStyle* newStyle) :
-    style(newStyle),
-    fromNode(nullptr),
-    toNode(nullptr),
-    domain(),
-    graph(nullptr)
+Link::Link(Graph* graph, LinkStyle const& style, Node* fromNode, Node* toNode) :
+    graph(graph),
+    style(style),
+    fromNode(fromNode),
+    toNode(toNode)
 {
-    throw "TODO: Implement domain.setSite for this";
-    //domain.setSite(this);
 }
 
 void Link::registerInteraction(LinkInteraction* interaction)
@@ -22,55 +19,10 @@ void Link::registerInteraction(LinkInteraction* interaction)
     possibleInteractions.push_back(interaction);
 }
 
-Link& Link::setStyle(LinkStyle* value, LinkInteraction* expectedInteraction)
-{
-    style = value;
-    throw "TODO:  implement domain.addObject for this";
-    //domain.addObject("style", value, expectedInteraction);
-    return *this;
-}
-
-Link& Link::setFromNode(Node* value)
-{
-    fromNode = value;
-
-    // TODO:  Notify and remove old node value from domain.
-    /*
-    // TODO:  What does this do?
-    if (fromNode != nullptr)
-        domain.merge("fromNode", fromNode->domain, "node");
-    */
-    return *this;
-}
-
-Link& Link::setToNode(Node* value)
-{
-    toNode = value;
-
-    // TODO:  Notify and remove old node value from domain.
-/*
-    // TODO:  What does this do?
-    if (toNode != nullptr)
-        domain.merge("toNode", toNode->domain, "node");
-*/
-    return *this;
-}
-
-Link& Link::setGraph(Graph* value)
-{
-    graph = value;
-
-    // TODO:  Notify and remove old components from the domain.
-
-    throw "TODO:  Implement domain merge for component here";
-    //domain.merge("component", graph->domain, "component");
-    return *this;
-}
-
 Link& Link::addAttribute(Object* attr, LinkInteraction* expectedInteraction)
 {
     throw "TODO:  implement domain.addObject for attribute here";
-    domain.addObject("link", attr/*, expectedInteraction*/);
+    //domain.addObject("link", attr/*, expectedInteraction*/);
     return *this;
 }
 

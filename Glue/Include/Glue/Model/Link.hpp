@@ -9,14 +9,13 @@
 
 namespace Glue {
 
-class Link : public Domain
+class Link
 {
 private:
-    LinkStyle* style;
+    Graph* graph;
+    LinkStyle style;
     Node* fromNode;
     Node* toNode;
-    Domain domain;
-    Graph* graph;
 
 public:
 
@@ -25,12 +24,8 @@ public:
 
     static void registerInteraction(LinkInteraction* interaction);
 
-    Link(LinkStyle* newStyle);
+    Link(Graph* graph, LinkStyle const& style, Node* fromNode, Node* toNode);
 
-    Link& setStyle(LinkStyle* value, LinkInteraction* expectedInteraction);
-    Link& setFromNode(Node* value);
-    Link& setToNode(Node* value);
-    Link& setGraph(Graph* value);
     Link& addAttribute(Object* attr, LinkInteraction* expectedInteraction);
 
     Object* findAttribute(Object* attr);

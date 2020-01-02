@@ -63,17 +63,21 @@ namespace Glue
 
     Link* Graph::addLink(LinkStyle const& style, Node* fromNode, Node* toNode)
     {
-        throw "TODO:  memory management for style, should it be passed by value or by pointer?";
-        //Link* link = new Link(&style);
-        //link->setFromNode(fromNode);
-        //link->setToNode(toNode);
-        //link->setGraph(this);
+        Link* link = new Link(this, style, fromNode, toNode);
 
-        throw "TODO:  base class for components having addLink";
-        //for (auto c : components)
-        //    c->addLink(link);
+        //if (avatar_cmp)
+        //    avatar_cmp->addLink(link);
 
-        //return link;
+        if (blt_cmp)
+            blt_cmp->addLink(link);
+
+        //if (irr_cmp)
+        //    irr_cmp->addLink(link);
+
+        //if (time_cmp)
+        //    time_cmp->addLink(link);
+
+        return link;
     }
 
     void Graph::removeLink(Link* link) const

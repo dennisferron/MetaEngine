@@ -42,6 +42,23 @@ Node& Node::addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteracti
     void Node::addAttribute(Glue::Irrlicht::IrrlichtAttribute* attr)
     {
         irrlicht_attribute = attr;
+        // TODO: manage motion state
+    }
+
+    void Node::addAttribute(Glue::Bullet::BulletAttribute* attr)
+    {
+        bullet_attribute = attr;
+        // TODO: manage motion state
+    }
+
+    void Node::addAttribute(Glue::Avatar::AvatarAttribute* attr)
+    {
+        avatar_attribute = attr;
+    }
+
+    void Node::addAttribute(Glue::Avatar::Camera* attr)
+    {
+        avatar_camera = attr;
     }
 
 } // namespace Glue

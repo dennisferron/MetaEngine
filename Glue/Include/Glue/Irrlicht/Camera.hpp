@@ -8,6 +8,7 @@
 
 namespace Glue { namespace Irrlicht {
 
+    // This is not a node attribute, but rather a subpart of the Irrlicht Component.
 class Camera
 {
 private:

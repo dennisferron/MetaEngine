@@ -28,6 +28,7 @@ add_library(Glue
         Include/Glue/Bullet/BulletAttribute.hpp
         Include/Glue/Bullet/PhysicsConstraints.hpp
         Include/Glue/Bullet/PhysicsShapes.hpp
+        Include/Glue/Bullet/ScriptedWorldManager.hpp
         Include/Glue/Bullet/Sense.hpp
         Include/Glue/Bullet/ShapeBuilder.hpp
         Include/Glue/Bullet/ShapeOffsets.hpp
@@ -129,6 +130,7 @@ add_library(Glue
         Source/Bullet/ConstraintObj.cpp
         Source/Bullet/BulletAttribute.cpp
         Source/Bullet/PhysicsShapes.cpp
+        Source/Bullet/ScriptedWorldManager.cpp
         Source/Bullet/Sense.cpp
         Source/Bullet/ShapeBuilder.cpp
         Source/Bullet/ShapeOffsets.cpp
@@ -214,7 +216,7 @@ add_library(Glue
         Source/Startup.cpp
         Include/Glue/Model/Object.hpp
         Include/Glue/ADT/variant_ptr.hpp
-)
+        Source/Bullet/BulletComponentImpl.cpp Include/Glue/Bullet/BulletComponentImpl.hpp)
 
 # Note:  Order of libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
 #  I'm less sure about the order of the rest of the Bullet libraries.
