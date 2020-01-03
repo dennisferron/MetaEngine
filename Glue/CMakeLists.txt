@@ -21,7 +21,6 @@ add_library(Glue
         Include/Glue/Avatar/AvatarAttribute.hpp
         Include/Glue/Avatar/PlayerStyle.hpp
         Include/Glue/Bullet/BodyBuilder.hpp
-        Include/Glue/Bullet/Bullet.hpp
         Include/Glue/Bullet/BulletComponent.hpp
         Include/Glue/Bullet/ConstraintBuilder.hpp
         Include/Glue/Bullet/ConstraintObj.hpp
@@ -30,8 +29,6 @@ add_library(Glue
         Include/Glue/Bullet/PhysicsShapes.hpp
         Include/Glue/Bullet/ScriptedWorldManager.hpp
         Include/Glue/Bullet/Sense.hpp
-        Include/Glue/Bullet/ShapeBuilder.hpp
-        Include/Glue/Bullet/ShapeOffsets.hpp
         Include/Glue/Desteer/Desteer.hpp
         Include/Glue/Desteer/Steering.hpp
         Include/Glue/EditorGUI/EditorGUIComponent.hpp
@@ -124,7 +121,6 @@ add_library(Glue
         Source/Avatar/AvatarAttribute.cpp
         Source/Avatar/PlayerStyle.cpp
         Source/Bullet/BodyBuilder.cpp
-        Source/Bullet/Bullet.cpp
         Source/Bullet/BulletComponent.cpp
         Source/Bullet/ConstraintBuilder.cpp
         Source/Bullet/ConstraintObj.cpp
@@ -132,8 +128,6 @@ add_library(Glue
         Source/Bullet/PhysicsShapes.cpp
         Source/Bullet/ScriptedWorldManager.cpp
         Source/Bullet/Sense.cpp
-        Source/Bullet/ShapeBuilder.cpp
-        Source/Bullet/ShapeOffsets.cpp
         Source/Desteer/Desteer.cpp
         Source/Desteer/Steering.cpp
         Source/EditorGUI/EditorGUIComponent.cpp

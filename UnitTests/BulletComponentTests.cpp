@@ -17,7 +17,7 @@ namespace
         }
     };
 
-    class MockShapeBuilder : public Glue::Bullet::ShapeBuilder
+    class MockBodyBuilder : public Glue::Bullet::BodyBuilder
     {
 
     };
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_SUITE(BulletComponentsTests)
 
 BOOST_AUTO_TEST_CASE(test_something)
 {
-    auto shapeBuilder = new MockShapeBuilder();
+    auto shapeBuilder = new MockBodyBuilder();
     Glue::Bullet::BulletComponentImpl blt_cmp(shapeBuilder);
 }
 

@@ -27,10 +27,9 @@ namespace Glue::Bullet {
         ScriptedWorldManager scriptWorldMgr;
         btIDebugDraw* debugDrawer;
         BodyBuilder* bodyBuilder = nullptr;
-        ShapeBuilder* shapeBuilder = nullptr;
 
     public:
-        BulletComponentImpl(ShapeBuilder* shapeBuilder);
+        BulletComponentImpl(BodyBuilder* bodyBuilder);
 
         ~BulletComponentImpl() override;
 

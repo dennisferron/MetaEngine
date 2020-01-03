@@ -2,24 +2,45 @@
 #include "Glue/Animators/KinematicAnimator.hpp"
 #include "Glue/Animators/PhysicsAnimator.hpp"
 
+#include "Glue/Bullet/PhysicsShapes.hpp"
+
+#include "btRigidBody.h"
+
+#include "Glue/Constants.hpp"
+
+namespace
+{
+    using namespace Glue;
+    using namespace Glue::Constants;
+
+    btTransform get_shape_transform(NodeStyle const& style);
+}
+
 namespace Glue::Bullet
 {
-    BodyBuilder::BodyBuilder(btDynamicsWorld* dynamicsWorld, ShapeBuilder* shapeBuilder)
-        : dynamicsWorld(dynamicsWorld), shapeBuilder(shapeBuilder)
+    btCollisionShape* BodyBuilder::createShape(
+            NodeStyle const& style,
+            irr::scene::IMesh* dispShapeMesh) const
     {
+        auto physShape = create_physics_shape(style, dispShapeMesh);
+
+        if (physShape != nullptr && style.margin)
+            physShape->setMargin(*style.margin);
+
+        return physShape;
     }
 
-    btRigidBody* BodyBuilder::buildBody(NodeStyle const& style, irr::scene::IMesh* dispShapeMesh) const
+    btRigidBody::btRigidBodyConstructionInfo
+        BodyBuilder::createConstructionInfo(
+            NodeStyle const& style,
+            btCollisionShape* physShape) const
     {
-        auto physShape = shapeBuilder->create(style, dispShapeMesh);
-        auto shapeOffset = shapeBuilder->getOffset(style);
-
         if (physShape == nullptr)
-            return nullptr;
+            throw std::logic_error("physShape cannot be null");
 
         Scalar mass = style.isKinematic ? 0 : style.mass;
 
-        auto localInertia = btVector3(0,0,0);
+        auto localInertia = btVector3(0, 0, 0);
 
         //rigidbody is dynamic if and only if mass is non zero, otherwise static
         if (mass != 0)
@@ -43,6 +64,7 @@ namespace Glue::Bullet
 
         btMotionState* motionState;
 
+        auto shapeOffset = get_shape_transform(style);
         if (style.isKinematic)
             motionState = new KinematicAnimator(startTransform, shapeOffset);
         else
@@ -53,9 +75,21 @@ namespace Glue::Bullet
         // Also, some bullet shapes cannot be scaled anyway & have to be scaled here.
         physShape->setLocalScaling(btVector3(style.physScaleX, style.physScaleY, style.physScaleZ));
 
-        auto rbInfo = btRigidBody::btRigidBodyConstructionInfo(mass, motionState, physShape, localInertia);
+        auto rbInfo = btRigidBody::btRigidBodyConstructionInfo(
+                mass,
+                motionState,
+                physShape,
+                localInertia);
         rbInfo.m_friction = style.friction;
 
+        return rbInfo;
+    }
+
+    btRigidBody* BodyBuilder::addToWorld(
+            NodeStyle const& style,
+            btDynamicsWorld* dynamicsWorld,
+            btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const
+    {
         auto rigidBody = new btRigidBody(rbInfo);
 
         if (style.collisionGroup)
@@ -97,5 +131,107 @@ namespace Glue::Bullet
         }
 
         return rigidBody;
+    }
+}
+
+namespace
+{
+    using namespace Glue;
+    using namespace Glue::Constants;
+
+    btTransform get_shape_transform(NodeStyle const& style)
+    {
+        switch (style.physShape)
+        {
+            case ObjShapes::none:
+            {
+                return btTransform::getIdentity();
+            }
+            case ObjShapes::ball:
+            {
+                return btTransform::getIdentity();
+            }
+            case ObjShapes::box:
+            {
+                return btTransform::getIdentity();
+            }
+            case ObjShapes::cyl:
+            {
+                auto axis = btVector3(0, 1, 0);
+                float angle = 0;
+                auto q = btQuaternion(axis, angle);
+
+                auto v = btVector3(0, -style.length / 2, 0);
+
+                return btTransform(q, v);
+            }
+            case ObjShapes::cylX:
+            {
+                auto axis = btVector3(0, 0, 1);
+                auto angle = TAU / 4;
+                auto q = btQuaternion(axis, angle);
+
+                auto v = btVector3(style.length / 2, 0, 0);
+
+                return btTransform(q, v);
+            }
+            case ObjShapes::cylZ:
+            {
+                auto axis = btVector3(1, 0, 0);
+                auto angle = TAU / 4;
+                auto q = btQuaternion(axis, angle);
+
+                auto v = btVector3(0, 0, -style.length / 2);
+
+                return btTransform(q, v);
+            }
+            case ObjShapes::cone:
+            {
+                auto axis = btVector3(0, 0, 1);
+                auto angle = 0;
+                auto q = btQuaternion(axis, angle);
+
+                auto v = btVector3(0, -style.length / 2, 0);
+
+                return btTransform(q, v);
+            }
+            case ObjShapes::coneX:
+            {
+                auto axis = btVector3(0, 0, 1);
+                auto angle = -TAU / 4;
+                auto q = btQuaternion(axis, angle);
+
+                auto v = btVector3(-style.length / 2, 0, 0);
+
+                return btTransform(q, v);
+            }
+            case ObjShapes::coneZ:
+            {
+                auto axis = btVector3(1, 0, 0);
+                auto angle = TAU / 4;
+                auto q = btQuaternion(axis, angle);
+
+                auto v = btVector3(0, 0, -style.length / 2);
+                //auto v = btVector3(0, 0, 0);
+
+                return btTransform(q, v);
+            }
+            case ObjShapes::hills:
+            {
+                return btTransform::getIdentity();
+            }
+            case ObjShapes::mesh:
+            {
+                return btTransform::getIdentity();
+            }
+            case ObjShapes::plane:
+            {
+                return btTransform::getIdentity();
+            }
+            default:
+            {
+                throw std::logic_error("Unknown ObjShape");
+            }
+        }
     }
 }

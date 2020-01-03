@@ -5,8 +5,8 @@
 namespace Glue::Bullet
 {
 
-    BulletComponentImpl::BulletComponentImpl(ShapeBuilder* shapeBuilder)
-        : shapeBuilder(shapeBuilder),
+    BulletComponentImpl::BulletComponentImpl(BodyBuilder* bodyBuilder) :
+            bodyBuilder(bodyBuilder),
             scriptWorldMgr(),
             softBodyWorldInfo()
     {
@@ -41,14 +41,11 @@ namespace Glue::Bullet
         softBodyWorldInfo.water_normal = btVector3(0,0,0);  // TODO: Should one of these be 1?
         softBodyWorldInfo.m_gravity = btVector3(0,-9.81,0);
         //softBodyWorldInfo.m_gravity = btVector3(0,0,0);
-
-        bodyBuilder = new BodyBuilder(dynamicsWorld, shapeBuilder);
     }
 
     BulletComponentImpl::~BulletComponentImpl()
     {
         delete bodyBuilder;
-        delete shapeBuilder;
         delete dynamicsWorld;
         delete solver;
         delete broadphaseInterface;

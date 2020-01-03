@@ -1,22 +1,32 @@
 #pragma once
 
 #include "Glue/Styles/GameObjStyle.hpp"
-#include "Glue/Bullet/ShapeBuilder.hpp"
+#include "btRigidBody.h"
+#include "btBulletCollisionCommon.h"
+
+#include "Glue/Styles/GameObjStyle.hpp"
 #include "btDynamicsWorld.h"
 #include "btRigidBody.h"
 
-namespace Glue { namespace Bullet {
-
-class BodyBuilder
+namespace Glue::Bullet
 {
-private:
-    btDynamicsWorld* dynamicsWorld;
-    ShapeBuilder* shapeBuilder;
 
-public:
-    BodyBuilder(btDynamicsWorld* dynamicsWorld, ShapeBuilder* shapeBuilder);
+    class BodyBuilder
+    {
+    public:
+        btCollisionShape* createShape(
+                NodeStyle const& style,
+                irr::scene::IMesh* dispShapeMesh) const;
 
-    btRigidBody* buildBody(NodeStyle const& style, irr::scene::IMesh* dispShapeMesh) const;
-};
+        btRigidBody::btRigidBodyConstructionInfo
+            createConstructionInfo(
+                NodeStyle const& style,
+                btCollisionShape* physShape) const;
 
-}}
+        btRigidBody* addToWorld(
+                NodeStyle const& style,
+                btDynamicsWorld* dynamicsWorld,
+                btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const;
+    };
+
+}

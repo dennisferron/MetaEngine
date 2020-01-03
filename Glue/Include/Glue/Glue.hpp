@@ -6,7 +6,6 @@
 #include "Glue/Avatar/Avatar.hpp"
 #include "Glue/UserInterface/UserInterface.hpp"
 #include "Glue/Desteer/Desteer.hpp"
-#include "Glue/Bullet/Bullet.hpp"
 #include "Glue/Irrlicht/Irrlicht.hpp"
 #include "Glue/EditorGUI/EditorGUI.hpp"
 #include "Glue/Interactions/Interactions.hpp"

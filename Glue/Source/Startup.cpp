@@ -28,8 +28,8 @@ namespace Glue {
     void do_startup()
     {
         auto avatar_cmp = new Avatar::AvatarComponent();
-        auto shapeBuilder = new Bullet::ShapeBuilder();
-        auto blt_cmp = new Bullet::BulletComponentImpl(shapeBuilder);
+        auto bodyBuilder = new Bullet::BodyBuilder();
+        auto blt_cmp = new Bullet::BulletComponentImpl(bodyBuilder);
         auto irr_cmp = new Irrlicht::IrrlichtComponent();
 
         irr::ITimer* device_timer = irr_cmp->get_deviceTimer();
