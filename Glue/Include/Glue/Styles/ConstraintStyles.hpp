@@ -1,10 +1,13 @@
 #pragma once
 
-#include "ConstraintStyle.hpp"
+#include "Glue/Constants.hpp"
 
-namespace Glue { namespace ConstraintStyles {
+#include <variant>
 
-    struct SliderStyle : ConstraintStyle
+namespace Glue::ConstraintStyles
+{
+
+    struct SliderStyle
     {
         SliderStyle();
 
@@ -14,6 +17,7 @@ namespace Glue { namespace ConstraintStyles {
         Scalar upperAngLimit;
 
         SliderStyle& setLinRange(Scalar lower, Scalar upper);
+
         SliderStyle& setAngRange(Scalar lower, Scalar upper);
 
         // I'm not really sure what this does, but some code I saw had a comment that seemed to say:
@@ -23,7 +27,7 @@ namespace Glue { namespace ConstraintStyles {
         bool useLinearReferenceFrameA;
     };
 
-    struct ConeTwistStyle : ConstraintStyle
+    struct ConeTwistStyle
     {
         ConeTwistStyle();
 
@@ -35,7 +39,7 @@ namespace Glue { namespace ConstraintStyles {
         Scalar relaxationFactor;
     };
 
-    struct HingeStyle : ConstraintStyle
+    struct HingeStyle
     {
         HingeStyle();
 
@@ -45,27 +49,26 @@ namespace Glue { namespace ConstraintStyles {
 
         Scalar lowerAngLimit;
         Scalar upperAngLimit;
+
         HingeStyle& setAngRange(Scalar lower, Scalar upper);
+
         bool useLinearReferenceFrameA;
     };
 
-    struct GearStyle : ConstraintStyle
+    struct GearStyle
     {
         GearStyle();
 
         Scalar ratio;
     };
 
-    struct Point2PointStyle : ConstraintStyle
+    struct Point2PointStyle
     {
         Point2PointStyle();
     };
 
-    struct Generic6DOFStyle : ConstraintStyle
+    struct Generic6DOFStyle
     {
-    protected:
-        Generic6DOFStyle(JointTypes jointType);
-
     public:
         Generic6DOFStyle();
 
@@ -84,8 +87,11 @@ namespace Glue { namespace ConstraintStyles {
         Scalar lowerAngLimitZ;
         Scalar upperAngLimitZ;
 
-        Generic6DOFStyle& setLinRange(Scalar lowerX, Scalar upperX, Scalar lowerY, Scalar upperY, Scalar lowerZ, Scalar upperZ);
-        Generic6DOFStyle& setAngRange(Scalar lowerX, Scalar upperX, Scalar lowerY, Scalar upperY, Scalar lowerZ, Scalar upperZ);
+        Generic6DOFStyle&
+        setLinRange(Scalar lowerX, Scalar upperX, Scalar lowerY, Scalar upperY, Scalar lowerZ, Scalar upperZ);
+
+        Generic6DOFStyle&
+        setAngRange(Scalar lowerX, Scalar upperX, Scalar lowerY, Scalar upperY, Scalar lowerZ, Scalar upperZ);
 
         bool useLinearReferenceFrameA;
     };
@@ -93,6 +99,7 @@ namespace Glue { namespace ConstraintStyles {
     struct SpringProperty
     {
         SpringProperty();
+
         bool enabled;
         Scalar stiffness;
         Scalar damping;
@@ -116,5 +123,18 @@ namespace Glue { namespace ConstraintStyles {
     {
         DisableCollisionStyle();
     };
+}
 
-}}
+namespace Glue
+{
+    using SomeConstraintStyle = std::variant<
+            ConstraintStyles::SliderStyle,
+            ConstraintStyles::ConeTwistStyle,
+            ConstraintStyles::HingeStyle,
+            ConstraintStyles::GearStyle,
+            ConstraintStyles::Point2PointStyle,
+            ConstraintStyles::Generic6DOFStyle,
+            ConstraintStyles::SpringProperty,
+            ConstraintStyles::Generic6DOFSpringStyle
+        >;
+}

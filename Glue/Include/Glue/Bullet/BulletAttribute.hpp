@@ -2,8 +2,10 @@
 
 #include <functional>
 #include <memory>
+#include <Glue/Styles/Styles.hpp>
 
 #include "Glue/Constants.hpp"
+#include "ConstraintObj.hpp"
 
 class btVector3;
 
@@ -16,15 +18,29 @@ namespace Glue::Bullet {
     class BulletAttribute
     {
     private:
-        class Impl;
-
-        std::unique_ptr<Impl> impl;
+        NodeStyle style;
+        btRigidBody* rigidBody;
+        btMotionState* motionState;
+        std::vector<ConstraintObj*> constraintsA;
+        std::vector<ConstraintObj*> constraintsB;
 
     public:
 
-        BulletAttribute(Node *node);
+        BulletAttribute(
+                NodeStyle const& style,
+                btRigidBody* rigidBody,
+                btMotionState* motionState
+        );
 
         ~BulletAttribute();
+
+        btRigidBody& getRigidBody();
+        btRigidBody& getRigidBody() const;
+
+        void addConstraintA(ConstraintObj* constraint);
+        void addConstraintB(ConstraintObj* constraint);
+        void removeConstraintA(ConstraintObj* constraint);
+        void removeConstraintB(ConstraintObj* constraint);
 
         void setLinearVelocity(Scalar xv, Scalar yv, Scalar zv);
 

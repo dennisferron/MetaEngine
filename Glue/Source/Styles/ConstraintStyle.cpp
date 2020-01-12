@@ -2,8 +2,7 @@
 
 namespace Glue {
 
-ConstraintStyle::ConstraintStyle(JointTypes jointType)
-    : LinkStyle(LinkTypes::none), jointType(jointType)
+ConstraintStyle::ConstraintStyle()
 {
     // Set to true if you don't want the joined bodies to collide.
     disableLinkedBodyCollisions = false;

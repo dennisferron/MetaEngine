@@ -1,25 +1,25 @@
 #pragma once
 
+#include <BulletDynamics/ConstraintSolver/btTypedConstraint.h>
 #include "Glue/Styles/LinkStyle.hpp"
+#include "Glue/Bullet/BulletAttribute.hpp"
 
-namespace Glue { namespace Bullet {
-    class Mount;
-}}
-
-namespace Glue { namespace Bullet {
-
-class ConstraintObj
+namespace Glue::Bullet
 {
-protected:
-    LinkStyle* style;
-    Mount* objA;
-    Mount* objB;
+    class Mount
+    {
 
-    // Create in derived class
-    //constraint ::= nil
+    };
 
-public:
-    virtual ~ConstraintObj();
+struct ConstraintObj
+{
+    LinkStyle style;
+    Mount objA;
+    Mount objB;
+
+    btTypedConstraint* constraint;
+    BulletAttribute* attrA;
+    BulletAttribute* attrB;
 };
 
-}}
+}

@@ -8,6 +8,7 @@
 #include "Glue/Bullet/ConstraintObj.hpp"
 #include "Glue/Model/Link.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
+#include "Glue/Styles/ConstraintStyle.hpp"
 #include "Glue/Bullet/ScriptedWorldManager.hpp"
 
 #include "btRigidBody.h"
@@ -60,7 +61,7 @@ namespace Glue::Bullet
 
         /// Creates a ConstraintObj based on the @style.
         /// Add a constraint to the btDynamicsWorld.
-        virtual ConstraintObj* addConstraint(LinkStyle* style, btRigidBody &attrA, btRigidBody &attrB) = 0;
+        virtual ConstraintObj* addConstraint(ConstraintStyle const& style, BulletAttribute* attrA, BulletAttribute* attrB) = 0;
 
         /// Creates a BulletAttribute based on the style of the @node.
         /// Adds a btRigidBody to the btDynamicsWorld.

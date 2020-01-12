@@ -1,45 +1,27 @@
 #pragma once
 
-#include "Glue/Constants.hpp"
-#include "LinkStyle.hpp"
-#include "MountStyle.hpp"
+#include "Glue/Styles/MountStyle.hpp"
+#include "Glue/Styles/ConstraintStyles.hpp"
 
 #include "irrlicht.h"
 
 #include <optional>
 
-namespace Glue {
-
+namespace Glue
+{
     using SColor = irr::video::SColor;
     using ITexture = irr::video::ITexture;
     using IMesh = irr::scene::IMesh;
 
-    enum class JointTypes
+    class ConstraintStyle
     {
-        none,
-        slider,
-        coneTwist,
-        hinge,
-        gear,
-        point2point,
-        generic,
-        genericSpring,
-        disableCollision
-    };
-
-    struct ConstraintStyle : LinkStyle
-    {
-    protected:
-
-        ConstraintStyle(JointTypes jointType);
-
     public:
 
         // Mount styles.  If the constraint is mounted "to the world" then set mountA to nil.
         std::optional<MountStyle> mountA;
         std::optional<MountStyle> mountB;
 
-        JointTypes jointType;
+        SomeConstraintStyle jointType;
 
         std::optional<Scalar> damping;
 

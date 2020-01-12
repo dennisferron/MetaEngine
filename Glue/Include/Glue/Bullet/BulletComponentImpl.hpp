@@ -9,6 +9,7 @@
 #include <BulletSoftBody/btSoftBody.h>
 #include "BulletCollision/BroadphaseCollision/btDispatcher.h"
 #include "BulletCollision/CollisionDispatch/btCollisionConfiguration.h"
+#include "ConstraintBuilder.hpp"
 
 
 namespace Glue::Bullet {
@@ -27,9 +28,10 @@ namespace Glue::Bullet {
         ScriptedWorldManager scriptWorldMgr;
         btIDebugDraw* debugDrawer;
         BodyBuilder* bodyBuilder = nullptr;
+        ConstraintBuilder* constraintBuilder = nullptr;
 
     public:
-        BulletComponentImpl(BodyBuilder* bodyBuilder);
+        BulletComponentImpl(BodyBuilder* bodyBuilder, ConstraintBuilder* constraintBuilder);
 
         ~BulletComponentImpl() override;
 
@@ -49,7 +51,7 @@ namespace Glue::Bullet {
 
         void removeConstraint(ConstraintObj *constraint) override;
 
-        ConstraintObj * addConstraint(LinkStyle *style, btRigidBody &attrA, btRigidBody &attrB) override;
+        ConstraintObj * addConstraint(ConstraintStyle const& style, BulletAttribute* attrA, BulletAttribute* attrB) override;
 
         BulletAttribute *addNode(Node *node) override;
     };

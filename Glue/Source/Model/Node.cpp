@@ -20,6 +20,21 @@ Node::~Node()
 {
 }
 
+Glue::Irrlicht::IrrlichtAttribute* Node::get_irrlicht_attribute() const
+{
+    return irrlicht_attribute;
+}
+
+Glue::Bullet::BulletAttribute* Node::get_bullet_attribute() const
+{
+    return bullet_attribute;
+}
+
+Glue::Avatar::AvatarAttribute* Node::get_avatar_attribute() const
+{
+    return avatar_attribute;
+}
+
 Node& Node::setGraph(Graph* value)
 {
     throw "TODO:  implement domain.addObject";

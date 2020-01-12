@@ -5,10 +5,12 @@
 namespace Glue::Bullet
 {
 
-    BulletComponentImpl::BulletComponentImpl(BodyBuilder* bodyBuilder) :
+    BulletComponentImpl::BulletComponentImpl(
+            BodyBuilder* bodyBuilder,
+            ConstraintBuilder* constraintBuilder)
+        :
             bodyBuilder(bodyBuilder),
-            scriptWorldMgr(),
-            softBodyWorldInfo()
+            constraintBuilder(constraintBuilder)
     {
         // Enable softbody collisions
         collisionConfiguration = new btSoftBodyRigidBodyCollisionConfiguration();
@@ -54,132 +56,126 @@ namespace Glue::Bullet
     }
 
     void BulletComponentImpl::setDebugMode(bool debugMode)
-    {}
+    {
+        dynamicsWorld->getDebugDrawer().setDebugMode(debugMode);
+    }
 
     void BulletComponentImpl::addLink(Link *link)
-    {}
+    {
+        if (link->style.linkType == LinkTypes::physConstraint)
+        {
+            if (!link->style.constraint)
+                throw std::logic_error("linkType is physConstraint but no constraint style is provided");
+
+            auto attrA = link->fromNode->get_bullet_attribute();
+            auto attrB = link->toNode->get_bullet_attribute();
+
+            if (!attrA)
+                throw std::logic_error("fromNode has no Bullet attribute.");
+
+            if (!attrB)
+                throw std::logic_error("toNode has no Bullet attribute");
+
+            auto linkAttr = addConstraint(*(link->style.constraint), attrA, attrB)
+            link->addAttribute(linkAttr);
+        }
+    }
 
     void BulletComponentImpl::setDebugDrawer(btIDebugDraw *drawer)
-    {}
+    {
+       dynamicsWorld->setDebugDrawer(debugDrawer);
+    }
 
     void BulletComponentImpl::setOnTick(TickHandler aBlock)
-    {}
+    {
+        scriptWorldMgr.setOnTick(*dynamicsWorld, aBlock);
+    }
 
     void BulletComponentImpl::setOnPreTick(TickHandler aBlock)
-    {}
+    {
+        scriptWorldMgr.setOnPreTick(*dynamicsWorld, aBlock);
+    }
 
     void BulletComponentImpl::onPhysics(Scalar timeElapsed)
-    {}
+    {
+        dynamicsWorld->stepSimulation(
+                timeElapsed/1000.0,
+                subframes,
+                fixedTimeStep);
+    }
 
     void BulletComponentImpl::onGraphics(Scalar timeElapsed)
-    {}
-
-    void BulletComponentImpl::removeConstraint(ConstraintObj *constraint)
-    {}
-
-    ConstraintObj *BulletComponentImpl::addConstraint(LinkStyle *style, btRigidBody &attrA, btRigidBody &attrB)
-    { throw "Not implemented."; }
-
-    BulletAttribute *BulletComponentImpl::addNode(Node *node)
-    { throw "Not implemented."; }
-
-}
-
-/*
-
-        setDebugMode := method(debugMode,
-            dynamicsWorld getDebugDrawer setDebugMode(debugMode)
-        )
-
-        addLink := method(link,
-            if( link style jointType != "none" and module ConstraintBuilder hasSlot(link style jointType),
-                attrA := link fromNode ?findAttribute(BulletAttribute)
-                attrB := link toNode ?findAttribute(BulletAttribute)
-
-                if( attrA == nil and attrB == nil,
-                    writeln("Link style " .. (
-                        link style jointType) .. (
-                        " is supported by constraint builder, but both the from node (" ) .. (
-                        if(link fromNode == nil, "nil", link fromNode style)) .. (
-                        ") and the to node (") .. (
-                        if(link toNode == nil, "nil", link toNode style)) .. (
-                        ") do not have Bullet attributes attached.")
-                    )
-                ,
-                    linkAttr := addConstraint(link style, attrA, attrB)
-                    link addAttribute(linkAttr)
-                )
-            )
-        )
-    )
-
-    Component setDebugDrawer := method(drawer,
-        dynamicsWorld setDebugDrawer(debugDrawer)
-    )
-
-    Component setOnTick := method(aBlock,
-        scriptWorldMgr setOnTick(dynamicsWorld, block(worldptr, timeStep, aBlock call(timeStep)))
-    )
-
-    Component setOnPreTick := method(aBlock,
-        scriptWorldMgr setOnPreTick(dynamicsWorld, block(worldptr, timeStep, aBlock call(timeStep)))
-    )
-
-    Component onPhysics := method(timeElapsed,
-        dynamicsWorld stepSimulation(timeElapsed/1000.0, subframes, fixedTimeStep)
-    )
-
-    Component onGraphics := method(timeElapsed,
+    {
         // Enable this to see debug lines for all the physics objects.
         // If you suspect a physical object is out of sync with the graphical
         // object, you should enable this.
-        //dynamicsWorld debugDrawWorld()
-        nil
-    )
+        dynamicsWorld->debugDrawWorld();
+    }
 
-    Component removeConstraint := method(constraint,
-        if( constraint != nil,
+    void BulletComponentImpl::removeConstraint(ConstraintObj* constraint)
+    {
+        if (!constraint)
+            throw std::logic_error("ConstraintObj was null");
 
-            dynamicsWorld removeConstraint(constraint constraint)
+        dynamicsWorld->removeConstraint(constraint->constraint);
 
-            if(constraint attrA != nil, constraint attrA constraintsA remove(constraint))
-            if(constraint attrB != nil, constraint attrB constraintsB remove(constraint))
+        if (constraint->attrA)
+            constraint->attrA->removeConstraintsA(constraint);
 
-            constraint attrA = nil
-            constraint attrB = nil
-        )
-    )
+        if (constraint->attrB)
+            constraint->attrB->removeConstraintsB(constraint);
 
-    Component addConstraint := method(style, attrA, attrB,
+        constraint->attrA = nullptr;
+        constraint->attrB = nullptr;
+    }
 
-        if (attrA == nil and attrB == nil, Exception raise("addConstraint attrA and attrB are both nil; style is " .. style asString))
+    ConstraintObj* BulletComponentImpl::addConstraint(ConstraintStyle const& style, BulletAttribute* attrA, BulletAttribute* attrB)
+    {
+        if (!attrA && !attrB)
+            throw std::logic_error("addConstraint attrA and attrB are both null");
 
-        constraint := module ConstraintBuilder create(style, attrA, attrB)
+        auto constraint = constraintBuilder->create(
+                style,
+                attrA->getRigidBody(),
+                attrB->getRigidBody());
 
-        if (constraint == nil,
-            return nil
-        ,
-            dynamicsWorld addConstraint(constraint constraint, style disableLinkedBodyCollisions)
+        if (constraint == nullptr)
+            return nullptr;
 
-            if(attrA != nil, attrA constraintsA append(constraint))
-            if(attrB != nil, attrB constraintsB append(constraint))
+        dynamicsWorld->addConstraint(
+                constraint->constraint,
+                style.disableLinkedBodyCollisions);
 
-            return constraint
-        )
-    )
+        if (attrA)
+            attrA->addConstraintA(constraint);
 
-    Component addNode := method(node,
-        style := node style
-        result := bodyBuilder buildBody(style)
-        if( result != nil,
-            body := result body
-            motionState := result anim
-            node addAttribute(
-                BulletAttribute clone setStyle(style) setRigidBody(body) setMotionState(motionState)
-            )
-        )
-    )
+        if (attrB)
+            attrB->addConstraintB(constraint);
 
-    return Component
-)
-*/
+        return constraint
+    }
+
+    BulletAttribute* BulletComponentImpl::addNode(Node* node, IMesh* mesh)
+    {
+        btCollisionShape* shape = bodyBuilder->createShape(node->style, mesh);
+        auto constrInfo = bodyBuilder->createConstructionInfo(node->style, shape);
+
+         btRigidBody* body = bodyBuilder->addToWorld(
+                 node->style,
+                dynamicsWorld,
+                constrInfo);
+
+        // Note:  This should also be multiply inherited from an animator.
+        // We might need to create an intermediate class instead of sideways cast.
+        btMotionState* motionState = constrInfo.m_motionState;
+
+        auto blt_attr = new BulletAttribute(
+                node->style,
+                body,
+                motionState);
+
+        node->addAttribute(blt_attr);
+
+        return blt_attr;
+    }
+}

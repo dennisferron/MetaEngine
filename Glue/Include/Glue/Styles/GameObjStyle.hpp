@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Glue/Constants.hpp"
-#include "Glue/ADT/variant_ptr.hpp"
 
 #include "irrlicht.h"
 

@@ -3,119 +3,162 @@
 #include <vector>
 #include <functional>
 
-namespace Glue { namespace Bullet {
-
-class BulletAttribute::Impl
+namespace Glue::Bullet
 {
-};
+    BulletAttribute::BulletAttribute(
+        NodeStyle const& style,
+        btRigidBody* rigidBody,
+        btMotionState* motionState
+    ) :
+        style(style),
+        rigidBody(rigidBody),
+        motionState(motionState)
+    {
+        rigidBody->setUserPointer(this);
+    }
 
-    BulletAttribute::BulletAttribute(Node* node) {}
-        BulletAttribute::~BulletAttribute() {}
+    BulletAttribute::~BulletAttribute()
+    {
+    }
 
-    void BulletAttribute::setLinearVelocity(Scalar xv, Scalar yv, Scalar zv) {}
-    void BulletAttribute::setAngularVelocity(Scalar xv, Scalar yv, Scalar zv) {}
-    btVector3 const& BulletAttribute::getAngularVelocity() const { throw "not implemented"; }
-    btVector3 const& BulletAttribute::getLinearVelocity() const { throw "not implemented"; }
-    void BulletAttribute::addChild(Node* otherObj) {}
-    void BulletAttribute::disableSleepState() {}
-    Scalar BulletAttribute::getRotZ() { throw "not implemented"; }
-    btVector3 const& BulletAttribute::getPos() { throw "not implemented"; }
-    void BulletAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger) {}
-    void BulletAttribute::lockTo(Node* otherObj) {}
-    void BulletAttribute::applyForceTowards(btVector3 const& targetPos, Scalar scalar, Scalar maxForce) {}
+    btRigidBody& BulletAttribute::getRigidBody()
+    {
+        return *rigidBody;
+    }
+
+    btRigidBody& BulletAttribute::getRigidBody() const
+    {
+        return *rigidBody;
+    }
+
+    void addConstraintA(ConstraintObj* constraint)
+    {}
+
+    void addConstraintB(ConstraintObj* constraint)
+    {}
+
+    void removeConstraintA(ConstraintObj* constraint)
+    {}
+
+    void removeConstraintB(ConstraintObj* constraint)
+    {}
+
+    void BulletAttribute::setLinearVelocity(Scalar xv, Scalar yv, Scalar zv)
+    {
+        rigidBody->setLinearVelocity(btVector3(xv, yv, zv));
+    }
+
+    void BulletAttribute::setAngularVelocity(Scalar xv, Scalar yv, Scalar zv)
+    {
+        rigidBody->setAngularVelocity(btVector3(xv, yv, zv));
+    }
+
+    btVector3 const& BulletAttribute::getAngularVelocity() const
+    {
+        return rigidBody->getAngularVelocity();
+    }
+
+    btVector3 const& BulletAttribute::getLinearVelocity() const
+    {
+        return rigidBody->getLinearVelocity();
+    }
+
+    void BulletAttribute::addChild(Node* otherObj)
+    {
+        throw std::logic_error("No childObjs");
+        //childObjs append(otherObj)
+        //node addChild(otherObj node)
+    }
+
+    void BulletAttribute::disableSleepState()
+    {
+        // DISABLE_DEACTIVATION := 4
+        rigidBody->setActivationState(DISABLE_DEACTIVATION);
+    }
+
+    Scalar BulletAttribute::getRotZ()
+    {
+        btQuaternion quat = rigidBody->getOrientation();
+
+        btScalar w = quat.getW();
+        btScalar x = quat.getX();
+        btScalar y = quat.getY();
+        btScalar z = quat.getZ();
+        return atan2(
+                2.0 * (x*y + z*w),
+                (x*x - y*y - z*z + w*w));
+    }
+
+    btVector3 const& BulletAttribute::getPos()
+    {
+        if (rigidBody)
+        {
+            return rigidBody->getCenterOfMassPosition();
+        }
+        else
+        {
+            return { style.x, style.y, style.z };
+        }
+    }
+
+    void BulletAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger)
+    {
+        throw std::logic_error("Not implemented");
+/*
+        triggerAllGenerators := method(onTrigger,
+            if (style hasSlot("spawnStyle"),
+                s := style spawnStyle clone
+                s setPos(s x + getX, s y + getY, s z + getZ)
+                // TODO:  Set relative velocity as well as pos.
+                obj := engine addObj(s)
+
+                if(onTrigger != nil, onTrigger call(obj))
+            )
+            childObjs foreach(o, o triggerAllGenerators(onTrigger))
+        )
+ */
+    }
+
+    void BulletAttribute::lockTo(Node* otherObj)
+    {}
+
+    void BulletAttribute::applyForceTowards(btVector3 const& targetPos, Scalar scalar, Scalar maxForce)
+    {}
+
     void BulletAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
-                          Scalar scalar, Scalar maxForce, Scalar maxVerticalForce) {}
+                                           Scalar scalar, Scalar maxForce, Scalar maxVerticalForce)
+    {}
+
     void BulletAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
-                          Scalar scalar, Scalar maxForce) {}
-    void BulletAttribute::applyCentralForce(Scalar x, Scalar y, Scalar z) {}
-    void BulletAttribute::applyCentralImpulse(Scalar x, Scalar y, Scalar z) {}
-    void BulletAttribute::applyTorque(Scalar x, Scalar y, Scalar z) {}
-    void BulletAttribute::applyTorqueImpulse(Scalar x, Scalar y, Scalar z) {}
+                                           Scalar scalar, Scalar maxForce)
+    {}
+
+    void BulletAttribute::applyCentralForce(Scalar x, Scalar y, Scalar z)
+    {}
+
+    void BulletAttribute::applyCentralImpulse(Scalar x, Scalar y, Scalar z)
+    {}
+
+    void BulletAttribute::applyTorque(Scalar x, Scalar y, Scalar z)
+    {
+        rigidBody->applyTorque(btVector3(x, y, z));
+    }
+
+    void BulletAttribute::applyTorqueImpulse(Scalar x, Scalar y, Scalar z)
+    {}
+
     void BulletAttribute::fallApart(std::vector<BulletAttribute*> visited,
-                   std::vector<BulletAttribute*> removed) {}
+                                    std::vector<BulletAttribute*> removed)
+    {}
+
     void BulletAttribute::structureDoForEachObject(
             std::function<void(BulletAttribute*)> code,
-            std::vector<BulletAttribute*> visited) {}
+            std::vector<BulletAttribute*> visited)
+    {}
 
-}}
+}
 
 /*
-
-method(namespace_Bullet, namespace_Custom,
-
-    BulletAttribute := Object clone lexicalDo(
-        appendProto(namespace_Bullet)
-        appendProto(namespace_Custom)
-
-        style ::= nil
-
-        physShape ::= nil
-        rigidBody := nil
-        constraintsA ::= nil
-        constraintsB ::= nil
-        motionState ::= nil
-
-        setRigidBody := method(newRigidBody,
-            if (rigidBody != nil, rigidBody setUserPointer(nil))
-            rigidBody = newRigidBody
-            rigidBody setUserPointer(self)
-            return self
-        )
-
-        setLinearVelocity := method(xv, yv, zv,
-            if (yv == nil,
-                rigidBody setLinearVelocity(xv),
-                rigidBody setLinearVelocity(btVector3 tmp(xv, yv, zv))
-            )
-        )
-
-        setAngularVelocity := method(xv, yv, zv,
-            rigidBody setAngularVelocity(btVector3 tmp(xv, yv, zv))
-        )
-
-        applyTorque := method(x, y, z,
-            rigidBody applyTorque(btVector3 tmp(x, y, z))
-        )
-
-        getAngularVelocity := method(
-            rigidBody getAngularVelocity
-        )
-
-        getLinearVelocity := method(
-            rigidBody getLinearVelocity
-        )
-
-        addChild := method(otherObj,
-            childObjs append(otherObj)
-            node addChild(otherObj node)
-        )
-
-        disableSleepState := method(
-            DISABLE_DEACTIVATION := 4
-            rigidBody setActivationState(DISABLE_DEACTIVATION)
-        )
-
-        getRotZ := method(
-            // For some reason getting this rotation from a Bullet rigid body is
-            // *really freaking hard* to figure out & not much on google about it.
-            // I solved it once for GearConstraints in C++ and be damned if I'm going to
-            // try to solve it again in Io code, so I'm just going to "borrow"
-            // the implementation from my gear constraint:
-            GearConstraint getRotZ(rigidBody)
-        )
-
-        getPos := method(
-            if (rigidBody != nil) then(
-                p := rigidBody getCenterOfMassPosition
-                o := Object clone
-                o x := p getX; o y := p getY; o z := p getZ
-                return o
-            )
-            else(
-                return style getPos
-            )
-        )
-
         triggerAllGenerators := method(onTrigger,
             if (style hasSlot("spawnStyle"),
                 s := style spawnStyle clone

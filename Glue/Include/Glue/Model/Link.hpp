@@ -11,13 +11,11 @@ namespace Glue {
 
 class Link
 {
-private:
+public:
     Graph* graph;
     LinkStyle style;
     Node* fromNode;
     Node* toNode;
-
-public:
 
     // This list is shared among all Link clones
     static std::vector<LinkInteraction*> possibleInteractions;

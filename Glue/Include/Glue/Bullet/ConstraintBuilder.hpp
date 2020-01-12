@@ -13,7 +13,7 @@ class ConstraintBuilder
 public:
     ConstraintBuilder();
 
-    ConstraintObj* create(LinkStyle* style, btRigidBody& objA, btRigidBody& objB);
+    ConstraintObj* create(ConstraintStyle const& style, btRigidBody& objA, btRigidBody& objB);
 
     // Utility method
     static btTransform getFrame(Mount const& mount);

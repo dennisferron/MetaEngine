@@ -45,6 +45,10 @@ public:
     Node(GameObjStyle const& style);
     ~Node();
 
+    Glue::Irrlicht::IrrlichtAttribute* get_irrlicht_attribute() const;
+    Glue::Bullet::BulletAttribute* get_bullet_attribute() const;
+    Glue::Avatar::AvatarAttribute* get_avatar_attribute() const;
+
     Node& setGraph(Graph* value);
     Node& addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteraction);
 
