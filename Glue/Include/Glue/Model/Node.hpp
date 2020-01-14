@@ -14,26 +14,10 @@
 
 namespace Glue {
 
-class Graph;
-class Interaction;
-
-class NodeAttribute
-{
-};
-
 class Node
 {
-public:
-    Graph* graph;
-    GameObjStyle style;
-    Domain* domain;
-
-    // This list is shared among all Link clones
-    static std::vector<NodeInteraction*> possibleInteractions;
-
-    static void registerInteraction(NodeInteraction* interaction);
-
 private:
+    NodeStyle style;
 
     Glue::Irrlicht::IrrlichtAttribute* irrlicht_attribute = nullptr;
     Glue::Bullet::BulletAttribute* bullet_attribute = nullptr;
@@ -42,28 +26,19 @@ private:
 
 public:
 
-    Node(GameObjStyle const& style);
+    Node(NodeStyle const& style);
     ~Node();
+
+    NodeStyle const& get_style() const;
 
     Glue::Irrlicht::IrrlichtAttribute* get_irrlicht_attribute() const;
     Glue::Bullet::BulletAttribute* get_bullet_attribute() const;
     Glue::Avatar::AvatarAttribute* get_avatar_attribute() const;
 
-    Node& setGraph(Graph* value);
-    Node& addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteraction);
-
     void addAttribute(Glue::Irrlicht::IrrlichtAttribute* attr);
     void addAttribute(Glue::Bullet::BulletAttribute* attr);
     void addAttribute(Glue::Avatar::AvatarAttribute* attr);
     void addAttribute(Glue::Avatar::Camera* attr);
-
-    /*
-    template <typename T>
-    T* findAttribute() const
-    {
-        return domain->findObject<T>(DomainObjects::node);
-    )
-    */
 };
 
 }

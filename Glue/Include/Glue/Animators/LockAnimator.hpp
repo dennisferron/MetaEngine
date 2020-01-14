@@ -1,11 +1,10 @@
-// Copyright 2008-2013, 2017 Dennis Ferron
+// Copyright 2008-2020 Dennis Ferron
 
-#include "btBulletDynamicsCommon.h"
-#include "irrlicht.h"
+#include "Glue/Animators/MotionStateAnimator.hpp"
 
 namespace Glue {
 
-class LockAnimator : public btMotionState, public irr::scene::ISceneNodeAnimator
+class LockAnimator : public MotionStateAnimator
 {
 public:
 
@@ -19,13 +18,14 @@ public:
                     irr::scene::ISceneManager* newManager=0);
     irr::scene::ESCENE_NODE_ANIMATOR_TYPE getType() const;
 
-    LockAnimator(btMotionState const& target_, btTransform const& centerOfMassOffset_);
+    LockAnimator(btMotionState* target_,
+            btTransform const& centerOfMassOffset_);
 
     bool stop_rotation;
 
 private:
 
-    btMotionState const& target;
+    btMotionState* target;
     mutable btTransform trans;
     btTransform centerOfMassOffset;
 };

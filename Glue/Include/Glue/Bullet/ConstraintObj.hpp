@@ -14,8 +14,8 @@ namespace Glue::Bullet
 struct ConstraintObj
 {
     LinkStyle style;
-    Mount objA;
-    Mount objB;
+    //Mount objA;
+    //Mount objB;
 
     btTypedConstraint* constraint;
     BulletAttribute* attrA;

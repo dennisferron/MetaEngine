@@ -11,7 +11,7 @@ using namespace irr::scene;
 
 namespace Glue {
 
-LockAnimator::LockAnimator(btMotionState const& target_, btTransform const& centerOfMassOffset_)
+LockAnimator::LockAnimator(btMotionState* target_, btTransform const& centerOfMassOffset_)
     : stop_rotation(true), target(target_), centerOfMassOffset(centerOfMassOffset_) {}
 
 ESCENE_NODE_ANIMATOR_TYPE LockAnimator::getType() const
@@ -27,7 +27,7 @@ void LockAnimator::setWorldTransform(btTransform const& worldTrans)
 void LockAnimator::getWorldTransform(btTransform& worldTrans) const
 {
     btTransform targetTransform;
-    target.getWorldTransform(targetTransform);
+    target->getWorldTransform(targetTransform);
 
     trans.setOrigin(targetTransform.getOrigin());
 

@@ -8,16 +8,17 @@ namespace Glue {
 std::vector<NodeInteraction*> Node::possibleInteractions;
 
 Node::Node(GameObjStyle const& style) :
-    graph(nullptr),
     style(style),
-    domain()
 {
-    throw std::logic_error("TODO: implement domain.setSite");
-    //domain.setSite(this);
 }
 
 Node::~Node()
 {
+}
+
+NodeStyle const& NodeStyle::get_style() const
+{
+    return style;
 }
 
 Glue::Irrlicht::IrrlichtAttribute* Node::get_irrlicht_attribute() const
@@ -33,25 +34,6 @@ Glue::Bullet::BulletAttribute* Node::get_bullet_attribute() const
 Glue::Avatar::AvatarAttribute* Node::get_avatar_attribute() const
 {
     return avatar_attribute;
-}
-
-Node& Node::setGraph(Graph* value)
-{
-    throw "TODO:  implement domain.addObject";
-//    graph = value;
-//    for (auto& c : components)
-//        domain.addObject("component", c);
-}
-
-void Node::registerInteraction(NodeInteraction* interaction)
-{
-    possibleInteractions.push_back(interaction);
-}
-
-Node& Node::addAttribute(NodeAttribute* attr, NodeInteraction* expectedInteraction)
-{
-    throw "TODO: implement domain.addObject";
-    //domain.addObject("node", attr, expectedInteraction);
 }
 
     void Node::addAttribute(Glue::Irrlicht::IrrlichtAttribute* attr)

@@ -1,24 +1,71 @@
 #include "Glue/Bullet/BulletAttribute.hpp"
 
+#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "btRigidBody.h"
+
 #include <vector>
+#include <algorithm>
 #include <functional>
+#include <Glue/Animators/LockAnimator.hpp>
+
+namespace
+{
+    bool contains(
+        std::vector<Glue::Bullet::BulletAttribute*>& list,
+        Glue::Bullet::BulletAttribute* ptr)
+    {
+        return std::find(
+                list.begin(),
+                list.end(),
+                ptr) != list.end();
+    }
+}
 
 namespace Glue::Bullet
 {
     BulletAttribute::BulletAttribute(
         NodeStyle const& style,
         btRigidBody* rigidBody,
-        btMotionState* motionState
+        MotionStateAnimator* motionState
     ) :
         style(style),
         rigidBody(rigidBody),
-        motionState(motionState)
+        motionState(motionState),
+        sceneNode(nullptr)
     {
         rigidBody->setUserPointer(this);
     }
 
     BulletAttribute::~BulletAttribute()
     {
+        dispose();
+    }
+
+    void BulletAttribute::dispose()
+    {
+        // If this is the left side of a constraint, delete not the constraint
+        // but the object on the other side of the constraint.
+        for (auto v : constraintsA)
+        {
+            // TODO:  Dispose, or delete?
+            v->attrB->dispose();
+        }
+        constraintsA.clear();
+
+        // If this is the right side of a constraint, remove the constraint
+        // but not the A-side.
+        for (auto v : constraintsB)
+        {
+            blt_cmp->removeConstraint(v->constraint);
+            delete v->constraint;
+        }
+        constraintsB.clear();
+
+        if (rigidBody)
+        {
+            blt_cmp->dynamicsWorld->removeRigidBody(rigidBody);
+            delete rigidBody;
+        }
     }
 
     btRigidBody& BulletAttribute::getRigidBody()
@@ -110,7 +157,7 @@ namespace Glue::Bullet
                 s := style spawnStyle clone
                 s setPos(s x + getX, s y + getY, s z + getZ)
                 // TODO:  Set relative velocity as well as pos.
-                obj := engine addObj(s)
+                obj := engine addObj(s)  // engine is actually blt_cmp
 
                 if(onTrigger != nil, onTrigger call(obj))
             )
@@ -119,25 +166,78 @@ namespace Glue::Bullet
  */
     }
 
-    void BulletAttribute::lockTo(Node* otherObj)
-    {}
+    void BulletAttribute::lockTo(BulletAttribute* otherObj)
+    {
+        // In order to lock the object to another, we have to make it a kinematic body
+        // (i.e., directly animated not physically affected)
+        constexpr int CF_KINEMATIC_OBJECT = 2;
+        rigidBody->setCollisionFlags(
+            rigidBody->getCollisionFlags() |
+            CF_KINEMATIC_OBJECT);
+
+        //DISABLE_DEACTIVATION := 4
+        rigidBody->setActivationState(DISABLE_DEACTIVATION);
+
+        MotionStateAnimator* oldMotionState = this->motionState;
+        this->motionState = new LockAnimator(
+                otherObj->rigidBody->getMotionState(),
+                btTransform::getIdentity());
+
+        rigidBody->setMotionState(this->motionState);
+
+        if (this->sceneNode)
+        {
+            sceneNode->addAnimator(motionState);
+            sceneNode->removeAnimator(oldMotionState);
+        }
+
+        oldMotionState->drop();
+    }
 
     void BulletAttribute::applyForceTowards(btVector3 const& targetPos, Scalar scalar, Scalar maxForce)
-    {}
+    {
+        btVector3 p1 = targetPos;
+        btVector3 p2 = getPos();
+
+        Scalar xdiff = p1.x() - p2.x();
+        Scalar ydiff = p1.y() - p2.y();
+        Scalar zdiff = p1.z() - p2.z();
+
+        applyScaledForce(xdiff, ydiff, zdiff, scalar, maxForce);
+    }
 
     void BulletAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
                                            Scalar scalar, Scalar maxForce, Scalar maxVerticalForce)
-    {}
+    {
+        xforce = xforce * scalar;
+        yforce = yforce * scalar;
+        zforce = zforce * scalar;
+
+        if (xforce > maxForce) xforce = maxForce;
+        if (xforce < -maxForce) xforce = -maxForce;
+        if (yforce > maxVerticalForce) yforce = maxVerticalForce;
+        if (yforce < -maxVerticalForce) yforce = -maxVerticalForce;
+        if (zforce > maxForce) zforce = maxForce;
+        if (zforce < -maxForce) zforce = -maxForce;
+
+        applyCentralForce(xforce, yforce, zforce);
+    }
 
     void BulletAttribute::applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
                                            Scalar scalar, Scalar maxForce)
-    {}
+    {
+        applyScaledForce(xforce, yforce, zforce, scalar, maxForce, maxForce);
+    }
 
     void BulletAttribute::applyCentralForce(Scalar x, Scalar y, Scalar z)
-    {}
+    {
+        rigidBody->applyCentralForce(btVector3(x,y,z));
+    }
 
     void BulletAttribute::applyCentralImpulse(Scalar x, Scalar y, Scalar z)
-    {}
+    {
+        rigidBody->applyCentralImpulse(btVector3(x,y,z));
+    }
 
     void BulletAttribute::applyTorque(Scalar x, Scalar y, Scalar z)
     {
@@ -145,168 +245,87 @@ namespace Glue::Bullet
     }
 
     void BulletAttribute::applyTorqueImpulse(Scalar x, Scalar y, Scalar z)
-    {}
+    {
+        rigidBody->applyTorqueImpulse(btVector3(x,y,z));
+    }
 
-    void BulletAttribute::fallApart(std::vector<BulletAttribute*> visited,
-                                    std::vector<BulletAttribute*> removed)
-    {}
+    void BulletAttribute::fallApart()
+    {
+        std::vector<BulletAttribute*> visited;
+        std::vector<BulletAttribute*> removed;
+        fallApart(visited, removed);
+    }
+
+    void BulletAttribute::fallApart(std::vector<BulletAttribute*>& visited,
+                                    std::vector<BulletAttribute*>& removed)
+    {
+        if (contains(visited, this))
+            return;
+        else
+            visited.push_back(this);
+
+        std::vector<ConstraintObj*> consA(constraintsA);
+        for (auto c : consA)
+        {
+            if (c->attrB)
+                c->attrB->fallApart(visited, removed);
+            if (!contains(removed, c))
+            {
+                removed.push_back(c);
+                blt_cmp->removeConstraint(c);
+            }
+        }
+
+        std::vector<ConstraintObj*> consB(constraintsB);
+        for (auto c : consB)
+        {
+            if (c->attrA)
+                c->attrA->fallApart(visited, removed);
+            if (!contains(removed, c))
+            {
+                removed.push_back(c);
+                blt_cmp->removeConstraint(c);
+            }
+        }
+    }
+
+    void BulletAttribute::structureDoForEachObject(
+            std::function<void(BulletAttribute*)> code)
+    {
+        std::vector<BulletAttribute*> visited;
+        structureDoForEachObject(code, visited);
+    }
 
     void BulletAttribute::structureDoForEachObject(
             std::function<void(BulletAttribute*)> code,
-            std::vector<BulletAttribute*> visited)
-    {}
+            std::vector<BulletAttribute*>& visited)
+    {
+        if (contains(visited, this))
+            return;
+        else
+        {
+            visited.push_back(this);
+            code(this);
+        }
+
+        std::vector<ConstraintObj*> consA(constraintsA);
+        for (auto c : consA)
+        {
+            if (c->attrB)
+                c->attrB->structureDoForEachObject(code, visited);
+        }
+
+        std::vector<ConstraintObj*> consB(constraintsB);
+        for (auto c : consB)
+        {
+            if (c->attrA)
+                c->attrA->structureDoForEachObject(code, visited);
+        }
+    }
 
 }
 
 /*
-        triggerAllGenerators := method(onTrigger,
-            if (style hasSlot("spawnStyle"),
-                s := style spawnStyle clone
-                s setPos(s x + getX, s y + getY, s z + getZ)
-                // TODO:  Set relative velocity as well as pos.
-                obj := engine addObj(s)
-
-                if(onTrigger != nil, onTrigger call(obj))
-            )
-            childObjs foreach(o, o triggerAllGenerators(onTrigger))
-        )
-
-        lockTo := method(otherObj,
-
-            // In order to lock the object to another, we have to make it a kinematic body (i.e., directly animated not physically affected)
-            CF_KINEMATIC_OBJECT := 2
-            rigidBody setCollisionFlags(rigidBody getCollisionFlags | CF_KINEMATIC_OBJECT)
-            DISABLE_DEACTIVATION := 4
-            rigidBody setActivationState(DISABLE_DEACTIVATION)
-
-            oldMotionState := motionState
-            setMotionState(
-                LockAnimator new(otherObj rigidBody getMotionState_c, namespace Bullet getIdentityTransform)
-            )
-            rigidBody setMotionState(motionState)
-
-            if (node != nil,
-                node addAnimator(motionState)
-                node removeAnimator(oldMotionState)
-            )
-
-            oldMotionState drop
-
-            motionState
-        )
-
-        applyForceTowards := method(targetPos, scalar, maxForce,
-            p1 := targetPos
-            p2 := getPos
-
-            xdiff := p1 x - p2 x
-            ydiff := p1 y - p2 y
-            zdiff := p1 z - p2 z
-
-            applyScaledForce(xdiff, ydiff, zdiff, scalar, maxForce)
-        )
-
-        applyScaledForce := method(xforce, yforce, zforce, scalar, maxForce, maxVerticalForce,
-
-            if (maxVerticalForce == nil, maxVerticalForce = maxForce)
-
-            xforce = xforce * scalar
-            yforce = yforce * scalar
-            zforce = zforce * scalar
-
-            if (xforce > maxForce, xforce = maxForce)
-            if (xforce < -maxForce, xforce = -maxForce)
-            if (yforce > maxVerticalForce, yforce = maxVerticalForce)
-            if (yforce < -maxVerticalForce, yforce = -maxVerticalForce)
-            if (zforce > maxForce, zforce = maxForce)
-            if (zforce < -maxForce, zforce = -maxForce)
-
-            applyCentralForce(xforce, yforce, zforce)
-        )
-
-        applyCentralForce := method(x,y,z,
-            rigidBody applyCentralForce(btVector3 tmp(x,y,z))
-        )
-
-        applyCentralImpulse := method(x,y,z,
-            rigidBody applyCentralImpulse(btVector3 tmp(x,y,z))
-        )
-
-        applyTorque := method(x,y,z,
-            rigidBody applyTorque(btVector3 tmp(x,y,z))
-        )
-
-        applyTorqueImpulse := method(x,y,z,
-            rigidBody applyTorqueImpulse(btVector3 tmp(x,y,z))
-        )
-
-        fallApart := method(visited, removed,
-
-            if (visited == nil,
-                visited := list()
-            )
-
-            if (removed == nil,
-                removed := list()
-            )
-
-            if (visited contains(self),
-                return
-            ,
-                visited append(self)
-            )
-
-            consA := constraintsA clone
-            consA foreach(c,
-                if (c objB != nil,
-                    c objB fallApart(visited, removed)
-                )
-                if (removed contains(c) not,
-                    removed append(c)
-                    engine removeConstraint(c)
-                )
-            )
-
-            consB := constraintsB clone
-            consB foreach(c,
-                if (c objA != nil,
-                    c objA fallApart(visited, removed)
-                )
-                if (removed contains(c) not,
-                    removed append(c)
-                    engine removeConstraint(c)
-                )
-            )
-
-        )
-
-        structureDoForEachObject := method(code, visited,
-
-            if (visited == nil,
-                visited := list()
-            )
-
-            if (visited contains(self),
-                return
-            ,
-                visited append(self)
-                code call(self)
-            )
-
-            consA := constraintsA clone
-            consA foreach(c,
-                if (c objB != nil,
-                    c objB structureDoForEachObject(code, visited)
-                )
-            )
-
-            consB := constraintsB clone
-            consB foreach(c,
-                if (c objA != nil,
-                    c objA structureDoForEachObject(code, visited)
-                )
-            )
-        )
 
         dispose := method(
 

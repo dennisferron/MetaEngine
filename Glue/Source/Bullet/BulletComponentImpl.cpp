@@ -57,7 +57,7 @@ namespace Glue::Bullet
 
     void BulletComponentImpl::setDebugMode(bool debugMode)
     {
-        dynamicsWorld->getDebugDrawer().setDebugMode(debugMode);
+        dynamicsWorld->getDebugDrawer()->setDebugMode(debugMode);
     }
 
     void BulletComponentImpl::addLink(Link *link)
@@ -165,11 +165,11 @@ namespace Glue::Bullet
                 dynamicsWorld,
                 constrInfo);
 
-        // Note:  This should also be multiply inherited from an animator.
-        // We might need to create an intermediate class instead of sideways cast.
-        btMotionState* motionState = constrInfo.m_motionState;
+        MotionStateAnimator* motionState =
+                static_cast<MotionStateAnimator*>(
+                        constrInfo.m_motionState);
 
-        auto blt_attr = new BulletAttribute(
+        BulletAttribute* blt_attr = new BulletAttribute(
                 node->style,
                 body,
                 motionState);

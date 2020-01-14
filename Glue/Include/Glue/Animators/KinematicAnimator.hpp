@@ -1,11 +1,10 @@
 // Copyright 2008-2013, 2017 Dennis Ferron
 
-#include "btBulletDynamicsCommon.h"
-#include "irrlicht.h"
+#include "Glue/Animators/MotionStateAnimator.hpp"
 
 namespace Glue {
 
-class KinematicAnimator : public btMotionState, public irr::scene::ISceneNodeAnimator
+class KinematicAnimator : public MotionStateAnimator
 {
 public:
 
