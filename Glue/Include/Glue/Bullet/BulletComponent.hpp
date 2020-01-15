@@ -4,8 +4,6 @@
 
 #include "Glue/Constants.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Bullet/BulletAttribute.hpp"
-#include "Glue/Bullet/ConstraintObj.hpp"
 #include "Glue/Model/Link.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
 #include "Glue/Styles/ConstraintStyle.hpp"
@@ -20,6 +18,9 @@
 
 namespace Glue::Bullet
 {
+    class BulletAttribute;
+    class ConstraintObj;
+
     /**
      * The BulletComponent synchronizes the btDynamicsWorld to the Graph.
      *

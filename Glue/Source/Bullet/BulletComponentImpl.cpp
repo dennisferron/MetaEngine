@@ -143,7 +143,7 @@ namespace Glue::Bullet
             return nullptr;
 
         dynamicsWorld->addConstraint(
-                constraint->constraint,
+                constraint->get_constraint(),
                 style.disableLinkedBodyCollisions);
 
         if (attrA)
@@ -157,21 +157,17 @@ namespace Glue::Bullet
 
     BulletAttribute* BulletComponentImpl::addNode(Node* node, IMesh* mesh)
     {
-        btCollisionShape* shape = bodyBuilder->createShape(node->style, mesh);
-        auto constrInfo = bodyBuilder->createConstructionInfo(node->style, shape);
+        btCollisionShape* shape = bodyBuilder->createShape(node->get_style(), mesh);
+        auto constrInfo = bodyBuilder->createConstructionInfo(node->get_style(), shape);
 
-         btRigidBody* body = bodyBuilder->addToWorld(
-                 node->style,
+         auto body = bodyBuilder->addToWorld(
+                 node->get_style(),
                 dynamicsWorld,
                 constrInfo);
 
-        MotionStateAnimator* motionState =
-                static_cast<MotionStateAnimator*>(
-                        constrInfo.m_motionState);
-
-        BulletAttribute* blt_attr = new BulletAttribute(
-                node->style,
-                body,
+        auto blt_attr = std::make_shared<BulletAttribute>(
+                node->get_style(),
+                std::move(body),
                 motionState);
 
         node->addAttribute(blt_attr);

@@ -11,17 +11,19 @@
 
 #include "btRigidBody.h"
 #include "Glue/Animators/MotionStateAnimator.hpp"
+#include "Glue/Bullet/BulletComponent.hpp"
 
 #include "ISceneNode.h"
 
+#include <memory>
+
 namespace Glue::Bullet
 {
-
     class BulletAttribute
     {
     private:
         NodeStyle style;
-        btRigidBody* rigidBody;
+        std::unique_ptr<btRigidBody> rigidBody;
         MotionStateAnimator* motionState;
         irr::scene::ISceneNode* sceneNode;
         std::vector<ConstraintObj*> constraintsA;
@@ -29,11 +31,17 @@ namespace Glue::Bullet
 
         void dispose();
 
+        void fallApart(std::vector<BulletAttribute*>& visited,
+                       std::vector<BulletAttribute*>& removed);
+
+        void structureDoForEachObject(
+                std::function<void(BulletAttribute*)> code,
+                std::vector<BulletAttribute*>& visited);
     public:
 
         BulletAttribute(
                 NodeStyle const& style,
-                btRigidBody* rigidBody,
+                std::unique_ptr<btRigidBody>&& rigidBody,
                 MotionStateAnimator* motionState
         );
 
@@ -89,15 +97,8 @@ namespace Glue::Bullet
 
         void fallApart();
 
-        void fallApart(std::vector<BulletAttribute*>& visited,
-                       std::vector<BulletAttribute*>& removed);
-
         void structureDoForEachObject(
                 std::function<void(BulletAttribute*)> code);
-
-        void structureDoForEachObject(
-                std::function<void(BulletAttribute*)> code,
-                std::vector<BulletAttribute*>& visited);
     };
 
 }

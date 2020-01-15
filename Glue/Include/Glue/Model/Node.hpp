@@ -6,11 +6,14 @@
 
 #include "Glue/Irrlicht/IrrlichtAttribute.hpp"
 #include "Glue/Bullet/BulletAttribute.hpp"
+#include "Glue/Animators/MotionStateAnimator.hpp"
 
 #include <vector>
 #include <Glue/Avatar/AvatarComponent.hpp>
 #include <Glue/Avatar/AvatarAttribute.hpp>
 #include <Glue/Avatar/Camera.hpp>
+
+#include <memory>
 
 namespace Glue {
 
@@ -18,11 +21,12 @@ class Node
 {
 private:
     NodeStyle style;
+    MotionStateAnimator* motionState;
 
-    Glue::Irrlicht::IrrlichtAttribute* irrlicht_attribute = nullptr;
-    Glue::Bullet::BulletAttribute* bullet_attribute = nullptr;
-    Glue::Avatar::AvatarAttribute* avatar_attribute = nullptr;
-    Glue::Avatar::Camera* avatar_camera = nullptr;
+    std::unique_ptr<Glue::Irrlicht::IrrlichtAttribute> irrlicht_attribute;
+    std::unique_ptr<Glue::Bullet::BulletAttribute> bullet_attribute;
+    std::unique_ptr<Glue::Avatar::AvatarAttribute> avatar_attribute;
+    std::unique_ptr<Glue::Avatar::Camera> avatar_camera;
 
 public:
 
@@ -35,10 +39,10 @@ public:
     Glue::Bullet::BulletAttribute* get_bullet_attribute() const;
     Glue::Avatar::AvatarAttribute* get_avatar_attribute() const;
 
-    void addAttribute(Glue::Irrlicht::IrrlichtAttribute* attr);
-    void addAttribute(Glue::Bullet::BulletAttribute* attr);
-    void addAttribute(Glue::Avatar::AvatarAttribute* attr);
-    void addAttribute(Glue::Avatar::Camera* attr);
+    void addAttribute(std::unique_ptr<Glue::Irrlicht::IrrlichtAttribute>&& attr);
+    void addAttribute(std::unique_ptr<Glue::Bullet::BulletAttribute>&& attr);
+    void addAttribute(std::unique_ptr<Glue::Avatar::AvatarAttribute>&& attr);
+    void addAttribute(std::unique_ptr<Glue::Avatar::Camera>&& attr);
 };
 
 }

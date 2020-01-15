@@ -25,11 +25,11 @@ namespace Glue::Bullet
 {
     BulletAttribute::BulletAttribute(
         NodeStyle const& style,
-        btRigidBody* rigidBody,
+        std::unique_ptr<btRigidBody>&& rigidBody,
         MotionStateAnimator* motionState
     ) :
         style(style),
-        rigidBody(rigidBody),
+        rigidBody(std::move(rigidBody)),
         motionState(motionState),
         sceneNode(nullptr)
     {

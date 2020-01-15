@@ -2,13 +2,11 @@
 
 #include <vector>
 
-namespace Glue {
+namespace Glue
+{
 
-// This list is shared among all Node clones
-std::vector<NodeInteraction*> Node::possibleInteractions;
-
-Node::Node(GameObjStyle const& style) :
-    style(style),
+Node::Node(NodeStyle const& style) :
+    style(style)
 {
 }
 
@@ -23,39 +21,50 @@ NodeStyle const& NodeStyle::get_style() const
 
 Glue::Irrlicht::IrrlichtAttribute* Node::get_irrlicht_attribute() const
 {
-    return irrlicht_attribute;
+    return irrlicht_attribute.get();
 }
 
 Glue::Bullet::BulletAttribute* Node::get_bullet_attribute() const
 {
-    return bullet_attribute;
+    return bullet_attribute.get();
 }
 
 Glue::Avatar::AvatarAttribute* Node::get_avatar_attribute() const
 {
-    return avatar_attribute;
+    return avatar_attribute.get();
 }
 
-    void Node::addAttribute(Glue::Irrlicht::IrrlichtAttribute* attr)
+    void Node::addAttribute(std::unique_ptr<Glue::Irrlicht::IrrlichtAttribute>&& attr)
     {
-        irrlicht_attribute = attr;
-        // TODO: manage motion state
+        irrlicht_attribute = std::move(attr);
+
+        if (irrlicht_attribute && motionState)
+        {
+            irrlicht_attribute->setMotionState(motionState);
+        }
     }
 
-    void Node::addAttribute(Glue::Bullet::BulletAttribute* attr)
+    void Node::addAttribute(std::unique_ptr<Glue::Bullet::BulletAttribute>&& attr)
     {
-        bullet_attribute = attr;
-        // TODO: manage motion state
+        bullet_attribute = std::move(attr);
+
+        motionState =
+            static_cast<MotionStateAnimator*>(bullet_attribute->getRigidBody().getMotionState());
+
+        if (irrlicht_attribute && motionState)
+        {
+            irrlicht_attribute->setMotionState(motionState);
+        }
     }
 
-    void Node::addAttribute(Glue::Avatar::AvatarAttribute* attr)
+    void Node::addAttribute(std::unique_ptr<Glue::Avatar::AvatarAttribute>&& attr)
     {
-        avatar_attribute = attr;
+        avatar_attribute = std::move(attr);
     }
 
-    void Node::addAttribute(Glue::Avatar::Camera* attr)
+    void Node::addAttribute(std::unique_ptr<Glue::Avatar::Camera>&& attr)
     {
-        avatar_camera = attr;
+        avatar_camera = std::move(attr);
     }
 
 } // namespace Glue

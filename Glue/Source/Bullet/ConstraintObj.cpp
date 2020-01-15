@@ -1,23 +1,38 @@
 #include "Glue/Bullet/ConstraintObj.hpp"
 
-namespace Glue { namespace Bullet {
+namespace Glue::Bullet
+{
 
-    ConstraintObj::~ConstraintObj()
+    ConstraintObj::ConstraintObj(
+        LinkStyle style,
+        std::unique_ptr<btTypedConstraint>&& constraint,
+        BulletAttribute* attrA,
+        BulletAttribute* attrB) :
+            style(style),
+            constraint(std::move(constraint)),
+            attrA(attrA),
+            attrB(attrB)
     {
     }
 
-}}
+    LinkStyle const& ConstraintObj::get_style() const
+    {
+        return style;
+    }
 
-/*
+    btTypedConstraint* ConstraintObj::get_constraint() const
+    {
+        return constraint.get();
+    }
 
-method(
-    // A Link attribute
-    ConstraintObj := Object clone do(
-        style ::= nil
-        constraint ::= nil
-        objA ::= nil
-        objB ::= nil
-    )
-)
+    BulletAttribute* ConstraintObj::get_attrA() const
+    {
+        return attrA;
+    }
 
-*/
+    BulletAttribute* ConstraintObj::get_attrB() const
+    {
+        return attrB;
+    }
+}
+
