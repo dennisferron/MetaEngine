@@ -7,6 +7,7 @@
 #include "Glue/Styles/ConstraintStyle.hpp"
 #include "Glue/Model/Domain.hpp"
 #include "Glue/Model/Interaction.hpp"
+#include "Glue/Model/Graph.hpp"
 #include "Glue/Model/Node.hpp"
 #include "Glue/Model/Link.hpp"
 #include "Glue/Model/Structure.hpp"
@@ -29,7 +30,7 @@
 
 namespace Glue
 {
-    class Graph
+    class GraphImpl : public Graph
     {
     private:
         Avatar::AvatarComponent* avatar_cmp;
@@ -41,7 +42,7 @@ namespace Glue
 
     public:
 
-        Graph(
+        GraphImpl(
                 Avatar::AvatarComponent* avatar_cmp,
                 Bullet::BulletComponent* blt_cmp,
                 Irrlicht::IrrlichtComponent* irr_cmp,
