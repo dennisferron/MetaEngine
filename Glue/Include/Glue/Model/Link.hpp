@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Glue/Model/Node.hpp"
-#include "Glue/Model/Domain.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
 #include "Glue/Interactions/Link/LinkInteraction.hpp"
 

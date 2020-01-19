@@ -86,6 +86,7 @@ add_library(Glue
         Include/Glue/Model/Component.hpp
         Include/Glue/Model/Domain.hpp
         Include/Glue/Model/Graph.hpp
+        Include/Glue/Model/GraphImpl.hpp
         Include/Glue/Model/Interaction.hpp
         Include/Glue/Model/Link.hpp
         Include/Glue/Model/Model.hpp
@@ -186,6 +187,7 @@ add_library(Glue
         Source/Model/Component.cpp
         Source/Model/Domain.cpp
         Source/Model/Graph.cpp
+        Source/Model/GraphImpl.cpp
         Source/Model/Interaction.cpp
         Source/Model/Link.cpp
         Source/Model/Model.cpp

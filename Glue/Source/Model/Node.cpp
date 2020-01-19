@@ -48,8 +48,8 @@ Glue::Avatar::AvatarAttribute* Node::get_avatar_attribute() const
     {
         bullet_attribute = std::move(attr);
 
-        motionState =
-            static_cast<MotionStateAnimator*>(bullet_attribute->getRigidBody().getMotionState());
+        motionState = static_cast<MotionStateAnimator*>(
+                bullet_attribute->getRigidBody().getMotionState());
 
         if (irrlicht_attribute && motionState)
         {

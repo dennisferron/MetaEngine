@@ -27,55 +27,21 @@
 #include <string>
 #include <memory>
 
-namespace Glue {
-
-    class Constraint;  // TODO:  Is this returned from Graph::addConstraint?
-//class Structure;  // TODO:  Or should this also manage Constraint's?
-
+namespace Glue
+{
     class Graph
     {
-    private:
-        Avatar::AvatarComponent* avatar_cmp;
-        Bullet::BulletComponent* blt_cmp;
-        Irrlicht::IrrlichtComponent* irr_cmp;
-        TimeComponent* time_cmp;
-
-        std::vector<Node*> nodes;
-
     public:
 
-        Graph(
-                Avatar::AvatarComponent* avatar_cmp,
-                Bullet::BulletComponent* blt_cmp,
-                Irrlicht::IrrlichtComponent* irr_cmp,
-                TimeComponent* time_cmp);
-
-        ~Graph();
-
-        Node *addNode(NodeStyle const &style);
-
-        Link *addLink(LinkStyle const &style, Node *fromNode, Node *toNode);
-
-        void removeLink(Link *link) const;
-
-        static void registerInteraction(ComponentInteraction *interaction);
-
-        void addComponent(Component *newComp);
-
-        // Deprecated?  Not sure...
-        void playSound(std::string const &file);
-
-        void createCamera(Node *lockObj);
-
-        void removeConstraint(Constraint *constraint);
-
-        void addConstraint(ConstraintStyle const &style, Node *objA, Node *objB);
-
-        Node *nodeToGameObj(irr::scene::ISceneNode *node) const;
-
-        void removeObj(Node *obj);
-
-        Structure *addStructure(Structure *structure, Structure *leftHandSide);
+        virtual ~Graph() = 0;
+        virtual Node* addNode(NodeStyle const& style) = 0;
+        virtual Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode) = 0;
+        virtual void removeLink(Link* link) const = 0;
+        virtual void playSound(std::string const& file) = 0;
+        virtual void createCamera(Node* lockObj) = 0;
+        virtual Node* nodeToGameObj(irr::scene::ISceneNode* node) const = 0;
+        virtual void removeObj(Node* obj) = 0;
+        virtual Structure* addStructure(Structure* structure, Structure* leftHandSide) = 0;
     };
 
 }
