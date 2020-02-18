@@ -2,8 +2,6 @@
 #include "Glue/Animators/KinematicAnimator.hpp"
 #include "Glue/Animators/PhysicsAnimator.hpp"
 
-#include "Glue/Bullet/PhysicsShapes.hpp"
-
 #include "btRigidBody.h"
 
 #include "Glue/Constants.hpp"

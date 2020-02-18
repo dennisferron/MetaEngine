@@ -3,7 +3,7 @@
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "btRigidBody.h"
 #include "btBulletCollisionCommon.h"
-
+#include "Glue/Bullet/BulletInterfaces.hpp"
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "btDynamicsWorld.h"
 #include "btRigidBody.h"
@@ -15,7 +15,7 @@ namespace Glue::Bullet
     /**
      * Create shapes and rigid bodies for style.
      */
-    class BodyBuilder
+    class BodyBuilder : public IBodyBuilder
     {
     public:
         /// Create shape based on style and optional display mesh.
@@ -37,5 +37,7 @@ namespace Glue::Bullet
                 btDynamicsWorld* dynamicsWorld,
                 btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const;
     };
+
+    btCollisionShape* create_physics_shape(GameObjStyle const& style, irr::scene::IMesh* dispShapeMesh);
 
 }

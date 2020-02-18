@@ -1,22 +1,20 @@
 #pragma once
 
 #include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Bullet/ConstraintObj.hpp"
+#include "Glue/Bullet/BulletInterfaces.hpp"
 
 class btTransform;
 class btRigidBody;
 
-namespace Glue { namespace Bullet {
+namespace Glue::Bullet
+{
 
-class ConstraintBuilder
+class ConstraintBuilder : public IConstraintBuilder
 {
 public:
     ConstraintBuilder();
 
-    ConstraintObj* create(ConstraintStyle const& style, btRigidBody& objA, btRigidBody& objB);
-
-    // Utility method
-    static btTransform getFrame(Mount const& mount);
+    IConstraintObj* create(ConstraintStyle const& style, btRigidBody& objA, btRigidBody& objB) override;
 };
 
-}}
+}

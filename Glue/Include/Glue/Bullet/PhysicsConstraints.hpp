@@ -6,9 +6,8 @@ namespace Glue {
     class LinkStyle;
 }
 
-namespace Glue { namespace Bullet {
-
-    namespace PhysicsConstraints {
+namespace Glue::Bullet::PhysicsConstraints
+{
 
         void none();
         btPoint2PointConstraint mouseDrag(LinkStyle* style, btRigidBody& rbA, btRigidBody& rbB);
@@ -20,5 +19,4 @@ namespace Glue { namespace Bullet {
         btGeneric6DofConstraint generic(LinkStyle* style, btRigidBody& rbA, btRigidBody& rbB);
         btGeneric6DofSpringConstraint genericSpring(LinkStyle* style, btRigidBody& rbA, btRigidBody& rbB);
 
-    }
-}}
+}

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Glue/Model/Component.hpp"
 #include "Glue/Model/Node.hpp"
 
 #include "Glue/Irrlicht/IrrlichtAttribute.hpp"

@@ -2,16 +2,15 @@
 
 #include <functional>
 #include <memory>
-#include <Glue/Styles/Styles.hpp>
+#include "Glue/Styles/Styles.hpp"
 
+#include "Glue/Bullet/BulletInterfaces.hpp"
 #include "Glue/Constants.hpp"
-#include "ConstraintObj.hpp"
 
 #include "Glue/Model/Node.hpp"
 
 #include "btRigidBody.h"
 #include "Glue/Animators/MotionStateAnimator.hpp"
-#include "Glue/Bullet/BulletComponent.hpp"
 
 #include "ISceneNode.h"
 
@@ -19,86 +18,86 @@
 
 namespace Glue::Bullet
 {
-    class BulletAttribute
+    class BulletAttribute : public IBulletAttribute
     {
     private:
         NodeStyle style;
         std::unique_ptr<btRigidBody> rigidBody;
         MotionStateAnimator* motionState;
+        IBulletComponent* blt_cmp;
         irr::scene::ISceneNode* sceneNode;
-        std::vector<ConstraintObj*> constraintsA;
-        std::vector<ConstraintObj*> constraintsB;
+        std::vector<IConstraintObj*> constraintsA;
+        std::vector<IConstraintObj*> constraintsB;
 
         void dispose();
 
-        void fallApart(std::vector<BulletAttribute*>& visited,
-                       std::vector<BulletAttribute*>& removed);
+        void fallApart(std::vector<IBulletAttribute*>& visited,
+                       std::vector<IBulletAttribute*>& removed);
 
         void structureDoForEachObject(
-                std::function<void(BulletAttribute*)> code,
-                std::vector<BulletAttribute*>& visited);
+                std::function<void(IBulletAttribute*)> code,
+                std::vector<IBulletAttribute*>& visited);
     public:
 
         BulletAttribute(
                 NodeStyle const& style,
                 std::unique_ptr<btRigidBody>&& rigidBody,
-                MotionStateAnimator* motionState
+                MotionStateAnimator* motionState,
+                IBulletComponent* blt_cmp
         );
 
         ~BulletAttribute();
 
-        btRigidBody& getRigidBody();
+        btRigidBody* getRigidBody() const final;
 
-        btRigidBody& getRigidBody() const;
+        void addConstraintA(IConstraintObj* constraint) final;
 
-        void addConstraintA(ConstraintObj* constraint);
+        void addConstraintB(IConstraintObj* constraint) final;
 
-        void addConstraintB(ConstraintObj* constraint);
+        void removeConstraintA(IConstraintObj* constraint) final;
 
-        void removeConstraintA(ConstraintObj* constraint);
+        void removeConstraintB(IConstraintObj* constraint) final;
 
-        void removeConstraintB(ConstraintObj* constraint);
+        void setLinearVelocity(Scalar xv, Scalar yv, Scalar zv) final;
 
-        void setLinearVelocity(Scalar xv, Scalar yv, Scalar zv);
+        void setAngularVelocity(Scalar xv, Scalar yv, Scalar zv) final;
 
-        void setAngularVelocity(Scalar xv, Scalar yv, Scalar zv);
+        btVector3 getAngularVelocity() const final;
 
-        btVector3 const& getAngularVelocity() const;
+        btVector3 getLinearVelocity() const final;
 
-        btVector3 const& getLinearVelocity() const;
+        void addChild(INode* otherObj) final;
 
-        void addChild(Node* otherObj);
+        void disableSleepState() final;
 
-        void disableSleepState();
+        Scalar getRotZ() const final;
 
-        Scalar getRotZ();
+        btVector3 getPos() const final;
 
-        btVector3 const& getPos();
+        void triggerAllGenerators(std::function<void(INode*)> onTrigger) final;
 
-        void triggerAllGenerators(std::function<void(Node*)> onTrigger);
+        void lockTo(IBulletAttribute* otherObj) final;
 
-        void lockTo(BulletAttribute* otherObj);
-
-        void applyForceTowards(btVector3 const& targetPos, Scalar scalar, Scalar maxForce);
+        void applyForceTowards(btVector3 const& targetPos, Scalar scalar, Scalar maxForce) final;
 
         void applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
-                              Scalar scalar, Scalar maxForce, Scalar maxVerticalForce);
+                              Scalar scalar, Scalar maxForce, Scalar maxVerticalForce) final;
 
         void applyScaledForce(Scalar xforce, Scalar yforce, Scalar zforce,
-                              Scalar scalar, Scalar maxForce);
+                              Scalar scalar, Scalar maxForce) final;
 
-        void applyCentralForce(Scalar x, Scalar y, Scalar z);
+        void applyCentralForce(Scalar x, Scalar y, Scalar z) final;
 
-        void applyCentralImpulse(Scalar x, Scalar y, Scalar z);
+        void applyCentralImpulse(Scalar x, Scalar y, Scalar z) final;
 
-        void applyTorque(Scalar x, Scalar y, Scalar z);
+        void applyTorque(Scalar x, Scalar y, Scalar z) final;
 
-        void applyTorqueImpulse(Scalar x, Scalar y, Scalar z);
+        void applyTorqueImpulse(Scalar x, Scalar y, Scalar z) final;
 
-        void fallApart();
+        void fallApart() final;
 
         void structureDoForEachObject(
-                std::function<void(BulletAttribute*)> code);
+                std::function<void(IBulletAttribute*)> code) final;
     };
 
 }

@@ -1,11 +1,7 @@
 #include "Glue/Avatar/AvatarComponent.hpp"
 
-namespace Glue { namespace Avatar {
-
-    class AvatarComponent::Impl
-    {
-    };
-
+namespace Glue::Avatar
+{
     AvatarComponent::AvatarComponent()
     {
     }
@@ -15,7 +11,7 @@ namespace Glue { namespace Avatar {
     }
 
 
-    void AvatarComponent::attachControl(Node* node)
+    void AvatarComponent::attachControl(INode* node)
     {
 
     }
@@ -25,7 +21,7 @@ namespace Glue { namespace Avatar {
 
     }
 
-}}
+}
 
 /*
 method(module,

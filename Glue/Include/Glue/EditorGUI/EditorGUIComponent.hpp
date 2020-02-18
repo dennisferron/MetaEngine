@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Glue/Model/Component.hpp"
-
 #include <memory>
 
-namespace Glue { namespace EditorGUI {
+namespace Glue::EditorGUI
+{
 
-class EditorGUIComponent : public Component
+class EditorGUIComponent
 {
 private:
     class Impl;
@@ -18,4 +17,4 @@ public:
     ~EditorGUIComponent();
 };
 
-}}
+}

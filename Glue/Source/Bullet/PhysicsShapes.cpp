@@ -1,4 +1,4 @@
-#include "Glue/Bullet/PhysicsShapes.hpp"
+#include "Glue/Bullet/BodyBuilder.hpp"
 
 #include "BulletCollision/CollisionShapes/btBoxShape.h"
 #include "BulletCollision/CollisionShapes/btSphereShape.h"
@@ -26,7 +26,7 @@ namespace
 namespace Glue::Bullet
 {
 
-    btCollisionShape* create_physics_shape(GameObjStyle const& style, irr::scene::IMesh* dispShapeMesh)
+    btCollisionShape* create_physics_shape(NodeStyle const& style, irr::scene::IMesh* dispShapeMesh)
     {
         switch (style.physShape)
         {

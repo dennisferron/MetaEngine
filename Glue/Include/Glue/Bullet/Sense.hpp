@@ -2,7 +2,8 @@
 
 #include <memory>
 
-namespace Glue { namespace Bullet {
+namespace Glue::Bullet
+{
 
     class Sense
     {
@@ -15,7 +16,7 @@ namespace Glue { namespace Bullet {
         ~Sense();
     };
 
-}}
+}
 
 /*
 

@@ -5,13 +5,10 @@
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
 #include "Glue/Styles/ConstraintStyle.hpp"
-#include "Glue/Model/Domain.hpp"
-#include "Glue/Model/Interaction.hpp"
+#include "Glue/Model/Graph.hpp"
 #include "Glue/Model/Node.hpp"
 #include "Glue/Model/Link.hpp"
 #include "Glue/Model/Structure.hpp"
-#include "Glue/Model/Component.hpp"
-#include "Glue/Interactions/Component/ComponentInteraction.hpp"
 
 #include "ISceneNode.h"
 
@@ -29,19 +26,46 @@
 
 namespace Glue
 {
-    class Graph
+    class GraphImpl : public Graph
     {
+    private:
+        Avatar::AvatarComponent* avatar_cmp;
+        Bullet::BulletComponent* blt_cmp;
+        Irrlicht::IrrlichtComponent* irr_cmp;
+        TimeComponent* time_cmp;
+
+        std::vector<Node*> nodes;
+
     public:
 
-        virtual ~Graph() = 0;
-        virtual Node* addNode(NodeStyle const& style) = 0;
-        virtual Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode) = 0;
-        virtual void removeLink(Link* link) const = 0;
-        virtual void playSound(std::string const& file) = 0;
-        virtual void createCamera(Node* lockObj) = 0;
-        virtual Node* nodeToGameObj(irr::scene::ISceneNode* node) const = 0;
-        virtual void removeObj(Node* obj) = 0;
-        virtual Structure* addStructure(Structure* structure, Structure* leftHandSide) = 0;
+        GraphImpl(
+                Avatar::AvatarComponent* avatar_cmp,
+                Bullet::BulletComponent* blt_cmp,
+                Irrlicht::IrrlichtComponent* irr_cmp,
+                TimeComponent* time_cmp);
+
+        virtual ~Graph();
+
+        virtual Node* addNode(NodeStyle const& style);
+
+        virtual Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
+
+        virtual void removeLink(Link* link) const;
+
+        // Deprecated?  Not sure...
+        virtual void playSound(std::string const& file);
+
+        virtual void createCamera(Node* lockObj);
+
+        //void removeConstraint(Constraint *constraint);
+
+        //void addConstraint(ConstraintStyle const &style, Node *objA, Node *objB);
+
+        virtual Node* nodeToGameObj(irr::scene::ISceneNode* node) const;
+
+        virtual void removeObj(Node* obj);
+
+        virtual Structure* addStructure(Structure* structure, Structure* leftHandSide);
     };
 
 }

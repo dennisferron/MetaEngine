@@ -11,8 +11,8 @@
 namespace
 {
     bool contains(
-        std::vector<Glue::Bullet::BulletAttribute*>& list,
-        Glue::Bullet::BulletAttribute* ptr)
+        std::vector<Glue::Bullet::IBulletAttribute*>& list,
+        Glue::Bullet::IBulletAttribute* ptr)
     {
         return std::find(
                 list.begin(),
@@ -26,11 +26,13 @@ namespace Glue::Bullet
     BulletAttribute::BulletAttribute(
         NodeStyle const& style,
         std::unique_ptr<btRigidBody>&& rigidBody,
-        MotionStateAnimator* motionState
+        MotionStateAnimator* motionState,
+        IBulletComponent* blt_cmp
     ) :
         style(style),
         rigidBody(std::move(rigidBody)),
         motionState(motionState),
+        blt_cmp(blt_cmp),
         sceneNode(nullptr)
     {
         rigidBody->setUserPointer(this);
@@ -38,17 +40,11 @@ namespace Glue::Bullet
 
     BulletAttribute::~BulletAttribute()
     {
-        dispose();
-    }
-
-    void BulletAttribute::dispose()
-    {
         // If this is the left side of a constraint, delete not the constraint
         // but the object on the other side of the constraint.
         for (auto v : constraintsA)
         {
-            // TODO:  Dispose, or delete?
-            v->attrB->dispose();
+            delete v->get_attrB();
         }
         constraintsA.clear();
 
@@ -56,38 +52,36 @@ namespace Glue::Bullet
         // but not the A-side.
         for (auto v : constraintsB)
         {
-            blt_cmp->removeConstraint(v->constraint);
-            delete v->constraint;
+            // TODO:  if BulletComponent can remove
+            // the constraints on its own then this
+            // class can avoid depending on blt_cmp
+            blt_cmp->removeConstraint(v);
+            delete v->get_constraint();
         }
         constraintsB.clear();
 
         if (rigidBody)
         {
-            blt_cmp->dynamicsWorld->removeRigidBody(rigidBody);
-            delete rigidBody;
+            // TODO: move this to BulletComponent
+            //blt_cmp->dynamicsWorld->removeRigidBody(rigidBody);
         }
     }
 
-    btRigidBody& BulletAttribute::getRigidBody()
+    btRigidBody* BulletAttribute::getRigidBody() const
     {
-        return *rigidBody;
+        return rigidBody.get();
     }
 
-    btRigidBody& BulletAttribute::getRigidBody() const
-    {
-        return *rigidBody;
-    }
-
-    void addConstraintA(ConstraintObj* constraint)
+    void addConstraintA(IConstraintObj* constraint)
     {}
 
-    void addConstraintB(ConstraintObj* constraint)
+    void addConstraintB(IConstraintObj* constraint)
     {}
 
-    void removeConstraintA(ConstraintObj* constraint)
+    void removeConstraintA(IConstraintObj* constraint)
     {}
 
-    void removeConstraintB(ConstraintObj* constraint)
+    void removeConstraintB(IConstraintObj* constraint)
     {}
 
     void BulletAttribute::setLinearVelocity(Scalar xv, Scalar yv, Scalar zv)
@@ -100,17 +94,17 @@ namespace Glue::Bullet
         rigidBody->setAngularVelocity(btVector3(xv, yv, zv));
     }
 
-    btVector3 const& BulletAttribute::getAngularVelocity() const
+    btVector3 BulletAttribute::getAngularVelocity() const
     {
         return rigidBody->getAngularVelocity();
     }
 
-    btVector3 const& BulletAttribute::getLinearVelocity() const
+    btVector3 BulletAttribute::getLinearVelocity() const
     {
         return rigidBody->getLinearVelocity();
     }
 
-    void BulletAttribute::addChild(Node* otherObj)
+    void BulletAttribute::addChild(INode* otherObj)
     {
         throw std::logic_error("No childObjs");
         //childObjs append(otherObj)
@@ -123,7 +117,7 @@ namespace Glue::Bullet
         rigidBody->setActivationState(DISABLE_DEACTIVATION);
     }
 
-    Scalar BulletAttribute::getRotZ()
+    Scalar BulletAttribute::getRotZ() const
     {
         btQuaternion quat = rigidBody->getOrientation();
 
@@ -136,7 +130,7 @@ namespace Glue::Bullet
                 (x*x - y*y - z*z + w*w));
     }
 
-    btVector3 const& BulletAttribute::getPos()
+    btVector3 BulletAttribute::getPos() const
     {
         if (rigidBody)
         {
@@ -148,7 +142,7 @@ namespace Glue::Bullet
         }
     }
 
-    void BulletAttribute::triggerAllGenerators(std::function<void(Node*)> onTrigger)
+    void BulletAttribute::triggerAllGenerators(std::function<void(INode*)> onTrigger)
     {
         throw std::logic_error("Not implemented");
 /*
@@ -166,7 +160,7 @@ namespace Glue::Bullet
  */
     }
 
-    void BulletAttribute::lockTo(BulletAttribute* otherObj)
+    void BulletAttribute::lockTo(IBulletAttribute* otherObj)
     {
         // In order to lock the object to another, we have to make it a kinematic body
         // (i.e., directly animated not physically affected)
@@ -180,7 +174,7 @@ namespace Glue::Bullet
 
         MotionStateAnimator* oldMotionState = this->motionState;
         this->motionState = new LockAnimator(
-                otherObj->rigidBody->getMotionState(),
+                otherObj->getRigidBody()->getMotionState(),
                 btTransform::getIdentity());
 
         rigidBody->setMotionState(this->motionState);
@@ -251,24 +245,24 @@ namespace Glue::Bullet
 
     void BulletAttribute::fallApart()
     {
-        std::vector<BulletAttribute*> visited;
-        std::vector<BulletAttribute*> removed;
+        std::vector<IBulletAttribute*> visited;
+        std::vector<IBulletAttribute*> removed;
         fallApart(visited, removed);
     }
 
-    void BulletAttribute::fallApart(std::vector<BulletAttribute*>& visited,
-                                    std::vector<BulletAttribute*>& removed)
+    void BulletAttribute::fallApart(std::vector<IBulletAttribute*>& visited,
+                                    std::vector<IBulletAttribute*>& removed)
     {
         if (contains(visited, this))
             return;
         else
             visited.push_back(this);
 
-        std::vector<ConstraintObj*> consA(constraintsA);
+        std::vector<IConstraintObj*> consA(constraintsA);
         for (auto c : consA)
         {
-            if (c->attrB)
-                c->attrB->fallApart(visited, removed);
+            if (c->get_attrB())
+                c->get_attrB()->fallApart(visited, removed);
             if (!contains(removed, c))
             {
                 removed.push_back(c);
@@ -276,11 +270,11 @@ namespace Glue::Bullet
             }
         }
 
-        std::vector<ConstraintObj*> consB(constraintsB);
+        std::vector<IConstraintObj*> consB(constraintsB);
         for (auto c : consB)
         {
-            if (c->attrA)
-                c->attrA->fallApart(visited, removed);
+            if (c->get_attrA())
+                c->get_attrA()->fallApart(visited, removed);
             if (!contains(removed, c))
             {
                 removed.push_back(c);
@@ -290,15 +284,15 @@ namespace Glue::Bullet
     }
 
     void BulletAttribute::structureDoForEachObject(
-            std::function<void(BulletAttribute*)> code)
+            std::function<void(IBulletAttribute*)> code)
     {
-        std::vector<BulletAttribute*> visited;
+        std::vector<IBulletAttribute*> visited;
         structureDoForEachObject(code, visited);
     }
 
     void BulletAttribute::structureDoForEachObject(
-            std::function<void(BulletAttribute*)> code,
-            std::vector<BulletAttribute*>& visited)
+            std::function<void(IBulletAttribute*)> code,
+            std::vector<IBulletAttribute*>& visited)
     {
         if (contains(visited, this))
             return;
@@ -308,18 +302,18 @@ namespace Glue::Bullet
             code(this);
         }
 
-        std::vector<ConstraintObj*> consA(constraintsA);
+        std::vector<IConstraintObj*> consA(constraintsA);
         for (auto c : consA)
         {
-            if (c->attrB)
-                c->attrB->structureDoForEachObject(code, visited);
+            if (c->get_attrB())
+                c->get_attrB()->structureDoForEachObject(code, visited);
         }
 
-        std::vector<ConstraintObj*> consB(constraintsB);
+        std::vector<IConstraintObj*> consB(constraintsB);
         for (auto c : consB)
         {
-            if (c->attrA)
-                c->attrA->structureDoForEachObject(code, visited);
+            if (c->get_attrA())
+                c->get_attrA()->structureDoForEachObject(code, visited);
         }
     }
 

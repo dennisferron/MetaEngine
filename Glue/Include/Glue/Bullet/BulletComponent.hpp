@@ -1,72 +1,58 @@
 #pragma once
 
-#include "Glue/Model/Component.hpp"
-
-#include "Glue/Constants.hpp"
-#include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Model/Link.hpp"
-#include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Styles/ConstraintStyle.hpp"
+#include "Glue/Bullet/BulletInterfaces.hpp"
+#include "Glue/Bullet/BodyBuilder.hpp"
 #include "Glue/Bullet/ScriptedWorldManager.hpp"
+#include "Glue/Bullet/ConstraintBuilder.hpp"
 
-#include "btRigidBody.h"
-#include "btIDebugDraw.h"
+#include <BulletDynamics/ConstraintSolver/btConstraintSolver.h>
+#include <BulletDynamics/Dynamics/btDynamicsWorld.h>
+#include <BulletSoftBody/btSoftBody.h>
+#include "BulletCollision/BroadphaseCollision/btDispatcher.h"
+#include "BulletCollision/CollisionDispatch/btCollisionConfiguration.h"
 
-#include <functional>
-#include <memory>
 
+namespace Glue::Bullet {
 
-namespace Glue::Bullet
-{
-    class BulletAttribute;
-    class ConstraintObj;
-
-    /**
-     * The BulletComponent synchronizes the btDynamicsWorld to the Graph.
-     *
-     * It associates a BulletAttribute to each graph-level node
-     * and a ConstraintObj to each graph-level link.  It also implements
-     * time-based events for the physics engine.
-     */
-    class BulletComponent : public Component
+    class BulletComponent : public IBulletComponent
     {
+    private:
+        btScalar fixedTimeStep = 1.0/60.0;
+        int subframes = 30;
+        btCollisionConfiguration* collisionConfiguration;
+        btDispatcher* dispatcher = nullptr;  // This is a bullet physics thing, not associated with UI event dispatch
+        btBroadphaseInterface* broadphaseInterface = nullptr;
+        btConstraintSolver* solver = nullptr;
+        btDynamicsWorld* dynamicsWorld = nullptr;
+        btSoftBodyWorldInfo softBodyWorldInfo;
+        ScriptedWorldManager scriptWorldMgr;
+        btIDebugDraw* debugDrawer;
+        BodyBuilder* bodyBuilder = nullptr;
+        ConstraintBuilder* constraintBuilder = nullptr;
+
     public:
-        virtual ~BulletComponent() = 0;
+        BulletComponent(BodyBuilder* bodyBuilder, ConstraintBuilder* constraintBuilder);
 
-        /// Turns debug drawing on and off
-        virtual void setDebugMode(bool debugMode) = 0;
+        ~BulletComponent() override;
 
-        /// Converts a link to a constraint if jointType is set.
-        /// The Glue::Link combines a style with two endpoints.
-        virtual void addLink(Glue::Link* link) = 0;
+        void setDebugMode(bool debugMode) override;
 
-        /// Accepts an object to use to draw debug graphics.
-        virtual void setDebugDrawer(btIDebugDraw* drawer) = 0;
+        void addLink(Link *link) override;
 
-        /// The passed function will be called on every physics tick.
-        virtual void setOnTick(TickHandler aBlock) = 0;
+        void setDebugDrawer(btIDebugDraw* drawer) override;
 
-        /// The passed function will be called on every physics pre-tick.
-        virtual void setOnPreTick(TickHandler aBlock) = 0;
+        void setOnTick(TickHandler aBlock) override;
 
-        /// The method called during the physics portion of a frame.
-        /// It advances the btDynamicsWorld one frame.
-        virtual void onPhysics(Scalar timeElapsed) = 0;
+        void setOnPreTick(TickHandler aBlock) override;
 
-        /// The method called during the graphics portion of a frame.
-        /// It draws debug graphics using the object passed to setDebugDrawer.
-        virtual void onGraphics(Scalar timeElapsed) = 0;
+        void onPhysics(Scalar timeElapsed) override;
 
-        /// Remove a constraint from the btDynamicsWorld.
-        virtual void removeConstraint(ConstraintObj* constraint) = 0;
+        void onGraphics(Scalar timeElapsed) override;
 
-        /// Creates a ConstraintObj based on the @style.
-        /// Add a constraint to the btDynamicsWorld.
-        virtual ConstraintObj* addConstraint(ConstraintStyle const& style, BulletAttribute* attrA, BulletAttribute* attrB) = 0;
+        void removeConstraint(IConstraintObj *constraint) override;
 
-        /// Creates a BulletAttribute based on the style of the @node.
-        /// Adds a btRigidBody to the btDynamicsWorld.
-        virtual BulletAttribute* addNode(Node* node) = 0;
+        IConstraintObj * addConstraint(ConstraintStyle const& style, BulletAttribute* attrA, BulletAttribute* attrB) override;
+
+        IBulletAttribute *addNode(INode *node) override;
     };
-
 }

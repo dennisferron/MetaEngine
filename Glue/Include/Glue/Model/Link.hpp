@@ -2,7 +2,6 @@
 
 #include "Glue/Model/Node.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Interactions/Link/LinkInteraction.hpp"
 
 #include <vector>
 

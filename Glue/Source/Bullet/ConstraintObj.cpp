@@ -6,8 +6,8 @@ namespace Glue::Bullet
     ConstraintObj::ConstraintObj(
         LinkStyle style,
         std::unique_ptr<btTypedConstraint>&& constraint,
-        BulletAttribute* attrA,
-        BulletAttribute* attrB) :
+        IBulletAttribute* attrA,
+        IBulletAttribute* attrB) :
             style(style),
             constraint(std::move(constraint)),
             attrA(attrA),
@@ -25,12 +25,12 @@ namespace Glue::Bullet
         return constraint.get();
     }
 
-    BulletAttribute* ConstraintObj::get_attrA() const
+    IBulletAttribute* ConstraintObj::get_attrA() const
     {
         return attrA;
     }
 
-    BulletAttribute* ConstraintObj::get_attrB() const
+    IBulletAttribute* ConstraintObj::get_attrB() const
     {
         return attrB;
     }

@@ -3,15 +3,15 @@
 #include "btBulletDynamicsCommon.h"
 #include "BulletDynamics/Dynamics/btDynamicsWorld.h"
 #include "Glue/Model/TimeComponent.hpp"
+#include "Glue/Bullet/BulletInterfaces.hpp"
 
 #include <functional>
 #include <optional>
 
-namespace Glue::Bullet {
+namespace Glue::Bullet 
+{
 
-using TickHandler = std::function<void(btDynamicsWorld*,btScalar)>;
-
-class ScriptedWorldManager
+class ScriptedWorldManager : public IScriptedWorldManager
 {
 public:
 

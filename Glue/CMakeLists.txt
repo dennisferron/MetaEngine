@@ -15,29 +15,29 @@ add_library(Glue
         Include/Glue/Animators/LockAnimator.hpp
         Include/Glue/Animators/PhysicsAnimator.hpp
         Include/Glue/Avatar/Avatar.hpp
-        Include/Glue/Avatar/Camera.hpp
-        Include/Glue/Avatar/AvatarComponent.hpp
-        Include/Glue/Avatar/KeyInputs.hpp
         Include/Glue/Avatar/AvatarAttribute.hpp
+        Include/Glue/Avatar/AvatarComponent.hpp
+        Include/Glue/Avatar/Camera.hpp
+        Include/Glue/Avatar/KeyInputs.hpp
         Include/Glue/Avatar/PlayerStyle.hpp
         Include/Glue/Bullet/BodyBuilder.hpp
+        Include/Glue/Bullet/BulletAttribute.hpp
         Include/Glue/Bullet/BulletComponent.hpp
+        Include/Glue/Bullet/BulletInterfaces.hpp
         Include/Glue/Bullet/ConstraintBuilder.hpp
         Include/Glue/Bullet/ConstraintObj.hpp
-        Include/Glue/Bullet/BulletAttribute.hpp
         Include/Glue/Bullet/PhysicsConstraints.hpp
-        Include/Glue/Bullet/PhysicsShapes.hpp
         Include/Glue/Bullet/ScriptedWorldManager.hpp
         Include/Glue/Bullet/Sense.hpp
+        Include/Glue/Constants.hpp
         Include/Glue/Desteer/Desteer.hpp
         Include/Glue/Desteer/Steering.hpp
-        Include/Glue/EditorGUI/EditorGUIComponent.hpp
         Include/Glue/EditorGUI/EditorGUI.hpp
+        Include/Glue/EditorGUI/EditorGUIComponent.hpp
         Include/Glue/EditorGUI/Toolbar.hpp
+        Include/Glue/Glue.hpp
         Include/Glue/Interactions/Component/AvatarTime.hpp
         Include/Glue/Interactions/Component/BulletTime.hpp
-        Include/Glue/Interactions/Component/ComponentInteractionModule.hpp
-        Include/Glue/Interactions/Component/ComponentInteraction.hpp
         Include/Glue/Interactions/Component/DebugDrawer.hpp
         Include/Glue/Interactions/Component/IrrlichtBulletDebugDrawer.hpp
         Include/Glue/Interactions/Component/IrrlichtKeyInput.hpp
@@ -46,17 +46,20 @@ add_library(Glue
         Include/Glue/Interactions/Link/BulletMouseDrag.hpp
         Include/Glue/Interactions/Link/CameraFollowObject.hpp
         Include/Glue/Interactions/Link/IrrlichtMouseDrag.hpp
-        Include/Glue/Interactions/Link/Link.hpp
-        Include/Glue/Interactions/Link/LinkInteraction.hpp
         Include/Glue/Interactions/Link/SelectNode.hpp
         Include/Glue/Interactions/Node/AddScriptObjAnim.hpp
         Include/Glue/Interactions/Node/IrrlichtCamera.hpp
         Include/Glue/Interactions/Node/MotionState.hpp
-        Include/Glue/Interactions/Node/Node.hpp
-        Include/Glue/Interactions/Node/NodeInteraction.hpp
         Include/Glue/Interactions/Node/PlayerNoPhysSleep.hpp
         Include/Glue/Interactions/Node/PlayerPhysics.hpp
-        Include/Glue/Interactions/Interactions.hpp
+        Include/Glue/Irrlicht/Assets.hpp
+        Include/Glue/Irrlicht/Camera.hpp
+        Include/Glue/Irrlicht/DisplayShapes.hpp
+        Include/Glue/Irrlicht/IrrlichtInterfaces.hpp
+        Include/Glue/Irrlicht/IrrlichtAttribute.hpp
+        Include/Glue/Irrlicht/IrrlichtComponent.hpp
+        Include/Glue/Irrlicht/SceneNodeBuilder.hpp
+        Include/Glue/Irrlicht/ShapeBuilder.hpp
         Include/Glue/Irrlicht/UserInterface/EventDispatch.hpp
         Include/Glue/Irrlicht/UserInterface/GuiEvents.hpp
         Include/Glue/Irrlicht/UserInterface/Keyboard.hpp
@@ -65,14 +68,6 @@ add_library(Glue
         Include/Glue/Irrlicht/UserInterface/MouseDragLinkAttribute.hpp
         Include/Glue/Irrlicht/UserInterface/SceneNodeSelector.hpp
         Include/Glue/Irrlicht/UserInterface/UserInterface.hpp
-        Include/Glue/Irrlicht/Assets.hpp
-        Include/Glue/Irrlicht/Camera.hpp
-        Include/Glue/Irrlicht/IrrlichtComponent.hpp
-        Include/Glue/Irrlicht/DisplayShapes.hpp
-        Include/Glue/Irrlicht/Irrlicht.hpp
-        Include/Glue/Irrlicht/IrrlichtAttribute.hpp
-        Include/Glue/Irrlicht/SceneNodeBuilder.hpp
-        Include/Glue/Irrlicht/ShapeBuilder.hpp
         Include/Glue/LevelSystem/LevelEditor.hpp
         Include/Glue/LevelSystem/LevelSystem.hpp
         Include/Glue/LevelSystem/Props.hpp
@@ -83,18 +78,13 @@ add_library(Glue
         Include/Glue/MeshTools/PossibleVertex.hpp
         Include/Glue/MeshTools/SoftBodyMeshSynchronizer.hpp
         Include/Glue/MeshTools/SurfaceQuadTree.hpp
-        Include/Glue/Model/Component.hpp
-        Include/Glue/Model/Domain.hpp
         Include/Glue/Model/Graph.hpp
-        Include/Glue/Model/GraphImpl.hpp
-        Include/Glue/Model/Interaction.hpp
         Include/Glue/Model/Link.hpp
-        Include/Glue/Model/Model.hpp
-        Include/Glue/Model/Module.hpp
+        Include/Glue/Model/ModelInterfaces.hpp
         Include/Glue/Model/Node.hpp
-        Include/Glue/Model/Referent.hpp
         Include/Glue/Model/Structure.hpp
         Include/Glue/Model/TimeComponent.hpp
+        Include/Glue/Startup.hpp
         Include/Glue/Styles/ConstraintStyle.hpp
         Include/Glue/Styles/ConstraintStyles.hpp
         Include/Glue/Styles/GameObjStyle.hpp
@@ -108,36 +98,32 @@ add_library(Glue
         Include/Glue/UserInterface/Menu.hpp
         Include/Glue/UserInterface/UserInterface.hpp
         Include/Glue/UserInterface/UserInterfaceRepresentation.hpp
-        Include/Glue/Constants.hpp
-        Include/Glue/Glue.hpp
-        Include/Glue/Startup.hpp
         Source/Animators/KinematicAnimator.cpp
         Source/Animators/LockAnimator.cpp
         Source/Animators/PhysicsAnimator.cpp
         Source/Animators/ScriptObjAnimator.cpp
         Source/Avatar/Avatar.cpp
-        Source/Avatar/Camera.cpp
-        Source/Avatar/AvatarComponent.cpp
-        Source/Avatar/KeyInputs.cpp
         Source/Avatar/AvatarAttribute.cpp
+        Source/Avatar/AvatarComponent.cpp
+        Source/Avatar/Camera.cpp
+        Source/Avatar/KeyInputs.cpp
         Source/Avatar/PlayerStyle.cpp
         Source/Bullet/BodyBuilder.cpp
+        Source/Bullet/BulletAttribute.cpp
         Source/Bullet/BulletComponent.cpp
         Source/Bullet/ConstraintBuilder.cpp
         Source/Bullet/ConstraintObj.cpp
-        Source/Bullet/BulletAttribute.cpp
         Source/Bullet/PhysicsShapes.cpp
         Source/Bullet/ScriptedWorldManager.cpp
         Source/Bullet/Sense.cpp
         Source/Desteer/Desteer.cpp
         Source/Desteer/Steering.cpp
-        Source/EditorGUI/EditorGUIComponent.cpp
         Source/EditorGUI/EditorGUI.cpp
+        Source/EditorGUI/EditorGUIComponent.cpp
         Source/EditorGUI/Toolbar.cpp
+        Source/Glue.cpp
         Source/Interactions/Component/AvatarTime.cpp
         Source/Interactions/Component/BulletTime.cpp
-        Source/Interactions/Component/ComponentInteractionModule.cpp
-        Source/Interactions/Component/ComponentInteraction.cpp
         Source/Interactions/Component/DebugDrawer.cpp
         Source/Interactions/Component/IrrlichtBulletDebugDrawer.cpp
         Source/Interactions/Component/IrrlichtKeyInput.cpp
@@ -146,17 +132,20 @@ add_library(Glue
         Source/Interactions/Link/BulletMouseDrag.cpp
         Source/Interactions/Link/CameraFollowObject.cpp
         Source/Interactions/Link/IrrlichtMouseDrag.cpp
-        Source/Interactions/Link/Link.cpp
-        Source/Interactions/Link/LinkInteraction.cpp
         Source/Interactions/Link/SelectNode.cpp
         Source/Interactions/Node/AddScriptObjAnim.cpp
         Source/Interactions/Node/IrrlichtCamera.cpp
         Source/Interactions/Node/MotionState.cpp
-        Source/Interactions/Node/Node.cpp
-        Source/Interactions/Node/NodeInteraction.cpp
         Source/Interactions/Node/PlayerNoPhysSleep.cpp
         Source/Interactions/Node/PlayerPhysics.cpp
-        Source/Interactions/Interactions.cpp
+        Source/Irrlicht/Assets.cpp
+        Source/Irrlicht/Camera.cpp
+        Source/Irrlicht/DisplayShapes.cpp
+        Source/Irrlicht/Irrlicht.cpp
+        Source/Irrlicht/IrrlichtAttribute.cpp
+        Source/Irrlicht/IrrlichtComponent.cpp
+        Source/Irrlicht/SceneNodeBuilder.cpp
+        Source/Irrlicht/ShapeBuilder.cpp
         Source/Irrlicht/UserInterface/EventDispatch.cpp
         Source/Irrlicht/UserInterface/GuiEvents.cpp
         Source/Irrlicht/UserInterface/Keyboard.cpp
@@ -165,14 +154,6 @@ add_library(Glue
         Source/Irrlicht/UserInterface/MouseDragLinkAttribute.cpp
         Source/Irrlicht/UserInterface/SceneNodeSelector.cpp
         Source/Irrlicht/UserInterface/UserInterface.cpp
-        Source/Irrlicht/Assets.cpp
-        Source/Irrlicht/Camera.cpp
-        Source/Irrlicht/IrrlichtComponent.cpp
-        Source/Irrlicht/DisplayShapes.cpp
-        Source/Irrlicht/Irrlicht.cpp
-        Source/Irrlicht/IrrlichtAttribute.cpp
-        Source/Irrlicht/SceneNodeBuilder.cpp
-        Source/Irrlicht/ShapeBuilder.cpp
         Source/LevelSystem/LevelEditor.cpp
         Source/LevelSystem/LevelSystem.cpp
         Source/LevelSystem/Props.cpp
@@ -184,17 +165,12 @@ add_library(Glue
         Source/MeshTools/PossibleVertex.cpp
         Source/MeshTools/SoftBodyMeshSynchronizer.cpp
         Source/MeshTools/SurfaceQuadTree.cpp
-        Source/Model/Component.cpp
-        Source/Model/Domain.cpp
         Source/Model/Graph.cpp
-        Source/Model/GraphImpl.cpp
-        Source/Model/Interaction.cpp
         Source/Model/Link.cpp
-        Source/Model/Model.cpp
         Source/Model/Node.cpp
-        Source/Model/Referent.cpp
         Source/Model/Structure.cpp
         Source/Model/TimeComponent.cpp
+        Source/Startup.cpp
         Source/Styles/ConstraintStyle.cpp
         Source/Styles/ConstraintStyles.cpp
         Source/Styles/GameObjStyle.cpp
@@ -208,11 +184,6 @@ add_library(Glue
         Source/UserInterface/Menu.cpp
         Source/UserInterface/UserInterface.cpp
         Source/UserInterface/UserInterfaceRepresentation.cpp
-        Source/Glue.cpp
-        Source/Startup.cpp
-        Include/Glue/Model/Object.hpp
-        Source/Bullet/BulletComponentImpl.cpp
-        Include/Glue/Bullet/BulletComponentImpl.hpp
 )
 
 # Note:  Order of libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.

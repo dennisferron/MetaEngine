@@ -1,6 +1,16 @@
 #include "Glue/Bullet/ConstraintBuilder.hpp"
-
+#include "Glue/Styles/MountStyle.hpp"
 #include "LinearMath/btTransform.h"
+
+namespace
+{
+    // Utility method
+    btTransform getFrame(Glue::MountStyle const& mount)
+    {
+        throw "Not implemented.";
+    }
+
+}
 
 namespace Glue { namespace Bullet {
 
@@ -9,16 +19,6 @@ namespace Glue { namespace Bullet {
 
     }
 
-    ConstraintObj* ConstraintBuilder::create(LinkStyle* style, btRigidBody& objA, btRigidBody& objB)
-    {
-        throw "Not implemented.";
-    }
-
-    // Utility method
-    btTransform ConstraintBuilder::getFrame(Mount const& mount)
-    {
-        throw "Not implemented.";
-    }
 
 }}
 
