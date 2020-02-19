@@ -12,12 +12,12 @@
 #include "BulletCollision/CollisionDispatch/btCollisionConfiguration.h"
 
 
-namespace Glue::Bullet {
-
+namespace Glue::Bullet 
+{
     class BulletComponent : public IBulletComponent
     {
     private:
-        btScalar fixedTimeStep = 1.0/60.0;
+        btScalar fixedTimeStep = 1.0 / 60.0;
         int subframes = 30;
         btCollisionConfiguration* collisionConfiguration;
         btDispatcher* dispatcher = nullptr;  // This is a bullet physics thing, not associated with UI event dispatch
@@ -33,26 +33,26 @@ namespace Glue::Bullet {
     public:
         BulletComponent(BodyBuilder* bodyBuilder, ConstraintBuilder* constraintBuilder);
 
-        ~BulletComponent() override;
+        ~BulletComponent() final;
 
-        void setDebugMode(bool debugMode) override;
+        void setDebugMode(bool debugMode) final;
 
-        void addLink(Link *link) override;
+        void addLink(ILink* link) final;
 
-        void setDebugDrawer(btIDebugDraw* drawer) override;
+        void setDebugDrawer(btIDebugDraw* drawer) final;
 
-        void setOnTick(TickHandler aBlock) override;
+        void setOnTick(TickHandler aBlock) final;
 
-        void setOnPreTick(TickHandler aBlock) override;
+        void setOnPreTick(TickHandler aBlock) final;
 
-        void onPhysics(Scalar timeElapsed) override;
+        void onPhysics(Scalar timeElapsed) final;
 
-        void onGraphics(Scalar timeElapsed) override;
+        void onGraphics(Scalar timeElapsed) final;
 
-        void removeConstraint(IConstraintObj *constraint) override;
+        void removeConstraint(IConstraintObj* constraint) final;
 
-        IConstraintObj * addConstraint(ConstraintStyle const& style, BulletAttribute* attrA, BulletAttribute* attrB) override;
+        IConstraintObj* addConstraint(ConstraintStyle const& style, IBulletAttribute* attrA, IBulletAttribute* attrB) final;
 
-        IBulletAttribute *addNode(INode *node) override;
+        IBulletAttribute* addNode(INode* node) final;
     };
 }

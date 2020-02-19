@@ -19,6 +19,16 @@ namespace
                 list.end(),
                 ptr) != list.end();
     }
+
+    bool contains(
+            std::vector<Glue::Bullet::IConstraintObj*>& list,
+            Glue::Bullet::IConstraintObj* ptr)
+    {
+        return std::find(
+                list.begin(),
+                list.end(),
+                ptr) != list.end();
+    }
 }
 
 namespace Glue::Bullet
@@ -246,12 +256,12 @@ namespace Glue::Bullet
     void BulletAttribute::fallApart()
     {
         std::vector<IBulletAttribute*> visited;
-        std::vector<IBulletAttribute*> removed;
+        std::vector<IConstraintObj*> removed;
         fallApart(visited, removed);
     }
 
     void BulletAttribute::fallApart(std::vector<IBulletAttribute*>& visited,
-                                    std::vector<IBulletAttribute*>& removed)
+                                    std::vector<IConstraintObj*>& removed)
     {
         if (contains(visited, this))
             return;

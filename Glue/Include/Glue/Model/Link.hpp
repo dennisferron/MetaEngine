@@ -9,20 +9,16 @@ namespace Glue {
 
 class Link
 {
-public:
+private:
     Graph* graph;
     LinkStyle style;
-    Node* fromNode;
-    Node* toNode;
+    INode* fromNode;
+    INode* toNode;
 
-    // This list is shared among all Link clones
-    static std::vector<LinkInteraction*> possibleInteractions;
-
-    static void registerInteraction(LinkInteraction* interaction);
-
+public:
     Link(Graph* graph, LinkStyle const& style, Node* fromNode, Node* toNode);
 
-    Link& addAttribute(Object* attr, LinkInteraction* expectedInteraction);
+    Link& addAttribute(Object* attr);
 
     Object* findAttribute(Object* attr);
 };

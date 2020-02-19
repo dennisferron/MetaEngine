@@ -23,15 +23,18 @@
 #include <functional>
 #include <memory>
 
-namespace Glue
-{
-    class Link;
-    class Node;
-}
-
 namespace Glue::Bullet
 {
     class IConstraintObj;
+    class INode;
+
+    class ILink
+    {
+        virtual ~ILink() {}
+        virtual LinkStyle const& get_style() const = 0;
+        virtual INode* get_fromNode() const = 0;
+        virtual INode* get_to_node() const = 0;
+    };
 
     /**
      * Create shapes and rigid bodies for style.
@@ -117,6 +120,14 @@ namespace Glue::Bullet
         virtual void fallApart() = 0;
         virtual void structureDoForEachObject(
                 std::function<void(IBulletAttribute*)> code) = 0;
+
+        virtual void fallApart(
+                std::vector<IBulletAttribute*>& visited,
+                std::vector<IConstraintObj*>& removed) = 0;
+
+        virtual void structureDoForEachObject(
+                std::function<void(IBulletAttribute*)> code,
+                std::vector<IBulletAttribute*>& visited) = 0;
     };
 
 
@@ -165,7 +176,7 @@ namespace Glue::Bullet
 
         /// Converts a link to a constraint if jointType is set.
         /// The Glue::Link combines a style with two endpoints.
-        virtual void addLink(Glue::Link* link) = 0;
+        virtual void addLink(Glue::ILink* link) = 0;
 
         /// Accepts an object to use to draw debug graphics.
         virtual void setDebugDrawer(btIDebugDraw* drawer) = 0;
@@ -193,7 +204,7 @@ namespace Glue::Bullet
 
         /// Creates a BulletAttribute based on the style of the @node.
         /// Adds a btRigidBody to the btDynamicsWorld.
-        virtual IBulletAttribute* addNode(Node* node) = 0;
+        virtual IBulletAttribute* addNode(INode* node) = 0;
 
         // TODO:  Implement this
         //virtual void removeNode(Node* node) = 0;

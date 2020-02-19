@@ -31,12 +31,6 @@ namespace Glue::Bullet
 
         void dispose();
 
-        void fallApart(std::vector<IBulletAttribute*>& visited,
-                       std::vector<IBulletAttribute*>& removed);
-
-        void structureDoForEachObject(
-                std::function<void(IBulletAttribute*)> code,
-                std::vector<IBulletAttribute*>& visited);
     public:
 
         BulletAttribute(
@@ -98,6 +92,13 @@ namespace Glue::Bullet
 
         void structureDoForEachObject(
                 std::function<void(IBulletAttribute*)> code) final;
+
+        void fallApart(std::vector<IBulletAttribute*>& visited,
+                       std::vector<IConstraintObj*>& removed) final;
+
+        void structureDoForEachObject(
+                std::function<void(IBulletAttribute*)> code,
+                std::vector<IBulletAttribute*>& visited) final;
     };
 
 }

@@ -60,7 +60,7 @@ namespace Glue::Bullet
         dynamicsWorld->getDebugDrawer()->setDebugMode(debugMode);
     }
 
-    void BulletComponent::addLink(Link *link)
+    void BulletComponent::addLink(ILink *link)
     {
         if (link->style.linkType == LinkTypes::physConstraint)
         {
