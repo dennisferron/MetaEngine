@@ -1,26 +1,25 @@
 #pragma once
 
-#include "Glue/Model/Node.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
 
 #include <vector>
 
-namespace Glue {
-
-class Link
+namespace Glue
 {
-private:
-    Graph* graph;
-    LinkStyle style;
-    INode* fromNode;
-    INode* toNode;
+    class Link : public ILink
+    {
+    private:
+        LinkStyle style;
+        INode* fromNode;
+        INode* toNode;
 
-public:
-    Link(Graph* graph, LinkStyle const& style, Node* fromNode, Node* toNode);
+        std::vector<LinkAttribute> attributes;
 
-    Link& addAttribute(Object* attr);
+    public:
+        Link(LinkStyle const& style, INode* fromNode, INode* toNode);
 
-    Object* findAttribute(Object* attr);
-};
+        void addAttribute(LinkAttribute attr) override;
+    };
 
 }

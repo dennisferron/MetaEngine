@@ -28,14 +28,6 @@ namespace Glue::Bullet
     class IConstraintObj;
     class INode;
 
-    class ILink
-    {
-        virtual ~ILink() {}
-        virtual LinkStyle const& get_style() const = 0;
-        virtual INode* get_fromNode() const = 0;
-        virtual INode* get_to_node() const = 0;
-    };
-
     /**
      * Create shapes and rigid bodies for style.
      */

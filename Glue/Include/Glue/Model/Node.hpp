@@ -30,8 +30,12 @@ public:
     Node(NodeStyle const& style);
     ~Node();
 
-    NodeStyle const& get_style() const override;
-    void addAttribute(NodeAttribute attr) override;
+    NodeStyle const& get_style() const final;
+    void addAttribute(NodeAttribute attr) final;
+
+    Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const final;
+    Bullet::IBulletAttribute* get_bullet_attribute() const final;
+    Avatar::IAvatarAttribute* get_avatar_attribute() const final;
 };
 
 }

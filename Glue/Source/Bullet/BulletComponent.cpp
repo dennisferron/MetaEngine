@@ -62,13 +62,13 @@ namespace Glue::Bullet
 
     void BulletComponent::addLink(ILink *link)
     {
-        if (link->style.linkType == LinkTypes::physConstraint)
+        if (link->get_style().linkType == LinkTypes::physConstraint)
         {
-            if (!link->style.constraint)
+            if (!link->get_style().constraint)
                 throw std::logic_error("linkType is physConstraint but no constraint style is provided");
 
-            auto attrA = link->fromNode->get_bullet_attribute();
-            auto attrB = link->toNode->get_bullet_attribute();
+            auto attrA = link->get_fromNode()->get_bullet_attribute();
+            auto attrB = link->get_toNode()->get_bullet_attribute();
 
             if (!attrA)
                 throw std::logic_error("fromNode has no Bullet attribute.");
@@ -76,7 +76,7 @@ namespace Glue::Bullet
             if (!attrB)
                 throw std::logic_error("toNode has no Bullet attribute");
 
-            auto linkAttr = addConstraint(*(link->style.constraint), attrA, attrB)
+            auto linkAttr = addConstraint(*(link->get_style().constraint), attrA, attrB);
             link->addAttribute(linkAttr);
         }
     }
@@ -112,24 +112,26 @@ namespace Glue::Bullet
         dynamicsWorld->debugDrawWorld();
     }
 
-    void BulletComponent::removeConstraint(ConstraintObj* constraint)
+    void BulletComponent::removeConstraint(IConstraintObj* constraint)
     {
+/*
         if (!constraint)
             throw std::logic_error("ConstraintObj was null");
 
-        dynamicsWorld->removeConstraint(constraint->constraint);
+        dynamicsWorld->removeConstraint(constraint->get_constraint());
 
-        if (constraint->attrA)
-            constraint->attrA->removeConstraintsA(constraint);
+        if (constraint->get_attrA())
+            constraint->get_attrA()->removeConstraintsA(constraint);
 
-        if (constraint->attrB)
-            constraint->attrB->removeConstraintsB(constraint);
+        if (constraint->get_attrB())
+            constraint->get_attrB()->removeConstraintsB(constraint);
 
         constraint->attrA = nullptr;
         constraint->attrB = nullptr;
+*/
     }
 
-    ConstraintObj* BulletComponent::addConstraint(ConstraintStyle const& style, BulletAttribute* attrA, BulletAttribute* attrB)
+    IConstraintObj* BulletComponent::addConstraint(ConstraintStyle const& style, IBulletAttribute* attrA, IBulletAttribute* attrB)
     {
         if (!attrA && !attrB)
             throw std::logic_error("addConstraint attrA and attrB are both null");

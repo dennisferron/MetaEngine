@@ -37,14 +37,14 @@ namespace Glue
             Irrlicht::IIrrlichtAttribute*,
             Bullet::IBulletAttribute*>;
 
+    using LinkAttribute = std::variant<
+            void*
+            >;
+
     using GraphComponent = std::variant<
             Avatar::IAvatarComponent*,
             Irrlicht::IIrrlichtComponent*,
             Bullet::IBulletComponent*>;
-
-	class ILink
-    {
-    };
 
 	class IStructure
     {
@@ -63,8 +63,22 @@ namespace Glue
 	    virtual ~INode() {}
 		virtual NodeStyle const& get_style() const = 0;
 		virtual void addAttribute(NodeAttribute attr) = 0;
+		virtual Bullet::IBulletAttribute* get_bullet_attribute() = 0;
+        virtual Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const = 0;
+        virtual Bullet::IBulletAttribute* get_bullet_attribute() const = 0;
+        virtual Avatar::IAvatarAttribute* get_avatar_attribute() const = 0;
 	};
-	
+
+    class ILink
+    {
+    public:
+        virtual ~ILink() {}
+        virtual LinkStyle const& get_style() const = 0;
+        virtual void addAttribute(LinkAttribute attr) = 0;
+        virtual INode* get_fromNode() const = 0;
+        virtual INode* get_toNode() const = 0;
+    };
+
     class IGraph
     {
     public:

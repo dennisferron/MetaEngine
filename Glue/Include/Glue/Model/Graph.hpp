@@ -26,19 +26,19 @@
 
 namespace Glue
 {
-    class GraphImpl : public Graph
+    class Graph : public IGraph
     {
     private:
-        Avatar::AvatarComponent* avatar_cmp;
-        Bullet::BulletComponent* blt_cmp;
-        Irrlicht::IrrlichtComponent* irr_cmp;
+        Avatar::IAvatarComponent* avatar_cmp;
+        Bullet::IBulletComponent* blt_cmp;
+        Irrlicht::IIrrlichtComponent* irr_cmp;
         TimeComponent* time_cmp;
 
         std::vector<Node*> nodes;
 
     public:
 
-        GraphImpl(
+        Graph(
                 Avatar::AvatarComponent* avatar_cmp,
                 Bullet::BulletComponent* blt_cmp,
                 Irrlicht::IrrlichtComponent* irr_cmp,

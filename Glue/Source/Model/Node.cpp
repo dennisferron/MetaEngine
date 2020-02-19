@@ -2,6 +2,38 @@
 
 #include <vector>
 
+namespace
+{
+    template <typename T>
+    struct AttributeFinder
+    {
+        T* result = nullptr;
+
+        void operator()(T* value)
+        {
+            if (result)
+                throw std::logic_error("More than one attribute of this type is present.");
+
+            result = value;
+        }
+
+        template <typename U>
+        void operator()(U*)
+        {
+            // do nothing
+        }
+    };
+
+    template <typename T>
+    T* find_attribute(std::vector<Glue::NodeAttribute> const& attrs)
+    {
+        AttributeFinder<T> v;
+        for (auto a : attrs)
+            std::visit(v, a);
+        return v.result;
+    }
+}
+
 namespace Glue
 {
 
@@ -14,24 +46,24 @@ Node::~Node()
 {
 }
 
-NodeStyle const& NodeStyle::get_style() const
+NodeStyle const& Node::get_style() const
 {
     return style;
 }
 
-Glue::Irrlicht::IrrlichtAttribute* Node::get_irrlicht_attribute() const
+Irrlicht::IIrrlichtAttribute* Node::get_irrlicht_attribute() const
 {
-    return irrlicht_attribute.get();
+    return find_attribute<Irrlicht::IIrrlichtAttribute>(attributes);
 }
 
-Glue::Bullet::BulletAttribute* Node::get_bullet_attribute() const
+Bullet::IBulletAttribute* Node::get_bullet_attribute() const
 {
-    return bullet_attribute.get();
+    return find_attribute<Bullet::IBulletAttribute>(attributes);
 }
 
-Glue::Avatar::AvatarAttribute* Node::get_avatar_attribute() const
+Avatar::IAvatarAttribute* Node::get_avatar_attribute() const
 {
-    return avatar_attribute.get();
+    return find_attribute<Avatar::IAvatarAttribute>(attributes);
 }
 
     void Node::addAttribute(std::unique_ptr<Glue::Irrlicht::IrrlichtAttribute>&& attr)
