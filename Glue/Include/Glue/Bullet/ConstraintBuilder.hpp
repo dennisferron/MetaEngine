@@ -14,7 +14,7 @@ class ConstraintBuilder : public IConstraintBuilder
 public:
     ConstraintBuilder();
 
-    IConstraintObj* create(ConstraintStyle const& style, btRigidBody& objA, btRigidBody& objB) override;
+    IConstraintObj* create(ConstraintStyle const& style, btRigidBody* objA, btRigidBody* objB) override;
 };
 
 }

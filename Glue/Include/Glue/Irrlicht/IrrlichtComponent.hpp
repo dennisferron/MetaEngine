@@ -2,7 +2,7 @@
 
 #include "Glue/Model/Node.hpp"
 
-#include "Glue/Irrlicht/IrrlichtAttribute.hpp"
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 
 #include "ITimer.h"
 #include "ISceneNode.h"
@@ -10,13 +10,43 @@
 #include <memory>
 #include <string>
 
-namespace Glue::Irrlicht {
+namespace Glue::Irrlicht
+{
 
-class IrrlichtComponent : public Component
+class IrrlichtComponent : public IIrrlichtComponent
 {
 private:
-    struct Impl;
-    std::unique_ptr<Impl> impl;
+    std::string mediaPath;
+
+    Event* events = nullptr;
+    EventDispatch* eventDispatch = nullptr;
+    Keyboard* keyboard = nullptr;
+    Mouse* mouse = nullptr;
+    GuiEvents* guiEvents = nullptr;
+
+    irr::IrrlichtDevice* device = nullptr;
+    irr::video::IVideoDriver* driver = nullptr;
+    irr::scene::ISceneManager* smgr = nullptr;
+    irr::video::SExposedVideoData videoData;
+    Assets* assets = nullptr;
+
+    void* sound = nullptr;
+    irr::gui::IGUIEnvironment* gui = nullptr;
+    irr::scene::ISceneCollisionManager* collMan = nullptr;
+    irr::scene::IMeshManipulator* meshMan = nullptr;
+
+    SceneNodeBuilder* sceneNodeBuilder = nullptr;
+
+    // window title
+    std::wstring title;
+
+    irr::ITimer* deviceTimer = nullptr;
+    long frames;
+    irr::video::SColor backColor;
+
+    Camera* camera = nullptr;
+
+    Graph* graph = nullptr;
 
 public:
 

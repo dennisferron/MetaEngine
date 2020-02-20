@@ -138,7 +138,7 @@ namespace Glue::Bullet
 	{
 	public:
 		virtual ~IConstraintBuilder() {}
-        virtual IConstraintObj* create(ConstraintStyle const& style, btRigidBody& objA, btRigidBody& objB) = 0;
+        virtual IConstraintObj* create(ConstraintStyle const& style, btRigidBody* objA, btRigidBody* objB) = 0;
 	};
 
 	using TickHandler = std::function<void(btDynamicsWorld*,btScalar)>;

@@ -28,44 +28,7 @@ using namespace irr::video;
 
 namespace Glue::Irrlicht
 {
-
-    struct IrrlichtComponent::Impl
-    {
-        std::string mediaPath;
-
-        Event* events = nullptr;
-        EventDispatch* eventDispatch = nullptr;
-        Keyboard* keyboard = nullptr;
-        Mouse* mouse = nullptr;
-        GuiEvents* guiEvents = nullptr;
-
-        irr::IrrlichtDevice* device = nullptr;
-        irr::video::IVideoDriver* driver = nullptr;
-        irr::scene::ISceneManager* smgr = nullptr;
-        irr::video::SExposedVideoData videoData;
-        Assets* assets = nullptr;
-
-        void* sound = nullptr;
-        irr::gui::IGUIEnvironment* gui = nullptr;
-        irr::scene::ISceneCollisionManager* collMan = nullptr;
-        irr::scene::IMeshManipulator* meshMan = nullptr;
-
-        SceneNodeBuilder* sceneNodeBuilder = nullptr;
-
-        // window title
-        std::wstring title;
-
-        irr::ITimer* deviceTimer = nullptr;
-        long frames;
-        irr::video::SColor backColor;
-
-        Camera* camera = nullptr;
-
-        Graph* graph = nullptr;
-    };
-
-    IrrlichtComponent::IrrlichtComponent() :
-            impl(new IrrlichtComponent::Impl())
+    IrrlichtComponent::IrrlichtComponent()
     {
         // TODO:  Connect with event dispatch from UserInterface component.
 

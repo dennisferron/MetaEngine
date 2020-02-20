@@ -154,7 +154,7 @@ namespace Glue::Bullet
         if (attrB)
             attrB->addConstraintB(constraint);
 
-        return constraint
+        return constraint;
     }
 
     BulletAttribute* BulletComponent::addNode(Node* node, IMesh* mesh)
