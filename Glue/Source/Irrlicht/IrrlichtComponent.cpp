@@ -28,7 +28,8 @@ using namespace irr::video;
 
 namespace Glue::Irrlicht
 {
-    IrrlichtComponent::IrrlichtComponent()
+    IrrlichtComponent::IrrlichtComponent(IGraph* graph)
+        : graph(graph)
     {
         // TODO:  Connect with event dispatch from UserInterface component.
 
@@ -47,20 +48,20 @@ namespace Glue::Irrlicht
         u32 MainWindow_sizeY = 600;
         auto windowSize = dimension2du(MainWindow_sizeX, MainWindow_sizeY);
         auto deviceType = EDT_OPENGL; // or EDT_BURNINGSVIDEO, EDT_SOFTWARE, EDT_NULL
-        impl->device = createDevice(deviceType, windowSize, 16, false, false, false, nullptr /* events */);
+        device = createDevice(deviceType, windowSize, 16, false, false, false, nullptr /* events */);
 
-        if (!impl->device)
+        if (!device)
             throw std::runtime_error("Failed to create irrlicht device");
 
-        impl->deviceTimer = impl->device->getTimer();
-        impl->driver = impl->device->getVideoDriver();
+        deviceTimer = device->getTimer();
+        driver = device->getVideoDriver();
 
         //            setAssets(module Assets clone setAssetPath(mediaPath) setDriver(driver))
 
-        impl->smgr = impl->device->getSceneManager();
+        smgr = device->getSceneManager();
 
-        impl->camera = new Camera(impl->smgr, impl->driver);
-        impl->camera->createNode();
+        camera = new Camera(smgr, driver);
+        camera->createNode();
 
         //            shapeBuilder := module ShapeBuilder clone setDisplayShapes(
 //                module DisplayShapes clone setGeometry(
@@ -79,7 +80,7 @@ namespace Glue::Irrlicht
 //            //	setSound(CppFunc createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS, nil, IRR_KLANG_VERSION))
 //            //)
 
-        impl->smgr->addLightSceneNode(
+        smgr->addLightSceneNode(
                 nullptr, // parent
                 vector3df(0, 500, -50), // position
                 SColorf(1, 1, 1, 1), // color
@@ -87,14 +88,14 @@ namespace Glue::Irrlicht
                 0 // id
         );
 
-        impl->smgr->setAmbientLight(SColorf(0.2, 0.2, 0.2, 0.2));
+        smgr->setAmbientLight(SColorf(0.2, 0.2, 0.2, 0.2));
 
-        impl->gui = impl->device->getGUIEnvironment();
+        gui = device->getGUIEnvironment();
 
-        impl->collMan = impl->smgr->getSceneCollisionManager();
-        impl->meshMan = impl->smgr->getMeshManipulator();
+        collMan = smgr->getSceneCollisionManager();
+        meshMan = smgr->getMeshManipulator();
 
-        impl->title = impl->driver->getName();
+        title = driver->getName();
 
 //            setKeyboard(module UserInterface Keyboard clone)
 //            eventDispatch addHandler(EET_KEY_INPUT_EVENT,
@@ -113,39 +114,35 @@ namespace Glue::Irrlicht
 //                    mouse handle(event)
 //                )
 //            )
+
+        //if (mouse)
+        //    mouse->setGraph(graph);
     }
 
     IrrlichtComponent::~IrrlichtComponent()
     {
-        impl->device->drop();
+        device->drop();
     }
 
     irr::ITimer* IrrlichtComponent::get_deviceTimer()
     {
-        return impl->deviceTimer;
+        return deviceTimer;
     }
 
-    IrrlichtAttribute* IrrlichtComponent::addNode(Glue::Node* node)
+    IrrlichtAttribute* IrrlichtComponent::addNode(INode* node)
     {
-        auto sceneNode = impl->sceneNodeBuilder->buildSceneNode(node->style);
+        auto sceneNode = sceneNodeBuilder->buildSceneNode(node->get_style());
 
         if (sceneNode)
         {
-            auto nodeAttr = new IrrlichtAttribute(node->style, sceneNode);
+            IIrrlichtAttribute* nodeAttr = new IrrlichtAttribute(node->get_style(), sceneNode);
             node->addAttribute(nodeAttr);
             return nodeAttr;
-        } else
+        }
+        else
         {
             return nullptr;
         }
-    }
-
-    void IrrlichtComponent::setGraph(Graph* graph)
-    {
-        impl->graph = graph;
-
-        //if (impl->mouse)
-        //    impl->mouse->setGraph(graph);
     }
 
     void IrrlichtComponent::playSound(std::string const& file)
@@ -199,10 +196,10 @@ namespace Glue::Irrlicht
 
     bool IrrlichtComponent::shouldRun() const
     {
-        return impl->device->run();
+        return device->run();
     }
 
-    Node* IrrlichtComponent::nodeToGameObj(irr::scene::ISceneNode*)
+    INode* IrrlichtComponent::nodeToGameObj(irr::scene::ISceneNode*)
     {
         throw std::logic_error("Not implemented: nodeToGameObj");
 //            anim := ScriptObjAnimator findIn(node)
@@ -213,7 +210,7 @@ namespace Glue::Irrlicht
 //            )
     }
 
-    void IrrlichtComponent::removeObj(Node* obj)
+    void IrrlichtComponent::removeObj(INode* obj)
     {
         throw std::logic_error("TODO: decide whether to use IrrlichtAttribute destructor only for this");
     }

@@ -7,46 +7,41 @@
 #include "ISceneNode.h"
 #include "ISceneNodeAnimator.h"
 
-#include "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 
-namespace Glue::Irrlicht {
-
+namespace Glue
+{
     class Node;
+}
 
-    class IrrlichtAttribute
+namespace Glue::Irrlicht
+{
+
+    class IrrlichtAttribute : public IIrrlichtAttribute
     {
     private:
 
         GameObjStyle style;
-        irr::video::ITexture *texture;
-        irr::scene::ISceneNode *sceneNode;
-        irr::scene::ISceneNodeAnimator *motionState;
-        irr::scene::IMesh *dispShape;
+        irr::video::ITexture* texture;
+        irr::scene::ISceneNode* sceneNode;
+        irr::scene::ISceneNodeAnimator* motionState;
+        irr::scene::IMesh* dispShape;
         int flagBits;
         bool isMouseDraggable;
 
         void setFlagBit(int pos, bool state);
 
     public:
-        IrrlichtAttribute(NodeStyle const& style, irr::scene::ISceneNode *sceneNode);
+        IrrlichtAttribute(NodeStyle const& style, irr::scene::ISceneNode* sceneNode);
         ~IrrlichtAttribute();
-
-        void setMotionState(irr::scene::ISceneNodeAnimator *value);
-
-        void setDispShape(irr::scene::IMesh *value);
-
-        void setIsMouseDraggable(bool state = true);
-
-        void addKinematicAnimator(irr::scene::ISceneNodeAnimator *anim);
-
-        void addChild(IrrlichtAttribute *otherObj);
-
-        irr::core::vector3df getPos() const;
-
-        void triggerAllGenerators(std::function<void(Node *)> onTrigger);
-
-        void lockTo(Node *otherObj);
-
+        void setMotionState(irr::scene::ISceneNodeAnimator* value) final;
+        void setDispShape(irr::scene::IMesh* value) final;
+        void setIsMouseDraggable(bool state = true) final;
+        void addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim) final;
+        void addChild(IIrrlichtAttribute* otherObj) final;
+        irr::core::vector3df getPos() const final;
+        void triggerAllGenerators(std::function<void(INode*)> onTrigger) final;
+        void lockTo(INode* otherObj) final;
         irr::scene::ISceneNode* getSceneNode() const { return sceneNode; }
     };
 

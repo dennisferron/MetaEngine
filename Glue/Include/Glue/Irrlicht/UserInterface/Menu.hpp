@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Glue/Model/Graph.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 
 #include <functional>
 #include <memory>
@@ -9,24 +9,30 @@ namespace irr {
     enum EKEY_CODE;
 }
 
-namespace Glue { namespace Irrlicht {
-
-using MenuItem = std::function<void()>;
-class MenuPath;
-
-class Menu
+namespace Glue::Irrlicht
 {
-private:
 
-    class Impl;
-    std::unique_ptr<Impl> impl;
+    using MenuItem = std::function<void()>;
 
-public:
+    class MenuPath;
 
-    Menu(Graph* engine, MenuPath* path, Menu* parent);
-    void load();
-    Menu& doKey(irr::EKEY_CODE key);
-    void draw();
-};
+    class Menu
+    {
+    private:
 
-}}
+        class Impl;
+
+        std::unique_ptr<Impl> impl;
+
+    public:
+
+        Menu(IGraph* engine, MenuPath* path, Menu* parent);
+
+        void load();
+
+        Menu& doKey(irr::EKEY_CODE key);
+
+        void draw();
+    };
+
+}

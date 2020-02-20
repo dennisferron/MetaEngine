@@ -23,10 +23,20 @@
 #include <functional>
 #include <memory>
 
+namespace Glue
+{
+    class INode;
+}
+
 namespace Glue::Bullet
 {
     class IConstraintObj;
-    class INode;
+
+    struct BodyConstructionInfo
+    {
+        btRigidBody::btRigidBodyConstructionInfo body;
+        MotionStateAnimator* motion_state = nullptr;
+    };
 
     /**
      * Create shapes and rigid bodies for style.
@@ -42,7 +52,7 @@ namespace Glue::Bullet
                 irr::scene::IMesh* dispShapeMesh) const = 0;
 
         /// Create construction info for rigidbody.
-        virtual btRigidBody::btRigidBodyConstructionInfo
+        virtual BodyConstructionInfo
             createConstructionInfo(
                 NodeStyle const& style,
                 btCollisionShape* physShape) const = 0;
@@ -196,7 +206,7 @@ namespace Glue::Bullet
 
         /// Creates a BulletAttribute based on the style of the @node.
         /// Adds a btRigidBody to the btDynamicsWorld.
-        virtual IBulletAttribute* addNode(INode* node) = 0;
+        virtual IBulletAttribute* addNode(INode* node, IMesh* mesh) = 0;
 
         // TODO:  Implement this
         //virtual void removeNode(Node* node) = 0;

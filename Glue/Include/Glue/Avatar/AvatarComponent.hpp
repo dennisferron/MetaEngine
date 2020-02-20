@@ -1,14 +1,14 @@
 #pragma once
 
+#include "Glue/Avatar/AvatarInterfaces.hpp"
+
 #include "Glue/Model/ModelInterfaces.hpp"
 #include "Glue/Model/TimeComponent.hpp"
-
-#include <memory>
 
 namespace Glue::Avatar
 {
 
-class AvatarComponent
+class AvatarComponent : public IAvatarComponent
 {
 public:
     AvatarComponent();

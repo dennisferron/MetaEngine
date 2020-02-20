@@ -1,12 +1,7 @@
 #include "Glue/Avatar/AvatarAttribute.hpp"
 
-namespace Glue { namespace Avatar {
-
-
-    class AvatarAttribute::Impl
-    {
-    };
-
+namespace Glue::Avatar
+{
     AvatarAttribute::AvatarAttribute()
     {
     }
@@ -36,7 +31,7 @@ namespace Glue { namespace Avatar {
     {
     }
 
-}}
+}
 
 //// TODO:  Implement only left and right and the interaction TODO from the bottom of this file.
 //

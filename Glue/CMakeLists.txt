@@ -14,7 +14,7 @@ add_library(Glue
         Include/Glue/Animators/KinematicAnimator.hpp
         Include/Glue/Animators/LockAnimator.hpp
         Include/Glue/Animators/PhysicsAnimator.hpp
-        Include/Glue/Avatar/Avatar.hpp
+        Include/Glue/Avatar/AvatarInterfaces.hpp
         Include/Glue/Avatar/AvatarAttribute.hpp
         Include/Glue/Avatar/AvatarComponent.hpp
         Include/Glue/Avatar/Camera.hpp
@@ -102,7 +102,6 @@ add_library(Glue
         Source/Animators/LockAnimator.cpp
         Source/Animators/PhysicsAnimator.cpp
         Source/Animators/ScriptObjAnimator.cpp
-        Source/Avatar/Avatar.cpp
         Source/Avatar/AvatarAttribute.cpp
         Source/Avatar/AvatarComponent.cpp
         Source/Avatar/Camera.cpp
@@ -184,7 +183,7 @@ add_library(Glue
         Source/UserInterface/Menu.cpp
         Source/UserInterface/UserInterface.cpp
         Source/UserInterface/UserInterfaceRepresentation.cpp
-)
+        Include/Glue/Avatar/AvatarInterfaces.hpp)
 
 # Note:  Order of libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
 #  I'm less sure about the order of the rest of the Bullet libraries.

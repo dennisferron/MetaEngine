@@ -24,7 +24,7 @@ namespace Glue::Bullet
                 irr::scene::IMesh* dispShapeMesh) const;
 
         /// Create construction info for rigidbody.
-        virtual btRigidBody::btRigidBodyConstructionInfo
+        virtual BodyConstructionInfo
             createConstructionInfo(
                 NodeStyle const& style,
                 btCollisionShape* physShape) const;

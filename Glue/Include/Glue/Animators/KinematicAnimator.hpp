@@ -2,36 +2,44 @@
 
 #include "Glue/Animators/MotionStateAnimator.hpp"
 
-namespace Glue {
-
-class KinematicAnimator : public MotionStateAnimator
+namespace Glue
 {
-public:
+    // TODO:  Investigate what watch_node was for.
+    class KinematicAnimator : public MotionStateAnimator
+    {
+    public:
 
-    // Bullet stuff
-    virtual void setWorldTransform(btTransform const& worldTrans);
-    virtual void getWorldTransform(btTransform& worldTrans) const;
+        // Bullet stuff
+        virtual void setWorldTransform(btTransform const& worldTrans);
 
-    // Irrlicht stuff
-    virtual void animateNode(irr::scene::ISceneNode* node, irr::u32 timeMs);
-    virtual irr::scene::ISceneNodeAnimator* createClone(irr::scene::ISceneNode* node,
-                    irr::scene::ISceneManager* newManager=0);
-    irr::scene::ESCENE_NODE_ANIMATOR_TYPE getType() const;
+        virtual void getWorldTransform(btTransform& worldTrans) const;
 
-    KinematicAnimator(btTransform const& trans_, btTransform const& centerOfMassOffset_);
+        // Irrlicht stuff
+        virtual void animateNode(irr::scene::ISceneNode* node, irr::u32 timeMs);
 
-    static irr::scene::ISceneNode* watch_node;
-    static irr::scene::ISceneNode* get_watch_node() { return watch_node; }
-    static void set_watch_node(irr::scene::ISceneNode* value) { watch_node = value; }
+        virtual irr::scene::ISceneNodeAnimator* createClone(irr::scene::ISceneNode* node,
+                                                            irr::scene::ISceneManager* newManager = 0);
 
-private:
+        irr::scene::ESCENE_NODE_ANIMATOR_TYPE getType() const;
 
-    bool init;
-    mutable btTransform trans;
-    btTransform centerOfMassOffset;
-    irr::scene::ISceneNode* cached_node;
+        KinematicAnimator(btTransform const& trans_, btTransform const& centerOfMassOffset_);
 
-    void sync_to_irrlicht() const;
-};
+        static irr::scene::ISceneNode* watch_node;
+
+        static irr::scene::ISceneNode* get_watch_node()
+        { return watch_node; }
+
+        static void set_watch_node(irr::scene::ISceneNode* value)
+        { watch_node = value; }
+
+    private:
+
+        bool init;
+        mutable btTransform trans;
+        btTransform centerOfMassOffset;
+        irr::scene::ISceneNode* cached_node;
+
+        void sync_to_irrlicht() const;
+    };
 
 }

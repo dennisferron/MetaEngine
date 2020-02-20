@@ -1,13 +1,14 @@
 #include <BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h>
 #include <BulletSoftBody/btSoftRigidDynamicsWorld.h>
 #include "Glue/Bullet/BulletComponent.hpp"
+#include "Glue/Bullet/BulletAttribute.hpp"
 
 namespace Glue::Bullet
 {
 
     BulletComponent::BulletComponent(
-            BodyBuilder* bodyBuilder,
-            ConstraintBuilder* constraintBuilder)
+            IBodyBuilder* bodyBuilder,
+            IConstraintBuilder* constraintBuilder)
         :
             bodyBuilder(bodyBuilder),
             constraintBuilder(constraintBuilder)
@@ -157,20 +158,23 @@ namespace Glue::Bullet
         return constraint;
     }
 
-    BulletAttribute* BulletComponent::addNode(Node* node, IMesh* mesh)
+    IBulletAttribute* BulletComponent::addNode(INode* node, IMesh* mesh)
     {
-        btCollisionShape* shape = bodyBuilder->createShape(node->get_style(), mesh);
-        auto constrInfo = bodyBuilder->createConstructionInfo(node->get_style(), shape);
+        NodeStyle const& node_style = node->get_style();
 
-         auto body = bodyBuilder->addToWorld(
-                 node->get_style(),
+        btCollisionShape* shape = bodyBuilder->createShape(node_style, mesh);
+        BodyConstructionInfo constrInfo = bodyBuilder->createConstructionInfo(node_style, shape);
+
+        std::unique_ptr<btRigidBody> body = bodyBuilder->addToWorld(
+                node_style,
                 dynamicsWorld,
-                constrInfo);
+                constrInfo.body);
 
-        auto blt_attr = std::make_shared<BulletAttribute>(
+        IBulletAttribute* blt_attr = new BulletAttribute(
                 node->get_style(),
                 std::move(body),
-                motionState);
+                constrInfo.motion_state,
+                this);
 
         node->addAttribute(blt_attr);
 

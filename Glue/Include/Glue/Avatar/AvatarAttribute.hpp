@@ -1,15 +1,12 @@
 #pragma once
 
-#include <memory>
+#include "Glue/Avatar/AvatarInterfaces.hpp"
 
-namespace Glue { namespace Avatar {
-
-class AvatarAttribute
+namespace Glue::Avatar
 {
-private:
-    class Impl;
-    std::unique_ptr<Impl> impl;
 
+class AvatarAttribute : public IAvatarAttribute
+{
 public:
     AvatarAttribute();
     ~AvatarAttribute();
@@ -21,4 +18,4 @@ public:
     void left();
 };
 
-}}
+}

@@ -1,8 +1,6 @@
 #include "Glue/Startup.hpp"
 #include "Glue/Model/Graph.hpp"
-#include "Glue/Irrlicht/Irrlicht.hpp"
 #include "Glue/Bullet/BulletComponentImpl.hpp"
-#include "Glue/Avatar/Avatar.hpp"
 #include "Glue/Styles/GameObjStyles.hpp"
 #include "Glue/Avatar/PlayerStyle.hpp"
 #include "Glue/Styles/LinkStyles.hpp"

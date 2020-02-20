@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Glue/Bullet/BulletInterfaces.hpp"
-#include "Glue/Bullet/BodyBuilder.hpp"
 #include "Glue/Bullet/ScriptedWorldManager.hpp"
-#include "Glue/Bullet/ConstraintBuilder.hpp"
 
 #include <BulletDynamics/ConstraintSolver/btConstraintSolver.h>
 #include <BulletDynamics/Dynamics/btDynamicsWorld.h>
@@ -19,7 +17,7 @@ namespace Glue::Bullet
     private:
         btScalar fixedTimeStep = 1.0 / 60.0;
         int subframes = 30;
-        btCollisionConfiguration* collisionConfiguration;
+        btCollisionConfiguration* collisionConfiguration = nullptr;
         btDispatcher* dispatcher = nullptr;  // This is a bullet physics thing, not associated with UI event dispatch
         btBroadphaseInterface* broadphaseInterface = nullptr;
         btConstraintSolver* solver = nullptr;
@@ -27,11 +25,11 @@ namespace Glue::Bullet
         btSoftBodyWorldInfo softBodyWorldInfo;
         ScriptedWorldManager scriptWorldMgr;
         btIDebugDraw* debugDrawer;
-        BodyBuilder* bodyBuilder = nullptr;
-        ConstraintBuilder* constraintBuilder = nullptr;
+        IBodyBuilder* bodyBuilder = nullptr;
+        IConstraintBuilder* constraintBuilder = nullptr;
 
     public:
-        BulletComponent(BodyBuilder* bodyBuilder, ConstraintBuilder* constraintBuilder);
+        BulletComponent(IBodyBuilder* bodyBuilder, IConstraintBuilder* constraintBuilder);
 
         ~BulletComponent() final;
 
@@ -53,6 +51,6 @@ namespace Glue::Bullet
 
         IConstraintObj* addConstraint(ConstraintStyle const& style, IBulletAttribute* attrA, IBulletAttribute* attrB) final;
 
-        IBulletAttribute* addNode(INode* node) final;
+        IBulletAttribute* addNode(INode* node, IMesh* mesh) final;
     };
 }

@@ -3,14 +3,14 @@
 namespace Glue::Irrlicht
 {
 
-    IrrlichtAttribute::IrrlichtAttribute(NodeStyle const& style, irr::scene::ISceneNode *sceneNode) :
-        style(style),
-        texture(nullptr), // TODO:  Set inside constructor or make helper method
-        sceneNode(sceneNode),
-        motionState(nullptr),
-        dispShape(style.mesh), // TODO:  Does mesh belong in style?
-        flagBits(0),  // TODO:  How do we get flagbits, what happened to FlagBits_of_ISceneNode?
-        isMouseDraggable(true)
+    IrrlichtAttribute::IrrlichtAttribute(NodeStyle const& style, irr::scene::ISceneNode* sceneNode) :
+            style(style),
+            texture(nullptr), // TODO:  Set inside constructor or make helper method
+            sceneNode(sceneNode),
+            motionState(nullptr),
+            dispShape(style.mesh), // TODO:  Does mesh belong in style?
+            flagBits(0),  // TODO:  How do we get flagbits, what happened to FlagBits_of_ISceneNode?
+            isMouseDraggable(true)
     {
     }
 
@@ -23,13 +23,13 @@ namespace Glue::Irrlicht
         throw "Not implemented";
     }
 
-    void IrrlichtAttribute::setMotionState(irr::scene::ISceneNodeAnimator *value)
+    void IrrlichtAttribute::setMotionState(irr::scene::ISceneNodeAnimator* value)
     {
         throw "Not implemented";
 
     }
 
-    void IrrlichtAttribute::setDispShape(irr::scene::IMesh *value)
+    void IrrlichtAttribute::setDispShape(irr::scene::IMesh* value)
     {
         throw "Not implemented";
 
@@ -40,13 +40,13 @@ namespace Glue::Irrlicht
         isMouseDraggable = state;
     }
 
-    void IrrlichtAttribute::addKinematicAnimator(irr::scene::ISceneNodeAnimator *anim)
+    void IrrlichtAttribute::addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim)
     {
         throw "Not implemented";
 
     }
 
-    void IrrlichtAttribute::addChild(IrrlichtAttribute *otherObj)
+    void IrrlichtAttribute::addChild(IIrrlichtAttribute* otherObj)
     {
 
         throw "Not implemented";
@@ -58,13 +58,13 @@ namespace Glue::Irrlicht
 
     }
 
-    void IrrlichtAttribute::triggerAllGenerators(std::function<void(Node *)> onTrigger)
+    void IrrlichtAttribute::triggerAllGenerators(std::function<void(INode*)> onTrigger)
     {
         throw "Not implemented";
 
     }
 
-    void IrrlichtAttribute::lockTo(Node *otherObj)
+    void IrrlichtAttribute::lockTo(INode* otherObj)
     {
         throw "Not implemented";
 

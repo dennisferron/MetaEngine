@@ -1,20 +1,21 @@
 #pragma once
 
-#include "Glue/Irrlicht/IrrlichtComponent.hpp"
-#include "Glue/Avatar/AvatarComponent.hpp"
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
+#include "Glue/Avatar/AvatarInterfaces.hpp"
 
-namespace Glue {
+namespace Glue
+{
 
 class IrrlichtKeyInput
 {
 private:
-    Irrlicht::IrrlichtComponent* irrComp;
-    Avatar::AvatarComponent* avComp;
+    Irrlicht::IIrrlichtComponent* irrComp;
+    Avatar::IAvatarComponent* avComp;
 
 public:
     IrrlichtKeyInput(
-        Irrlicht::IrrlichtComponent* irrComp,
-        Avatar::AvatarComponent* avComp
+        Irrlicht::IIrrlichtComponent* irrComp,
+        Avatar::IAvatarComponent* avComp
     );
     ~IrrlichtKeyInput();
 };

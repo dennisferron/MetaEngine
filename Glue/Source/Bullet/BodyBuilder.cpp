@@ -28,7 +28,7 @@ namespace Glue::Bullet
         return physShape;
     }
 
-    btRigidBody::btRigidBodyConstructionInfo
+    BodyConstructionInfo
         BodyBuilder::createConstructionInfo(
             NodeStyle const& style,
             btCollisionShape* physShape) const
@@ -60,7 +60,7 @@ namespace Glue::Bullet
 
         startTransform.setRotation(rot);
 
-        btMotionState* motionState;
+        MotionStateAnimator* motionState;
 
         auto shapeOffset = get_shape_transform(style);
         if (style.isKinematic)
@@ -80,7 +80,7 @@ namespace Glue::Bullet
                 localInertia);
         rbInfo.m_friction = style.friction;
 
-        return rbInfo;
+        return { rbInfo, motionState };
     }
 
     std::unique_ptr<btRigidBody> BodyBuilder::addToWorld(

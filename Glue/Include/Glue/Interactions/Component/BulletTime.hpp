@@ -1,22 +1,25 @@
 #pragma once
 
+#include "Glue/Model/ModelInterfaces.hpp"
 #include "Glue/Model/TimeComponent.hpp"
-#include "Glue/Bullet/BulletComponent.hpp"
+#include "Glue/Bullet/BulletInterfaces.hpp"
 
-namespace Glue {
-
-class BulletTime
+namespace Glue
 {
-private:
-    Bullet::BulletComponent* bltComp;
-    TimeComponent* time;
 
-public:
-    BulletTime(
-            Bullet::BulletComponent* bltComp,
-            TimeComponent* time
-    );
-    ~BulletTime();
-};
+    class BulletTime
+    {
+    private:
+        Bullet::IBulletComponent* bltComp;
+        TimeComponent* time;
+
+    public:
+        BulletTime(
+                Bullet::IBulletComponent* bltComp,
+                TimeComponent* time
+        );
+
+        ~BulletTime();
+    };
 
 }

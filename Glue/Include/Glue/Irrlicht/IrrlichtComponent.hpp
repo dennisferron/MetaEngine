@@ -46,24 +46,23 @@ private:
 
     Camera* camera = nullptr;
 
-    Graph* graph = nullptr;
+    IGraph* graph = nullptr;
 
 public:
 
-    IrrlichtComponent();
+    IrrlichtComponent(IGraph* graph);
     ~IrrlichtComponent();
 
-    irr::ITimer* get_deviceTimer();
+    irr::ITimer* get_deviceTimer() final;
 
-    IrrlichtAttribute* addNode(Glue::Node* node);
-    void playSound(std::string const& file);
-    void beforeGraphics();
-    void onGraphics(Scalar timeElapsed);
-    void afterGraphics();
-    bool shouldRun() const;
-    Node* nodeToGameObj(irr::scene::ISceneNode*);
-    void removeObj(Node* obj);
-    void setGraph(Graph* graph);
+    IrrlichtAttribute* addNode(INode* node) final;
+    void playSound(std::string const& file) final;
+    void beforeGraphics() final;
+    void onGraphics(Scalar timeElapsed) final;
+    void afterGraphics() final;
+    bool shouldRun() const final;
+    INode* nodeToGameObj(irr::scene::ISceneNode*) final;
+    void removeObj(INode* obj) final;
 };
 
 }
