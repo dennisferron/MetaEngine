@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <Glue/Styles/GameObjStyle.hpp>
 
 #include "IMesh.h"
 #include "ITexture.h"
@@ -21,7 +22,7 @@ namespace Glue::Irrlicht
     {
     private:
 
-        GameObjStyle style;
+        NodeStyle style;
         irr::video::ITexture* texture;
         irr::scene::ISceneNode* sceneNode;
         irr::scene::ISceneNodeAnimator* motionState;

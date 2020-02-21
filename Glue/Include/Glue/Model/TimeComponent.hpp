@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Glue/Constants.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 
 #include "irrlicht.h"
 
@@ -8,79 +9,36 @@
 #include <set>
 #include <vector>
 
-namespace Glue {
-
-enum class EventWhen
+namespace Glue
 {
-    before,
-    on,
-    after
-};
-
-enum class EventWhat
-{
-    frame,
-    physics,
-    graphics
-};
-
-using RelTime = Scalar;
-using AbsTime = Scalar;
-
-struct TimeInfo
-{
-    RelTime delta;
-    AbsTime current;
-    AbsTime last;
-};
-
-struct EngineEvent
-{
-    EventWhen when;
-    EventWhat what;
-    std::function<void(TimeInfo)> action;
-};
-
-struct TimeoutEvent
-{
-    AbsTime fromTime;
-    AbsTime atTime;
-    std::function<RelTime(RelTime)> action;
-
-    bool operator <(TimeoutEvent const& that) const
+    class TimeComponent : public ITimeComponent
     {
-        return this->atTime < that.atTime;
-    }
+    private:
 
-    bool operator <=(AbsTime const& nowTime) const
-    {
-        return this->atTime <= nowTime;
-    }
-};
+        std::multiset<TimeoutEvent> timeout_events;
+        std::vector<EngineEvent> engine_events;
 
-class TimeComponent
-{
-private:
+        irr::ITimer* deviceTimer = nullptr;
+        AbsTime currentTime = 0;
+        AbsTime lastTime = 0;
 
-    std::multiset<TimeoutEvent> timeout_events;
-    std::vector<EngineEvent> engine_events;
+        volatile bool shouldRun = true;
 
-	irr::ITimer* deviceTimer = nullptr;
-	AbsTime currentTime = 0;
-	AbsTime lastTime = 0;
+        void _processTimeoutEvents();
 
-    volatile bool shouldRun = true;
+        void doEvents(EventWhen when, EventWhat what) const;
 
-	void _processTimeoutEvents();
-    void doEvents(EventWhen when, EventWhat what) const;
+    public:
 
-public:
+        TimeComponent(irr::ITimer* value);
 
-    TimeComponent(irr::ITimer* value);
-	void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action);
-    RelTime elapsed() const;
-    void runLoop();
-    void add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action);
-};
+        void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action) final;
+
+        RelTime elapsed() const final;
+
+        void runLoop() final;
+
+        void add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action) final;
+    };
 
 }
