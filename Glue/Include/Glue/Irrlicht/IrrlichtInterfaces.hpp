@@ -2,9 +2,13 @@
 
 #include "ITimer.h"
 #include "ISceneNode.h"
+#include "IMesh.h"
 
+#include "Glue/Constants.hpp"
+#include "Glue/Styles/GameObjStyle.hpp"
 
 #include <string>
+#include <functional>
 
 namespace Glue
 {
@@ -65,5 +69,23 @@ namespace Glue::Irrlicht
         virtual void lockTo(INode* otherObj) = 0;
 
         virtual irr::scene::ISceneNode* getSceneNode() const = 0;
+    };
+
+    class ISceneNodeBuilder
+    {
+    public:
+        virtual ~ISceneNodeBuilder()
+        {}
+
+        virtual irr::scene::ISceneNode* buildSceneNode(NodeStyle const& style) = 0;
+    };
+
+    class IShapeBuilder
+    {
+    public:
+        virtual ~IShapeBuilder()
+        {}
+
+        virtual irr::scene::IMesh* create(GameObjStyle const& style) const = 0;
     };
 }

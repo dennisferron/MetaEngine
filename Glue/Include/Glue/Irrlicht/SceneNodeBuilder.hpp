@@ -6,9 +6,12 @@
 #include "Glue/Irrlicht/ShapeBuilder.hpp"
 #include "Glue/Irrlicht/Assets.hpp"
 
-namespace Glue { namespace Irrlicht {
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 
-class SceneNodeBuilder
+namespace Glue::Irrlicht
+{
+
+class SceneNodeBuilder : public ISceneNodeBuilder
 {
 private:
 
@@ -26,4 +29,4 @@ public:
     irr::scene::ISceneNode* buildSceneNode(GameObjStyle const& style);
 };
 
-}}
+}

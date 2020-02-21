@@ -5,20 +5,20 @@
 
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Irrlicht/DisplayShapes.hpp"
+#include "IrrlichtInterfaces.hpp"
 
-namespace Glue::Irrlicht {
-
-    class ShapeBuilder
+namespace Glue::Irrlicht
+{
+    class ShapeBuilder : public IShapeBuilder
     {
     private:
         irr::scene::IGeometryCreator* geometry;
 
-        void changeTextureWrap(irr::scene::IMesh *mesh) const;
+        void changeTextureWrap(irr::scene::IMesh* mesh) const;
 
     public:
         ShapeBuilder(irr::scene::IGeometryCreator* geometry);
 
-        irr::scene::IMesh *create(GameObjStyle const& style) const;
+        irr::scene::IMesh* create(GameObjStyle const& style) const;
     };
-
 }

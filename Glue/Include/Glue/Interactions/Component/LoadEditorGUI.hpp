@@ -1,23 +1,23 @@
 #pragma once
 
-#include "Glue/Irrlicht/IrrlichtComponent.hpp"
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 #include "Glue/EditorGUI/EditorGUIComponent.hpp"
-#include "Glue/Avatar/AvatarComponent.hpp"
+#include "Glue/Avatar/AvatarInterfaces.hpp"
 
 namespace Glue {
 
 class LoadEditorGUI
 {
 private:
-    Irrlicht::IrrlichtComponent* irrComp;
+    Irrlicht::IIrrlichtComponent* irrComp;
     EditorGUI::EditorGUIComponent* guiComp;
-    Avatar::AvatarComponent* avComp;
+    Avatar::IAvatarComponent* avComp;
 
 public:
     LoadEditorGUI(
-        Irrlicht::IrrlichtComponent* irrComp,
+        Irrlicht::IIrrlichtComponent* irrComp,
         EditorGUI::EditorGUIComponent* guiComp,
-        Avatar::AvatarComponent* avComp
+        Avatar::IAvatarComponent* avComp
     );
     ~LoadEditorGUI();
 };

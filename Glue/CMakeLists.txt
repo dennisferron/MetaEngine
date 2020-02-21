@@ -140,7 +140,6 @@ add_library(Glue
         Source/Irrlicht/Assets.cpp
         Source/Irrlicht/Camera.cpp
         Source/Irrlicht/DisplayShapes.cpp
-        Source/Irrlicht/Irrlicht.cpp
         Source/Irrlicht/IrrlichtAttribute.cpp
         Source/Irrlicht/IrrlichtComponent.cpp
         Source/Irrlicht/SceneNodeBuilder.cpp

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Glue/Interactions/Link/LinkInteraction.hpp"
 #include "Glue/Irrlicht/Camera.hpp"
 
 namespace Glue::Interactions::Link {

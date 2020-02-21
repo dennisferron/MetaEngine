@@ -1,20 +1,21 @@
 #pragma once
 
-#include "Glue/Model/TimeComponent.hpp"
-#include "Glue/Irrlicht/IrrlichtComponent.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 
-namespace Glue {
+namespace Glue
+{
 
 class IrrlichtTime
 {
 private:
-    Irrlicht::IrrlichtComponent* irrComp;
-    TimeComponent* time;
+    Irrlicht::IIrrlichtComponent* irrComp;
+    ITimeComponent* time;
 
 public:
     IrrlichtTime(
-            Irrlicht::IrrlichtComponent* irrComp,
-            TimeComponent* time
+            Irrlicht::IIrrlichtComponent* irrComp,
+            ITimeComponent* time
     );
     ~IrrlichtTime();
 };

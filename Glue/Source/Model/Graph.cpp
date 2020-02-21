@@ -45,7 +45,7 @@ namespace Glue
     {
     }
 
-    Node* Graph::addNode(NodeStyle const& style)
+    INode* Graph::addNode(NodeStyle const& style)
     {
         Node* node = new Node(style);
         node->setGraph(this);
@@ -61,7 +61,7 @@ namespace Glue
         return node;
     }
 
-    Link* Graph::addLink(LinkStyle const& style, Node* fromNode, Node* toNode)
+    ILink* Graph::addLink(LinkStyle const& style, INode* fromNode, INode* toNode)
     {
         Link* link = new Link(this, style, fromNode, toNode);
 
@@ -80,17 +80,12 @@ namespace Glue
         return link;
     }
 
-    void Graph::removeLink(Link* link) const
+    void Graph::removeLink(ILink* link) const
     {
         // TODO:  Notify components to remove link attributes
     }
 
-    void Graph::registerInteraction(ComponentInteraction* interaction)
-    {
-        //possibleInteractions.push_back(interaction);
-    }
-
-    void Graph::addComponent(Component* newComp)
+    void Graph::addComponent(IComponent* newComp)
     {
         //components.push_back(newComp);
         //domain.addObject("component", newComp);
@@ -104,13 +99,14 @@ namespace Glue
 //    )
     }
 
-    void Graph::createCamera(Node* lockObj)
+    void Graph::createCamera(INode* lockObj)
     {
         // TODO:  Check that this is done using the interaction now?
         //Graph createCamera := method(lockObj, irrComp createCamera(lockObj))
     }
 
-    void Graph::removeConstraint(Constraint* constraint)
+/*
+    void Graph::removeConstraint(IConstraint* constraint)
     {
         throw "TODO:  should this be in bullet component?";
         //bltComp->removeConstraint(constraint);
@@ -121,21 +117,22 @@ namespace Glue
         throw "TODO:  should this be in bullet component?";
         //bltComp->addConstraint(style, objA, objB);
     }
+*/
 
-    Node* Graph::nodeToGameObj(irr::scene::ISceneNode* node) const
+    INode* Graph::nodeToGameObj(irr::scene::ISceneNode* node) const
     {
         throw "TODO:  should this be in irrlicht component?";
         //return irrComp nodeToGameObj(node);
     }
 
-    void Graph::removeObj(Node* obj)
+    void Graph::removeObj(INode* obj)
     {
         throw "TODO:  should this be in irrlicht component?";
         //objList.remove(obj);
         //irrComp.removeObj(obj);
     }
 
-    Structure* Graph::addStructure(Structure* structure, Structure* leftHandSide)
+    IStructure* Graph::addStructure(IStructure* structure, IStructure* leftHandSide)
     {
         // TODO: Implement structure
         throw "Not implemented";

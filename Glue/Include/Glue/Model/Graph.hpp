@@ -44,28 +44,28 @@ namespace Glue
                 Irrlicht::IrrlichtComponent* irr_cmp,
                 TimeComponent* time_cmp);
 
-        virtual ~Graph();
+        ~Graph() final;
 
-        virtual Node* addNode(NodeStyle const& style);
+        INode* addNode(NodeStyle const& style) final;
 
-        virtual Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
+        ILink* addLink(LinkStyle const& style, INode* fromNode, INode* toNode) final;
 
-        virtual void removeLink(Link* link) const;
+        void removeLink(ILink* link) const final;
 
         // Deprecated?  Not sure...
-        virtual void playSound(std::string const& file);
+        void playSound(std::string const& file) final;
 
-        virtual void createCamera(Node* lockObj);
+        void createCamera(INode* lockObj) final;
 
         //void removeConstraint(Constraint *constraint);
 
         //void addConstraint(ConstraintStyle const &style, Node *objA, Node *objB);
 
-        virtual Node* nodeToGameObj(irr::scene::ISceneNode* node) const;
+        INode* nodeToGameObj(irr::scene::ISceneNode* node) const final;
 
-        virtual void removeObj(Node* obj);
+        void removeObj(INode* obj) final;
 
-        virtual Structure* addStructure(Structure* structure, Structure* leftHandSide);
+        IStructure* addStructure(IStructure* structure, IStructure* leftHandSide) final;
     };
 
 }

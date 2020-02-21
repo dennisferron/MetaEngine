@@ -6,9 +6,15 @@
 
 #include "ITimer.h"
 #include "ISceneNode.h"
+#include "Assets.hpp"
+#include "Camera.hpp"
 
 #include <memory>
 #include <string>
+#include <Glue/Irrlicht/UserInterface/EventDispatch.hpp>
+#include <Glue/Irrlicht/UserInterface/Keyboard.hpp>
+#include <Glue/Irrlicht/UserInterface/Mouse.hpp>
+#include <Glue/Irrlicht/UserInterface/GuiEvents.hpp>
 
 namespace Glue::Irrlicht
 {
@@ -35,7 +41,7 @@ private:
     irr::scene::ISceneCollisionManager* collMan = nullptr;
     irr::scene::IMeshManipulator* meshMan = nullptr;
 
-    SceneNodeBuilder* sceneNodeBuilder = nullptr;
+    ISceneNodeBuilder* sceneNodeBuilder = nullptr;
 
     // window title
     std::wstring title;
@@ -55,7 +61,7 @@ public:
 
     irr::ITimer* get_deviceTimer() final;
 
-    IrrlichtAttribute* addNode(INode* node) final;
+    IIrrlichtAttribute* addNode(INode* node) final;
     void playSound(std::string const& file) final;
     void beforeGraphics() final;
     void onGraphics(Scalar timeElapsed) final;
