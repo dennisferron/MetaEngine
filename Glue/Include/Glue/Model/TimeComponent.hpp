@@ -11,24 +11,32 @@
 
 namespace Glue
 {
+    class TimeComponent : public ITimeComponent
+    {
+    private:
 
-class TimeComponent : public ITimeComponent
-{
-private:
+        std::multiset<TimeoutEvent> timeout_events;
+        std::vector<EngineEvent> engine_events;
 
-    std::multiset<TimeoutEvent> timeout_events;
-    std::vector<EngineEvent> engine_events;
+        irr::ITimer* deviceTimer = nullptr;
+        AbsTime currentTime = 0;
+        AbsTime lastTime = 0;
 
-	irr::ITimer* deviceTimer = nullptr;
-	AbsTime currentTime = 0;
-	AbsTime lastTime = 0;
+        volatile bool shouldRun = true;
 
-    volatile bool shouldRun = true;
+        void _processTimeoutEvents();
 
-	void _processTimeoutEvents();
-    void doEvents(EventWhen when, EventWhat what) const;
+        void doEvents(EventWhen when, EventWhat what) const;
 
-public:
+    public:
+
+        TimeComponent(irr::ITimer* value);
+
+        void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action) final;
+
+        RelTime elapsed() const final;
+
+        void runLoop() final;
 
     TimeComponent(irr::ITimer* value);
 	void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action) final;

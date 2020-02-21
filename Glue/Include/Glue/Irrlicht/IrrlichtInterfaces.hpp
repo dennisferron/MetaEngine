@@ -2,10 +2,11 @@
 
 #include "ITimer.h"
 #include "ISceneNode.h"
+#include "vector3d.h"
 #include "IMesh.h"
 
-#include "Glue/Constants.hpp"
 #include "Glue/Styles/GameObjStyle.hpp"
+#include "Glue/Constants.hpp"
 
 #include <string>
 #include <functional>
