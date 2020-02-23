@@ -16,6 +16,7 @@ namespace Glue
     class ConstraintStyle
     {
     public:
+        ConstraintStyle();
 
         // Mount styles.  If the constraint is mounted "to the world" then set mountA to nil.
         std::optional<MountStyle> mountA;

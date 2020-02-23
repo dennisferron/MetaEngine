@@ -66,37 +66,10 @@ Avatar::IAvatarAttribute* Node::get_avatar_attribute() const
     return find_attribute<Avatar::IAvatarAttribute>(attributes);
 }
 
-    void Node::addAttribute(std::unique_ptr<Glue::Irrlicht::IrrlichtAttribute>&& attr)
+    void Node::addAttribute(NodeAttribute attr)
     {
-        irrlicht_attribute = std::move(attr);
-
-        if (irrlicht_attribute && motionState)
-        {
-            irrlicht_attribute->setMotionState(motionState);
-        }
-    }
-
-    void Node::addAttribute(std::unique_ptr<Glue::Bullet::BulletAttribute>&& attr)
-    {
-        bullet_attribute = std::move(attr);
-
-        motionState = static_cast<MotionStateAnimator*>(
-                bullet_attribute->getRigidBody().getMotionState());
-
-        if (irrlicht_attribute && motionState)
-        {
-            irrlicht_attribute->setMotionState(motionState);
-        }
-    }
-
-    void Node::addAttribute(std::unique_ptr<Glue::Avatar::AvatarAttribute>&& attr)
-    {
-        avatar_attribute = std::move(attr);
-    }
-
-    void Node::addAttribute(std::unique_ptr<Glue::Avatar::Camera>&& attr)
-    {
-        avatar_camera = std::move(attr);
+        // TODO:  Handle interactions; only push_back after that.
+        attributes.push_back(attr);
     }
 
 } // namespace Glue

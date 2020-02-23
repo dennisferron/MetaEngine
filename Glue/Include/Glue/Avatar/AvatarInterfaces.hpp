@@ -21,7 +21,7 @@ namespace Glue::Avatar
         virtual void left() = 0;
     };
 
-    class IAvatarComponent
+    class IAvatarComponent : public IGraphObserver
     {
     public:
         virtual ~IAvatarComponent() {}

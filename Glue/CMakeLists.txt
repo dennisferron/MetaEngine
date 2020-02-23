@@ -182,7 +182,7 @@ add_library(Glue
         Source/UserInterface/Menu.cpp
         Source/UserInterface/UserInterface.cpp
         Source/UserInterface/UserInterfaceRepresentation.cpp
-        Include/Glue/Avatar/AvatarInterfaces.hpp)
+        Include/Glue/Avatar/AvatarInterfaces.hpp Include/Glue/forward_declarations.hpp Include/Glue/Model/ITimeComponent.hpp)
 
 # Note:  Order of libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
 #  I'm less sure about the order of the rest of the Bullet libraries.

@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Glue/Avatar/AvatarInterfaces.hpp"
-
 #include "Glue/Model/ModelInterfaces.hpp"
-#include "Glue/Model/TimeComponent.hpp"
 
 namespace Glue::Avatar
 {
@@ -14,8 +12,9 @@ public:
     AvatarComponent();
     ~AvatarComponent();
 
-    void attachControl(INode* node);
-    void beforePhysics(TimeInfo const&);
+    void attachControl(INode* node) final;
+    void beforePhysics(TimeInfo const&) final;
+    void addNode(INode* node) final;
 };
 
 }

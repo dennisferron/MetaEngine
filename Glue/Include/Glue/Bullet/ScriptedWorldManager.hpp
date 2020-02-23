@@ -2,7 +2,7 @@
 
 #include "btBulletDynamicsCommon.h"
 #include "BulletDynamics/Dynamics/btDynamicsWorld.h"
-#include "Glue/Model/TimeComponent.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 #include "Glue/Bullet/BulletInterfaces.hpp"
 
 #include <functional>

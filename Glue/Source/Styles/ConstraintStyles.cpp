@@ -71,10 +71,6 @@ namespace Glue::ConstraintStyles
 
     Generic6DOFStyle::Generic6DOFStyle()
     {
-    }
-
-    Generic6DOFStyle::Generic6DOFStyle()
-    {
         lowerLinLimitX = 0;
         upperLinLimitX = 0;
         lowerAngLimitX = 0;

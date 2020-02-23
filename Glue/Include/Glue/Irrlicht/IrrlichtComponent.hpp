@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Glue/Model/Node.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 
 #include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 

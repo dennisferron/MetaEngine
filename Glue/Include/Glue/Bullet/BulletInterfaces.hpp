@@ -168,7 +168,7 @@ namespace Glue::Bullet
      * and a ConstraintObj to each graph-level link.  It also implements
      * time-based events for the physics engine.
      */
-    class IBulletComponent
+    class IBulletComponent : public IGraphObserver
     {
     public:
         virtual ~IBulletComponent() {};

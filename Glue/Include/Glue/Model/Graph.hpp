@@ -2,23 +2,11 @@
 
 #include "ISceneNode.h"
 
-#include "Glue/Styles/GameObjStyle.hpp"
-#include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Styles/ConstraintStyle.hpp"
-#include "Glue/Model/Graph.hpp"
-#include "Glue/Model/Node.hpp"
-#include "Glue/Model/Link.hpp"
-#include "Glue/Model/Structure.hpp"
-
-#include "ISceneNode.h"
-
-#include "Glue/Model/Graph.hpp"
-
-#include "Glue/Avatar/AvatarComponent.hpp"
-#include "Glue/Bullet/BulletComponent.hpp"
+#include "Glue/Avatar/AvatarInterfaces.hpp"
+#include "Glue/Bullet/BulletInterfaces.hpp"
 #include "Glue/EditorGUI/EditorGUIComponent.hpp"
-#include "Glue/Irrlicht/IrrlichtComponent.hpp"
-#include "Glue/Model/TimeComponent.hpp"
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 
 #include <vector>
 #include <string>
@@ -29,22 +17,16 @@ namespace Glue
     class Graph : public IGraph
     {
     private:
-        Avatar::IAvatarComponent* avatar_cmp;
-        Bullet::IBulletComponent* blt_cmp;
-        Irrlicht::IIrrlichtComponent* irr_cmp;
-        TimeComponent* time_cmp;
-
-        std::vector<Node*> nodes;
+        std::vector<GraphComponent> components;
+        std::vector<INode*> nodes;
 
     public:
 
-        Graph(
-                Avatar::AvatarComponent* avatar_cmp,
-                Bullet::BulletComponent* blt_cmp,
-                Irrlicht::IrrlichtComponent* irr_cmp,
-                TimeComponent* time_cmp);
+        Graph();
 
         ~Graph() final;
+
+        void addComponent(GraphComponent component) final;
 
         INode* addNode(NodeStyle const& style) final;
 

@@ -3,25 +3,13 @@
 #include "Glue/Bullet/BulletComponent.hpp"
 #include "Glue/Irrlicht/IrrlichtComponent.hpp"
 
+#include "Glue/Model/Node.hpp"
+#include "Glue/Model/Link.hpp"
+
 namespace Glue
 {
-
-//std::vector<ComponentInteraction*> Graph::possibleInteractions;
-
-    Graph::Graph(
-            Avatar::AvatarComponent* avatar_cmp,
-            Bullet::BulletComponent* blt_cmp,
-            Irrlicht::IrrlichtComponent* irr_cmp,
-            TimeComponent* time_cmp
-    ) :
-            avatar_cmp(avatar_cmp),
-            blt_cmp(blt_cmp),
-            irr_cmp(irr_cmp),
-            time_cmp(time_cmp)
+    Graph::Graph()
     {
-        //throw "TODO: implement domain setSite for Graph";
-        //domain.setSite(this);
-
         // I assume the code below was moved...somewhere?
 
         // TODO:  Decouple Time proto from irrComponent
@@ -45,18 +33,25 @@ namespace Glue
     {
     }
 
+    void Graph::addComponent(GraphComponent component)
+    {
+        // TODO: Run interactions before push_back
+        components.push_back(component);
+    }
+
     INode* Graph::addNode(NodeStyle const& style)
     {
         Node* node = new Node(style);
-        node->setGraph(this);
-
         nodes.push_back(node);
 
-        blt_cmp->addNode(node);
-        irr_cmp->addNode(node);
-
-        //for (auto c : components)
-        //    c->addNode(node);
+        for (auto c : components)
+        {
+            auto v = [node](IComponent* component)
+            {
+                component->addNode(node);
+            };
+            std::visit(v, c);
+        }
 
         return node;
     }

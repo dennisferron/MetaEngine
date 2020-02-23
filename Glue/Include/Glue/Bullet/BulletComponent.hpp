@@ -52,5 +52,6 @@ namespace Glue::Bullet
         IConstraintObj* addConstraint(ConstraintStyle const& style, IBulletAttribute* attrA, IBulletAttribute* attrB) final;
 
         IBulletAttribute* addNode(INode* node, IMesh* mesh) final;
+        NodeAttribute addNode(INode* node) final;
     };
 }

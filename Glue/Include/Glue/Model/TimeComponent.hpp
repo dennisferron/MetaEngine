@@ -29,7 +29,6 @@ namespace Glue
         void doEvents(EventWhen when, EventWhat what) const;
 
     public:
-
         TimeComponent(irr::ITimer* value);
 
         void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action) final;
@@ -38,11 +37,7 @@ namespace Glue
 
         void runLoop() final;
 
-    TimeComponent(irr::ITimer* value);
-	void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action) final;
-    RelTime elapsed() const final;
-    void runLoop() final;
-    void add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action) final;
-};
+        void add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action) final;
+    };
 
 }
