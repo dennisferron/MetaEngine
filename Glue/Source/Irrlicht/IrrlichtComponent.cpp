@@ -28,8 +28,7 @@ using namespace irr::video;
 
 namespace Glue::Irrlicht
 {
-    IrrlichtComponent::IrrlichtComponent(IGraph* graph)
-        : graph(graph)
+    IrrlichtComponent::IrrlichtComponent()
     {
         // TODO:  Connect with event dispatch from UserInterface component.
 

@@ -13,12 +13,14 @@ namespace Glue
     {
         class IIrrlichtComponent;
         class IIrrlichtAttribute;
+        class IIrrlichtShape;
     }
 
     namespace Bullet
     {
         class IBulletComponent;
         class IBulletAttribute;
+        class IBulletShape;
     }
 
     class IGraphObserver;

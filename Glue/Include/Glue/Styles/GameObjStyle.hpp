@@ -253,6 +253,7 @@ namespace Glue {
     };
 
     using NodeStyle = GameObjStyle;
+    using ShapeStyle = GameObjStyle;
 
     struct GeneratorStyle
     {

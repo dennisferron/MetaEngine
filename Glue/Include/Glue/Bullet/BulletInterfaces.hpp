@@ -66,11 +66,21 @@ namespace Glue::Bullet
                 btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const = 0;
     };
 
+    class IBulletShape
+    {
+    public:
+
+        virtual ~IBulletShape()
+        {}
+
+        virtual btCollisionShape* get_collision_shape() const = 0;
+    };
+
     class IBulletAttribute
     {
     public:
 
-        ~IBulletAttribute() {}
+        virtual ~IBulletAttribute() {}
 
         virtual btRigidBody* getRigidBody() const = 0;
 

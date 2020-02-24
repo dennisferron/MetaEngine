@@ -52,11 +52,9 @@ private:
 
     Camera* camera = nullptr;
 
-    IGraph* graph = nullptr;
-
 public:
 
-    IrrlichtComponent(IGraph* graph);
+    IrrlichtComponent();
     ~IrrlichtComponent();
 
     irr::ITimer* get_deviceTimer() final;

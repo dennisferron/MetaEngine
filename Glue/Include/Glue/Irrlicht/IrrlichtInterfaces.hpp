@@ -72,6 +72,18 @@ namespace Glue::Irrlicht
         virtual irr::scene::ISceneNode* getSceneNode() const = 0;
     };
 
+    class IIrrlichtShape
+    {
+    public:
+        virtual ~IIrrlichtShape()
+        {};
+
+        virtual irr::scene::IMesh* get_mesh() = 0;
+        virtual void setDispShape(irr::scene::IMesh* value) = 0;
+
+        virtual void triggerAllGenerators(std::function<void(INode*)> onTrigger) = 0;
+    };
+
     class ISceneNodeBuilder
     {
     public:

@@ -13,23 +13,26 @@
 
 namespace Glue
 {
+    // Visitor for NodeAttribute
     class NodeInteractions
     {
-
+        // TODO:  Add member variables for interactions.
     };
 
 class Node : public INode
 {
 private:
     NodeStyle style;
+    IShape* shape;
     NodeInteractions interactions;
     std::vector<NodeAttribute> attributes;
 
 public:
 
-    Node(NodeStyle const& style);
+    Node(NodeStyle const& style, IShape* shape);
     ~Node();
 
+    IShape* get_shape() const final;
     NodeStyle const& get_style() const final;
     void addAttribute(NodeAttribute attr) final;
 

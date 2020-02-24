@@ -5,6 +5,8 @@
 #include "Glue/Styles/ConstraintStyle.hpp"
 #include "ISceneNode.h"
 
+#include "Glue/Model/ITimeComponent.hpp"
+
 #include "Glue/forward_declarations.hpp"
 
 #include <vector>
@@ -25,22 +27,32 @@ namespace Glue
             void*
     >;
 
+    using ShapeAttribute = std::variant<
+            Irrlicht::IIrrlichtShape*,
+            Bullet::IBulletShape*
+    >;
+
+    class IShape
+    {
+    public:
+        virtual ~IShape(){}
+        virtual ShapeStyle const& get_style() const = 0;
+        virtual void addAttribute(ShapeAttribute attr) = 0;
+        virtual Irrlicht::IIrrlichtShape* get_irrlicht_shape() const = 0;
+        virtual Bullet::IBulletShape* get_bullet_shape() const = 0;
+    };
+
     class IGraphObserver
     {
     public:
+        virtual ShapeAttribute addShape(IShape* shape) = 0;
         virtual NodeAttribute addNode(INode* node) = 0;
+        virtual LinkAttribute addLink(ILink* link) = 0;
     };
 
     class IStructure
     {
     };
-
-    // TODO:  If all of the components and attributes use interfaces,
-    // maybe the Model doesn't need have interfaces.
-    //
-    // The higher level objects should forward declare the lower level ones
-    // that they use, so that code which uses only a subset of the components
-    // doesn't need to reference anything from the components or attributes not used.
 
     class INode
     {
@@ -49,6 +61,8 @@ namespace Glue
         {}
 
         virtual NodeStyle const& get_style() const = 0;
+
+        virtual IShape* get_shape() const = 0;
 
         virtual void addAttribute(NodeAttribute attr) = 0;
 
@@ -85,7 +99,9 @@ namespace Glue
 
         virtual void addComponent(IGraphObserver* component) = 0;
 
-        virtual INode* addNode(NodeStyle const& style) = 0;
+        virtual IShape* addShape(ShapeStyle const& style) = 0;
+
+        virtual INode* addNode(NodeStyle const& style, IShape* shape) = 0;
 
         virtual ILink* addLink(LinkStyle const& style, INode* fromNode, INode* toNode) = 0;
 

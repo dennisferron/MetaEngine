@@ -52,6 +52,18 @@ namespace Glue
         }
     };
 
+    class ITimeObserver
+    {
+    public:
+        virtual void beforePhysics(TimeInfo const& time_info) = 0;
+        virtual void onPhysics(TimeInfo const& time_info) = 0;
+        virtual void afterPhysics(TimeInfo const& time_info) = 0;
+
+        virtual void beforeGraphics(TimeInfo const& time_info) = 0;
+        virtual void onGraphics(TimeInfo const& time_info) = 0;
+        virtual void afterGraphics(TimeInfo const& time_info) = 0;
+    };
+
     class ITimeComponent
     {
     public:

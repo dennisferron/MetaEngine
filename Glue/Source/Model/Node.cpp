@@ -37,8 +37,8 @@ namespace
 namespace Glue
 {
 
-Node::Node(NodeStyle const& style) :
-    style(style)
+Node::Node(NodeStyle const& style, IShape* shape) :
+    style(style), shape(shape)
 {
 }
 
@@ -49,6 +49,11 @@ Node::~Node()
 NodeStyle const& Node::get_style() const
 {
     return style;
+}
+
+IShape* Node::get_shape() const
+{
+    return shape;
 }
 
 Irrlicht::IIrrlichtAttribute* Node::get_irrlicht_attribute() const

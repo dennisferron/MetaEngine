@@ -2,6 +2,9 @@
 #include <BulletSoftBody/btSoftRigidDynamicsWorld.h>
 #include "Glue/Bullet/BulletComponent.hpp"
 #include "Glue/Bullet/BulletAttribute.hpp"
+#include "Glue/Bullet/BulletShape.hpp"
+
+#include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 
 namespace Glue::Bullet
 {
@@ -158,12 +161,26 @@ namespace Glue::Bullet
         return constraint;
     }
 
-    IBulletAttribute* BulletComponent::addNode(INode* node, IMesh* mesh)
+    IBulletShape* BulletComponent::addShape(IShape* shape)
+    {
+        ShapeStyle const& node_style = shape->get_style();
+
+        Irrlicht::IIrrlichtShape* irr_shape = shape->get_irrlicht_shape();
+        IMesh* mesh = irr_shape ? irr_shape->get_mesh() : nullptr;
+
+        btCollisionShape* collision_shape = bodyBuilder->createShape(node_style, mesh);
+
+        return new BulletShape(collision_shape);
+    }
+
+    IBulletAttribute* BulletComponent::addNode(INode* node)
     {
         NodeStyle const& node_style = node->get_style();
+        IShape* shape = node->get_shape();
 
-        btCollisionShape* shape = bodyBuilder->createShape(node_style, mesh);
-        BodyConstructionInfo constrInfo = bodyBuilder->createConstructionInfo(node_style, shape);
+        IBulletShape* bullet_shape = shape->get_bullet_shape();
+        btCollisionShape* collision_shape = bullet_shape->get_collision_shape();
+        BodyConstructionInfo constrInfo = bodyBuilder->createConstructionInfo(node_style, collision_shape);
 
         std::unique_ptr<btRigidBody> body = bodyBuilder->addToWorld(
                 node_style,
