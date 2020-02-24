@@ -35,7 +35,7 @@ namespace Glue::Bullet
 
         void setDebugMode(bool debugMode) final;
 
-        void addLink(Glue::ILink* link) final;
+        LinkAttribute addLink(Glue::ILink* link) final;
 
         void setDebugDrawer(btIDebugDraw* drawer) final;
 

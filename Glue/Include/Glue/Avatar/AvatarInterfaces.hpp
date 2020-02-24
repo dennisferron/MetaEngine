@@ -1,10 +1,6 @@
 #pragma once
 
-namespace Glue
-{
-    class INode;
-    struct TimeInfo;
-}
+#include "Glue/Model/ModelInterfaces.hpp"
 
 namespace Glue::Avatar
 {

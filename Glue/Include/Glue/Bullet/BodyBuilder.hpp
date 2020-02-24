@@ -32,7 +32,7 @@ namespace Glue::Bullet
         /// Add rigid body to world based on construction info.
         /// Applies final style settings which can only be done
         /// after adding the body to the dynamics world.
-        virtual std::unique_ptr<btRigidBody> addToWorld(
+        virtual btRigidBody* addToWorld(
                 NodeStyle const& style,
                 btDynamicsWorld* dynamicsWorld,
                 btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const;

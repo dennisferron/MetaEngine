@@ -22,7 +22,7 @@ namespace Glue::Bullet
     {
     private:
         NodeStyle style;
-        std::unique_ptr<btRigidBody> rigidBody;
+        btRigidBody* rigidBody;
         MotionStateAnimator* motionState;
         IBulletComponent* blt_cmp;
         irr::scene::ISceneNode* sceneNode;
@@ -35,7 +35,7 @@ namespace Glue::Bullet
 
         BulletAttribute(
                 NodeStyle const& style,
-                std::unique_ptr<btRigidBody>&& rigidBody,
+                btRigidBody* rigidBody,
                 MotionStateAnimator* motionState,
                 IBulletComponent* blt_cmp
         );

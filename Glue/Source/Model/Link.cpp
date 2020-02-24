@@ -11,6 +11,21 @@ Link::Link(LinkStyle const& style, INode* fromNode, INode* toNode) :
 {
 }
 
+LinkStyle const& Link::get_style() const
+{
+    return style;
+}
+
+INode* Link::get_fromNode() const
+{
+    return fromNode;
+}
+
+INode* Link::get_toNode() const
+{
+    return toNode;
+}
+
 void Link::addAttribute(LinkAttribute attr)
 {
     attributes.push_back(attr);

@@ -60,7 +60,7 @@ namespace Glue::Bullet
         /// Add rigid body to world based on construction info.
         /// Applies final style settings which can only be done
         /// after adding the body to the dynamics world.
-        virtual std::unique_ptr<btRigidBody> addToWorld(
+        virtual btRigidBody* addToWorld(
                 NodeStyle const& style,
                 btDynamicsWorld* dynamicsWorld,
                 btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const = 0;
@@ -188,7 +188,7 @@ namespace Glue::Bullet
 
         /// Converts a link to a constraint if jointType is set.
         /// The Glue::Link combines a style with two endpoints.
-        virtual void addLink(Glue::ILink* link) = 0;
+        virtual LinkAttribute addLink(Glue::ILink* link) = 0;
 
         /// Accepts an object to use to draw debug graphics.
         virtual void setDebugDrawer(btIDebugDraw* drawer) = 0;

@@ -19,6 +19,12 @@ namespace Glue
     public:
         Link(LinkStyle const& style, INode* fromNode, INode* toNode);
 
+        LinkStyle const& get_style() const override;
+
+        INode* get_fromNode() const override;
+
+        INode* get_toNode() const override;
+
         void addAttribute(LinkAttribute attr) override;
     };
 

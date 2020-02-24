@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Glue/Model/Graph.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 #include "Glue/LevelSystem/Terrain.hpp"
 
 #include "ISceneNode.h"

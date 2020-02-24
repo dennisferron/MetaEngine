@@ -83,17 +83,17 @@ namespace Glue::Bullet
         return { rbInfo, motionState };
     }
 
-    std::unique_ptr<btRigidBody> BodyBuilder::addToWorld(
+    btRigidBody* BodyBuilder::addToWorld(
             NodeStyle const& style,
             btDynamicsWorld* dynamicsWorld,
             btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const
     {
-        auto rigidBody = std::make_unique<btRigidBody>(rbInfo);
+        auto rigidBody = new btRigidBody(rbInfo);
 
         if (style.collisionGroup)
-            dynamicsWorld->addRigidBody(rigidBody.get(), *style.collisionGroup, style.collisionMask);
+            dynamicsWorld->addRigidBody(rigidBody, *style.collisionGroup, style.collisionMask);
         else
-            dynamicsWorld->addRigidBody(rigidBody.get());
+            dynamicsWorld->addRigidBody(rigidBody);
 
         rigidBody->setLinearFactor(btVector3(style.linFactorX, style.linFactorY, style.linFactorZ));
         rigidBody->setAngularFactor(btVector3(style.angFactorX, style.angFactorY, style.angFactorZ));

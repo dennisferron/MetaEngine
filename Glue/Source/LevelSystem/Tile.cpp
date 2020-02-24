@@ -50,6 +50,8 @@ Tile& Tile::refresh()
     Scalar tolerance = 0.05;
 
     throw "TODO: move surface to a constructor parameter so that it cannot be null here.";
+
+/*
     auto splitForWalkway = MeshTools::createHillMesh(*surface, tileRect, pathMinZ-tolerance, pathMaxZ+tolerance);
 
     // Temporary
@@ -129,6 +131,7 @@ Tile& Tile::refresh()
     //foreGameObj->addAttribute(self);
 
     return *this;
+*/
 }
 
 }

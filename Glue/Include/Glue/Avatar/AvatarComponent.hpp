@@ -14,7 +14,7 @@ public:
 
     void attachControl(INode* node) final;
     void beforePhysics(TimeInfo const&) final;
-    void addNode(INode* node) final;
+    NodeAttribute addNode(INode* node) final;
 };
 
 }

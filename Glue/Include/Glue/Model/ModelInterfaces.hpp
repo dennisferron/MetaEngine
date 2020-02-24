@@ -66,8 +66,6 @@ namespace Glue
 
         virtual void addAttribute(NodeAttribute attr) = 0;
 
-        virtual Bullet::IBulletAttribute* get_bullet_attribute() = 0;
-
         virtual Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const = 0;
 
         virtual Bullet::IBulletAttribute* get_bullet_attribute() const = 0;

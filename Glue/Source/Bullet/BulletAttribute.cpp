@@ -35,12 +35,12 @@ namespace Glue::Bullet
 {
     BulletAttribute::BulletAttribute(
         NodeStyle const& style,
-        std::unique_ptr<btRigidBody>&& rigidBody,
+        btRigidBody* rigidBody,
         MotionStateAnimator* motionState,
         IBulletComponent* blt_cmp
     ) :
         style(style),
-        rigidBody(std::move(rigidBody)),
+        rigidBody(rigidBody),
         motionState(motionState),
         blt_cmp(blt_cmp),
         sceneNode(nullptr)
@@ -79,7 +79,7 @@ namespace Glue::Bullet
 
     btRigidBody* BulletAttribute::getRigidBody() const
     {
-        return rigidBody.get();
+        return rigidBody;
     }
 
     void addConstraintA(IConstraintObj* constraint)

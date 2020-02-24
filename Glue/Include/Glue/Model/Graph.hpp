@@ -17,7 +17,7 @@ namespace Glue
     class Graph : public IGraph
     {
     private:
-        std::vector<GraphComponent> components;
+        std::vector<IGraphObserver*> components;
         std::vector<INode*> nodes;
 
     public:
@@ -26,9 +26,9 @@ namespace Glue
 
         ~Graph() final;
 
-        void addComponent(GraphComponent component) final;
+        void addComponent(IGraphObserver* component) final;
 
-        INode* addNode(NodeStyle const& style) final;
+        INode* addNode(NodeStyle const& style, IShape* shape) final;
 
         ILink* addLink(LinkStyle const& style, INode* fromNode, INode* toNode) final;
 

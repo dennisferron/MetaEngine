@@ -2,9 +2,7 @@
 
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
-#include "Glue/Model/Structure.hpp"
-#include "Glue/Model/Node.hpp"
-#include "Glue/Model/Graph.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 #include "Glue/LevelSystem/Terrain.hpp"
 #include "Glue/Styles/GameObjStyles.hpp"
 
@@ -24,7 +22,7 @@ namespace Glue {
         {
             Stage();
 
-            Structure *build();
+            IStructure *build();
         };
 
         struct Tree
@@ -32,11 +30,11 @@ namespace Glue {
             Tree();
 
             NodeStyle base;
-            LinkStyle *joint;
+            LinkStyle joint;
             NodeStyle trunk;
             NodeStyle top;
 
-            Structure *build();
+            IStructure *build();
         };
 
         struct Snake
@@ -44,18 +42,17 @@ namespace Glue {
             Snake();
 
             NodeStyle segmentStyle;
-            LinkStyle *jointStyle;
-            LinkStyle *leftJointStyle;
-            LinkStyle *rightJointStyle;
+            LinkStyle jointStyle;
+            LinkStyle leftJointStyle;
+            LinkStyle rightJointStyle;
             NodeStyle headStyle;
-            LinkStyle *noseHeadJoint;
+            LinkStyle noseHeadJoint;
             NodeStyle noseStyle;
 
-            Structure *build();
+            IStructure *build();
 
-            static Node *configure(Graph *graph, Structure *snake);
-
-            static void setMotors(Node *segment, int count);
+            INode *configure(IGraph *graph, IStructure *snake);
+            void setMotors(INode *segment, int count);
         };
 
         struct Robot
@@ -63,36 +60,36 @@ namespace Glue {
             Robot();
 
             NodeStyle shoulderBall;
-            LinkStyle *shoulderToUpperArm;
+            LinkStyle shoulderToUpperArm;
             NodeStyle upperArm;
-            LinkStyle *upperArmToElbow;
+            LinkStyle upperArmToElbow;
             NodeStyle elbowBall;
-            LinkStyle *elbowToForeArm;
+            LinkStyle elbowToForeArm;
             NodeStyle foreArm;
             NodeStyle torso;
-            LinkStyle *torsoToLeftShoulder;
-            LinkStyle *torsoToRightShoulder;
-            LinkStyle *torsoToBase;
+            LinkStyle torsoToLeftShoulder;
+            LinkStyle torsoToRightShoulder;
+            LinkStyle torsoToBase;
             NodeStyle base;
             NodeStyle head;
-            LinkStyle *headToTorso;
-            LinkStyle *leftAxle;
-            LinkStyle *rightAxle;
+            LinkStyle headToTorso;
+            LinkStyle leftAxle;
+            LinkStyle rightAxle;
             NodeStyle leftWheel;
             NodeStyle rightWheel;
 
-            Structure *build();
+            IStructure *build();
 
-            Node *configure(Graph *graph, Structure *robotStructure);
+            INode *configure(IGraph *graph, IStructure *robotIStructure);
         };
 
         struct Cannon
         {
             Cannon();
 
-            Structure *build();
+            IStructure *build();
 
-            static Node *configure(Graph *graph, Structure *cannon);
+            INode *configure(IGraph *graph, IStructure *cannon);
 
             NodeStyle hub;
             NodeStyle barrel;
@@ -104,18 +101,18 @@ namespace Glue {
         {
 
             NodeStyle leftWheel;
-            LinkStyle *leftAxle;
+            LinkStyle leftAxle;
             NodeStyle rightWheel;
-            LinkStyle *rightAxle;
+            LinkStyle rightAxle;
 
             NodeStyle carBody;
 
-            LinkStyle *gearAxle;
+            LinkStyle gearAxle;
             NodeStyle gearSlotStyle;
 
-            Structure *build();
+            IStructure *build();
 
-            static Node *configure(Graph *graph, Structure *car);
+            INode *configure(IGraph *graph, IStructure *car);
         };
 
         struct Elevator
@@ -125,11 +122,11 @@ namespace Glue {
 
             NodeStyle elevatorStyle;
 
-            Structure *build();
+            IStructure *build();
 
-            static Node *configure(Graph *graph, Structure *elevator);
+            INode *configure(IGraph *graph, IStructure *elevator);
 
-            LinkStyle *standOnElevator;
+            LinkStyle standOnElevator;
         };
 
         struct Box
@@ -138,9 +135,9 @@ namespace Glue {
 
             NodeStyle style;
 
-            static Node *configure(Graph *graph, NodeStyle style);
+            INode *configure(IGraph *graph, NodeStyle style);
 
-            Structure *build();
+            IStructure *build();
         };
 
         struct Dwarf
@@ -149,9 +146,9 @@ namespace Glue {
 
             NodeStyle style;
 
-            static Node *configure(Graph *graph, Structure *dwarf);
+            INode *configure(IGraph *graph, IStructure *dwarf);
 
-            Node *loadL3DTMesh();
+            INode *loadL3DTMesh();
         };
 
         struct Skybox
@@ -160,7 +157,7 @@ namespace Glue {
 
             NodeStyle style;
 
-            static Node *configure(Graph *graph, Structure *skybox);
+            INode *configure(IGraph *graph, IStructure *skybox);
         };
 
         struct TestProps
@@ -174,7 +171,7 @@ namespace Glue {
 
             void loadSkybox();
 
-            void testSoftBody(Graph *graph);
+            void testSoftBody(IGraph *graph);
 
         };
     };

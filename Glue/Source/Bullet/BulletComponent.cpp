@@ -64,7 +64,7 @@ namespace Glue::Bullet
         dynamicsWorld->getDebugDrawer()->setDebugMode(debugMode);
     }
 
-    void BulletComponent::addLink(ILink *link)
+    LinkAttribute BulletComponent::addLink(ILink *link)
     {
         if (link->get_style().linkType == LinkTypes::physConstraint)
         {
@@ -82,6 +82,11 @@ namespace Glue::Bullet
 
             auto linkAttr = addConstraint(*(link->get_style().constraint), attrA, attrB);
             link->addAttribute(linkAttr);
+            return linkAttr;
+        }
+        else
+        {
+            return nullptr;
         }
     }
 
@@ -161,7 +166,7 @@ namespace Glue::Bullet
         return constraint;
     }
 
-    IBulletShape* BulletComponent::addShape(IShape* shape)
+    ShapeAttribute BulletComponent::addShape(IShape* shape)
     {
         ShapeStyle const& node_style = shape->get_style();
 
@@ -173,7 +178,7 @@ namespace Glue::Bullet
         return new BulletShape(collision_shape);
     }
 
-    IBulletAttribute* BulletComponent::addNode(INode* node)
+    NodeAttribute BulletComponent::addNode(INode* node)
     {
         NodeStyle const& node_style = node->get_style();
         IShape* shape = node->get_shape();
@@ -182,14 +187,14 @@ namespace Glue::Bullet
         btCollisionShape* collision_shape = bullet_shape->get_collision_shape();
         BodyConstructionInfo constrInfo = bodyBuilder->createConstructionInfo(node_style, collision_shape);
 
-        std::unique_ptr<btRigidBody> body = bodyBuilder->addToWorld(
+        btRigidBody* body = bodyBuilder->addToWorld(
                 node_style,
                 dynamicsWorld,
                 constrInfo.body);
 
         IBulletAttribute* blt_attr = new BulletAttribute(
                 node->get_style(),
-                std::move(body),
+                body,
                 constrInfo.motion_state,
                 this);
 

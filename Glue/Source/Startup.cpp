@@ -18,6 +18,7 @@ namespace Glue {
 
     void addPlayer(Graph* graph, Glue::Avatar::AvatarComponent* avatarComp)
     {
+/*
         auto avatarCameraNode = graph->addNode(Glue::GameObjStyles::EmptyStyle());
         auto avatar_camera = new Glue::Avatar::Camera();
         // TODO:  Come up with different way to add camera than making it a node attribute.
@@ -28,10 +29,12 @@ namespace Glue {
 
         // TODO:
         graph->addLink( Glue::LinkStyles::LookAtStyle(), avatarCameraNode, playerNode);
+*/
     }
 
     void do_startup()
     {
+/*
         auto avatar_cmp = new Avatar::AvatarComponent();
         auto bodyBuilder = new Bullet::BodyBuilder();
         auto constrBuilder = new Bullet::ConstraintBuilder();
@@ -46,6 +49,7 @@ namespace Glue {
         addPlayer(graph, avatar_cmp);
 
         //time_cmp->runLoop();
+*/
     }
 
 

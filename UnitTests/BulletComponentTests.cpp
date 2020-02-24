@@ -1,6 +1,7 @@
 #include "boost/test/unit_test.hpp"
 #include "Glue/Model/Graph.hpp"
-#include "Glue/Bullet/BulletComponentImpl.hpp"
+#include "Glue/Bullet/BulletComponent.hpp"
+#include "Glue/Model/Node.hpp"
 
 #include <string>
 
@@ -20,7 +21,7 @@ namespace
         }
     };
 
-    class MockBodyBuilder : public Glue::Bullet::BodyBuilder
+    class MockBodyBuilder : public Glue::Bullet::IBodyBuilder
     {
     public:
         btCollisionShape* shape;
@@ -45,13 +46,14 @@ namespace
             return shape;
         }
 
-        btRigidBody::btRigidBodyConstructionInfo
+        Glue::Bullet::BodyConstructionInfo
             createConstructionInfo(
                 NodeStyle const& style,
                 btCollisionShape* physShape
         ) const override
         {
-            return info;
+            MotionStateAnimator* ms = nullptr;
+            return  { info, ms };
         }
 
         btRigidBody* addToWorld(
@@ -84,10 +86,12 @@ BOOST_AUTO_TEST_CASE(test_something)
     btRigidBody* body = new btRigidBody(info);
 
     auto bodyBuilder = new MockBodyBuilder(shape, info, body);
-    Glue::Bullet::BulletComponentImpl blt_cmp(bodyBuilder);
+    Glue::Bullet::BulletComponent blt_cmp(bodyBuilder);
+
+    Shape shape;
 
     NodeStyle style;
-    Node mock_node(style);
+    Node mock_node(style, &shape);
 
     BulletAttribute* result = blt_cmp.addNode(&mock_node);
     btVector3 pos = result->getPos();

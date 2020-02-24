@@ -33,24 +33,20 @@ namespace Glue
     {
     }
 
-    void Graph::addComponent(GraphComponent component)
+    void Graph::addComponent(IGraphObserver* component)
     {
         // TODO: Run interactions before push_back
         components.push_back(component);
     }
 
-    INode* Graph::addNode(NodeStyle const& style)
+    INode* Graph::addNode(NodeStyle const& style, IShape* shape)
     {
-        Node* node = new Node(style);
+        Node* node = new Node(style, shape);
         nodes.push_back(node);
 
         for (auto c : components)
         {
-            auto v = [node](IComponent* component)
-            {
-                component->addNode(node);
-            };
-            std::visit(v, c);
+            c->addNode(node);
         }
 
         return node;
@@ -58,13 +54,13 @@ namespace Glue
 
     ILink* Graph::addLink(LinkStyle const& style, INode* fromNode, INode* toNode)
     {
-        Link* link = new Link(this, style, fromNode, toNode);
+        Link* link = new Link(style, fromNode, toNode);
 
         //if (avatar_cmp)
         //    avatar_cmp->addLink(link);
 
-        if (blt_cmp)
-            blt_cmp->addLink(link);
+        //if (blt_cmp)
+        //    blt_cmp->addLink(link);
 
         //if (irr_cmp)
         //    irr_cmp->addLink(link);
@@ -78,12 +74,6 @@ namespace Glue
     void Graph::removeLink(ILink* link) const
     {
         // TODO:  Notify components to remove link attributes
-    }
-
-    void Graph::addComponent(IComponent* newComp)
-    {
-        //components.push_back(newComp);
-        //domain.addObject("component", newComp);
     }
 
 // Deprecated?  Not sure...
