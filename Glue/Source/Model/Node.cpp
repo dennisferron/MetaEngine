@@ -1,38 +1,6 @@
 #include "Glue/Model/Node.hpp"
 
-#include <vector>
-
-namespace
-{
-    template <typename T>
-    struct AttributeFinder
-    {
-        T* result = nullptr;
-
-        void operator()(T* value)
-        {
-            if (result)
-                throw std::logic_error("More than one attribute of this type is present.");
-
-            result = value;
-        }
-
-        template <typename U>
-        void operator()(U*)
-        {
-            // do nothing
-        }
-    };
-
-    template <typename T>
-    T* find_attribute(std::vector<Glue::NodeAttribute> const& attrs)
-    {
-        AttributeFinder<T> v;
-        for (auto a : attrs)
-            std::visit(v, a);
-        return v.result;
-    }
-}
+#include "Glue/Utility/variant_helpers.hpp"
 
 namespace Glue
 {
