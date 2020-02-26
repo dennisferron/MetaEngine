@@ -82,17 +82,25 @@ namespace Glue::Bullet
         return rigidBody;
     }
 
-    void addConstraintA(IConstraintObj* constraint)
-    {}
+    void BulletAttribute::addConstraintA(IConstraintObj* constraint)
+    {
+        constraintsA.push_back(constraint);
+    }
 
-    void addConstraintB(IConstraintObj* constraint)
-    {}
+    void BulletAttribute::addConstraintB(IConstraintObj* constraint)
+    {
+        constraintsB.push_back(constraint);
+    }
 
-    void removeConstraintA(IConstraintObj* constraint)
-    {}
+    void BulletAttribute::removeConstraintA(IConstraintObj* constraint)
+    {
+        constraintsA.erase(std::remove(constraintsA.begin(), constraintsA.end(), constraint), constraintsA.end());
+    }
 
-    void removeConstraintB(IConstraintObj* constraint)
-    {}
+    void BulletAttribute::removeConstraintB(IConstraintObj* constraint)
+    {
+        constraintsB.erase(std::remove(constraintsB.begin(), constraintsB.end(), constraint), constraintsB.end());
+    }
 
     void BulletAttribute::setLinearVelocity(Scalar xv, Scalar yv, Scalar zv)
     {

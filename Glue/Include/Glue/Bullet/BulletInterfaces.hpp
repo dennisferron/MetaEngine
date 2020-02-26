@@ -216,7 +216,7 @@ namespace Glue::Bullet
 
         /// Creates a BulletAttribute based on the style of the @node.
         /// Adds a btRigidBody to the btDynamicsWorld.
-        virtual IBulletAttribute* addNode(INode* node, IMesh* mesh) = 0;
+        virtual NodeAttribute addNode(INode* node) = 0;
 
         // TODO:  Implement this
         //virtual void removeNode(Node* node) = 0;

@@ -4,6 +4,8 @@
 #include "Glue/Model/Node.hpp"
 
 #include <string>
+#include <Glue/Model/Shape.hpp>
+#include <Glue/Bullet/BulletAttribute.hpp>
 
 namespace
 {
@@ -65,6 +67,15 @@ namespace
             return body;
         }
     };
+
+    class MockConstraintBuilder : public Glue::Bullet::IConstraintBuilder
+    {
+    public:
+        IConstraintObj* create(ConstraintStyle const& style, btRigidBody* objA, btRigidBody* objB)  override
+        {
+            return nullptr;
+        }
+    };
 }
 
 BOOST_AUTO_TEST_SUITE(BulletComponentsTests)
@@ -86,14 +97,16 @@ BOOST_AUTO_TEST_CASE(test_something)
     btRigidBody* body = new btRigidBody(info);
 
     auto bodyBuilder = new MockBodyBuilder(shape, info, body);
-    Glue::Bullet::BulletComponent blt_cmp(bodyBuilder);
+    auto constrBuilder = new MockConstraintBuilder();
+    Glue::Bullet::BulletComponent blt_cmp(bodyBuilder, constrBuilder);
 
-    Shape shape;
+    ShapeStyle shape_style;
+    Glue::Shape node_shape(shape_style);
 
-    NodeStyle style;
-    Node mock_node(style, &shape);
+    NodeStyle node_style;
+    Node mock_node(node_style, &node_shape);
 
-    BulletAttribute* result = blt_cmp.addNode(&mock_node);
+    IBulletAttribute* result = std::get<IBulletAttribute*>(blt_cmp.addNode(&mock_node));
     btVector3 pos = result->getPos();
 }
 
