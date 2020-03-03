@@ -14,7 +14,7 @@ namespace Glue
 
         ShapeStyle const& get_style() const final;
 
-        void addAttribute(ShapeAttribute attr) final;
+        void addAttribute(ShapeAttribute* attr) final;
 
         Irrlicht::IIrrlichtShape* get_irrlicht_shape() const final;
 

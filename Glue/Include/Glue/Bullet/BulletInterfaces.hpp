@@ -66,7 +66,7 @@ namespace Glue::Bullet
                 btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const = 0;
     };
 
-    class IBulletShape
+    class IBulletShape : public IShapeAttribute
     {
     public:
 
@@ -76,7 +76,7 @@ namespace Glue::Bullet
         virtual btCollisionShape* get_collision_shape() const = 0;
     };
 
-    class IBulletAttribute
+    class IBulletAttribute : public INodeAttribute
     {
     public:
 
@@ -143,7 +143,7 @@ namespace Glue::Bullet
     };
 
 
-    class IConstraintObj
+    class IConstraintObj : public ILinkAttribute
     {
     public:
         virtual ~IConstraintObj() {}
@@ -188,7 +188,7 @@ namespace Glue::Bullet
 
         /// Converts a link to a constraint if jointType is set.
         /// The Glue::Link combines a style with two endpoints.
-        virtual LinkAttribute addLink(Glue::ILink* link) = 0;
+        virtual LinkAttribute* addLink(Glue::ILink* link) = 0;
 
         /// Accepts an object to use to draw debug graphics.
         virtual void setDebugDrawer(btIDebugDraw* drawer) = 0;
@@ -216,7 +216,7 @@ namespace Glue::Bullet
 
         /// Creates a BulletAttribute based on the style of the @node.
         /// Adds a btRigidBody to the btDynamicsWorld.
-        virtual NodeAttribute addNode(INode* node) = 0;
+        virtual NodeAttribute* addNode(INode* node) = 0;
 
         // TODO:  Implement this
         //virtual void removeNode(Node* node) = 0;

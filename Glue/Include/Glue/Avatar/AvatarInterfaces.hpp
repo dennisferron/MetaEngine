@@ -5,7 +5,7 @@
 namespace Glue::Avatar
 {
 
-    class IAvatarAttribute
+    class IAvatarAttribute : public NodeAttribute
     {
     public:
         virtual ~IAvatarAttribute() {}

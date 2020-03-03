@@ -26,7 +26,7 @@ INode* Link::get_toNode() const
     return toNode;
 }
 
-void Link::addAttribute(LinkAttribute attr)
+void Link::addAttribute(LinkAttribute* attr)
 {
     attributes.push_back(attr);
 }

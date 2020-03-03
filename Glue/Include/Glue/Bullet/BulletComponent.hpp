@@ -35,7 +35,7 @@ namespace Glue::Bullet
 
         void setDebugMode(bool debugMode) final;
 
-        LinkAttribute addLink(Glue::ILink* link) final;
+        LinkAttribute*addLink(Glue::ILink* link) final;
 
         void setDebugDrawer(btIDebugDraw* drawer) final;
 
@@ -51,8 +51,8 @@ namespace Glue::Bullet
 
         IConstraintObj* addConstraint(ConstraintStyle const& style, IBulletAttribute* attrA, IBulletAttribute* attrB) final;
 
-        ShapeAttribute addShape(IShape* shape) final;
+        ShapeAttribute*addShape(IShape* shape) final;
 
-        NodeAttribute addNode(INode* node) final;
+        NodeAttribute* addNode(INode* node) final;
     };
 }

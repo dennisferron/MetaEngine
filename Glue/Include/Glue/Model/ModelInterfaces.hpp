@@ -7,37 +7,38 @@
 
 #include "Glue/Model/ITimeComponent.hpp"
 
-#include "Glue/forward_declarations.hpp"
-
 #include <vector>
 #include <string>
 #include <memory>
-#include <variant>
 #include <functional>
 #include <set>
 
 namespace Glue
 {
-    using NodeAttribute = std::variant<
-            Avatar::IAvatarAttribute*,
-            Irrlicht::IIrrlichtAttribute*,
-            Bullet::IBulletAttribute*>;
+    class NodeAttribute
+    {
+    public:
+        virtual ~NodeAttribute(){}
+    };
 
-    using LinkAttribute = std::variant<
-            void*
-    >;
+    class LinkAttribute
+    {
+    public:
+        virtual ~LinkAttribute() {}
+    };
 
-    using ShapeAttribute = std::variant<
-            Irrlicht::IIrrlichtShape*,
-            Bullet::IBulletShape*
-    >;
+    class ShapeAttribute
+    {
+    public:
+        virtual ~ShapeAttribute() {}
+    };
 
     class IShape
     {
     public:
         virtual ~IShape(){}
         virtual ShapeStyle const& get_style() const = 0;
-        virtual void addAttribute(ShapeAttribute attr) = 0;
+        virtual void addAttribute(ShapeAttribute* attr) = 0;
         virtual Irrlicht::IIrrlichtShape* get_irrlicht_shape() const = 0;
         virtual Bullet::IBulletShape* get_bullet_shape() const = 0;
     };
@@ -45,9 +46,9 @@ namespace Glue
     class IGraphObserver
     {
     public:
-        virtual ShapeAttribute addShape(IShape* shape) = 0;
-        virtual NodeAttribute addNode(INode* node) = 0;
-        virtual LinkAttribute addLink(ILink* link) = 0;
+        virtual ShapeAttribute* addShape(IShape* shape) = 0;
+        virtual NodeAttribute* addNode(INode* node) = 0;
+        virtual LinkAttribute* addLink(ILink* link) = 0;
     };
 
     class IStructure
@@ -64,7 +65,7 @@ namespace Glue
 
         virtual IShape* get_shape() const = 0;
 
-        virtual void addAttribute(NodeAttribute attr) = 0;
+        virtual void addAttribute(NodeAttribute* attr) = 0;
 
         virtual Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const = 0;
 
@@ -81,7 +82,7 @@ namespace Glue
 
         virtual LinkStyle const& get_style() const = 0;
 
-        virtual void addAttribute(LinkAttribute attr) = 0;
+        virtual void addAttribute(LinkAttribute* attr) = 0;
 
         virtual INode* get_fromNode() const = 0;
 

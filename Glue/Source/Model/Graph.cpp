@@ -39,6 +39,13 @@ namespace Glue
         components.push_back(component);
     }
 
+    IShape* Graph::addShape(ShapeStyle const& style)
+    {
+        // TODO:  call addShape on components.
+        // Cache shape or just return it??
+        return nullptr;
+    }
+
     INode* Graph::addNode(NodeStyle const& style, IShape* shape)
     {
         Node* node = new Node(style, shape);

@@ -28,6 +28,8 @@ namespace Glue
 
         void addComponent(IGraphObserver* component) final;
 
+        IShape* addShape(ShapeStyle const& style) final;
+
         INode* addNode(NodeStyle const& style, IShape* shape) final;
 
         ILink* addLink(LinkStyle const& style, INode* fromNode, INode* toNode) final;

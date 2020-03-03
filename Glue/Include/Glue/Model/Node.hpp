@@ -34,7 +34,7 @@ public:
 
     IShape* get_shape() const final;
     NodeStyle const& get_style() const final;
-    void addAttribute(NodeAttribute attr) final;
+    void addAttribute(NodeAttribute* attr) final;
 
     Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const final;
     Bullet::IBulletAttribute* get_bullet_attribute() const final;

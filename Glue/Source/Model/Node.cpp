@@ -39,7 +39,7 @@ Avatar::IAvatarAttribute* Node::get_avatar_attribute() const
     return find_attribute<Avatar::IAvatarAttribute>(attributes);
 }
 
-    void Node::addAttribute(NodeAttribute attr)
+    void Node::addAttribute(NodeAttribute* attr)
     {
         // TODO:  Handle interactions; only push_back after that.
         attributes.push_back(attr);

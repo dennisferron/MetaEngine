@@ -7,21 +7,16 @@
 
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Constants.hpp"
+#include "Glue/Model/ModelInterfaces.hpp"
 
 #include <string>
 #include <functional>
-
-namespace Glue
-{
-    class INode;
-    class IGraph;
-}
 
 namespace Glue::Irrlicht
 {
     class IIrrlichtAttribute;
 
-    class IIrrlichtComponent
+    class IIrrlichtComponent : public IGraphObserver
     {
     public:
 
@@ -47,7 +42,7 @@ namespace Glue::Irrlicht
         virtual void removeObj(INode* obj) = 0;
     };
 
-    class IIrrlichtAttribute
+    class IIrrlichtAttribute : public INodeAttribute
     {
     public:
         virtual ~IIrrlichtAttribute()

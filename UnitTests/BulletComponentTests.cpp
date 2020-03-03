@@ -1,84 +1,28 @@
 #include "boost/test/unit_test.hpp"
-#include "Glue/Model/Graph.hpp"
+
+#include "BulletMocks.hpp"
+#include "ModelMocks.hpp"
+
 #include "Glue/Bullet/BulletComponent.hpp"
-#include "Glue/Model/Node.hpp"
 
 #include <string>
-#include <Glue/Model/Shape.hpp>
-#include <Glue/Bullet/BulletAttribute.hpp>
 
-namespace
-{
-    using namespace Glue;
-    using namespace Glue::Bullet;
-
-    class MockDebugDrawer : public btIDebugDraw
-    {
-    public:
-        bool drew_line = false;
-
-        virtual void drawLine(const btVector3& from,const btVector3& to,const btVector3& color)
-        {
-            drew_line = true;
-        }
-    };
-
-    class MockBodyBuilder : public Glue::Bullet::IBodyBuilder
-    {
-    public:
-        btCollisionShape* shape;
-        btRigidBody::btRigidBodyConstructionInfo info;
-        btRigidBody* body;
-
-        MockBodyBuilder(
-            btCollisionShape* shape,
-            btRigidBody::btRigidBodyConstructionInfo info,
-            btRigidBody* body) :
-                shape(shape),
-                info(info),
-                body(body)
-        {
-        }
-
-        btCollisionShape* createShape(
-                NodeStyle const& style,
-                irr::scene::IMesh* dispShapeMesh
-        ) const override
-        {
-            return shape;
-        }
-
-        Glue::Bullet::BodyConstructionInfo
-            createConstructionInfo(
-                NodeStyle const& style,
-                btCollisionShape* physShape
-        ) const override
-        {
-            MotionStateAnimator* ms = nullptr;
-            return  { info, ms };
-        }
-
-        btRigidBody* addToWorld(
-            NodeStyle const& style,
-            btDynamicsWorld* dynamicsWorld,
-            btRigidBody::btRigidBodyConstructionInfo const& rbInfo
-        ) const override
-        {
-            return body;
-        }
-    };
-
-    class MockConstraintBuilder : public Glue::Bullet::IConstraintBuilder
-    {
-    public:
-        IConstraintObj* create(ConstraintStyle const& style, btRigidBody* objA, btRigidBody* objB)  override
-        {
-            return nullptr;
-        }
-    };
-}
+using namespace Glue;
+using namespace Glue::Bullet;
 
 BOOST_AUTO_TEST_SUITE(BulletComponentsTests)
+
+    BOOST_AUTO_TEST_CASE(test_add_shape)
+    {
+        MockBodyBuilder mock_body_builder;
+        MockConstraintBuilder mock_constraint_builder;
+
+        BulletComponent bullet_component(&mock_body_builder, &mock_constraint_builder);
+
+        MockShape mock_shape;
+        auto attribute = bullet_component.addShape(&mock_shape);
+
+    }
 
 BOOST_AUTO_TEST_CASE(test_something)
 {
@@ -101,10 +45,10 @@ BOOST_AUTO_TEST_CASE(test_something)
     Glue::Bullet::BulletComponent blt_cmp(bodyBuilder, constrBuilder);
 
     ShapeStyle shape_style;
-    Glue::Shape node_shape(shape_style);
+    MockShape mock_shape(shape_style);
 
     NodeStyle node_style;
-    Node mock_node(node_style, &node_shape);
+    MockNode mock_node(node_style, &mock_shape);
 
     IBulletAttribute* result = std::get<IBulletAttribute*>(blt_cmp.addNode(&mock_node));
     btVector3 pos = result->getPos();

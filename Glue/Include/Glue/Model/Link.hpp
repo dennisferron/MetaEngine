@@ -25,7 +25,7 @@ namespace Glue
 
         INode* get_toNode() const override;
 
-        void addAttribute(LinkAttribute attr) override;
+        void addAttribute(LinkAttribute* attr) override;
     };
 
 }

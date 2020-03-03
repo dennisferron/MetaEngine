@@ -64,7 +64,7 @@ namespace Glue::Bullet
         dynamicsWorld->getDebugDrawer()->setDebugMode(debugMode);
     }
 
-    LinkAttribute BulletComponent::addLink(ILink *link)
+    LinkAttribute* BulletComponent::addLink(ILink *link)
     {
         if (link->get_style().linkType == LinkTypes::physConstraint)
         {
@@ -166,7 +166,7 @@ namespace Glue::Bullet
         return constraint;
     }
 
-    ShapeAttribute BulletComponent::addShape(IShape* shape)
+    ShapeAttribute* BulletComponent::addShape(IShape* shape)
     {
         ShapeStyle const& node_style = shape->get_style();
 
@@ -178,7 +178,7 @@ namespace Glue::Bullet
         return new BulletShape(collision_shape);
     }
 
-    NodeAttribute BulletComponent::addNode(INode* node)
+    NodeAttribute* BulletComponent::addNode(INode* node)
     {
         NodeStyle const& node_style = node->get_style();
         IShape* shape = node->get_shape();

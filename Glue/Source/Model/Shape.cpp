@@ -14,7 +14,7 @@ namespace Glue
         return style;
     }
 
-    void Shape::addAttribute(ShapeAttribute attr)
+    void Shape::addAttribute(ShapeAttribute* attr)
     {
         // TODO: Run interactions on attr before adding to list
         attributes.push_back(attr);
