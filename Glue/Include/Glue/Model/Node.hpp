@@ -25,7 +25,7 @@ private:
     NodeStyle style;
     IShape* shape;
     NodeInteractions interactions;
-    std::vector<NodeAttribute> attributes;
+    std::vector<NodeAttribute*> attributes;
 
 public:
 
@@ -35,10 +35,7 @@ public:
     IShape* get_shape() const final;
     NodeStyle const& get_style() const final;
     void addAttribute(NodeAttribute* attr) final;
-
-    Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const final;
-    Bullet::IBulletAttribute* get_bullet_attribute() const final;
-    Avatar::IAvatarAttribute* get_avatar_attribute() const final;
+    std::vector<NodeAttribute*> const& get_attributes() const final;
 };
 
 }

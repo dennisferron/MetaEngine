@@ -14,18 +14,19 @@ namespace Glue
         INode* fromNode;
         INode* toNode;
 
-        std::vector<LinkAttribute> attributes;
+        std::vector<LinkAttribute*> attributes;
 
     public:
         Link(LinkStyle const& style, INode* fromNode, INode* toNode);
 
-        LinkStyle const& get_style() const override;
+        LinkStyle const& get_style() const final;
 
-        INode* get_fromNode() const override;
+        INode* get_fromNode() const final;
 
-        INode* get_toNode() const override;
+        INode* get_toNode() const final;
 
-        void addAttribute(LinkAttribute* attr) override;
+        void addAttribute(LinkAttribute* attr) final;
+        std::vector<LinkAttribute*> const& get_attributes() const final;
     };
 
 }

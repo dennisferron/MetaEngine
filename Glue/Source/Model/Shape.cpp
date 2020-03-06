@@ -20,13 +20,8 @@ namespace Glue
         attributes.push_back(attr);
     }
 
-    Irrlicht::IIrrlichtShape* Shape::get_irrlicht_shape() const
+    std::vector<ShapeAttribute*> const& Shape::get_attributes() const
     {
-        return find_attribute<Irrlicht::IIrrlichtShape>(attributes);
-    }
-
-    Bullet::IBulletShape* Shape::get_bullet_shape() const
-    {
-        return find_attribute<Bullet::IBulletShape>(attributes);
+        return attributes;
     }
 }

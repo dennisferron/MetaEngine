@@ -11,10 +11,11 @@ namespace
     public:
         ShapeStyle style;
 
+        std::vector<ShapeAttribute*> attributes;
+
         ShapeStyle const& get_style() const override { return style; }
-        void addAttribute(ShapeAttribute* attr) override{}
-        Irrlicht::IIrrlichtShape* get_irrlicht_shape() const override { return nullptr;}
-        Bullet::IBulletShape* get_bullet_shape() const override{ return nullptr;}
+        void addAttribute(ShapeAttribute* attr) override {}
+        std::vector<ShapeAttribute*> const& get_attributes() const override { return attributes; }
     };
 
     class MockGraphObserver : public IGraphObserver
@@ -33,28 +34,30 @@ namespace
     {
     public:
         NodeStyle style;
+        std::vector<NodeAttribute*> attributes;
 
-        NodeStyle const& get_style() const override{ style;}
+        NodeStyle const& get_style() const override{ return style;}
 
         IShape* get_shape() const override{ return nullptr;}
 
         void addAttribute(NodeAttribute* attr) override{}
 
-        Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const override{ return nullptr; }
-
-        Bullet::IBulletAttribute* get_bullet_attribute() const override{ return nullptr; }
-
-        Avatar::IAvatarAttribute* get_avatar_attribute() const override{ return nullptr; }
+        std::vector<NodeAttribute*> const& get_attributes() const override
+            { return attributes; }
     };
 
     class MockLink : public ILink
     {
     public:
         LinkStyle style;
+        std::vector<LinkAttribute*> attributes;
 
         LinkStyle const& get_style() const override{ return style;}
 
         void addAttribute(LinkAttribute* attr) override{}
+
+        std::vector<LinkAttribute*> const& get_attributes() const override
+        { return attributes; }
 
         INode* get_fromNode() const override{ return nullptr;}
 

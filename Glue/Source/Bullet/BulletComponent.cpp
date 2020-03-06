@@ -6,6 +6,8 @@
 
 #include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 
+using namespace Glue::Irrlicht;
+
 namespace Glue::Bullet
 {
 
@@ -71,8 +73,8 @@ namespace Glue::Bullet
             if (!link->get_style().constraint)
                 throw std::logic_error("linkType is physConstraint but no constraint style is provided");
 
-            auto attrA = link->get_fromNode()->get_bullet_attribute();
-            auto attrB = link->get_toNode()->get_bullet_attribute();
+            auto attrA = find_attribute<IBulletAttribute>(link->get_fromNode());
+            auto attrB = find_attribute<IBulletAttribute>(link->get_toNode());
 
             if (!attrA)
                 throw std::logic_error("fromNode has no Bullet attribute.");
@@ -170,7 +172,7 @@ namespace Glue::Bullet
     {
         ShapeStyle const& node_style = shape->get_style();
 
-        Irrlicht::IIrrlichtShape* irr_shape = shape->get_irrlicht_shape();
+        IIrrlichtShape* irr_shape = find_attribute<IIrrlichtShape>(shape);
         IMesh* mesh = irr_shape ? irr_shape->get_mesh() : nullptr;
 
         btCollisionShape* collision_shape = bodyBuilder->createShape(node_style, mesh);
@@ -183,7 +185,7 @@ namespace Glue::Bullet
         NodeStyle const& node_style = node->get_style();
         IShape* shape = node->get_shape();
 
-        IBulletShape* bullet_shape = shape->get_bullet_shape();
+        IBulletShape* bullet_shape = find_attribute<IBulletShape>(shape);
         btCollisionShape* collision_shape = bullet_shape->get_collision_shape();
         BodyConstructionInfo constrInfo = bodyBuilder->createConstructionInfo(node_style, collision_shape);
 

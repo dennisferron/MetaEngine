@@ -66,7 +66,7 @@ namespace Glue::Bullet
                 btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const = 0;
     };
 
-    class IBulletShape : public IShapeAttribute
+    class IBulletShape : public ShapeAttribute
     {
     public:
 
@@ -76,7 +76,7 @@ namespace Glue::Bullet
         virtual btCollisionShape* get_collision_shape() const = 0;
     };
 
-    class IBulletAttribute : public INodeAttribute
+    class IBulletAttribute : public NodeAttribute
     {
     public:
 
@@ -143,7 +143,7 @@ namespace Glue::Bullet
     };
 
 
-    class IConstraintObj : public ILinkAttribute
+    class IConstraintObj : public LinkAttribute
     {
     public:
         virtual ~IConstraintObj() {}

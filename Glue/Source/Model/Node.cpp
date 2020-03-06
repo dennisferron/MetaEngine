@@ -24,19 +24,9 @@ IShape* Node::get_shape() const
     return shape;
 }
 
-Irrlicht::IIrrlichtAttribute* Node::get_irrlicht_attribute() const
+std::vector<NodeAttribute*> const& Node::get_attributes() const
 {
-    return find_attribute<Irrlicht::IIrrlichtAttribute>(attributes);
-}
-
-Bullet::IBulletAttribute* Node::get_bullet_attribute() const
-{
-    return find_attribute<Bullet::IBulletAttribute>(attributes);
-}
-
-Avatar::IAvatarAttribute* Node::get_avatar_attribute() const
-{
-    return find_attribute<Avatar::IAvatarAttribute>(attributes);
+    return attributes;
 }
 
     void Node::addAttribute(NodeAttribute* attr)

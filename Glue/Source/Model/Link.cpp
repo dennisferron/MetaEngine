@@ -31,4 +31,9 @@ void Link::addAttribute(LinkAttribute* attr)
     attributes.push_back(attr);
 }
 
+std::vector<LinkAttribute*> const& Link::get_attributes() const
+{
+    return attributes;
+}
+
 } // namespace Glue

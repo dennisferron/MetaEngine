@@ -28,6 +28,9 @@ namespace Glue
 
         void addComponent(IGraphObserver* component) final;
 
+        std::vector<IGraphObserver*> const& get_attributes() const final
+        { return components; }
+
         IShape* addShape(ShapeStyle const& style) final;
 
         INode* addNode(NodeStyle const& style, IShape* shape) final;

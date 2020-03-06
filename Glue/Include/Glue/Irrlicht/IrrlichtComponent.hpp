@@ -59,7 +59,7 @@ public:
 
     irr::ITimer* get_deviceTimer() final;
 
-    IIrrlichtAttribute* addNode(INode* node) final;
+    NodeAttribute* addNode(INode* node) final;
     void playSound(std::string const& file) final;
     void beforeGraphics() final;
     void onGraphics(Scalar timeElapsed) final;

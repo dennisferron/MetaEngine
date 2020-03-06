@@ -128,7 +128,7 @@ namespace Glue::Irrlicht
         return deviceTimer;
     }
 
-    IIrrlichtAttribute* IrrlichtComponent::addNode(INode* node)
+    NodeAttribute* IrrlichtComponent::addNode(INode* node)
     {
         auto sceneNode = sceneNodeBuilder->buildSceneNode(node->get_style());
 

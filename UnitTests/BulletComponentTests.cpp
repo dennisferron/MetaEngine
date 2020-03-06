@@ -14,6 +14,14 @@ BOOST_AUTO_TEST_SUITE(BulletComponentsTests)
 
     BOOST_AUTO_TEST_CASE(test_add_shape)
     {
+        btScalar mass = 0;
+        btMotionState* motionState = nullptr;
+        btCollisionShape* shape = nullptr;
+        btVector3 localInertia=btVector3(0,0,0):
+
+        btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, shape, localInertia);
+        btRigidBody* body = nullptr;
+
         MockBodyBuilder mock_body_builder;
         MockConstraintBuilder mock_constraint_builder;
 

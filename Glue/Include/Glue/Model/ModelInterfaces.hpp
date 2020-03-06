@@ -15,6 +15,18 @@
 
 namespace Glue
 {
+    template <typename T, typename U>
+    T* find_attribute(U const* u)
+    {
+        T* t;
+        for (auto p : u->get_attributes())
+        {
+            if (t = dynamic_cast<T*>(p))
+                return t;
+        }
+        return nullptr;
+    }
+
     class NodeAttribute
     {
     public:
@@ -39,16 +51,7 @@ namespace Glue
         virtual ~IShape(){}
         virtual ShapeStyle const& get_style() const = 0;
         virtual void addAttribute(ShapeAttribute* attr) = 0;
-        virtual Irrlicht::IIrrlichtShape* get_irrlicht_shape() const = 0;
-        virtual Bullet::IBulletShape* get_bullet_shape() const = 0;
-    };
-
-    class IGraphObserver
-    {
-    public:
-        virtual ShapeAttribute* addShape(IShape* shape) = 0;
-        virtual NodeAttribute* addNode(INode* node) = 0;
-        virtual LinkAttribute* addLink(ILink* link) = 0;
+        virtual std::vector<ShapeAttribute*> const& get_attributes() const = 0;
     };
 
     class IStructure
@@ -67,11 +70,7 @@ namespace Glue
 
         virtual void addAttribute(NodeAttribute* attr) = 0;
 
-        virtual Irrlicht::IIrrlichtAttribute* get_irrlicht_attribute() const = 0;
-
-        virtual Bullet::IBulletAttribute* get_bullet_attribute() const = 0;
-
-        virtual Avatar::IAvatarAttribute* get_avatar_attribute() const = 0;
+        virtual std::vector<NodeAttribute*> const& get_attributes() const = 0;
     };
 
     class ILink
@@ -83,10 +82,19 @@ namespace Glue
         virtual LinkStyle const& get_style() const = 0;
 
         virtual void addAttribute(LinkAttribute* attr) = 0;
+        virtual std::vector<LinkAttribute*> const& get_attributes() const = 0;
 
         virtual INode* get_fromNode() const = 0;
 
         virtual INode* get_toNode() const = 0;
+    };
+
+    class IGraphObserver
+    {
+    public:
+        virtual ShapeAttribute* addShape(IShape* shape) = 0;
+        virtual NodeAttribute* addNode(INode* node) = 0;
+        virtual LinkAttribute* addLink(ILink* link) = 0;
     };
 
     class IGraph
@@ -97,6 +105,7 @@ namespace Glue
         {}
 
         virtual void addComponent(IGraphObserver* component) = 0;
+        virtual std::vector<IGraphObserver*> const& get_attributes() const = 0;
 
         virtual IShape* addShape(ShapeStyle const& style) = 0;
 

@@ -7,7 +7,7 @@ namespace Glue
     private:
         ShapeStyle style;
         //ShapeInteractions interactions;
-        std::vector<ShapeAttribute> attributes;
+        std::vector<ShapeAttribute*> attributes;
 
     public:
         Shape(ShapeStyle const& style);
@@ -15,9 +15,6 @@ namespace Glue
         ShapeStyle const& get_style() const final;
 
         void addAttribute(ShapeAttribute* attr) final;
-
-        Irrlicht::IIrrlichtShape* get_irrlicht_shape() const final;
-
-        Bullet::IBulletShape* get_bullet_shape() const final;
+        std::vector<ShapeAttribute*> const& get_attributes() const final;
     };
 }
