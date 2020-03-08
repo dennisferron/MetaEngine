@@ -1,7 +1,9 @@
-#include "Glue/Model/ModelInterfaces.hpp"
+#include "Glue/Styles/ShapeStyle.hpp"
 
 namespace Glue
 {
+    class ShapeAttribute;
+
     class Shape
     {
     private:
