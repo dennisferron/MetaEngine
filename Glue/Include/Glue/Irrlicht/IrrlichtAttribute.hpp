@@ -41,8 +41,8 @@ namespace Glue::Irrlicht
         void addKinematicAnimator(irr::scene::ISceneNodeAnimator* anim) final;
         void addChild(IIrrlichtAttribute* otherObj) final;
         irr::core::vector3df getPos() const final;
-        void triggerAllGenerators(std::function<void(INode*)> onTrigger) final;
-        void lockTo(INode* otherObj) final;
+        void triggerAllGenerators(std::function<void(Node* )> onTrigger) final;
+        void lockTo(Node* otherObj) final;
         irr::scene::ISceneNode* getSceneNode() const { return sceneNode; }
     };
 

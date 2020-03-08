@@ -39,14 +39,14 @@ namespace Glue
         components.push_back(component);
     }
 
-    IShape* Graph::addShape(ShapeStyle const& style)
+    Shape* Graph::addShape(ShapeStyle const& style)
     {
         // TODO:  call addShape on components.
         // Cache shape or just return it??
         return nullptr;
     }
 
-    INode* Graph::addNode(NodeStyle const& style, IShape* shape)
+    Node* Graph::addNode(NodeStyle const& style, Shape* shape)
     {
         Node* node = new Node(style, shape);
         nodes.push_back(node);
@@ -59,7 +59,7 @@ namespace Glue
         return node;
     }
 
-    ILink* Graph::addLink(LinkStyle const& style, INode* fromNode, INode* toNode)
+    Link* Graph::addLink(LinkStyle const& style, Node* fromNode, Node* toNode)
     {
         Link* link = new Link(style, fromNode, toNode);
 
@@ -78,7 +78,7 @@ namespace Glue
         return link;
     }
 
-    void Graph::removeLink(ILink* link) const
+    void Graph::removeLink(Link* link) const
     {
         // TODO:  Notify components to remove link attributes
     }
@@ -91,7 +91,7 @@ namespace Glue
 //    )
     }
 
-    void Graph::createCamera(INode* lockObj)
+    void Graph::createCamera(Node* lockObj)
     {
         // TODO:  Check that this is done using the interaction now?
         //Graph createCamera := method(lockObj, irrComp createCamera(lockObj))
@@ -111,20 +111,20 @@ namespace Glue
     }
 */
 
-    INode* Graph::nodeToGameObj(irr::scene::ISceneNode* node) const
+    Node* Graph::nodeToGameObj(irr::scene::ISceneNode* node) const
     {
         throw "TODO:  should this be in irrlicht component?";
         //return irrComp nodeToGameObj(node);
     }
 
-    void Graph::removeObj(INode* obj)
+    void Graph::removeObj(Node* obj)
     {
         throw "TODO:  should this be in irrlicht component?";
         //objList.remove(obj);
         //irrComp.removeObj(obj);
     }
 
-    IStructure* Graph::addStructure(IStructure* structure, IStructure* leftHandSide)
+    Structure* Graph::addStructure(Structure* structure, Structure* leftHandSide)
     {
         // TODO: Implement structure
         throw "Not implemented";

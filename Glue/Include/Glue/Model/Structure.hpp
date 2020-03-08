@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Glue/Model/ModelInterfaces.hpp"
+
 #include <iostream>
 
 namespace Glue {

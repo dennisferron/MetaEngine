@@ -122,7 +122,7 @@ namespace Glue::Bullet
         return rigidBody->getLinearVelocity();
     }
 
-    void BulletAttribute::addChild(INode* otherObj)
+    void BulletAttribute::addChild(Node* otherObj)
     {
         throw std::logic_error("No childObjs");
         //childObjs append(otherObj)
@@ -160,7 +160,7 @@ namespace Glue::Bullet
         }
     }
 
-    void BulletAttribute::triggerAllGenerators(std::function<void(INode*)> onTrigger)
+    void BulletAttribute::triggerAllGenerators(std::function<void(Node* )> onTrigger)
     {
         throw std::logic_error("Not implemented");
 /*

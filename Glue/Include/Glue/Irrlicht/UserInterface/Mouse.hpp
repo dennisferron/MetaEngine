@@ -34,7 +34,7 @@ public:
     irr::core::vector3df getPlaneIntersection(Scalar X, Scalar Y) const;
     void dragging(Scalar X, Scalar Y, irr::SEvent::SMouseInput const& mouseInput);
     void dragToScreenPos(Scalar X, Scalar Y);
-    INode* selectNode(Scalar X, Scalar Y);
+    Node* selectNode(Scalar X, Scalar Y);
 };
 
 }}

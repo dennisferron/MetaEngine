@@ -22,6 +22,8 @@
 #include "Glue/Irrlicht/Camera.hpp"
 #include "Glue/Irrlicht/SceneNodeBuilder.hpp"
 
+#include "Glue/Model/Node.hpp"
+
 using namespace irr;
 using namespace irr::core;
 using namespace irr::video;
@@ -128,7 +130,7 @@ namespace Glue::Irrlicht
         return deviceTimer;
     }
 
-    NodeAttribute* IrrlichtComponent::addNode(INode* node)
+    NodeAttribute* IrrlichtComponent::addNode(Node* node)
     {
         auto sceneNode = sceneNodeBuilder->buildSceneNode(node->get_style());
 
@@ -198,7 +200,7 @@ namespace Glue::Irrlicht
         return device->run();
     }
 
-    INode* IrrlichtComponent::nodeToGameObj(irr::scene::ISceneNode*)
+    Node* IrrlichtComponent::nodeToGameObj(irr::scene::ISceneNode*)
     {
         throw std::logic_error("Not implemented: nodeToGameObj");
 //            anim := ScriptObjAnimator findIn(node)
@@ -209,7 +211,7 @@ namespace Glue::Irrlicht
 //            )
     }
 
-    void IrrlichtComponent::removeObj(INode* obj)
+    void IrrlichtComponent::removeObj(Node* obj)
     {
         throw std::logic_error("TODO: decide whether to use IrrlichtAttribute destructor only for this");
     }

@@ -14,7 +14,7 @@ namespace Glue {
 class Tile
 {
 public:
-    IGraph* graph;
+    Graph* graph;
     irr::scene::IMeshManipulator* meshMan;
 
     irr::core::rectf tileRect;
@@ -23,9 +23,9 @@ public:
     Scalar pathMaxZ;
     Scalar skyCutZ;
 
-    INode* backGameObj;
-    INode* walkwayGameObj;
-    INode* foreGameObj;
+    Node* backGameObj;
+    Node* walkwayGameObj;
+    Node* foreGameObj;
 
     SurfaceQuadTree* surface;
 

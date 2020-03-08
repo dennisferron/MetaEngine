@@ -11,9 +11,9 @@ public:
     AvatarComponent();
     ~AvatarComponent();
 
-    void attachControl(INode* node) final;
+    void attachControl(Node* node) final;
     void beforePhysics(TimeInfo const&) final;
-    NodeAttribute*addNode(INode* node) final;
+    NodeAttribute*addNode(Node* node) final;
 };
 
 }

@@ -6,6 +6,7 @@
 #include "Glue/Bullet/BulletInterfaces.hpp"
 #include "Glue/EditorGUI/EditorGUIComponent.hpp"
 #include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
+
 #include "Glue/Model/ModelInterfaces.hpp"
 
 #include <vector>
@@ -14,45 +15,45 @@
 
 namespace Glue
 {
-    class Graph : public IGraph
+    class Graph
     {
     private:
         std::vector<IGraphObserver*> components;
-        std::vector<INode*> nodes;
+        std::vector<Node*> nodes;
 
     public:
 
         Graph();
 
-        ~Graph() final;
+        ~Graph();
 
-        void addComponent(IGraphObserver* component) final;
+        void addComponent(IGraphObserver* component);
 
-        std::vector<IGraphObserver*> const& get_attributes() const final
+        std::vector<IGraphObserver*> const& get_attributes() const
         { return components; }
 
-        IShape* addShape(ShapeStyle const& style) final;
+        Shape* addShape(ShapeStyle const& style);
 
-        INode* addNode(NodeStyle const& style, IShape* shape) final;
+        Node* addNode(NodeStyle const& style, Shape* shape);
 
-        ILink* addLink(LinkStyle const& style, INode* fromNode, INode* toNode) final;
+        Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
 
-        void removeLink(ILink* link) const final;
+        void removeLink(Link* link) const;
 
         // Deprecated?  Not sure...
-        void playSound(std::string const& file) final;
+        void playSound(std::string const& file);
 
-        void createCamera(INode* lockObj) final;
+        void createCamera(Node* lockObj);
 
         //void removeConstraint(Constraint *constraint);
 
         //void addConstraint(ConstraintStyle const &style, Node *objA, Node *objB);
 
-        INode* nodeToGameObj(irr::scene::ISceneNode* node) const final;
+        Node* nodeToGameObj(irr::scene::ISceneNode* node) const;
 
-        void removeObj(INode* obj) final;
+        void removeObj(Node* obj);
 
-        IStructure* addStructure(IStructure* structure, IStructure* leftHandSide) final;
+        Structure* addStructure(Structure* structure, Structure* leftHandSide);
     };
 
 }

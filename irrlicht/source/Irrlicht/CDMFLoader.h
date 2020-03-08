@@ -65,7 +65,7 @@ namespace scene
 		Irrlicht correctly loads specular color, diffuse color , position and distance of object affected by light.
 		\return number of lights loaded or 0 if loading failed.*/
 		int loadLights(const c8 * filename, ISceneManager* smgr,
-			ISceneNode*  parent = 0, s32 base_id = 1000);
+			ISceneNode* parent = 0, s32 base_id = 1000);
 
 		/** loads water plains present in this scene.
 		Note that loaded water plains from DeleD must have the suffix \b water_ and must be \b rectangle (with just 1 rectangular face).

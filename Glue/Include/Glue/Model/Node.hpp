@@ -2,12 +2,8 @@
 
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Model/ModelInterfaces.hpp"
-#include "Glue/Animators/MotionStateAnimator.hpp"
 
 #include <vector>
-#include <Glue/Avatar/AvatarComponent.hpp>
-#include <Glue/Avatar/AvatarAttribute.hpp>
-#include <Glue/Avatar/Camera.hpp>
 
 #include <memory>
 
@@ -19,23 +15,23 @@ namespace Glue
         // TODO:  Add member variables for interactions.
     };
 
-class Node : public INode
+class Node
 {
 private:
     NodeStyle style;
-    IShape* shape;
+    Shape* shape;
     NodeInteractions interactions;
     std::vector<NodeAttribute*> attributes;
 
 public:
 
-    Node(NodeStyle const& style, IShape* shape);
+    Node(NodeStyle const& style, Shape* shape);
     ~Node();
 
-    IShape* get_shape() const final;
-    NodeStyle const& get_style() const final;
-    void addAttribute(NodeAttribute* attr) final;
-    std::vector<NodeAttribute*> const& get_attributes() const final;
+    Shape* get_shape() const;
+    NodeStyle const& get_style() const;
+    void addAttribute(NodeAttribute* attr);
+    std::vector<NodeAttribute*> const& get_attributes() const;
 };
 
 }

@@ -5,7 +5,7 @@
 namespace Glue
 {
 
-Node::Node(NodeStyle const& style, IShape* shape) :
+Node::Node(NodeStyle const& style, Shape* shape) :
     style(style), shape(shape)
 {
 }
@@ -19,7 +19,7 @@ NodeStyle const& Node::get_style() const
     return style;
 }
 
-IShape* Node::get_shape() const
+Shape* Node::get_shape() const
 {
     return shape;
 }

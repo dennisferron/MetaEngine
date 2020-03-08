@@ -22,7 +22,7 @@ namespace Glue::Avatar
     public:
         virtual ~IAvatarComponent() {}
 
-        virtual void attachControl(INode* node) = 0;
+        virtual void attachControl(Node* node) = 0;
         virtual void beforePhysics(TimeInfo const&) = 0;
     };
 

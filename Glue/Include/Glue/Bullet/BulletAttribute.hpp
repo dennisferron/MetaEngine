@@ -60,7 +60,7 @@ namespace Glue::Bullet
 
         btVector3 getLinearVelocity() const final;
 
-        void addChild(INode* otherObj) final;
+        void addChild(Node* otherObj) final;
 
         void disableSleepState() final;
 
@@ -68,7 +68,7 @@ namespace Glue::Bullet
 
         btVector3 getPos() const final;
 
-        void triggerAllGenerators(std::function<void(INode*)> onTrigger) final;
+        void triggerAllGenerators(std::function<void(Node* )> onTrigger) final;
 
         void lockTo(IBulletAttribute* otherObj) final;
 

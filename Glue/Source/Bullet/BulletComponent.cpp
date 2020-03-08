@@ -4,6 +4,9 @@
 #include "Glue/Bullet/BulletAttribute.hpp"
 #include "Glue/Bullet/BulletShape.hpp"
 
+#include "Glue/Model/Link.hpp"
+#include "Glue/Model/Shape.hpp"
+
 #include "Glue/Irrlicht/IrrlichtInterfaces.hpp"
 
 using namespace Glue::Irrlicht;
@@ -66,7 +69,7 @@ namespace Glue::Bullet
         dynamicsWorld->getDebugDrawer()->setDebugMode(debugMode);
     }
 
-    LinkAttribute* BulletComponent::addLink(ILink *link)
+    LinkAttribute* BulletComponent::addLink(Link* link)
     {
         if (link->get_style().linkType == LinkTypes::physConstraint)
         {
@@ -168,7 +171,7 @@ namespace Glue::Bullet
         return constraint;
     }
 
-    ShapeAttribute* BulletComponent::addShape(IShape* shape)
+    ShapeAttribute* BulletComponent::addShape(Shape* shape)
     {
         ShapeStyle const& node_style = shape->get_style();
 
@@ -180,10 +183,10 @@ namespace Glue::Bullet
         return new BulletShape(collision_shape);
     }
 
-    NodeAttribute* BulletComponent::addNode(INode* node)
+    NodeAttribute* BulletComponent::addNode(Node* node)
     {
         NodeStyle const& node_style = node->get_style();
-        IShape* shape = node->get_shape();
+        Shape* shape = node->get_shape();
 
         IBulletShape* bullet_shape = find_attribute<IBulletShape>(shape);
         btCollisionShape* collision_shape = bullet_shape->get_collision_shape();

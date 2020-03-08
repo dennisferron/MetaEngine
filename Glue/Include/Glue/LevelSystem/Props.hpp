@@ -8,7 +8,8 @@
 
 #include "sqlite3.h"
 
-namespace Glue {
+namespace Glue
+{
 
     class Props
     {
@@ -22,7 +23,7 @@ namespace Glue {
         {
             Stage();
 
-            IStructure *build();
+            Structure* build();
         };
 
         struct Tree
@@ -34,7 +35,7 @@ namespace Glue {
             NodeStyle trunk;
             NodeStyle top;
 
-            IStructure *build();
+            Structure* build();
         };
 
         struct Snake
@@ -49,10 +50,11 @@ namespace Glue {
             LinkStyle noseHeadJoint;
             NodeStyle noseStyle;
 
-            IStructure *build();
+            Structure* build();
 
-            INode *configure(IGraph *graph, IStructure *snake);
-            void setMotors(INode *segment, int count);
+            Node* configure(Graph* graph, Structure* snake);
+
+            void setMotors(Node* segment, int count);
         };
 
         struct Robot
@@ -78,18 +80,18 @@ namespace Glue {
             NodeStyle leftWheel;
             NodeStyle rightWheel;
 
-            IStructure *build();
+            Structure* build();
 
-            INode *configure(IGraph *graph, IStructure *robotIStructure);
+            Node* configure(Graph* graph, Structure* robotStructure);
         };
 
         struct Cannon
         {
             Cannon();
 
-            IStructure *build();
+            Structure* build();
 
-            INode *configure(IGraph *graph, IStructure *cannon);
+            Node* configure(Graph* graph, Structure* cannon);
 
             NodeStyle hub;
             NodeStyle barrel;
@@ -110,9 +112,9 @@ namespace Glue {
             LinkStyle gearAxle;
             NodeStyle gearSlotStyle;
 
-            IStructure *build();
+            Structure* build();
 
-            INode *configure(IGraph *graph, IStructure *car);
+            Node* configure(Graph* graph, Structure* car);
         };
 
         struct Elevator
@@ -122,9 +124,9 @@ namespace Glue {
 
             NodeStyle elevatorStyle;
 
-            IStructure *build();
+            Structure* build();
 
-            INode *configure(IGraph *graph, IStructure *elevator);
+            Node* configure(Graph* graph, Structure* elevator);
 
             LinkStyle standOnElevator;
         };
@@ -135,9 +137,9 @@ namespace Glue {
 
             NodeStyle style;
 
-            INode *configure(IGraph *graph, NodeStyle style);
+            Node* configure(Graph* graph, NodeStyle style);
 
-            IStructure *build();
+            Structure* build();
         };
 
         struct Dwarf
@@ -146,9 +148,9 @@ namespace Glue {
 
             NodeStyle style;
 
-            INode *configure(IGraph *graph, IStructure *dwarf);
+            Node* configure(Graph* graph, Structure* dwarf);
 
-            INode *loadL3DTMesh();
+            Node* loadL3DTMesh();
         };
 
         struct Skybox
@@ -157,13 +159,13 @@ namespace Glue {
 
             NodeStyle style;
 
-            INode *configure(IGraph *graph, IStructure *skybox);
+            Node* configure(Graph* graph, Structure* skybox);
         };
 
         struct TestProps
         {
-            Terrain *terrain;
-            Skybox *skybox;
+            Terrain* terrain;
+            Skybox* skybox;
 
             void loadLevel();
 
@@ -171,7 +173,7 @@ namespace Glue {
 
             void loadSkybox();
 
-            void testSoftBody(IGraph *graph);
+            void testSoftBody(Graph* graph);
 
         };
     };

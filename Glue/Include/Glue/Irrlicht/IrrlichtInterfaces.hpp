@@ -25,7 +25,7 @@ namespace Glue::Irrlicht
 
         virtual irr::ITimer* get_deviceTimer() = 0;
 
-        virtual NodeAttribute* addNode(INode* node) = 0;
+        virtual NodeAttribute* addNode(Node* node) = 0;
 
         virtual void playSound(std::string const& file) = 0;
 
@@ -37,9 +37,9 @@ namespace Glue::Irrlicht
 
         virtual bool shouldRun() const = 0;
 
-        virtual INode* nodeToGameObj(irr::scene::ISceneNode*) = 0;
+        virtual Node* nodeToGameObj(irr::scene::ISceneNode*) = 0;
 
-        virtual void removeObj(INode* obj) = 0;
+        virtual void removeObj(Node* obj) = 0;
     };
 
     class IIrrlichtShape : public ShapeAttribute
@@ -71,9 +71,9 @@ namespace Glue::Irrlicht
 
         virtual irr::core::vector3df getPos() const = 0;
 
-        virtual void triggerAllGenerators(std::function<void(INode*)> onTrigger) = 0;
+        virtual void triggerAllGenerators(std::function<void(Node* )> onTrigger) = 0;
 
-        virtual void lockTo(INode* otherObj) = 0;
+        virtual void lockTo(Node* otherObj) = 0;
 
         virtual irr::scene::ISceneNode* getSceneNode() const = 0;
     };

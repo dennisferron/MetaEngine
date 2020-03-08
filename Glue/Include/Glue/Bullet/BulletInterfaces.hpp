@@ -23,11 +23,6 @@
 #include <functional>
 #include <memory>
 
-namespace Glue
-{
-    class INode;
-}
-
 namespace Glue::Bullet
 {
     class IConstraintObj;
@@ -100,7 +95,7 @@ namespace Glue::Bullet
 
         virtual btVector3 getLinearVelocity() const = 0;
 
-        virtual void addChild(INode* otherObj) = 0;
+        virtual void addChild(Node* otherObj) = 0;
 
         virtual void disableSleepState() = 0;
 
@@ -108,7 +103,7 @@ namespace Glue::Bullet
 
         virtual btVector3 getPos() const = 0;
 
-        virtual void triggerAllGenerators(std::function<void(INode*)> onTrigger) = 0;
+        virtual void triggerAllGenerators(std::function<void(Node* )> onTrigger) = 0;
 
         virtual void lockTo(IBulletAttribute* otherObj) = 0;
 
@@ -188,7 +183,7 @@ namespace Glue::Bullet
 
         /// Converts a link to a constraint if jointType is set.
         /// The Glue::Link combines a style with two endpoints.
-        virtual LinkAttribute* addLink(Glue::ILink* link) = 0;
+        virtual LinkAttribute* addLink(Glue::Link* link) = 0;
 
         /// Accepts an object to use to draw debug graphics.
         virtual void setDebugDrawer(btIDebugDraw* drawer) = 0;
@@ -216,7 +211,7 @@ namespace Glue::Bullet
 
         /// Creates a BulletAttribute based on the style of the @node.
         /// Adds a btRigidBody to the btDynamicsWorld.
-        virtual NodeAttribute* addNode(INode* node) = 0;
+        virtual NodeAttribute* addNode(Node* node) = 0;
 
         // TODO:  Implement this
         //virtual void removeNode(Node* node) = 0;

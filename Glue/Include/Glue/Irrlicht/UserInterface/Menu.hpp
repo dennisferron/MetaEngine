@@ -26,7 +26,7 @@ namespace Glue::Irrlicht
 
     public:
 
-        Menu(IGraph* engine, MenuPath* path, Menu* parent);
+        Menu(Graph* engine, MenuPath* path, Menu* parent);
 
         void load();
 

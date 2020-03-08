@@ -7,26 +7,26 @@
 
 namespace Glue
 {
-    class Link : public ILink
+    class Link
     {
     private:
         LinkStyle style;
-        INode* fromNode;
-        INode* toNode;
+        Node* fromNode;
+        Node* toNode;
 
         std::vector<LinkAttribute*> attributes;
 
     public:
-        Link(LinkStyle const& style, INode* fromNode, INode* toNode);
+        Link(LinkStyle const& style, Node* fromNode, Node* toNode);
 
-        LinkStyle const& get_style() const final;
+        LinkStyle const& get_style() const;
 
-        INode* get_fromNode() const final;
+        Node* get_fromNode() const;
 
-        INode* get_toNode() const final;
+        Node* get_toNode() const;
 
-        void addAttribute(LinkAttribute* attr) final;
-        std::vector<LinkAttribute*> const& get_attributes() const final;
+        void addAttribute(LinkAttribute* attr);
+        std::vector<LinkAttribute*> const& get_attributes() const;
     };
 
 }

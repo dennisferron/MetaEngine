@@ -59,14 +59,14 @@ public:
 
     irr::ITimer* get_deviceTimer() final;
 
-    NodeAttribute* addNode(INode* node) final;
+    NodeAttribute* addNode(Node* node) final;
     void playSound(std::string const& file) final;
     void beforeGraphics() final;
     void onGraphics(Scalar timeElapsed) final;
     void afterGraphics() final;
     bool shouldRun() const final;
-    INode* nodeToGameObj(irr::scene::ISceneNode*) final;
-    void removeObj(INode* obj) final;
+    Node* nodeToGameObj(irr::scene::ISceneNode*) final;
+    void removeObj(Node* obj) final;
 };
 
 }

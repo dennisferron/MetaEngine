@@ -31,13 +31,13 @@ namespace Glue
     public:
         TimeComponent(irr::ITimer* value);
 
-        void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action) final;
+        void setTimeout(RelTime delay, std::function<RelTime(RelTime)> action);
 
-        RelTime elapsed() const final;
+        RelTime elapsed() const;
 
-        void runLoop() final;
+        void runLoop();
 
-        void add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action) final;
+        void add_handler(EventWhen when, EventWhat what, std::function<void(TimeInfo)> action);
     };
 
 }

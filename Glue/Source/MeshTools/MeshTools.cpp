@@ -50,9 +50,9 @@ IMesh* MeshTools::createMeshFromSoftBody(btSoftBody* softBody)
     {
         auto	faces = softBody->m_faces;
 
-        btSoftBody::Node*   node_0=faces[i].m_n[0];
-        btSoftBody::Node*   node_1=faces[i].m_n[1];
-        btSoftBody::Node*   node_2=faces[i].m_n[2];
+        btSoftBody::Node*  node_0=faces[i].m_n[0];
+        btSoftBody::Node*  node_1=faces[i].m_n[1];
+        btSoftBody::Node*  node_2=faces[i].m_n[2];
 
         const int indices[] =
         {

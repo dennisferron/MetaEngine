@@ -11,7 +11,7 @@ namespace Glue::Avatar
     }
 
 
-    void AvatarComponent::attachControl(INode* node)
+    void AvatarComponent::attachControl(Node* node)
     {
 
     }

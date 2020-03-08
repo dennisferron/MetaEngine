@@ -5,6 +5,9 @@
 
 #include "Glue/Bullet/BulletComponent.hpp"
 
+#include "Glue/Model/Shape.hpp"
+#include "Glue/Model/Node.hpp"
+
 #include <string>
 
 using namespace Glue;
@@ -16,49 +19,51 @@ BOOST_AUTO_TEST_SUITE(BulletComponentsTests)
     {
         btScalar mass = 0;
         btMotionState* motionState = nullptr;
-        btCollisionShape* shape = nullptr;
-        btVector3 localInertia=btVector3(0,0,0):
+        btCollisionShape* col_shape = nullptr;
+        btVector3 localInertia=btVector3(0,0,0);
 
-        btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, shape, localInertia);
+        btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, col_shape, localInertia);
         btRigidBody* body = nullptr;
 
-        MockBodyBuilder mock_body_builder;
+        MockBodyBuilder mock_body_builder(col_shape, info, body);
         MockConstraintBuilder mock_constraint_builder;
 
         BulletComponent bullet_component(&mock_body_builder, &mock_constraint_builder);
 
-        MockShape mock_shape;
-        auto attribute = bullet_component.addShape(&mock_shape);
+        ShapeStyle shape_style;
+        Shape shape(shape_style);
+        auto attribute = bullet_component.addShape(&shape);
+
 
     }
 
 BOOST_AUTO_TEST_CASE(test_something)
 {
-    btCollisionShape* shape = new btSphereShape(1);
+    btCollisionShape* col_shape = new btSphereShape(1);
 
     btScalar mass = 1;
     btVector3 inertia(0, 0, 0);
-    shape->calculateLocalInertia(mass, inertia);
+    col_shape->calculateLocalInertia(mass, inertia);
 
     btDefaultMotionState* motionState =
             new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
 
     btRigidBody::btRigidBodyConstructionInfo info(
-            mass, motionState, shape, inertia);
+            mass, motionState, col_shape, inertia);
 
     btRigidBody* body = new btRigidBody(info);
 
-    auto bodyBuilder = new MockBodyBuilder(shape, info, body);
+    auto bodyBuilder = new MockBodyBuilder(col_shape, info, body);
     auto constrBuilder = new MockConstraintBuilder();
     Glue::Bullet::BulletComponent blt_cmp(bodyBuilder, constrBuilder);
 
     ShapeStyle shape_style;
-    MockShape mock_shape(shape_style);
+    Shape shape(shape_style);
 
     NodeStyle node_style;
-    MockNode mock_node(node_style, &mock_shape);
+    Node node(node_style, &shape);
 
-    IBulletAttribute* result = std::get<IBulletAttribute*>(blt_cmp.addNode(&mock_node));
+    IBulletAttribute* result = dynamic_cast<IBulletAttribute*>(blt_cmp.addNode(&node));
     btVector3 pos = result->getPos();
 }
 

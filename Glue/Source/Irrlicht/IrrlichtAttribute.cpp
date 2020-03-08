@@ -58,13 +58,13 @@ namespace Glue::Irrlicht
 
     }
 
-    void IrrlichtAttribute::triggerAllGenerators(std::function<void(INode*)> onTrigger)
+    void IrrlichtAttribute::triggerAllGenerators(std::function<void(Node* )> onTrigger)
     {
         throw "Not implemented";
 
     }
 
-    void IrrlichtAttribute::lockTo(INode* otherObj)
+    void IrrlichtAttribute::lockTo(Node* otherObj)
     {
         throw "Not implemented";
 
