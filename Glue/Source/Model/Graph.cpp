@@ -39,47 +39,40 @@ namespace Glue
         components.push_back(component);
     }
 
-    Shape* Graph::addShape(ShapeStyle const& style)
+    void Graph::addShape(Shape* shape)
     {
-        // TODO:  call addShape on components.
-        // Cache shape or just return it??
-        return nullptr;
+        shapes.push_back(shape);
+
+        for (auto c : components)
+        {
+            c->addShape(shape);
+        }
     }
 
-    Node* Graph::addNode(NodeStyle const& style, Shape* shape)
+    void Graph::addNode(Node* node)
     {
-        Node* node = new Node(style, shape);
         nodes.push_back(node);
 
         for (auto c : components)
         {
             c->addNode(node);
         }
-
-        return node;
     }
 
-    Link* Graph::addLink(LinkStyle const& style, Node* fromNode, Node* toNode)
+    void Graph::addLink(Link* link)
     {
-        Link* link = new Link(style, fromNode, toNode);
+        links.push_back(link);
 
-        //if (avatar_cmp)
-        //    avatar_cmp->addLink(link);
-
-        //if (blt_cmp)
-        //    blt_cmp->addLink(link);
-
-        //if (irr_cmp)
-        //    irr_cmp->addLink(link);
-
-        //if (time_cmp)
-        //    time_cmp->addLink(link);
-
-        return link;
+        for (auto c : components)
+        {
+            c->addLink(link);
+        }
     }
 
+/*
     void Graph::removeLink(Link* link) const
     {
+        // TODO:  Remove from links vector
         // TODO:  Notify components to remove link attributes
     }
 
@@ -96,6 +89,7 @@ namespace Glue
         // TODO:  Check that this is done using the interaction now?
         //Graph createCamera := method(lockObj, irrComp createCamera(lockObj))
     }
+*/
 
 /*
     void Graph::removeConstraint(IConstraint* constraint)
@@ -111,6 +105,7 @@ namespace Glue
     }
 */
 
+/*
     Node* Graph::nodeToGameObj(irr::scene::ISceneNode* node) const
     {
         throw "TODO:  should this be in irrlicht component?";
@@ -123,12 +118,14 @@ namespace Glue
         //objList.remove(obj);
         //irrComp.removeObj(obj);
     }
+*/
 
+    /*
     Structure* Graph::addStructure(Structure* structure, Structure* leftHandSide)
     {
         // TODO: Implement structure
         throw "Not implemented";
-        /*
+
         if (structure style == "root") then(
             return addStructure(structure attachments at(0))
         ) elseif (
@@ -175,7 +172,7 @@ namespace Glue
 
             structure attachments foreach(a, addStructure(a, obj))
             return obj
-        ) */
+        )
     }
-
+    */
 }

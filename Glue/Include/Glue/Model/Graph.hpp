@@ -19,7 +19,9 @@ namespace Glue
     {
     private:
         std::vector<IGraphObserver*> components;
+        std::vector<Shape*> shapes;
         std::vector<Node*> nodes;
+        std::vector<Link*> links;
 
     public:
 
@@ -32,28 +34,20 @@ namespace Glue
         std::vector<IGraphObserver*> const& get_attributes() const
         { return components; }
 
-        Shape* addShape(ShapeStyle const& style);
+        void addShape(Shape* shape);
 
-        Node* addNode(NodeStyle const& style, Shape* shape);
+        void addNode(Node* node);
 
-        Link* addLink(LinkStyle const& style, Node* fromNode, Node* toNode);
-
-        void removeLink(Link* link) const;
+        void addLink(Link* link);
 
         // Deprecated?  Not sure...
-        void playSound(std::string const& file);
+        //void playSound(std::string const& file);
 
-        void createCamera(Node* lockObj);
+        //void createCamera(Node* lockObj);
 
-        //void removeConstraint(Constraint *constraint);
+        //Node* nodeToGameObj(irr::scene::ISceneNode* node) const;
 
-        //void addConstraint(ConstraintStyle const &style, Node *objA, Node *objB);
-
-        Node* nodeToGameObj(irr::scene::ISceneNode* node) const;
-
-        void removeObj(Node* obj);
-
-        Structure* addStructure(Structure* structure, Structure* leftHandSide);
+        //Structure* addStructure(Structure* structure, Structure* leftHandSide);
     };
 
 }

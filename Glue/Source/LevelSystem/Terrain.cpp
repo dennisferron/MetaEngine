@@ -9,6 +9,9 @@
 #include <boost/random/uniform_real.hpp>
 #include <boost/random/variate_generator.hpp>
 
+#include "Glue/Model/Shape.hpp"
+#include "Glue/Model/Node.hpp"
+
 using namespace std;
 using namespace boost;
 
@@ -81,8 +84,10 @@ namespace Glue {
             controlPointStyle.setPos(cpx, cpy, h);
             controlPointStyle.physShape = ObjShapes::none;
 
-            auto shape = graph->addShape(controlPointStyle);
-            graph->addNode(controlPointStyle, shape);
+            auto shape = new Shape(controlPointStyle);
+            graph->addShape(shape);
+            auto node = new Node(controlPointStyle, shape);
+            graph->addNode(node);
         }
 
         tps->refresh();
