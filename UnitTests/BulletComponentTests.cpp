@@ -33,8 +33,7 @@ BOOST_AUTO_TEST_SUITE(BulletComponentsTests)
         ShapeStyle shape_style;
         Shape shape(shape_style);
         auto attribute = bullet_component.addShape(&shape);
-
-
+        BOOST_CHECK(attribute);
     }
 
 BOOST_AUTO_TEST_CASE(test_something)

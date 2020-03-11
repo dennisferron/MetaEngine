@@ -6,7 +6,7 @@ add_executable(UnitTests
         DatabaseTests.cpp
         BulletComponentTests.cpp
         GraphTests.cpp
-        ModelMocks.hpp BulletMocks.hpp)
+        ModelMocks.hpp BulletMocks.hpp NodeInteractionTests.cpp)
 
 target_link_libraries( UnitTests PUBLIC
         Glue
