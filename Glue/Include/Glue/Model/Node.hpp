@@ -3,35 +3,33 @@
 #include "Glue/Styles/GameObjStyle.hpp"
 #include "Glue/Model/ModelInterfaces.hpp"
 
-#include <vector>
+class btRigidBody;
 
-#include <memory>
+namespace irr::scene
+{
+    class ISceneNode;
+}
 
 namespace Glue
 {
-    // Visitor for NodeAttribute
-    class NodeInteractions
-    {
-        // TODO:  Add member variables for interactions.
-    };
+    class MotionStateAnimator;
 
 class Node
 {
 private:
-    NodeStyle style;
-    Shape* shape;
-    NodeInteractions interactions;
-    std::vector<NodeAttribute*> attributes;
+
+    btRigidBody* rigidBody;
+    irr::scene::ISceneNode* sceneNode;
+    MotionStateAnimator* motionState;
 
 public:
 
-    Node(NodeStyle const& style, Shape* shape);
-    ~Node();
+    Node(
+        btRigidBody* rigidBody,
+        irr::scene::ISceneNode* sceneNode,
+        MotionStateAnimator* motionState);
 
-    Shape* get_shape() const;
-    NodeStyle const& get_style() const;
-    void addAttribute(NodeAttribute* attr);
-    std::vector<NodeAttribute*> const& get_attributes() const;
+    ~Node();
 };
 
 }

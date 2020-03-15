@@ -13,8 +13,8 @@ BOOST_AUTO_TEST_SUITE(GraphTests)
         Graph graph;
 
         ShapeStyle style;
-        Shape shape(style);
-        graph.addShape(&shape);
+        Shape* shape; // = new Shape(style);
+        graph.addShape(shape);
 
         // TODO:  Check a graph observer got notified
         //BOOST_CHECK_EQUAL(name, "test");
@@ -25,8 +25,8 @@ BOOST_AUTO_TEST_SUITE(GraphTests)
         Graph graph;
 
         NodeStyle style;
-        Node node(style, nullptr);
-        graph.addNode(&node);
+        //Node node(style, nullptr);
+        //graph.addNode(&node);
 
         // TODO:  Check a graph observer got notified
         //BOOST_CHECK_EQUAL(name, "test");

@@ -5,34 +5,18 @@
 namespace Glue
 {
 
-Node::Node(NodeStyle const& style, Shape* shape) :
-    style(style), shape(shape)
-{
-}
+    Node::Node(
+        btRigidBody* rigidBody,
+        irr::scene::ISceneNode* sceneNode,
+        MotionStateAnimator* motionState) :
+            rigidBody(rigidBody),
+            sceneNode(sceneNode),
+            motionState(motionState)
+    {
+    }
 
 Node::~Node()
 {
 }
-
-NodeStyle const& Node::get_style() const
-{
-    return style;
-}
-
-Shape* Node::get_shape() const
-{
-    return shape;
-}
-
-std::vector<NodeAttribute*> const& Node::get_attributes() const
-{
-    return attributes;
-}
-
-    void Node::addAttribute(NodeAttribute* attr)
-    {
-        // TODO:  Handle interactions; only push_back after that.
-        attributes.push_back(attr);
-    }
 
 } // namespace Glue

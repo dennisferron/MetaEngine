@@ -132,6 +132,9 @@ namespace Glue::Irrlicht
 
     NodeAttribute* IrrlichtComponent::addNode(Node* node)
     {
+        return nullptr;
+
+/*
         auto sceneNode = sceneNodeBuilder->buildSceneNode(node->get_style());
 
         if (sceneNode)
@@ -144,6 +147,7 @@ namespace Glue::Irrlicht
         {
             return nullptr;
         }
+*/
     }
 
     void IrrlichtComponent::playSound(std::string const& file)

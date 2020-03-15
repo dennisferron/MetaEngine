@@ -1,27 +1,15 @@
 #include "Glue/Model/Shape.hpp"
 
-#include "Glue/Utility/variant_helpers.hpp"
-
 namespace Glue
 {
-    Shape::Shape(ShapeStyle const& style)
-        : style(style)
+    Shape::Shape(
+            btCollisionShape* collision_shape,
+            irr::scene::IMesh* dispShape,
+            irr::video::ITexture* texture
+        ) :
+            collision_shape(collision_shape),
+            dispShape(dispShape),
+            texture(texture)
     {
-    }
-
-    ShapeStyle const& Shape::get_style() const
-    {
-        return style;
-    }
-
-    void Shape::addAttribute(ShapeAttribute* attr)
-    {
-        // TODO: Run interactions on attr before adding to list
-        attributes.push_back(attr);
-    }
-
-    std::vector<ShapeAttribute*> const& Shape::get_attributes() const
-    {
-        return attributes;
     }
 }

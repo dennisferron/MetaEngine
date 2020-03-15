@@ -2,38 +2,34 @@
 #include "Glue/Model/Node.hpp"
 #include "Glue/Model/Graph.hpp"
 
-namespace Glue {
-
-Link::Link(LinkStyle const& style, Node* fromNode, Node* toNode) :
-    style(style),
-    fromNode(fromNode),
-    toNode(toNode)
+namespace Glue
 {
-}
 
-LinkStyle const& Link::get_style() const
-{
-    return style;
-}
+    Link::Link(
+            Node* fromNode,
+            Node* toNode,
+            btTypedConstraint* constraint
+            ) :
+            fromNode(fromNode),
+            toNode(toNode),
+            constraint(constraint)
+    {
 
-Node* Link::get_fromNode() const
-{
-    return fromNode;
-}
+    }
 
-Node* Link::get_toNode() const
-{
-    return toNode;
-}
+    Node* Link::get_fromNode() const
+    {
+        return fromNode;
+    }
 
-void Link::addAttribute(LinkAttribute* attr)
-{
-    attributes.push_back(attr);
-}
+    Node* Link::get_toNode() const
+    {
+        return toNode;
+    }
 
-std::vector<LinkAttribute*> const& Link::get_attributes() const
-{
-    return attributes;
-}
+    btTypedConstraint* Link::get_constraint() const
+    {
+        return constraint;
+    }
 
 } // namespace Glue

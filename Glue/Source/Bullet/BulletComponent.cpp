@@ -71,6 +71,9 @@ namespace Glue::Bullet
 
     LinkAttribute* BulletComponent::addLink(Link* link)
     {
+        return nullptr;
+
+/*
         if (link->get_style().linkType == LinkTypes::physConstraint)
         {
             if (!link->get_style().constraint)
@@ -93,6 +96,7 @@ namespace Glue::Bullet
         {
             return nullptr;
         }
+*/
     }
 
     void BulletComponent::setDebugDrawer(btIDebugDraw *drawer)
@@ -173,9 +177,9 @@ namespace Glue::Bullet
 
     ShapeAttribute* BulletComponent::addShape(Shape* shape)
     {
-        ShapeStyle const& node_style = shape->get_style();
+        ShapeStyle node_style; // = shape->get_style();
 
-        IIrrlichtShape* irr_shape = find_attribute<IIrrlichtShape>(shape);
+        IIrrlichtShape* irr_shape; // = find_attribute<IIrrlichtShape>(shape);
         IMesh* mesh = irr_shape ? irr_shape->get_mesh() : nullptr;
 
         btCollisionShape* collision_shape = bodyBuilder->createShape(node_style, mesh);
@@ -185,10 +189,10 @@ namespace Glue::Bullet
 
     NodeAttribute* BulletComponent::addNode(Node* node)
     {
-        NodeStyle const& node_style = node->get_style();
-        Shape* shape = node->get_shape();
+        NodeStyle node_style; // = node->get_style();
+        Shape* shape; // = node->get_shape();
 
-        IBulletShape* bullet_shape = find_attribute<IBulletShape>(shape);
+        IBulletShape* bullet_shape; // = find_attribute<IBulletShape>(shape);
         btCollisionShape* collision_shape = bullet_shape->get_collision_shape();
         BodyConstructionInfo constrInfo = bodyBuilder->createConstructionInfo(node_style, collision_shape);
 
@@ -198,12 +202,12 @@ namespace Glue::Bullet
                 constrInfo.body);
 
         IBulletAttribute* blt_attr = new BulletAttribute(
-                node->get_style(),
+                node_style,
                 body,
                 constrInfo.motion_state,
                 this);
 
-        node->addAttribute(blt_attr);
+        //node->addAttribute(blt_attr);
 
         return blt_attr;
     }

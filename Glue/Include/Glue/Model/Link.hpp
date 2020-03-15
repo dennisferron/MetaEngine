@@ -3,30 +3,28 @@
 #include "Glue/Model/ModelInterfaces.hpp"
 #include "Glue/Styles/LinkStyle.hpp"
 
-#include <vector>
+class btTypedConstraint;
 
 namespace Glue
 {
     class Link
     {
     private:
-        LinkStyle style;
-        Node* fromNode;
-        Node* toNode;
-
-        std::vector<LinkAttribute*> attributes;
+        Node* fromNode;  // aka attrA / nodeA
+        Node* toNode;    // aka attrB / nodeB
+        btTypedConstraint* constraint;
 
     public:
-        Link(LinkStyle const& style, Node* fromNode, Node* toNode);
-
-        LinkStyle const& get_style() const;
+        Link(
+            Node* fromNode,
+            Node* toNode,
+            btTypedConstraint* constraint
+            );
 
         Node* get_fromNode() const;
-
         Node* get_toNode() const;
+        btTypedConstraint* get_constraint() const;
 
-        void addAttribute(LinkAttribute* attr);
-        std::vector<LinkAttribute*> const& get_attributes() const;
     };
 
 }

@@ -84,9 +84,9 @@ namespace Glue {
             controlPointStyle.setPos(cpx, cpy, h);
             controlPointStyle.physShape = ObjShapes::none;
 
-            auto shape = new Shape(controlPointStyle);
+            Shape* shape; // = new Shape(controlPointStyle);
             graph->addShape(shape);
-            auto node = new Node(controlPointStyle, shape);
+            Node* node; // = new Node(controlPointStyle, shape);
             graph->addNode(node);
         }
 

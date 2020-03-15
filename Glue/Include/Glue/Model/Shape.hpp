@@ -1,5 +1,17 @@
 #include "Glue/Styles/ShapeStyle.hpp"
 
+namespace irr::video
+{
+    class ITexture;
+}
+
+namespace irr::scene
+{
+    class IMesh;
+}
+
+class btCollisionShape;
+
 namespace Glue
 {
     class ShapeAttribute;
@@ -7,16 +19,15 @@ namespace Glue
     class Shape
     {
     private:
-        ShapeStyle style;
-        //ShapeInteractions interactions;
-        std::vector<ShapeAttribute*> attributes;
+        btCollisionShape* collision_shape;
+        irr::scene::IMesh* dispShape;
+        irr::video::ITexture* texture;
 
     public:
-        Shape(ShapeStyle const& style);
-
-        ShapeStyle const& get_style() const;
-
-        void addAttribute(ShapeAttribute* attr);
-        std::vector<ShapeAttribute*> const& get_attributes() const;
+        Shape(
+            btCollisionShape* collision_shape,
+            irr::scene::IMesh* dispShape,
+            irr::video::ITexture* texture
+            );
     };
 }
