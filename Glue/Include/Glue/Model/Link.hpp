@@ -19,7 +19,7 @@ namespace Glue
             Node* fromNode,
             Node* toNode,
             btTypedConstraint* constraint
-            );
+        );
 
         Node* get_fromNode() const;
         Node* get_toNode() const;

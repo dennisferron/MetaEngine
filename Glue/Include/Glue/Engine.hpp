@@ -54,48 +54,60 @@ namespace Glue
     class Engine
     {
     private:
-        irr::IrrlichtDevice* device = nullptr;
-        irr::video::IVideoDriver* driver = nullptr;
-        irr::video::SExposedVideoData videoData;
+        irr::IrrlichtDevice* device;
+        irr::video::IVideoDriver* driver;
+        irr::ITimer* deviceTimer;
 
+        btIDebugDraw* debugDrawer = nullptr;
+
+        long frames = 0;
         void* sound = nullptr;
 
-        irr::ITimer* deviceTimer = nullptr;
-        long frames;
-        irr::video::SColor backColor;
-
-        btIDebugDraw* debugDrawer;
+    public:
+        Engine(irr::IrrlichtDevice* device);
+        void main_loop();
     };
 
     class Scene
     {
     private:
-        irr::scene::ISceneManager* smgr = nullptr;
-        irr::scene::ISceneCollisionManager* collMan = nullptr;
-        irr::scene::IMeshManipulator* meshMan = nullptr;
+        irr::scene::ISceneManager* smgr;
+        irr::scene::ISceneCollisionManager* collMan;
+        irr::scene::IMeshManipulator* meshMan;
 
-        ISceneNodeBuilder* sceneNodeBuilder = nullptr;
+        ISceneNodeBuilder* sceneNodeBuilder;
 
-        Camera* camera = nullptr;
+        Camera* camera;
 
-        IBodyBuilder* bodyBuilder = nullptr;
-        IConstraintBuilder* constraintBuilder = nullptr;
+        IBodyBuilder* bodyBuilder;
+        IConstraintBuilder* constraintBuilder;
 
+    public:
+        Scene(irr::scene::ISceneManager* smgr,
+                ISceneNodeBuilder* sceneNodeBuilder,
+                Camera* camera,
+                IBodyBuilder* bodyBuilder,
+                IConstraintBuilder* constraintBuilder);
     };
 
     class World
     {
     private:
-        btDynamicsWorld* dynamicsWorld = nullptr;
-
         btScalar fixedTimeStep = 1.0 / 60.0;
         int subframes = 30;
+
+        btDynamicsWorld* dynamicsWorld = nullptr;
+
         btCollisionConfiguration* collisionConfiguration = nullptr;
-        btDispatcher* dispatcher = nullptr;  // This is a bullet physics thing, not associated with UI event dispatch
+        btCollisionDispatcher* dispatcher = nullptr;  // This is a bullet physics thing, not associated with UI event dispatch
         btBroadphaseInterface* broadphaseInterface = nullptr;
         btConstraintSolver* solver = nullptr;
         btSoftBodyWorldInfo softBodyWorldInfo;
         Bullet::ScriptedWorldManager scriptWorldMgr;
+
+    public:
+        World();
+        ~World();
     };
 
     class UserInterface

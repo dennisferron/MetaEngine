@@ -1,24 +1,18 @@
 #include "Glue/Startup.hpp"
-#include "Glue/Model/Graph.hpp"
-#include "Glue/Model/TimeComponent.hpp"
-#include "Glue/Bullet/BulletComponent.hpp"
-#include "Glue/Styles/GameObjStyles.hpp"
-#include "Glue/Avatar/PlayerStyle.hpp"
-#include "Glue/Styles/LinkStyles.hpp"
-#include "Glue/Avatar/AvatarComponent.hpp"
-#include "Glue/Avatar/Camera.hpp"
+#include "Glue/Engine.hpp"
 
-#include <iostream>
-#include <optional>
-#include <Glue/Bullet/BodyBuilder.hpp>
-#include <Glue/Bullet/ConstraintBuilder.hpp>
-#include <Glue/Irrlicht/IrrlichtComponent.hpp>
+using namespace irr;
+using namespace core;
+using namespace scene;
+using namespace video;
+using namespace io;
+using namespace gui;
 
 namespace Glue {
 
+/*
     void addPlayer(Graph* graph, Glue::Avatar::AvatarComponent* avatarComp)
     {
-/*
         auto avatarCameraNode = graph->addNode(Glue::GameObjStyles::EmptyStyle());
         auto avatar_camera = new Glue::Avatar::Camera();
         // TODO:  Come up with different way to add camera than making it a node attribute.
@@ -29,27 +23,51 @@ namespace Glue {
 
         // TODO:
         graph->addLink( Glue::LinkStyles::LookAtStyle(), avatarCameraNode, playerNode);
-*/
     }
+*/
 
     void do_startup()
     {
-/*
-        auto avatar_cmp = new Avatar::AvatarComponent();
-        auto bodyBuilder = new Bullet::BodyBuilder();
-        auto constrBuilder = new Bullet::ConstraintBuilder();
-        auto blt_cmp = new Bullet::BulletComponent(bodyBuilder, constrBuilder);
-        auto irr_cmp = new Irrlicht::IrrlichtComponent();
+        IrrlichtDevice *device =
+                createDevice(EDT_OPENGL, dimension2d<u32>(640, 480), 16,
+                             false, false, false, 0);
+        device->setWindowCaption(L"Engine Startup");
 
-        irr::ITimer* device_timer = irr_cmp->get_deviceTimer();
-        auto time_cmp = new TimeComponent(device_timer);
+        Engine engine(device);
 
-        auto graph = new Graph(avatar_cmp, blt_cmp, irr_cmp, time_cmp);
+        Assets* assets = nullptr;
+        ISceneManager* smgr = device->getSceneManager();
+        ShapeBuilder* shapeBuilder = new ShapeBuilder(smgr->getGeometryCreator());
+        ISceneNodeBuilder* sceneNodeBuilder = new SceneNodeBuilder(shapeBuilder, assets, smgr);
+        Camera* camera = nullptr;
+        IBodyBuilder* bodyBuilder = nullptr;
+        IConstraintBuilder* constraintBuilder = nullptr;
 
-        addPlayer(graph, avatar_cmp);
+        //IAnimatedMesh* mesh = smgr->getMesh("media/sydney.md2");
+        //IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode( mesh );
 
-        //time_cmp->runLoop();
-*/
+        IMesh* mesh = shapeBuilder->createShape();
+
+        if (!node)
+            throw std::runtime_error("Failed to load scene node");
+
+        node->setMaterialFlag(EMF_LIGHTING, false);
+        //node->setFrameLoop(0, 310);
+        auto driver = device->getVideoDriver();
+        node->setMaterialTexture( 0, driver->getTexture("media/sydney.bmp") );
+
+        smgr->addCameraSceneNode(0, vector3df(0,30,-40), vector3df(0,5,0));
+
+        Scene scene(
+            smgr,
+            sceneNodeBuilder,
+            camera,
+            bodyBuilder,
+            constraintBuilder);
+
+        engine.main_loop();
+
+        int x = 0;
     }
 
 
