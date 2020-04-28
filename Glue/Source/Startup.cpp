@@ -37,7 +37,7 @@ namespace Glue {
 
         Assets* assets = nullptr;
         ISceneManager* smgr = device->getSceneManager();
-        ShapeBuilder* shapeBuilder = new ShapeBuilder(smgr->getGeometryCreator());
+        ShapeFactory* shapeFactory = new ShapeFactory(smgr->getGeometryCreator());
         ISceneNodeBuilder* sceneNodeBuilder = new SceneNodeBuilder(shapeBuilder, assets, smgr);
         Camera* camera = nullptr;
         IBodyBuilder* bodyBuilder = nullptr;

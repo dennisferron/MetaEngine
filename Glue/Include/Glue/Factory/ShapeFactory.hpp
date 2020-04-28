@@ -8,6 +8,7 @@ namespace Glue
         irr::scene::IGeometryCreator* geometry;
 
         void changeTextureWrap(irr::scene::IMesh* mesh) const;
+        static btTransform get_shape_transform(ShapeStyle const& style);
 
     public:
         ShapeFactory(irr::scene::IGeometryCreator* geometry);

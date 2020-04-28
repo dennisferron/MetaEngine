@@ -16,18 +16,10 @@ namespace Glue
 {
     class ShapeAttribute;
 
-    class Shape
+    struct Shape
     {
-    private:
         btCollisionShape* collision_shape;
         irr::scene::IMesh* dispShape;
-        irr::video::ITexture* texture;
-
-    public:
-        Shape(
-            btCollisionShape* collision_shape,
-            irr::scene::IMesh* dispShape,
-            irr::video::ITexture* texture
-            );
+        btTransform transform;
     };
 }
