@@ -1,25 +1,16 @@
-#include "Glue/Styles/ShapeStyle.hpp"
+#pragma once
 
-namespace irr::video
-{
-    class ITexture;
-}
-
-namespace irr::scene
-{
-    class IMesh;
-}
-
-class btCollisionShape;
+#include "btBulletCollisionCommon.h"
+#include "SColor.h"
+#include "IMesh.h"
+#include "ITexture.h"
 
 namespace Glue
 {
-    class ShapeAttribute;
-
     struct Shape
     {
-        btCollisionShape* collision_shape;
+        btCollisionShape* physShape;
         irr::scene::IMesh* dispShape;
-        btTransform transform;
+        btTransform offset;
     };
 }

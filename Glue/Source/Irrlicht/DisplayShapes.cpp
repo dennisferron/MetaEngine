@@ -8,7 +8,7 @@ using namespace Glue;
 
 namespace
 {
-    irr::scene::IMesh* create_hills(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_hills(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         auto xSize = style.xSize / style.xTiles;
         auto zSize = style.zSize / style.zTiles;
@@ -29,7 +29,7 @@ namespace
         );
     }
 
-    irr::scene::IMesh* create_plane(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_plane(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         auto xSize = style.xSize / style.xTiles;
         auto zSize = style.zSize / style.zTiles;
@@ -46,7 +46,7 @@ namespace
         );
     }
 
-    irr::scene::IMesh* create_cloth(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_cloth(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         auto mesh = create_plane(style, geometry);
         mesh->setHardwareMappingHint(EHM_STREAM, EBT_VERTEX);
@@ -66,7 +66,7 @@ namespace
 
     // Note: it is the shape offset with Bullet that
     // rotates the mesh to be a cylX or cylZ.
-    irr::scene::IMesh* create_cylinder(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_cylinder(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         return geometry->createCylinderMesh(
                 style.radius, // radius
@@ -80,7 +80,7 @@ namespace
 
     // Note: it is the shape offset with Bullet that
     // rotates the mesh to be a cylX or cylZ.
-    irr::scene::IMesh* create_cone(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_cone(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         return geometry->createConeMesh(
                 style.radius, // radius
@@ -92,14 +92,14 @@ namespace
         );
     }
 
-    irr::scene::IMesh* create_box(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_box(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         return geometry->createCubeMesh(
                 vector3df(style.xSize, style.ySize, style.zSize)
         );
     }
 
-    irr::scene::IMesh* create_ball(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_ball(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         return geometry->createSphereMesh(
                 style.radius, // radius
@@ -111,7 +111,7 @@ namespace
 
 namespace Glue::Irrlicht {
     
-    irr::scene::IMesh* create_display_shape(GameObjStyle const& style, irr::scene::IGeometryCreator* geometry)
+    irr::scene::IMesh* create_display_shape(GameObjStyle const& style, irr::scene::IGeometryCreator const* geometry)
     {
         switch (style.dispShape)
         {

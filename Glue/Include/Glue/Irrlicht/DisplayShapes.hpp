@@ -7,5 +7,5 @@
 
 namespace Glue::Irrlicht
 {
-    irr::scene::IMesh* create_display_shape(GameObjStyle const &style, irr::scene::IGeometryCreator* geometry);
+    irr::scene::IMesh* create_display_shape(GameObjStyle const &style, irr::scene::IGeometryCreator const* geometry);
 }

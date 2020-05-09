@@ -1,38 +1,22 @@
 #include "Glue/Factory/NodeFactory.hpp"
+#include "Glue/Animators/KinematicAnimator.hpp"
+#include "Glue/Animators/PhysicsAnimator.hpp"
+
+using namespace irr::core;
+using namespace irr::scene;
+using namespace irr::video;
 
 namespace Glue
 {
-    NodeFactory(btDynamicsWorld* dynamicsWorld, irr::scene::ISceneManager* smgr)
+    NodeFactory::NodeFactory(btDynamicsWorld* dynamicsWorld, irr::scene::ISceneManager* smgr)
         : dynamicsWorld(dynamicsWorld), smgr(smgr)
     {
     }
 
-    Node* create_node(NodeStyle const& style, Shape* shape)
+    Node* NodeFactory::create_node(NodeStyle const& style, Shape* shape)
     {
-        MotionStateAnimator* motionState;
-        auto shapeOffset = get_shape_transform(style);
-        if (style.isKinematic)
-            motionState = new KinematicAnimator(startTransform, shapeOffset);
-        else
-            motionState = new PhysicsAnimator(startTransform, shapeOffset);
+        auto physShape = shape->physShape;
 
-        btRigidBody::btRigidBodyConstructionInfo constructionInfo =
-                createConstructionInfo(style, shape->physShape, motionState);
-
-        btRigidBody* rigidBody =
-                addToWorld(style, constructionInfo);
-
-        irr::scene::ISceneNode* sceneNode =
-                buildSceneNode(style);
-
-        return new Node(rigidBody, sceneNode, motionState);
-    }
-
-    btRigidBody::btRigidBodyConstructionInfo NodeFactory::createConstructionInfo(
-            NodeStyle const& style,
-            btCollisionShape* physShape,
-            MotionState* motionState) const
-    {
         if (physShape == nullptr)
             throw std::logic_error("physShape cannot be null");
 
@@ -60,24 +44,84 @@ namespace Glue
 
         startTransform.setRotation(rot);
 
+        // TODO: does this need to be moved to ShapeFactory??
         // This is done here rather than in ShapeBuilder because although bullet scales shapes,
-        // irrlicht scales nodes, and the irrlicht node is only created in not in ShapeBuilder.
+        // irrlicht scales nodes, and the irrlicht node is only created here not in ShapeBuilder.
         // Also, some bullet shapes cannot be scaled anyway & have to be scaled here.
         physShape->setLocalScaling(btVector3(style.physScaleX, style.physScaleY, style.physScaleZ));
 
-        auto rbInfo = btRigidBody::btRigidBodyConstructionInfo(
+        MotionStateAnimator* motionState;
+        if (style.isKinematic)
+            motionState = new KinematicAnimator(startTransform, shape->offset);
+        else
+            motionState = new PhysicsAnimator(startTransform, shape->offset);
+
+        auto constructionInfo = btRigidBody::btRigidBodyConstructionInfo(
                 mass,
                 motionState,
                 physShape,
                 localInertia);
-        rbInfo.m_friction = style.friction;
+        constructionInfo.m_friction = style.friction;
 
-        return rbInfo;
+        btRigidBody* rigidBody =
+                addToWorld(style, constructionInfo);
+
+        irr::scene::ISceneNode* sceneNode =
+                buildSceneNode(style, shape->dispShape);
+
+        return new Node(rigidBody, sceneNode, motionState);
     }
+
+
+//    btRigidBody::btRigidBodyConstructionInfo NodeFactory::createConstructionInfo(
+//            NodeStyle const& style,
+//            btCollisionShape* physShape,
+//            btMotionState* motionState) const
+//    {
+//        if (physShape == nullptr)
+//            throw std::logic_error("physShape cannot be null");
+//
+//        Scalar mass = style.isKinematic ? 0 : style.mass;
+//
+//        auto localInertia = btVector3(0, 0, 0);
+//
+//        //rigidbody is dynamic if and only if mass is non zero, otherwise static
+//        if (mass != 0)
+//            physShape->calculateLocalInertia(style.mass, localInertia);
+//
+//        // Location
+//        btTransform startTransform;
+//        startTransform.setIdentity();
+//        startTransform.setOrigin(btVector3(style.x, style.y, style.z));
+//
+//        btQuaternion rot;
+//
+//        if (style.axisX == 0 && style.axisY == 0 && style.axisZ == 0)
+//            rot = btQuaternion(style.yaw, style.pitch, style.roll);
+//        else
+//            rot = btQuaternion(
+//                    btVector3(style.axisX, style.axisY, style.axisZ),
+//                    style.angle);
+//
+//        startTransform.setRotation(rot);
+//
+//        // This is done here rather than in ShapeBuilder because although bullet scales shapes,
+//        // irrlicht scales nodes, and the irrlicht node is only created in not in ShapeBuilder.
+//        // Also, some bullet shapes cannot be scaled anyway & have to be scaled here.
+//        physShape->setLocalScaling(btVector3(style.physScaleX, style.physScaleY, style.physScaleZ));
+//
+//        auto rbInfo = btRigidBody::btRigidBodyConstructionInfo(
+//                mass,
+//                motionState,
+//                physShape,
+//                localInertia);
+//        rbInfo.m_friction = style.friction;
+//
+//        return rbInfo;
+//    }
 
     btRigidBody* NodeFactory::addToWorld(
             NodeStyle const& style,
-            btDynamicsWorld* dynamicsWorld,
             btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const
     {
         auto rigidBody = new btRigidBody(rbInfo);
@@ -144,19 +188,16 @@ namespace Glue
 //        );
 //    }
 
-
-    ISceneNode* NodeFactory::buildSceneNode(NodeStyle const& style)
+    ISceneNode* NodeFactory::buildSceneNode(NodeStyle const& style, IMesh* mesh) const
     {
         ISceneNode* sceneNode = nullptr;
 
-        auto shape = shapeBuilder->create(style);
-
-        if (shape == nullptr)
+        if (mesh == nullptr)
             sceneNode == nullptr;
         else
         {
             sceneNode = smgr->addMeshSceneNode(
-                    shape,  // mesh
+                    mesh,  // mesh
                     nullptr, // parent
                     0,         // id
                     vector3df(style.x, style.y, -style.z),    // position
@@ -185,7 +226,7 @@ namespace Glue
             // TODO: Also create material if wire frame
             if (style.textureFile != "")
             {
-                auto texture = assets->loadTextureFromFile(style.textureFile);
+                ITexture* texture = nullptr; //assets->loadTextureFromFile(style.textureFile);
                 sceneNode->setMaterialTexture(0, texture);
                 sceneNode->setMaterialType(EMT_SOLID);
                 //sceneNode->setMaterialFlag(EMF_LIGHTING, false);

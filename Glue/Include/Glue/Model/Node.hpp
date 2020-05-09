@@ -1,28 +1,16 @@
 #pragma once
 
-#include "Glue/Styles/GameObjStyle.hpp"
-#include "Glue/Model/ModelInterfaces.hpp"
-
-class btRigidBody;
-
-namespace irr::scene
-{
-    class ISceneNode;
-}
+#include "btRigidBody.h"
+#include "ISceneNode.h"
+#include "Glue/Animators/MotionStateAnimator.hpp"
 
 namespace Glue
 {
-    class MotionStateAnimator;
-
-class Node
+struct Node
 {
-private:
-
     btRigidBody* rigidBody;
     irr::scene::ISceneNode* sceneNode;
     MotionStateAnimator* motionState;
-
-public:
 
     Node(
         btRigidBody* rigidBody,

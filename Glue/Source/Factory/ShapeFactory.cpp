@@ -1,8 +1,13 @@
 #include "Glue/Factory/ShapeFactory.hpp"
+#include "Glue/Bullet/BodyBuilder.hpp"  // TODO: Change header to PhysicsShapes
+#include "Glue/Irrlicht/DisplayShapes.hpp"
+
+using namespace irr::core;
+using namespace irr::scene;
 
 namespace Glue
 {
-    ShapeFactory::ShapeFactory(irr::scene::IGeometryCreator* geometry)
+    ShapeFactory::ShapeFactory(irr::scene::IGeometryCreator const* geometry)
             : geometry(geometry)
     {
     }
@@ -46,7 +51,7 @@ namespace Glue
 
     Shape* ShapeFactory::createShape(ShapeStyle const& style) const
     {
-        irr::scene::IMesh* dispShape = create_display_shape(style, geometry);
+        irr::scene::IMesh* dispShape = Glue::Irrlicht::create_display_shape(style, geometry);
 
         if (dispShape != nullptr && style.alternateTextureWrap == true)
             changeTextureWrap(dispShape);
@@ -54,111 +59,13 @@ namespace Glue
         if (dispShape != nullptr && style.onTextureWrap != nullptr)
             style.onTextureWrap(dispShape);
 
-        auto physShape = create_physics_shape(style, dispShapeMesh);
+        auto physShape = Glue::Bullet::create_physics_shape(style, dispShape);
 
         if (physShape != nullptr && style.margin)
             physShape->setMargin(*style.margin);
 
-        btTransform transform = get_shape_transform()
+        btTransform transform = Glue::Bullet::get_shape_transform(style);
 
-        return new Shape { dispShape, physShape, transform };
-    }
-
-    btTransform ShapeFactory::get_shape_transform(ShapeStyle const& style)
-    {
-        constexpr btScalar TAU = 6.28318530718;
-
-        switch (style.physShape)
-        {
-            case ObjShapes::none:
-            {
-                return btTransform::getIdentity();
-            }
-            case ObjShapes::ball:
-            {
-                return btTransform::getIdentity();
-            }
-            case ObjShapes::box:
-            {
-                return btTransform::getIdentity();
-            }
-            case ObjShapes::cyl:
-            {
-                auto axis = btVector3(0, 1, 0);
-                float angle = 0;
-                auto q = btQuaternion(axis, angle);
-
-                auto v = btVector3(0, -style.length / 2, 0);
-
-                return btTransform(q, v);
-            }
-            case ObjShapes::cylX:
-            {
-                auto axis = btVector3(0, 0, 1);
-                auto angle = TAU / 4;
-                auto q = btQuaternion(axis, angle);
-
-                auto v = btVector3(style.length / 2, 0, 0);
-
-                return btTransform(q, v);
-            }
-            case ObjShapes::cylZ:
-            {
-                auto axis = btVector3(1, 0, 0);
-                auto angle = TAU / 4;
-                auto q = btQuaternion(axis, angle);
-
-                auto v = btVector3(0, 0, -style.length / 2);
-
-                return btTransform(q, v);
-            }
-            case ObjShapes::cone:
-            {
-                auto axis = btVector3(0, 0, 1);
-                auto angle = 0;
-                auto q = btQuaternion(axis, angle);
-
-                auto v = btVector3(0, -style.length / 2, 0);
-
-                return btTransform(q, v);
-            }
-            case ObjShapes::coneX:
-            {
-                auto axis = btVector3(0, 0, 1);
-                auto angle = -TAU / 4;
-                auto q = btQuaternion(axis, angle);
-
-                auto v = btVector3(-style.length / 2, 0, 0);
-
-                return btTransform(q, v);
-            }
-            case ObjShapes::coneZ:
-            {
-                auto axis = btVector3(1, 0, 0);
-                auto angle = TAU / 4;
-                auto q = btQuaternion(axis, angle);
-
-                auto v = btVector3(0, 0, -style.length / 2);
-                //auto v = btVector3(0, 0, 0);
-
-                return btTransform(q, v);
-            }
-            case ObjShapes::hills:
-            {
-                return btTransform::getIdentity();
-            }
-            case ObjShapes::mesh:
-            {
-                return btTransform::getIdentity();
-            }
-            case ObjShapes::plane:
-            {
-                return btTransform::getIdentity();
-            }
-            default:
-            {
-                throw std::logic_error("Unknown ObjShape");
-            }
-        }
+        return new Shape { physShape, dispShape, transform };
     }
 }

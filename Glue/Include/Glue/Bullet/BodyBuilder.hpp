@@ -39,5 +39,5 @@ namespace Glue::Bullet
     };
 
     btCollisionShape* create_physics_shape(GameObjStyle const& style, irr::scene::IMesh* dispShapeMesh);
-
+    btTransform get_shape_transform(ShapeStyle const& style);
 }

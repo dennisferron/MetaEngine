@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Glue/Factory/ShapeFactory.hpp"
+#include "Glue/Factory/NodeFactory.hpp"
+#include "Glue/Factory/LinkFactory.hpp"
+
 #include "Glue/Bullet/ScriptedWorldManager.hpp"
 
 #include "btScalar.h"
@@ -51,65 +55,6 @@ namespace Glue
     class Mouse;
     class GuiEvents;
 
-    class Engine
-    {
-    private:
-        irr::IrrlichtDevice* device;
-        irr::video::IVideoDriver* driver;
-        irr::ITimer* deviceTimer;
-
-        btIDebugDraw* debugDrawer = nullptr;
-
-        long frames = 0;
-        void* sound = nullptr;
-
-    public:
-        Engine(irr::IrrlichtDevice* device);
-        void main_loop();
-    };
-
-    class Scene
-    {
-    private:
-        irr::scene::ISceneManager* smgr;
-        irr::scene::ISceneCollisionManager* collMan;
-        irr::scene::IMeshManipulator* meshMan;
-
-        ISceneNodeBuilder* sceneNodeBuilder;
-
-        Camera* camera;
-
-        IBodyBuilder* bodyBuilder;
-        IConstraintBuilder* constraintBuilder;
-
-    public:
-        Scene(irr::scene::ISceneManager* smgr,
-                ISceneNodeBuilder* sceneNodeBuilder,
-                Camera* camera,
-                IBodyBuilder* bodyBuilder,
-                IConstraintBuilder* constraintBuilder);
-    };
-
-    class World
-    {
-    private:
-        btScalar fixedTimeStep = 1.0 / 60.0;
-        int subframes = 30;
-
-        btDynamicsWorld* dynamicsWorld = nullptr;
-
-        btCollisionConfiguration* collisionConfiguration = nullptr;
-        btCollisionDispatcher* dispatcher = nullptr;  // This is a bullet physics thing, not associated with UI event dispatch
-        btBroadphaseInterface* broadphaseInterface = nullptr;
-        btConstraintSolver* solver = nullptr;
-        btSoftBodyWorldInfo softBodyWorldInfo;
-        Bullet::ScriptedWorldManager scriptWorldMgr;
-
-    public:
-        World();
-        ~World();
-    };
-
     class UserInterface
     {
     private:
@@ -126,6 +71,40 @@ namespace Glue
         GuiEvents* guiEvents = nullptr;
 
         irr::gui::IGUIEnvironment* gui = nullptr;
+    };
+
+    class Engine
+    {
+    private:
+        irr::IrrlichtDevice* device;
+
+        btIDebugDraw* debugDrawer = nullptr;
+
+        long frames = 0;
+        //void* sound = nullptr;
+
+        //Camera* camera;
+
+        btScalar fixedTimeStep = 1.0 / 60.0;
+        int subframes = 30;
+
+        btDynamicsWorld* dynamicsWorld;
+
+        btCollisionConfiguration* collisionConfiguration;
+        btCollisionDispatcher* dispatcher;  // This is a bullet physics thing, not associated with UI event dispatch
+        btBroadphaseInterface* broadphaseInterface;
+        btConstraintSolver* solver;
+        btSoftBodyWorldInfo softBodyWorldInfo;
+        Bullet::ScriptedWorldManager scriptWorldMgr;
+
+        ShapeFactory* shape_factory;
+        NodeFactory* node_factory;
+        LinkFactory* link_factory;
+
+    public:
+        Engine(irr::IrrlichtDevice* device);
+        ~Engine();
+        void main_loop();
     };
 
 }
