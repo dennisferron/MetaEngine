@@ -69,6 +69,8 @@ namespace Glue
         irr::scene::ISceneNode* sceneNode =
                 buildSceneNode(style, shape->dispShape);
 
+        sceneNode->addAnimator(motionState);
+
         return new Node(rigidBody, sceneNode, motionState);
     }
 
