@@ -127,7 +127,6 @@ namespace Glue::Irrlicht {
             case ObjShapes::plane: return create_plane(style, geometry);
             case ObjShapes::mesh: return create_mesh(style);
             case ObjShapes::hills: return create_hills(style, geometry);
-            //case ObjShapes::skybox:  throw std::logic_error("Skybox should be handled by SceneNodeBuilder");
             default: throw std::logic_error("Unhandled dispShape");
         }
     }

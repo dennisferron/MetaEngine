@@ -44,10 +44,7 @@ class btConstraintSolver;
 
 namespace Glue
 {
-    class ISceneNodeBuilder;
     class Camera;
-    class IBodyBuilder;
-    class IConstraintBuilder;
     class Assets;
     class Event;
     class EventDispatch;

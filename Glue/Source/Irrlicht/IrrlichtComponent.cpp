@@ -20,7 +20,6 @@
 
 #include "Glue/Irrlicht/Assets.hpp"
 #include "Glue/Irrlicht/Camera.hpp"
-#include "Glue/Irrlicht/SceneNodeBuilder.hpp"
 
 #include "Glue/Model/Node.hpp"
 

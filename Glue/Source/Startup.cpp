@@ -35,27 +35,7 @@ namespace Glue {
 
         Engine engine(device);
 
-        //Assets* assets = nullptr;
         ISceneManager* smgr = device->getSceneManager();
-        //ShapeFactory* shapeFactory = new ShapeFactory(smgr->getGeometryCreator());
-        //ISceneNodeBuilder* sceneNodeBuilder = new SceneNodeBuilder(shapeBuilder, assets, smgr);
-        //Camera* camera = nullptr;
-        //IBodyBuilder* bodyBuilder = nullptr;
-        //IConstraintBuilder* constraintBuilder = nullptr;
-
-        //IAnimatedMesh* mesh = smgr->getMesh("media/sydney.md2");
-        //IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode( mesh );
-
-        //IMesh* mesh = shapeBuilder->createShape();
-
-        //if (!node)
-        //    throw std::runtime_error("Failed to load scene node");
-
-        //node->setMaterialFlag(EMF_LIGHTING, false);
-        //node->setFrameLoop(0, 310);
-        //auto driver = device->getVideoDriver();
-        //node->setMaterialTexture( 0, driver->getTexture("media/sydney.bmp") );
-
         smgr->addCameraSceneNode(0, vector3df(8,3,-10), vector3df(0,0,0));
 
         //Scene scene(smgr);

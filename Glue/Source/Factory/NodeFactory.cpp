@@ -74,54 +74,6 @@ namespace Glue
         return new Node(rigidBody, sceneNode, motionState);
     }
 
-
-//    btRigidBody::btRigidBodyConstructionInfo NodeFactory::createConstructionInfo(
-//            NodeStyle const& style,
-//            btCollisionShape* physShape,
-//            btMotionState* motionState) const
-//    {
-//        if (physShape == nullptr)
-//            throw std::logic_error("physShape cannot be null");
-//
-//        Scalar mass = style.isKinematic ? 0 : style.mass;
-//
-//        auto localInertia = btVector3(0, 0, 0);
-//
-//        //rigidbody is dynamic if and only if mass is non zero, otherwise static
-//        if (mass != 0)
-//            physShape->calculateLocalInertia(style.mass, localInertia);
-//
-//        // Location
-//        btTransform startTransform;
-//        startTransform.setIdentity();
-//        startTransform.setOrigin(btVector3(style.x, style.y, style.z));
-//
-//        btQuaternion rot;
-//
-//        if (style.axisX == 0 && style.axisY == 0 && style.axisZ == 0)
-//            rot = btQuaternion(style.yaw, style.pitch, style.roll);
-//        else
-//            rot = btQuaternion(
-//                    btVector3(style.axisX, style.axisY, style.axisZ),
-//                    style.angle);
-//
-//        startTransform.setRotation(rot);
-//
-//        // This is done here rather than in ShapeBuilder because although bullet scales shapes,
-//        // irrlicht scales nodes, and the irrlicht node is only created in not in ShapeBuilder.
-//        // Also, some bullet shapes cannot be scaled anyway & have to be scaled here.
-//        physShape->setLocalScaling(btVector3(style.physScaleX, style.physScaleY, style.physScaleZ));
-//
-//        auto rbInfo = btRigidBody::btRigidBodyConstructionInfo(
-//                mass,
-//                motionState,
-//                physShape,
-//                localInertia);
-//        rbInfo.m_friction = style.friction;
-//
-//        return rbInfo;
-//    }
-
     btRigidBody* NodeFactory::addToWorld(
             NodeStyle const& style,
             btRigidBody::btRigidBodyConstructionInfo const& rbInfo) const
