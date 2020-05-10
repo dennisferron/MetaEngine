@@ -58,7 +58,6 @@ add_library(Glue
         Include/Glue/Irrlicht/IrrlichtInterfaces.hpp
         Include/Glue/Irrlicht/IrrlichtAttribute.hpp
         Include/Glue/Irrlicht/IrrlichtComponent.hpp
-        Include/Glue/Irrlicht/ShapeBuilder.hpp
         Include/Glue/Irrlicht/UserInterface/EventDispatch.hpp
         Include/Glue/Irrlicht/UserInterface/GuiEvents.hpp
         Include/Glue/Irrlicht/UserInterface/Keyboard.hpp
@@ -141,7 +140,6 @@ add_library(Glue
         Source/Irrlicht/DisplayShapes.cpp
         Source/Irrlicht/IrrlichtAttribute.cpp
         Source/Irrlicht/IrrlichtComponent.cpp
-        Source/Irrlicht/ShapeBuilder.cpp
         Source/Irrlicht/UserInterface/EventDispatch.cpp
         Source/Irrlicht/UserInterface/GuiEvents.cpp
         Source/Irrlicht/UserInterface/Keyboard.cpp

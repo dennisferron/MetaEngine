@@ -63,23 +63,6 @@ namespace Glue::Irrlicht
         camera = new Camera(smgr, driver);
         camera->createNode();
 
-        //            shapeBuilder := module ShapeBuilder clone setDisplayShapes(
-//                module DisplayShapes clone setGeometry(
-//                    smgr getGeometryCreator
-//                )
-//            )
-//
-//            sceneNodes := module SceneNodes clone setSmgr(smgr)
-//            setSceneNodeBuilder(
-//                module SceneNodeBuilder clone setAssets(assets) setShapeBuilder(shapeBuilder) setSceneNodes(
-//                    sceneNodes setAssets(assets)
-//                )
-//            )
-
-//            //if( CppFunc hasSlot("createIrrKlangDevice"),
-//            //	setSound(CppFunc createIrrKlangDevice(ESOD_AUTO_DETECT, ESEO_DEFAULT_OPTIONS, nil, IRR_KLANG_VERSION))
-//            //)
-
         smgr->addLightSceneNode(
                 nullptr, // parent
                 vector3df(0, 500, -50), // position
