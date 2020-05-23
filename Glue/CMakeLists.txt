@@ -8,6 +8,7 @@ list(APPEND CMAKE_MODULE_PATH
 )
 
 include(UseBoost)
+#include(CodeGenerate)
 
 add_library(Glue
         Include/Glue/Animators/CustomAnimatorTypes.hpp
@@ -20,13 +21,13 @@ add_library(Glue
         Include/Glue/Avatar/Camera.hpp
         Include/Glue/Avatar/KeyInputs.hpp
         Include/Glue/Avatar/PlayerStyle.hpp
-        Include/Glue/Bullet/BodyBuilder.hpp
         Include/Glue/Bullet/BulletAttribute.hpp
         Include/Glue/Bullet/BulletComponent.hpp
         Include/Glue/Bullet/BulletInterfaces.hpp
         Include/Glue/Bullet/ConstraintBuilder.hpp
         Include/Glue/Bullet/ConstraintObj.hpp
         Include/Glue/Bullet/PhysicsConstraints.hpp
+        Include/Glue/Bullet/PhysicsShapes.hpp
         Include/Glue/Bullet/ScriptedWorldManager.hpp
         Include/Glue/Bullet/Sense.hpp
         Include/Glue/Constants.hpp
@@ -105,7 +106,6 @@ add_library(Glue
         Source/Avatar/Camera.cpp
         Source/Avatar/KeyInputs.cpp
         Source/Avatar/PlayerStyle.cpp
-        Source/Bullet/BodyBuilder.cpp
         Source/Bullet/BulletAttribute.cpp
         Source/Bullet/BulletComponent.cpp
         Source/Bullet/ConstraintBuilder.cpp

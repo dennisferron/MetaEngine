@@ -1,4 +1,4 @@
-#include "Glue/Bullet/BodyBuilder.hpp"
+#include "Glue/Bullet/PhysicsShapes.hpp"
 
 #include "BulletCollision/CollisionShapes/btBoxShape.h"
 #include "BulletCollision/CollisionShapes/btSphereShape.h"

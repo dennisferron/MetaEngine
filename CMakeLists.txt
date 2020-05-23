@@ -8,9 +8,10 @@ list(APPEND CMAKE_MODULE_PATH
 )
 
 include(UseBoost)
-#include(UseBullet)
-#include(UseIrrlicht)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+add_subdirectory(Knife)
 add_subdirectory(bullet3)
 add_subdirectory(irrlicht)
 add_subdirectory(ThinPlateSpline)
@@ -26,5 +27,3 @@ add_executable(MetaEngine
 target_link_libraries( MetaEngine PUBLIC
         Glue
 )
-
-set(CMAKE_VERBOSE_MAKEFILE ON)

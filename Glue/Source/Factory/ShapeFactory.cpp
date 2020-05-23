@@ -1,5 +1,5 @@
 #include "Glue/Factory/ShapeFactory.hpp"
-#include "Glue/Bullet/BodyBuilder.hpp"  // TODO: Change header to PhysicsShapes
+#include "Glue/Bullet/PhysicsShapes.hpp"  // TODO: Change header to PhysicsShapes
 #include "Glue/Irrlicht/DisplayShapes.hpp"
 
 using namespace irr::core;
