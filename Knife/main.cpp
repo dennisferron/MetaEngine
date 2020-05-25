@@ -2,31 +2,53 @@
 #include <fstream>
 #include <optional>
 #include <vector>
+#include <chrono>  // chrono::system_clock
+#include <ctime>   // localtime
+#include <iomanip> // put_time
+#include <string>  // string
 
 using namespace std;
 
-enum class ArgMode
+void write_to_log(int argc, char* argv[], std::string out_dir)
 {
-    none,
-    out_dir,
-    inputs,
-    outputs
-};
+    std::string file_name = out_dir + string("/knife-log.txt");
 
-int main(int argc, char* argv[])
-{
     std::ofstream ofs;
-    ofs.open("C:\\temp\\log.txt", std::fstream::app);
+    ofs.open(file_name, std::fstream::app);
 
-    ofs << "argc=" << argc;
+    auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+    ofs << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X");
+
+    ofs << " argc=" << argc;
     for (int i=0; i<argc; i++)
         ofs << " " << argv[i];
     ofs << std::endl;
     ofs.close();
+}
 
+struct ArgList
+{
+    string out_dir;
+    vector<string> inputs;
+    vector<string> outputs;
+};
+
+ArgList process_args(int argc, char* argv[])
+{
     optional<string> out_dir;
     vector<string> inputs;
     vector<string> outputs;
+
+    enum class ArgMode
+    {
+        none,
+        log_file,
+        out_dir,
+        inputs,
+        outputs
+    };
+
     ArgMode state = ArgMode::none;
 
     for (int i=1; i<argc; i++)
@@ -53,22 +75,34 @@ int main(int argc, char* argv[])
                     outputs.push_back(arg);
                     break;
                 default:
-                    throw std::runtime_error("Invalid argument");
+                    throw std::runtime_error(string("Invalid argument: ") + arg);
             }
 
             if (!out_dir)
                 throw std::runtime_error("Missing --out-dir value");
-
-            for (auto output : outputs)
-            {
-                std::string file_name = *out_dir + string("/") + output;
-                std::ofstream out_file;
-                out_file.open(file_name, std::fstream::out);
-                out_file << "/* Generated */" << std::endl;
-                out_file.close();
-            }
         }
     }
+
+    return { *out_dir, inputs, outputs };
+}
+
+void write_outputs(ArgList const& args)
+{
+    for (auto output : args.outputs)
+    {
+        std::string file_name = args.out_dir + string("/") + output;
+        std::ofstream out_file;
+        out_file.open(file_name, std::fstream::out);
+        out_file << "/* Generated */" << std::endl;
+        out_file.close();
+    }
+}
+
+int main(int argc, char* argv[])
+{
+    ArgList args = process_args(argc, argv);
+    write_to_log(argc, argv, args.out_dir);
+    write_outputs(args);
 
     return 0;
 }

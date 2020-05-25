@@ -8,7 +8,6 @@ list(APPEND CMAKE_MODULE_PATH
 )
 
 include(UseBoost)
-#include(CodeGenerate)
 
 add_library(Glue
         Include/Glue/Animators/CustomAnimatorTypes.hpp
@@ -195,9 +194,11 @@ target_link_libraries( Glue PUBLIC
 )
 
 target_include_directories(Glue PUBLIC Include)
-target_include_directories(Glue PUBLIC ../Finagle/Include)
 target_include_directories(Glue PUBLIC ../ThinPlateSpline/Include)
 target_include_directories(Glue PUBLIC ../irrlicht/include)
 target_include_directories(Glue PUBLIC ../bullet3/src)
 target_include_directories(Glue PUBLIC ../bullet3/src/BulletDynamics/Dynamics)
 target_include_directories(Glue PUBLIC ../bullet3/src/LinearMath)
+
+#add_dependencies(Glue generate-gamedata-headers)
+target_include_directories(Glue PUBLIC ${CMAKE_BINARY_DIR}/Data)

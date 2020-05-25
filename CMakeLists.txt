@@ -16,14 +16,14 @@ add_subdirectory(bullet3)
 add_subdirectory(irrlicht)
 add_subdirectory(ThinPlateSpline)
 add_subdirectory(Glue)
+add_subdirectory(Data)
 add_subdirectory(UnitTests)
 add_subdirectory(sqlite)
 
 add_executable(MetaEngine
         main.cpp)
 
-# Note:  Order of libraries in this list matters.  I know LinearMath and BulletCollision go at the bottom.
-#  I'm less sure about the order of the rest of the Bullet libraries.
 target_link_libraries( MetaEngine PUBLIC
         Glue
+        GameData
 )

@@ -1,6 +1,8 @@
 #include "Glue/Startup.hpp"
 #include "Glue/Engine.hpp"
 
+#include "gamedata.hpp"
+
 using namespace irr;
 using namespace core;
 using namespace scene;
