@@ -5,9 +5,24 @@
 #include <chrono>  // chrono::system_clock
 #include <ctime>   // localtime
 #include <iomanip> // put_time
-#include <string>  // string
+#include <string>
+
+#include "sqlite3.h"
 
 using namespace std;
+
+sqlite3* open_db(std::string filename)
+{
+    sqlite3 *db;
+    int rc = sqlite3_open(filename.c_str(), &db);
+
+    if (rc)
+    {
+        throw std::runtime_error("Unable to open database.");
+    }
+
+    return db;
+}
 
 void write_to_log(int argc, char* argv[], std::string out_dir)
 {
@@ -91,10 +106,16 @@ void write_outputs(ArgList const& args)
     for (auto output : args.outputs)
     {
         std::string file_name = args.out_dir + string("/") + output;
-        std::ofstream out_file;
-        out_file.open(file_name, std::fstream::out);
-        out_file << "/* Generated */" << std::endl;
-        out_file.close();
+
+        if (file_name.substr(file_name.size()-3) == string(".db"))
+            open_db(file_name);
+        else
+        {
+            std::ofstream out_file;
+            out_file.open(file_name, std::fstream::out);
+            out_file << "/* Generated */" << std::endl;
+            out_file.close();
+        }
     }
 }
 
