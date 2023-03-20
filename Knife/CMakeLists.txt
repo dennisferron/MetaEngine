@@ -33,3 +33,7 @@ add_executable(Knife
 target_link_libraries( Knife PUBLIC
         sqlite
 )
+
+target_include_directories(Knife
+        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+        )

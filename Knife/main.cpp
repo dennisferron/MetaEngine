@@ -92,11 +92,11 @@ ArgList process_args(int argc, char* argv[])
                 default:
                     throw std::runtime_error(string("Invalid argument: ") + arg);
             }
-
-            if (!out_dir)
-                throw std::runtime_error("Missing --out-dir value");
         }
     }
+
+    if (!out_dir)
+        throw std::runtime_error("Missing --out-dir value");
 
     return { *out_dir, inputs, outputs };
 }
